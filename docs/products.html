@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshThreads - Products Management</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://api.printify.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://*.printify.com https://*.printifyapp.com; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co https://*.firebase.googleapis.com https://api.airtable.com https://api.printify.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .actions-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .products-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 4rem;
+            opacity: 0.7;
+        }
+
+        .product-info h3 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #51cf66;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .status-published {
+            background: rgba(81, 207, 102, 0.3);
+            color: #51cf66;
+        }
+
+        .status-draft {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+        }
+
+        .status-archived {
+            background: rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .product-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .product-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .printify-status {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-connected {
+            background: #51cf66;
+        }
+
+        .status-disconnected {
+            background: #ff6b6b;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.7;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            color: #51cf66;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .filter-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">👕 FreshThreads Products</div>
+        <div class="nav-actions">
+            <a href="dashboard.html" class="nav-btn">← Dashboard</a>
+            <button class="nav-btn" onclick="signOut()">Sign Out</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Product Management</h1>
+            <p>Manage your print-on-demand products with Printify integration</p>
+        </div>
+
+        <!-- Printify Connection Status -->
+        <div class="printify-status">
+            <div id="connectionStatus">
+                <span class="status-indicator status-disconnected"></span>
+                <strong>Printify Status:</strong> <span id="statusText">Not Connected</span>
+            </div>
+            <button class="action-btn" onclick="connectPrintify()" id="connectBtn" style="margin-top: 1rem; width: auto; padding: 0.5rem 1.5rem;">
+                Connect to Printify
+            </button>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalProducts">0</div>
+                <p>Total Products</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="publishedProducts">0</div>
+                <p>Published</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="draftProducts">0</div>
+                <p>Drafts</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalRevenue">$0</div>
+                <p>Total Revenue</p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="actions-section">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <div class="action-card">
+                    <h3>🎨 Create New Design</h3>
+                    <p>Upload artwork and create a new product design</p>
+                    <button class="action-btn" onclick="createNewDesign()">Create Design</button>
+                </div>
+                <div class="action-card">
+                    <h3>📦 Sync with Printify</h3>
+                    <p>Sync all products from your Printify catalog</p>
+                    <button class="action-btn" onclick="syncPrintify()">Sync Products</button>
+                </div>
+                <div class="action-card">
+                    <h3>🏪 Bulk Actions</h3>
+                    <p>Publish, archive, or update multiple products</p>
+                    <button class="action-btn" onclick="bulkActions()">Bulk Edit</button>
+                </div>
+                <div class="action-card">
+                    <h3>📊 Analytics</h3>
+                    <p>View detailed product performance metrics</p>
+                    <button class="action-btn" onclick="viewAnalytics()">View Analytics</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="products-section">
+            <div class="products-header">
+                <h2>Your Products</h2>
+                <div class="filter-controls">
+                    <select class="filter-select" id="statusFilter" onchange="filterProducts()">
+                        <option value="all">All Status</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                    <select class="filter-select" id="categoryFilter" onchange="filterProducts()">
+                        <option value="all">All Categories</option>
+                        <option value="t-shirts">T-Shirts</option>
+                        <option value="hoodies">Hoodies</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="mugs">Mugs</option>
+                    </select>
+                    <button class="action-btn" onclick="addProduct()" style="width: auto; margin: 0; padding: 0.5rem 1rem;">+ Add Product</button>
+                </div>
+            </div>
+
+            <div id="loadingMessage" class="loading">Loading products...</div>
+            <div id="errorMessage" class="error" style="display: none;"></div>
+            <div id="successMessage" class="success" style="display: none;"></div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        'use strict';
+        
+        (function() {
+            const AUTH_CONFIG = {
+                sessionKey: 'freshthreads_auth',
+                authUrl: 'auth.html'
+            };
+            
+            const PRINTIFY_CONFIG = {
+                // Replace with your actual Printify API credentials
+                apiKey: 'YOUR_PRINTIFY_API_KEY',
+                shopId: 'YOUR_SHOP_ID',
+                apiUrl: 'https://api.printify.com/v1'
+            };
+            
+            let products = [];
+            let printifyConnected = false;
+            
+            // Check authentication
+            function checkAuthentication() {
+                try {
+                    const sessionData = localStorage.getItem(AUTH_CONFIG.sessionKey);
+                    if (!sessionData) {
+                        window.location.href = AUTH_CONFIG.authUrl;
+                        return null;
+                    }
+                    
+                    const session = JSON.parse(sessionData);
+                    if (session.expires <= Date.now()) {
+                        localStorage.removeItem(AUTH_CONFIG.sessionKey);
+                        window.location.href = AUTH_CONFIG.authUrl;
+                        return null;
+                    }
+                    
+                    return session;
+                } catch (error) {
+                    console.error('Authentication check failed:', error);
+                    window.location.href = AUTH_CONFIG.authUrl;
+                    return null;
+                }
+            }
+            
+            // Sign out function
+            window.signOut = function() {
+                if (confirm('Are you sure you want to sign out?')) {
+                    localStorage.removeItem(AUTH_CONFIG.sessionKey);
+                    window.location.href = AUTH_CONFIG.authUrl;
+                }
+            };
+            
+            // Utility functions
+            function showError(message) {
+                const errorEl = document.getElementById('errorMessage');
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+                setTimeout(() => errorEl.style.display = 'none', 5000);
+            }
+            
+            function showSuccess(message) {
+                const successEl = document.getElementById('successMessage');
+                successEl.textContent = message;
+                successEl.style.display = 'block';
+                setTimeout(() => successEl.style.display = 'none', 3000);
+            }
+            
+            // Printify Integration Functions
+            window.connectPrintify = async function() {
+                try {
+                    // In a real implementation, this would handle OAuth or API key setup
+                    showSuccess('Connecting to Printify...');
+                    
+                    // Simulate connection
+                    setTimeout(() => {
+                        printifyConnected = true;
+                        updateConnectionStatus();
+                        loadProducts();
+                        showSuccess('Successfully connected to Printify!');
+                    }, 2000);
+                    
+                } catch (error) {
+                    showError('Failed to connect to Printify: ' + error.message);
+                }
+            };
+            
+            function updateConnectionStatus() {
+                const statusIndicator = document.querySelector('.status-indicator');
+                const statusText = document.getElementById('statusText');
+                const connectBtn = document.getElementById('connectBtn');
+                
+                if (printifyConnected) {
+                    statusIndicator.className = 'status-indicator status-connected';
+                    statusText.textContent = 'Connected';
+                    connectBtn.textContent = 'Reconnect';
+                    connectBtn.style.background = 'rgba(81, 207, 102, 0.3)';
+                } else {
+                    statusIndicator.className = 'status-indicator status-disconnected';
+                    statusText.textContent = 'Not Connected';
+                    connectBtn.textContent = 'Connect to Printify';
+                    connectBtn.style.background = 'linear-gradient(135deg, #ffd700, #ffed4e)';
+                }
+            }
+            
+            // Mock Printify API functions (replace with real API calls)
+            async function fetchPrintifyProducts() {
+                // Simulate API call
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve([
+                            {
+                                id: 'p1',
+                                title: 'Fresh Threads Logo Tee',
+                                price: 24.99,
+                                status: 'published',
+                                category: 't-shirts',
+                                printifyId: 'pf_123',
+                                image: '👕',
+                                sales: 45,
+                                revenue: 1124.55
+                            },
+                            {
+                                id: 'p2',
+                                title: 'Trendy Hoodie Design',
+                                price: 39.99,
+                                status: 'draft',
+                                category: 'hoodies',
+                                printifyId: 'pf_124',
+                                image: '🧥',
+                                sales: 0,
+                                revenue: 0
+                            },
+                            {
+                                id: 'p3',
+                                title: 'Coffee Lover Mug',
+                                price: 14.99,
+                                status: 'published',
+                                category: 'mugs',
+                                printifyId: 'pf_125',
+                                image: '☕',
+                                sales: 23,
+                                revenue: 344.77
+                            },
+                            {
+                                id: 'p4',
+                                title: 'Vintage Style Cap',
+                                price: 19.99,
+                                status: 'archived',
+                                category: 'accessories',
+                                printifyId: 'pf_126',
+                                image: '🧢',
+                                sales: 12,
+                                revenue: 239.88
+                            }
+                        ]);
+                    }, 1000);
+                });
+            }
+            
+            // Product Management Functions
+            async function loadProducts() {
+                try {
+                    document.getElementById('loadingMessage').style.display = 'block';
+                    
+                    if (printifyConnected) {
+                        products = await fetchPrintifyProducts();
+                    } else {
+                        products = []; // No products when not connected
+                    }
+                    
+                    document.getElementById('loadingMessage').style.display = 'none';
+                    updateStats();
+                    renderProducts();
+                    
+                } catch (error) {
+                    document.getElementById('loadingMessage').style.display = 'none';
+                    showError('Failed to load products: ' + error.message);
+                }
+            }
+            
+            function updateStats() {
+                const total = products.length;
+                const published = products.filter(p => p.status === 'published').length;
+                const drafts = products.filter(p => p.status === 'draft').length;
+                const revenue = products.reduce((sum, p) => sum + (p.revenue || 0), 0);
+                
+                document.getElementById('totalProducts').textContent = total;
+                document.getElementById('publishedProducts').textContent = published;
+                document.getElementById('draftProducts').textContent = drafts;
+                document.getElementById('totalRevenue').textContent = '$' + revenue.toFixed(2);
+            }
+            
+            function renderProducts() {
+                const grid = document.getElementById('productsGrid');
+                
+                if (products.length === 0) {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; opacity: 0.7;">
+                            <h3>No products found</h3>
+                            <p>${printifyConnected ? 'Create your first product or sync from Printify' : 'Connect to Printify to see your products'}</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const filteredProducts = filterProductsArray();
+                
+                grid.innerHTML = filteredProducts.map(product => `
+                    <div class="product-card" data-id="${product.id}">
+                        <div class="product-image">${product.image}</div>
+                        <div class="product-info">
+                            <h3>${product.title}</h3>
+                            <div class="product-price">$${product.price}</div>
+                            <div class="product-status status-${product.status}">${product.status.toUpperCase()}</div>
+                            <p>Sales: ${product.sales || 0} | Revenue: $${(product.revenue || 0).toFixed(2)}</p>
+                            <div class="product-actions">
+                                <button class="product-btn" onclick="editProduct('${product.id}')">Edit</button>
+                                <button class="product-btn" onclick="viewProduct('${product.id}')">View</button>
+                                <button class="product-btn" onclick="duplicateProduct('${product.id}')">Duplicate</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            function filterProductsArray() {
+                const statusFilter = document.getElementById('statusFilter').value;
+                const categoryFilter = document.getElementById('categoryFilter').value;
+                
+                return products.filter(product => {
+                    const statusMatch = statusFilter === 'all' || product.status === statusFilter;
+                    const categoryMatch = categoryFilter === 'all' || product.category === categoryFilter;
+                    return statusMatch && categoryMatch;
+                });
+            }
+            
+            // Event Handlers
+            window.filterProducts = function() {
+                renderProducts();
+            };
+            
+            window.syncPrintify = async function() {
+                if (!printifyConnected) {
+                    showError('Please connect to Printify first');
+                    return;
+                }
+                
+                showSuccess('Syncing products from Printify...');
+                await loadProducts();
+                showSuccess('Products synced successfully!');
+            };
+            
+            window.createNewDesign = function() {
+                showSuccess('Design creator coming soon! This will integrate with Printify\'s design tools.');
+            };
+            
+            window.bulkActions = function() {
+                showSuccess('Bulk actions panel coming soon!');
+            };
+            
+            window.viewAnalytics = function() {
+                window.location.href = 'analytics.html';
+            };
+            
+            window.addProduct = function() {
+                if (!printifyConnected) {
+                    showError('Please connect to Printify first');
+                    return;
+                }
+                showSuccess('Product creator coming soon! This will use Printify\'s product creation API.');
+            };
+            
+            window.editProduct = function(productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    showSuccess(`Editing ${product.title} - Full editor coming soon!`);
+                }
+            };
+            
+            window.viewProduct = function(productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    showSuccess(`Viewing ${product.title} - Product details coming soon!`);
+                }
+            };
+            
+            window.duplicateProduct = function(productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    showSuccess(`Duplicating ${product.title} - Feature coming soon!`);
+                }
+            };
+            
+            // Initialize
+            document.addEventListener('DOMContentLoaded', function() {
+                const session = checkAuthentication();
+                if (session) {
+                    updateConnectionStatus();
+                    loadProducts();
+                }
+            });
+            
+        })();
+    </script>
+</body>
+</html>
