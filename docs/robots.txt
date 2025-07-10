@@ -1,0 +1,46 @@
+# robots.txt for FreshThreads
+# This site is currently under construction
+
+User-agent: *
+Disallow: /
+
+# Specifically block common crawlers
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+User-agent: Slurp
+Disallow: /
+
+User-agent: DuckDuckBot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: YandexBot
+Disallow: /
+
+User-agent: facebookexternalhit
+Disallow: /
+
+User-agent: Twitterbot
+Disallow: /
+
+# Block all crawling of auth and dashboard areas
+User-agent: *
+Disallow: /auth.html
+Disallow: /dashboard.html
+Disallow: /analytics.html
+Disallow: /products.html
+Disallow: /users.html
+Disallow: /settings.html
+
+# When you're ready to launch, replace this file with:
+# User-agent: *
+# Allow: /
+# Disallow: /auth.html
+# Disallow: /dashboard.html
+# Sitemap: https://mooit-artist.github.io/FreshThreads/sitemap.xml
