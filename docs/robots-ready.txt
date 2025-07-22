@@ -1,0 +1,54 @@
+# FreshThreads - Print-on-Demand Apparel Store
+# Updated for social media and SEO optimization
+
+# Allow all crawlers when ready to launch
+User-agent: *
+Allow: /
+
+# Block sensitive areas
+Disallow: /auth.html
+Disallow: /dashboard.html
+Disallow: /analytics.html
+
+# Allow product pages for SEO
+Allow: /products.html
+Allow: /assets/
+
+# Specific crawler instructions
+User-agent: Googlebot
+Allow: /
+Disallow: /auth.html
+Disallow: /dashboard.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /auth.html
+Disallow: /dashboard.html
+
+# Social media crawlers (for sharing)
+User-agent: facebookexternalhit
+Allow: /
+Disallow: /auth.html
+Disallow: /dashboard.html
+
+User-agent: Twitterbot
+Allow: /
+Disallow: /auth.html
+Disallow: /dashboard.html
+
+User-agent: LinkedInBot
+Allow: /
+Disallow: /auth.html
+Disallow: /dashboard.html
+
+User-agent: PinterestBot
+Allow: /
+Disallow: /auth.html
+Disallow: /dashboard.html
+
+# Sitemap location
+Sitemap: https://freshthreadsllc.com/sitemap.xml
+
+# Crawl-delay for heavy crawlers
+User-agent: *
+Crawl-delay: 1

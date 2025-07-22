@@ -1,0 +1,78 @@
+<!-- Google Analytics 4 Setup for FreshThreads -->
+<!-- Replace GA_MEASUREMENT_ID with your actual Google Analytics 4 Measurement ID -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_MEASUREMENT_ID', {
+    // Enhanced ecommerce settings for print-on-demand business
+    send_page_view: true,
+    allow_google_signals: true,
+    allow_ad_personalization_signals: true,
+
+    // Custom parameters for POD business
+    custom_map: {
+      'custom_parameter_1': 'product_category',
+      'custom_parameter_2': 'design_type'
+    }
+  });
+
+  // Track newsletter signups
+  function trackNewsletterSignup() {
+    gtag('event', 'newsletter_signup', {
+      event_category: 'engagement',
+      event_label: 'pre_launch_signup'
+    });
+  }
+
+  // Track social media clicks
+  function trackSocialClick(platform) {
+    gtag('event', 'social_click', {
+      event_category: 'social_media',
+      event_label: platform,
+      value: 1
+    });
+  }
+
+  // Enhanced ecommerce events for when you add products
+  function trackPurchase(transactionId, value, currency, items) {
+    gtag('event', 'purchase', {
+      transaction_id: transactionId,
+      value: value,
+      currency: currency,
+      items: items
+    });
+  }
+
+  function trackAddToCart(items) {
+    gtag('event', 'add_to_cart', {
+      currency: 'USD',
+      value: items.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+      items: items
+    });
+  }
+</script>
+
+<!-- Facebook Pixel (optional) -->
+<!-- Replace FACEBOOK_PIXEL_ID with your actual Facebook Pixel ID -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', 'FACEBOOK_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=FACEBOOK_PIXEL_ID&ev=PageView&noscript=1"/>
+</noscript>
