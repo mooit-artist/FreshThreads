@@ -33,13 +33,25 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://freshthreadsllc.com">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <meta name="theme-color" content="#ff0000">
+
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://*.printify.com https://*.printifyapp.com https://www.google-analytics.com; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co https://*.firebase.googleapis.com https://api.airtable.com https://api.printify.com https://www.google-analytics.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://*.printify.com https://*.printifyapp.com https://www.google-analytics.com https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co https://*.firebase.googleapis.com https://api.airtable.com https://api.printify.com https://www.google-analytics.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">
+
+    <!-- Font Awesome for Social Media Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+    <!-- Logo Styles -->
+    <link rel="stylesheet" href="logo.css">
 
     <!-- Temporary Under Construction Meta Tags -->
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
@@ -54,17 +66,18 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial Black', 'Impact', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #000000 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
+            color: #ffffff;
         }
 
-        /* Animated background particles */
+        /* Military-style animated background */
         .particles {
             position: absolute;
             top: 0;
@@ -73,21 +86,26 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(45deg, transparent 30%, rgba(255, 0, 0, 0.05) 70%);
         }
 
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.3);
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            animation: militaryFloat 8s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-30px) rotate(120deg); }
-            66% { transform: translateY(30px) rotate(240deg); }
+        @keyframes militaryFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            25% { transform: translateY(-20px) rotate(90deg); opacity: 0.8; }
+            50% { transform: translateY(10px) rotate(180deg); opacity: 0.5; }
+            75% { transform: translateY(-30px) rotate(270deg); opacity: 0.9; }
         }
 
         .container {
@@ -99,24 +117,133 @@
             padding: 2rem;
         }
 
-        .logo {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            animation: glow 2s ease-in-out infinite alternate;
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
-        @keyframes glow {
-            from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
-            to { text-shadow: 2px 2px 20px rgba(255, 255, 255, 0.5); }
+        .brand-main {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 12px;
+            margin-bottom: 0.5rem;
+            font-family: 'Impact', 'Arial Black', Arial, sans-serif;
+            text-shadow:
+                3px 3px 0px #ff0000,
+                6px 6px 10px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+        }
+
+        .brand-cross {
+            position: relative;
+            width: 120px;
+            height: 80px;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cross-line {
+            position: absolute;
+            background: linear-gradient(45deg, #ff0000, #ffffff, #ff0000);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .cross-line-1 {
+            width: 90px;
+            height: 10px;
+            transform: rotate(45deg);
+        }
+
+        .cross-line-2 {
+            width: 90px;
+            height: 10px;
+            transform: rotate(-45deg);
+        }
+
+        .brand-llc {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ff0000;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-family: 'Impact', Arial, sans-serif;
+        }
+
+        .brand-tagline {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 6px;
+            margin-top: 1rem;
+            opacity: 0.95;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-family: 'Impact', Arial, sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .brand-main {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+
+            .brand-cross {
+                width: 80px;
+                height: 60px;
+            }
+
+            .cross-line-1, .cross-line-2 {
+                width: 60px;
+                height: 6px;
+            }
+
+            .brand-llc {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+
+            .brand-tagline {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+        }        @keyframes glow {
+            from {
+                text-shadow:
+                    3px 3px 0px #ff0000,
+                    6px 6px 10px rgba(0, 0, 0, 0.8);
+            }
+            to {
+                text-shadow:
+                    3px 3px 0px #ff0000,
+                    6px 6px 20px rgba(255, 0, 0, 0.8),
+                    0 0 30px rgba(255, 255, 255, 0.5);
+            }
         }
 
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeInUp 1s ease-out 0.5s forwards;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .construction-icon {
@@ -144,19 +271,25 @@
         }
 
         .countdown {
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
             border-radius: 15px;
             padding: 2rem;
             margin: 2rem 0;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
             opacity: 0;
             animation: fadeInUp 1s ease-out 1.5s forwards;
         }
 
         .countdown h3 {
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .countdown-timer {
@@ -167,24 +300,30 @@
         }
 
         .time-unit {
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
             border-radius: 10px;
             padding: 1rem;
             min-width: 80px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
         }
 
         .time-number {
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 2.2rem;
+            font-weight: 900;
             display: block;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .time-label {
             font-size: 0.9rem;
-            opacity: 0.8;
+            opacity: 0.9;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: #ff0000;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
 
         .message {
@@ -193,6 +332,52 @@
             margin: 2rem 0;
             opacity: 0;
             animation: fadeInUp 1s ease-out 2s forwards;
+        }
+
+        .preview-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 2.3s forwards;
+        }
+
+        .preview-section h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            color: #ffd700;
+        }
+
+        .preview-section p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .preview-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .preview-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .preview-btn:active {
+            transform: translateY(0);
         }
 
         .contact-info {
@@ -419,6 +604,37 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
         }
+
+        .info-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 5s forwards;
+        }
+
+        .info-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: #ffd700;
+        }
+
+        .info-section p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .contact-methods {
+            margin-top: 1rem;
+        }
+
+        .contact-methods p {
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -426,7 +642,15 @@
     <div class="particles" id="particles"></div>
 
     <div class="container">
-        <div class="logo">FreshThreads</div>
+        <div class="freshthreads-logo logo-full">
+            <div class="brand-main">FRESH THREADS</div>
+            <div class="brand-cross">
+                <div class="cross-line cross-line-1"></div>
+                <div class="cross-line cross-line-2"></div>
+            </div>
+            <div class="brand-llc">LLC</div>
+            <div class="brand-tagline">THREAD WITH PURPOSE</div>
+        </div>
         <div class="subtitle">Something Amazing is Coming Soon</div>
 
         <div class="construction-icon">🚧</div>
@@ -463,31 +687,37 @@
             that will revolutionize how you discover and buy fashion.
         </div>
 
+        <div class="preview-section">
+            <h3>🎨 Sneak Peek Available!</h3>
+            <p>Want to see what we're working on? Check out our product preview!</p>
+            <a href="products.html" class="preview-btn">Preview Products</a>
+        </div>
+
         <div class="contact-info">
             <p>Want to be notified when we launch?</p>
-            <p>Drop us a line at <a href="mailto:hello@freshthreads.com" class="email-link" rel="noopener noreferrer">hello@freshthreads.com</a></p>
+            <p>Drop us a line at <a href="mailto:hello@freshthreadsllc.com" class="email-link" rel="noopener noreferrer">hello@freshthreadsllc.com</a></p>
         </div>
 
         <div class="social-section">
             <h3>Follow Our Journey</h3>
             <div class="social-buttons">
                 <a href="https://www.instagram.com/freshthreadsllc" class="social-btn instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
-                    <span>📷</span>
+                    <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://www.facebook.com/freshthreadsllc" class="social-btn facebook" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
-                    <span>📘</span>
+                    <i class="fab fa-facebook-f"></i>
                 </a>
                 <a href="https://www.twitter.com/freshthreadsllc" class="social-btn twitter" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
-                    <span>🐦</span>
+                    <i class="fab fa-twitter"></i>
                 </a>
                 <a href="https://www.tiktok.com/@freshthreadsllc" class="social-btn tiktok" target="_blank" rel="noopener noreferrer" aria-label="Follow us on TikTok">
-                    <span>🎵</span>
+                    <i class="fab fa-tiktok"></i>
                 </a>
                 <a href="https://www.pinterest.com/freshthreadsllc" class="social-btn pinterest" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Pinterest">
-                    <span>📌</span>
+                    <i class="fab fa-pinterest-p"></i>
                 </a>
                 <a href="https://www.youtube.com/@freshthreadsllc" class="social-btn youtube" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube">
-                    <span>📺</span>
+                    <i class="fab fa-youtube"></i>
                 </a>
             </div>
         </div>
@@ -499,6 +729,10 @@
                 <input type="email" class="newsletter-input" placeholder="Enter your email" required id="emailInput">
                 <button type="submit" class="newsletter-btn">Notify Me</button>
             </form>
+            <div style="text-align: center; margin-top: 1rem;">
+                <p style="opacity: 0.8; font-size: 0.9rem;">Want full early access with exclusive benefits?</p>
+                <a href="register.html" style="color: #ffd700; text-decoration: none; font-weight: bold; font-size: 1.1rem;">Join Early Access Program →</a>
+            </div>
         </div>
 
         <div class="auth-section">
@@ -538,13 +772,6 @@
                     return false;
                 }
             });
-
-            // Sanitize function for any user input (future-proofing)
-            function sanitizeInput(input) {
-                const div = document.createElement('div');
-                div.textContent = input;
-                return div.innerHTML;
-            }
 
             // Create floating particles
             function createParticles() {

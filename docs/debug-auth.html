@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshThreads - Auth Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        .registered { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .not-registered { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .data-box {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #007bff;
+        }
+        pre { background: #f1f1f1; padding: 1rem; border-radius: 5px; overflow-x: auto; }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 FreshThreads Authentication Debug</h1>
+
+        <div id="authStatus" class="status">
+            Checking authentication status...
+        </div>
+
+        <div class="buttons">
+            <button class="btn-primary" onclick="checkAuth()">🔄 Refresh Status</button>
+            <button class="btn-success" onclick="goToProducts()">🛍️ Go to Products</button>
+            <button class="btn-info" onclick="goToAuth()">🔐 Go to Login</button>
+            <button class="btn-warning" onclick="goToRegister()">📝 Go to Register</button>
+            <button class="btn-danger" onclick="clearAll()">🗑️ Clear All Data</button>
+        </div>
+
+        <div id="dataDisplay"></div>
+    </div>
+
+    <script>
+        function checkAuth() {
+            const authStatus = document.getElementById('authStatus');
+            const dataDisplay = document.getElementById('dataDisplay');
+
+            // Check all possible storage keys
+            const earlyAccessData = localStorage.getItem('freshthreads_early_access');
+            const authSession = localStorage.getItem('freshthreads_auth');
+            const oldUserData = localStorage.getItem('freshThreadsUser');
+            const oldEarlyAccess = localStorage.getItem('freshThreadsEarlyAccess');
+
+            let html = '';
+            let isRegistered = false;
+
+            if (earlyAccessData) {
+                try {
+                    const userData = JSON.parse(earlyAccessData);
+                    isRegistered = true;
+
+                    authStatus.className = 'status registered';
+                    authStatus.innerHTML = `
+                        ✅ <strong>You are registered!</strong><br>
+                        Email: ${userData.email}<br>
+                        Provider: ${userData.provider}<br>
+                        Early Access: ${userData.earlyAccess ? 'Yes' : 'No'}
+                    `;
+
+                    html += `
+                        <div class="data-box">
+                            <h3>🎉 Early Access Registration Data</h3>
+                            <pre>${JSON.stringify(userData, null, 2)}</pre>
+                        </div>
+                    `;
+
+                    // Check for password data
+                    const passwordKey = 'freshthreads_password_' + userData.id;
+                    const hasPassword = localStorage.getItem(passwordKey);
+                    if (hasPassword) {
+                        html += `
+                            <div class="data-box">
+                                <h3>🔑 Password Status</h3>
+                                <p>Password is stored for authentication ✅</p>
+                            </div>
+                        `;
+                    } else if (userData.provider !== 'email') {
+                        html += `
+                            <div class="data-box">
+                                <h3>🔑 Social Login</h3>
+                                <p>Using ${userData.provider} authentication (no password needed) ✅</p>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="data-box">
+                                <h3>⚠️ Missing Password</h3>
+                                <p>Password not found for email registration. Let's fix this:</p>
+                                <button class="btn-warning" onclick="setPassword('${userData.id}')">🔧 Set Password for Login</button>
+                            </div>
+                        `;
+                    }
+
+                } catch (error) {
+                    html += `
+                        <div class="data-box">
+                            <h3>⚠️ Data Parse Error</h3>
+                            <p>Error parsing early access data: ${error.message}</p>
+                            <pre>${earlyAccessData}</pre>
+                        </div>
+                    `;
+                }
+            }
+
+            if (authSession) {
+                try {
+                    const sessionData = JSON.parse(authSession);
+                    html += `
+                        <div class="data-box">
+                            <h3>🔐 Active Session</h3>
+                            <pre>${JSON.stringify(sessionData, null, 2)}</pre>
+                        </div>
+                    `;
+                } catch (error) {
+                    html += `
+                        <div class="data-box">
+                            <h3>⚠️ Session Parse Error</h3>
+                            <p>Error parsing session data: ${error.message}</p>
+                        </div>
+                    `;
+                }
+            }
+
+            if (oldUserData || oldEarlyAccess) {
+                html += `
+                    <div class="data-box">
+                        <h3>📦 Legacy Data Found</h3>
+                        ${oldUserData ? `<p><strong>Old User Data:</strong> ${oldUserData}</p>` : ''}
+                        ${oldEarlyAccess ? `<p><strong>Old Early Access:</strong> ${oldEarlyAccess}</p>` : ''}
+                    </div>
+                `;
+            }
+
+            if (!isRegistered && !authSession) {
+                authStatus.className = 'status not-registered';
+                authStatus.innerHTML = '❌ <strong>No registration found.</strong><br>You need to register or sign in.';
+
+                html += `
+                    <div class="data-box">
+                        <h3>🤔 What to do next:</h3>
+                        <ul>
+                            <li><strong>New user?</strong> Click "Go to Register" to create an account</li>
+                            <li><strong>Already registered?</strong> Click "Go to Login" to sign in</li>
+                            <li><strong>Demo access?</strong> Use demo@freshthreads.com / demo123</li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Show all localStorage keys for debugging
+            const allKeys = Object.keys(localStorage).filter(key => key.includes('freshthreads') || key.includes('FreshThreads'));
+            if (allKeys.length > 0) {
+                html += `
+                    <div class="data-box">
+                        <h3>🔍 All FreshThreads Storage Keys</h3>
+                        <ul>${allKeys.map(key => `<li><strong>${key}:</strong> ${localStorage.getItem(key)?.substring(0, 100)}${localStorage.getItem(key)?.length > 100 ? '...' : ''}</li>`).join('')}</ul>
+                    </div>
+                `;
+            }
+
+            dataDisplay.innerHTML = html;
+        }
+
+        function goToProducts() {
+            window.location.href = 'products.html';
+        }
+
+        function goToAuth() {
+            window.location.href = 'auth.html';
+        }
+
+        function goToRegister() {
+            window.location.href = 'register.html';
+        }
+
+        function clearAll() {
+            if (confirm('This will clear all authentication data. Are you sure?')) {
+                // Clear all FreshThreads related data
+                const keys = Object.keys(localStorage).filter(key =>
+                    key.includes('freshthreads') || key.includes('FreshThreads')
+                );
+                keys.forEach(key => localStorage.removeItem(key));
+
+                alert('All authentication data cleared!');
+                checkAuth();
+            }
+        }
+
+        function setPassword(userId) {
+            const password = prompt('Enter a password for your account (this will allow you to log in):');
+            if (password && password.length >= 6) {
+                localStorage.setItem('freshthreads_password_' + userId, password);
+                const userData = JSON.parse(localStorage.getItem('freshthreads_early_access'));
+                alert(`Password set successfully! You can now login with:\nEmail: ${userData.email}\nUsername: ${userData.username}\nPassword: ${password}\n\nYou can use either your email OR username to log in!`);
+                checkAuth();
+            } else if (password) {
+                alert('Password must be at least 6 characters long.');
+            }
+        }
+
+        // Check auth status on page load
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+</html>

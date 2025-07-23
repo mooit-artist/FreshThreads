@@ -1,24 +1,25 @@
-# robots.txt for FreshThreads
-# This site is currently under construction
+# robots.txt for FreshThreads LLC
+# Print-on-demand apparel and gifts
 
 User-agent: *
-Disallow: /
+# Allow public pages
+Allow: /
+Allow: /index.html
+Allow: /products.html
 
-# Specifically block common crawlers
-User-agent: Googlebot
-Disallow: /
+# Block admin and authentication areas
+Disallow: /dashboard.html
+Disallow: /auth.html
+Disallow: /admin/
+Disallow: /dashboard/
 
-User-agent: Bingbot
-Disallow: /
+# Block sensitive files
+Disallow: /*.json$
+Disallow: /config/
+Disallow: /private/
 
-User-agent: Slurp
-Disallow: /
-
-User-agent: DuckDuckBot
-Disallow: /
-
-User-agent: Baiduspider
-Disallow: /
+# Allow robots to find sitemap
+Sitemap: https://freshthreadsllc.com/sitemap.xml
 
 User-agent: YandexBot
 Disallow: /

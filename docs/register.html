@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Early Access Registration - FreshThreads LLC</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join FreshThreads early access program. Be the first to shop premium custom apparel and get exclusive discounts. Register with email, Google, or Apple.">
+    <meta name="keywords" content="early access, premium apparel, custom clothing, exclusive access, FreshThreads registration">
+    <meta name="author" content="FreshThreads LLC">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Get Early Access to FreshThreads Premium Apparel">
+    <meta property="og:description" content="Join our exclusive early access program and be the first to experience premium custom apparel.">
+    <meta property="og:image" content="https://freshthreadsllc.com/assets/early-access-og-image.jpg">
+    <meta property="og:url" content="https://freshthreadsllc.com/register.html">
+    <meta property="og:type" content="website">
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://appleid.cdn-apple.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://images.unsplash.com; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://accounts.google.com https://appleid.apple.com; frame-src https://accounts.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+    <!-- Google Sign-In API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Apple Sign-In API -->
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .registration-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-section p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .benefits-list {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .benefits-list h3 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .benefit-item i {
+            color: #51cf66;
+            font-size: 0.9rem;
+        }
+
+        .auth-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .social-login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .google-btn {
+            background: rgba(66, 133, 244, 0.2);
+            border-color: rgba(66, 133, 244, 0.5);
+        }
+
+        .apple-btn {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            opacity: 0.7;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffed4e;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .password-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .password-toggle:hover {
+            color: white;
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 0.3rem;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-weak { background: #ff6b6b; width: 25%; }
+        .strength-medium { background: #ffd43b; width: 50%; }
+        .strength-strong { background: #51cf66; width: 75%; }
+        .strength-very-strong { background: #51cf66; width: 100%; }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.2rem;
+            accent-color: #ffd700;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .checkbox-group a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .login-link a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background: rgba(0, 255, 0, 0.2);
+            color: #51cf66;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid #ffd700;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .registration-container {
+                padding: 2rem;
+            }
+
+            .header-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <div class="logo-section">
+            <div class="logo">👕 FreshThreads LLC</div>
+            <div class="tagline">Premium Custom Apparel</div>
+        </div>
+
+        <div class="header-section">
+            <h1>Get Early Access</h1>
+            <p>Join our exclusive early access program and be the first to experience premium custom apparel.</p>
+        </div>
+
+        <div class="benefits-list">
+            <h3>🎁 Early Access Benefits:</h3>
+            <div class="benefit-item">
+                <i class="fas fa-check"></i>
+                <span>30% off your first order</span>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-check"></i>
+                <span>Exclusive access to limited designs</span>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-check"></i>
+                <span>Priority customer support</span>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-check"></i>
+                <span>Early notifications for new collections</span>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-check"></i>
+                <span>Free shipping on all orders</span>
+            </div>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+        <div id="successMessage" class="success-message" style="display: none;"></div>
+        <div id="loadingMessage" class="loading">
+            <div class="spinner"></div>
+            Processing your registration...
+        </div>
+
+        <div class="auth-methods">
+            <!-- Google Sign-In -->
+            <div id="googleSignInBtn" class="social-login-btn google-btn">
+                <i class="fab fa-google"></i>
+                <span>Continue with Google</span>
+            </div>
+
+            <!-- Apple Sign-In -->
+            <div id="appleSignInBtn" class="social-login-btn apple-btn">
+                <i class="fab fa-apple"></i>
+                <span>Continue with Apple</span>
+            </div>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <!-- Email Registration Form -->
+            <form id="registrationForm" class="form-section">
+                <div class="form-group">
+                    <label for="username">Username *</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username or email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="your.email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <div class="password-group">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Create a strong password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div id="strengthText">Password strength: </div>
+                        <div class="strength-bar">
+                            <div id="strengthFill" class="strength-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="newsletter" name="newsletter" checked>
+                    <label for="newsletter">
+                        I want to receive email updates about new products and exclusive offers
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Early Access Account</button>
+            </form>
+        </div>
+
+        <div class="login-link">
+            <p>Already have an account? <a href="auth.html">Sign In</a></p>
+        </div>
+    </div>
+
+    <script>
+        'use strict';
+
+        // Global variables
+        let isRegistering = false;
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGoogleSignIn();
+            initializeAppleSignIn();
+            setupPasswordValidation();
+            setupFormValidation();
+        });
+
+        // Google Sign-In initialization
+        function initializeGoogleSignIn() {
+            if (typeof google !== 'undefined') {
+                google.accounts.id.initialize({
+                    client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your actual Google Client ID
+                    callback: handleGoogleSignIn,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+
+                document.getElementById('googleSignInBtn').addEventListener('click', function() {
+                    google.accounts.id.prompt();
+                });
+            }
+        }
+
+        // Apple Sign-In initialization
+        function initializeAppleSignIn() {
+            if (typeof AppleID !== 'undefined') {
+                AppleID.auth.init({
+                    clientId: 'YOUR_APPLE_CLIENT_ID', // Replace with your actual Apple Client ID
+                    scope: 'name email',
+                    redirectURI: window.location.origin + '/auth/apple/callback',
+                    state: 'early_access_registration'
+                });
+
+                document.getElementById('appleSignInBtn').addEventListener('click', function() {
+                    AppleID.auth.signIn();
+                });
+            }
+        }
+
+        // Handle Google Sign-In response
+        function handleGoogleSignIn(response) {
+            showLoading(true);
+
+            // Decode the JWT token to get user info
+            const userInfo = parseJwt(response.credential);
+
+            registerWithSocialProvider({
+                provider: 'google',
+                email: userInfo.email,
+                name: userInfo.name,
+                picture: userInfo.picture,
+                token: response.credential
+            });
+        }
+
+        // Handle Apple Sign-In response
+        document.addEventListener('AppleIDSignInOnSuccess', (event) => {
+            showLoading(true);
+
+            registerWithSocialProvider({
+                provider: 'apple',
+                email: event.detail.authorization.id_token.email,
+                name: event.detail.user?.name?.firstName + ' ' + event.detail.user?.name?.lastName,
+                token: event.detail.authorization.id_token
+            });
+        });
+
+        document.addEventListener('AppleIDSignInOnFailure', (event) => {
+            showError('Apple Sign-In failed. Please try again.');
+        });
+
+        // Register with social provider
+        function registerWithSocialProvider(data) {
+            // Simulate API call
+            setTimeout(() => {
+                try {
+                    // Store user data
+                    const userData = {
+                        id: generateUserId(),
+                        username: generateUsername(data.email),
+                        email: data.email,
+                        name: data.name,
+                        provider: data.provider,
+                        picture: data.picture,
+                        earlyAccess: true,
+                        registeredAt: new Date().toISOString(),
+                        benefits: {
+                            discount: 30,
+                            freeShipping: true,
+                            prioritySupport: true,
+                            exclusiveAccess: true
+                        }
+                    };
+
+                    localStorage.setItem('freshthreads_early_access', JSON.stringify(userData));
+
+                    showSuccess(`Welcome! Your early access account has been created successfully. Check your email for confirmation.`);
+
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = 'products.html?early_access=true';
+                    }, 3000);
+
+                } catch (error) {
+                    showError('Registration failed. Please try again.');
+                } finally {
+                    showLoading(false);
+                }
+            }, 2000);
+        }
+
+        // Email registration form
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (isRegistering) return;
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            // Validation
+            if (!validateForm(data)) return;
+
+            isRegistering = true;
+            showLoading(true);
+
+            // Simulate API call
+            setTimeout(() => {
+                try {
+                    const userData = {
+                        id: generateUserId(),
+                        username: data.username,
+                        email: data.email,
+                        provider: 'email',
+                        earlyAccess: true,
+                        newsletter: data.newsletter === 'on',
+                        registeredAt: new Date().toISOString(),
+                        benefits: {
+                            discount: 30,
+                            freeShipping: true,
+                            prioritySupport: true,
+                            exclusiveAccess: true
+                        }
+                    };
+
+                    // Store user data
+                    localStorage.setItem('freshthreads_early_access', JSON.stringify(userData));
+
+                    // Store password separately for authentication (in a real app, this would be hashed and stored securely)
+                    localStorage.setItem('freshthreads_password_' + userData.id, data.password);
+
+                    showSuccess('🎉 Welcome to FreshThreads Early Access! Check your email for confirmation and your exclusive discount code.');
+
+                    // Clear form
+                    this.reset();
+                    updatePasswordStrength('');
+
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = 'products.html?early_access=true';
+                    }, 4000);
+
+                } catch (error) {
+                    showError('Registration failed. Please try again.');
+                } finally {
+                    isRegistering = false;
+                    showLoading(false);
+                }
+            }, 2000);
+        });
+
+        // Form validation
+        function validateForm(data) {
+            // Clear previous errors
+            hideError();
+
+            // Username validation
+            if (data.username.length < 3) {
+                showError('Username must be at least 3 characters long.');
+                return false;
+            }
+
+            // Allow email addresses as usernames OR traditional usernames (letters, numbers, underscores)
+            const emailRegexForUsername = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const usernameRegex = /^\w+$/;
+
+            if (!emailRegexForUsername.test(data.username) && !usernameRegex.test(data.username)) {
+                showError('Username must be either a valid email address or contain only letters, numbers, and underscores.');
+                return false;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                showError('Please enter a valid email address.');
+                return false;
+            }
+
+            // Password validation
+            if (data.password.length < 8) {
+                showError('Password must be at least 8 characters long.');
+                return false;
+            }
+
+            if (data.password !== data.confirmPassword) {
+                showError('Passwords do not match.');
+                return false;
+            }
+
+            // Terms validation
+            if (!data.terms) {
+                showError('You must agree to the Terms of Service and Privacy Policy.');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Password strength validation
+        function setupPasswordValidation() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.addEventListener('input', function() {
+                updatePasswordStrength(this.value);
+            });
+        }
+
+        function updatePasswordStrength(password) {
+            const strengthText = document.getElementById('strengthText');
+            const strengthFill = document.getElementById('strengthFill');
+
+            if (!password) {
+                strengthText.textContent = 'Password strength: ';
+                strengthFill.className = 'strength-fill';
+                return;
+            }
+
+            let strength = 0;
+            let feedback = [];
+
+            // Length check
+            if (password.length >= 8) strength++;
+            else feedback.push('at least 8 characters');
+
+            // Lowercase check
+            if (/[a-z]/.test(password)) strength++;
+            else feedback.push('lowercase letter');
+
+            // Uppercase check
+            if (/[A-Z]/.test(password)) strength++;
+            else feedback.push('uppercase letter');
+
+            // Number check
+            if (/\d/.test(password)) strength++;
+            else feedback.push('number');
+
+            // Special character check
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+            else feedback.push('special character');
+
+            // Update display
+            const levels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+            const classes = ['', 'strength-weak', 'strength-medium', 'strength-strong', 'strength-very-strong'];
+
+            strengthText.textContent = `Password strength: ${levels[strength] || 'Very Weak'}`;
+            strengthFill.className = `strength-fill ${classes[strength] || ''}`;
+
+            if (feedback.length > 0 && password.length > 0) {
+                strengthText.textContent += ` (needs: ${feedback.join(', ')})`;
+            }
+        }
+
+        // Password toggle
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('passwordIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.className = 'fas fa-eye';
+            }
+        }
+
+        // Form validation setup
+        function setupFormValidation() {
+            const form = document.getElementById('registrationForm');
+            const inputs = form.querySelectorAll('input[required]');
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+            });
+        }
+
+        function validateField(field) {
+            const value = field.value.trim();
+
+            // Remove previous validation styling
+            field.style.borderColor = '';
+
+            if (!value && field.required) {
+                field.style.borderColor = '#ff6b6b';
+                return false;
+            }
+
+            if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    field.style.borderColor = '#ff6b6b';
+                    return false;
+                }
+            }
+
+            field.style.borderColor = '#51cf66';
+            return true;
+        }
+
+        // Utility functions
+        function generateUserId() {
+            return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function generateUsername(email) {
+            return email.split('@')[0] + '_' + Math.random().toString(36).substr(2, 4);
+        }
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+
+            // Hide success message
+            hideSuccess();
+
+            // Auto-hide after 5 seconds
+            setTimeout(hideError, 5000);
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+
+            // Hide error message
+            hideError();
+        }
+
+        function hideSuccess() {
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function showLoading(show) {
+            const loadingDiv = document.getElementById('loadingMessage');
+            const form = document.getElementById('registrationForm');
+            const socialBtns = document.querySelectorAll('.social-login-btn');
+
+            if (show) {
+                loadingDiv.style.display = 'block';
+                form.style.opacity = '0.5';
+                socialBtns.forEach(btn => btn.style.pointerEvents = 'none');
+            } else {
+                loadingDiv.style.display = 'none';
+                form.style.opacity = '1';
+                socialBtns.forEach(btn => btn.style.pointerEvents = 'auto');
+            }
+        }
+    </script>
+</body>
+</html>

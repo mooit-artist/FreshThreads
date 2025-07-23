@@ -29,6 +29,15 @@
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <meta name="theme-color" content="#ff0000">
+
+    <!-- Logo Styles -->
+    <link rel="stylesheet" href="logo.css">
+
     <style>
         * {
             margin: 0;
@@ -37,27 +46,32 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Impact', 'Arial Black', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #000000 100%);
             min-height: 100vh;
             color: white;
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
             backdrop-filter: blur(10px);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 900;
             color: white;
             text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-family: 'Impact', Arial, sans-serif;
         }
 
         .nav-menu {
@@ -118,26 +132,236 @@
 
         .page-header {
             text-align: center;
-            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-bottom: 2rem;
         }
 
         .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .page-header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
+            margin-bottom: 1rem;
         }
 
-        .categories-section {
+        .early-access-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin: 1rem auto 0;
+            max-width: 600px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .early-access-banner .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .early-access-banner .message {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); }
+            to { box-shadow: 0 6px 25px rgba(255, 107, 107, 0.5); }
+        }
+
+        /* Cart Modal Styles */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .cart-modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-header {
+            background: #667eea;
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .close-cart:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+        }
+
+        .cart-item-details p {
+            margin: 0 0 0.5rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-price .discounted-price {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-item-quantity button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .cart-item-quantity button:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .cart-footer {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .cart-total {
+            margin-bottom: 1rem;
+        }
+
+        .early-access-savings {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #5a6fd8;
+        }        .categories-section {
             margin-bottom: 3rem;
         }
 
@@ -326,20 +550,36 @@
         .product-price {
             font-size: 1.3rem;
             font-weight: bold;
-            color: #ffd700;
-            margin-bottom: 1rem;
+            color: #333;
+            margin: 0.5rem 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .early-access-price {
+            color: #e74c3c;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .early-access-badge {
+            background: #e74c3c;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
         .original-price {
             text-decoration: line-through;
-            opacity: 0.6;
-            font-size: 1rem;
-        }
-
-        .product-rating {
+            color: #999;
+            font-size: 0.9rem;
+            font-weight: normal;
+        }        .product-rating {
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -505,13 +745,22 @@
 </head>
 <body>
     <div class="header">
-        <a href="index.html" class="logo">👕 FreshThreads LLC</a>
+        <a href="index.html" class="logo" style="text-decoration: none;">
+            <div class="freshthreads-logo logo-header">
+                <div class="brand-main">FRESH THREADS</div>
+                <div class="brand-cross">
+                    <div class="cross-line cross-line-1"></div>
+                    <div class="cross-line cross-line-2"></div>
+                </div>
+                <div class="brand-llc">LLC</div>
+            </div>
+        </a>
         <div class="nav-menu">
             <a href="index.html" class="nav-link">Home</a>
             <a href="products.html" class="nav-link" style="background: rgba(255, 255, 255, 0.2);">Shop</a>
-            <a href="#about" class="nav-link">About</a>
-            <a href="#contact" class="nav-link">Contact</a>
-            <button class="cart-icon" onclick="toggleCart()">
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <button class="cart-icon" onclick="showCartModal()">
                 🛒
                 <span class="cart-count" id="cartCount">0</span>
             </button>
@@ -522,6 +771,12 @@
         <div class="page-header">
             <h1>Shop Fresh Threads</h1>
             <p>Discover our collection of premium custom apparel. From trendy graphic tees to cozy hoodies, find the perfect style to express yourself.</p>
+            <div id="earlyAccessBanner" class="early-access-banner" style="display: none;">
+                <div class="banner-content">
+                    <span class="badge">🎉 EARLY ACCESS</span>
+                    <span class="message">You have exclusive early access! Enjoy 30% off and free shipping.</span>
+                </div>
+            </div>
         </div>
 
         <!-- Categories Section -->
@@ -597,6 +852,28 @@
 
             <div class="products-grid" id="productsGrid">
                 <!-- Products will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Cart Preview Modal -->
+        <div id="cartModal" class="cart-modal" style="display: none;">
+            <div class="cart-modal-content">
+                <div class="cart-header">
+                    <h3>Shopping Cart</h3>
+                    <button class="close-cart" onclick="closeCartModal()">&times;</button>
+                </div>
+                <div id="cartItems" class="cart-items">
+                    <!-- Cart items will be populated here -->
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <div id="earlyAccessSavings" class="early-access-savings" style="display: none;">
+                            <span class="savings-text">🎉 Early Access Savings: -$<span id="savingsAmount">0.00</span></span>
+                        </div>
+                        <div class="total-price">Total: $<span id="cartTotal">0.00</span></div>
+                    </div>
+                    <button class="checkout-btn">Proceed to Checkout</button>
+                </div>
             </div>
         </div>
     </div>
@@ -842,8 +1119,17 @@
                                     <span class="rating-count">(${product.reviewCount})</span>
                                 </div>
                                 <div class="product-price">
-                                    $${product.price}
-                                    ${product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : ''}
+                                    ${(() => {
+                                        const basePrice = product.price;
+                                        const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1; // 30% off
+                                        const finalPrice = (basePrice * earlyAccessDiscount).toFixed(2);
+
+                                        if (window.earlyAccessActive && basePrice !== finalPrice) {
+                                            return `<span class="early-access-price">$${finalPrice}</span><span class="original-price">$${basePrice}</span><span class="early-access-badge">EARLY ACCESS</span>`;
+                                        } else {
+                                            return `$${basePrice}${product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : ''}`;
+                                        }
+                                    })()}
                                 </div>
                                 <div class="size-options">
                                     ${product.sizes.slice(0, 4).map(size => `<div class="size-btn" onclick="selectSize('${product.id}', '${size}')">${size}</div>`).join('')}
@@ -890,13 +1176,19 @@
 
                 const existingItem = cart.find(item => item.id === productId);
 
+                // Calculate price with early access discount
+                const basePrice = product.price;
+                const finalPrice = window.earlyAccessActive ? (basePrice * 0.7) : basePrice;
+
                 if (existingItem) {
                     existingItem.quantity += 1;
                 } else {
                     cart.push({
                         id: productId,
                         name: product.name,
-                        price: product.price,
+                        price: parseFloat(finalPrice.toFixed(2)),
+                        originalPrice: window.earlyAccessActive ? basePrice : null,
+                        earlyAccess: window.earlyAccessActive || false,
                         image: product.image,
                         quantity: 1,
                         size: product.sizes[0], // Default to first size
@@ -948,11 +1240,117 @@
 
             // Initialize
             document.addEventListener('DOMContentLoaded', function() {
+                checkEarlyAccess();
                 document.getElementById('loadingMessage').style.display = 'none';
                 updateCartCount();
                 updateCategoryCounts();
                 applyFilters(); // This will render initial products
             });
+
+        // Check if user has early access
+        function checkEarlyAccess() {
+            const userData = localStorage.getItem('freshThreadsUser');
+            const earlyAccessList = localStorage.getItem('freshThreadsEarlyAccess');
+            const earlyAccessData = localStorage.getItem('freshthreads_early_access');
+            const authSession = localStorage.getItem('freshthreads_auth');
+
+            if (userData || earlyAccessList || earlyAccessData || authSession) {
+                const banner = document.getElementById('earlyAccessBanner');
+                if (banner) {
+                    banner.style.display = 'block';
+                }
+
+                // Apply early access benefits to products
+                applyEarlyAccessBenefits();
+            }
+        }            // Apply early access benefits (30% off, free shipping)
+            function applyEarlyAccessBenefits() {
+                window.earlyAccessActive = true;
+                // This will be used in the product rendering to show discounted prices
+            }
+
+            // Cart modal functions
+            window.showCartModal = function() {
+                updateCartModal();
+                document.getElementById('cartModal').style.display = 'flex';
+            }
+
+            window.closeCartModal = function() {
+                document.getElementById('cartModal').style.display = 'none';
+            }
+
+            function updateCartModal() {
+                const cartItems = document.getElementById('cartItems');
+                const cartTotal = document.getElementById('cartTotal');
+                const earlyAccessSavings = document.getElementById('earlyAccessSavings');
+                const savingsAmount = document.getElementById('savingsAmount');
+
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+                    cartTotal.textContent = '0.00';
+                    earlyAccessSavings.style.display = 'none';
+                    return;
+                }
+
+                let total = 0;
+                let totalSavings = 0;
+
+                cartItems.innerHTML = cart.map(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+
+                    if (item.earlyAccess && item.originalPrice) {
+                        totalSavings += (item.originalPrice - item.price) * item.quantity;
+                    }
+
+                    return `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                            <div class="cart-item-details">
+                                <h4>${item.name}</h4>
+                                <p>Size: ${item.size} | Color: ${item.color}</p>
+                                <div class="cart-item-price">
+                                    ${item.earlyAccess && item.originalPrice ?
+                                        `<span class="discounted-price">$${item.price}</span>
+                                         <span class="original-price">$${item.originalPrice}</span>`
+                                        : `$${item.price}`
+                                    }
+                                </div>
+                            </div>
+                            <div class="cart-item-quantity">
+                                <button onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                cartTotal.textContent = total.toFixed(2);
+
+                if (totalSavings > 0) {
+                    savingsAmount.textContent = totalSavings.toFixed(2);
+                    earlyAccessSavings.style.display = 'block';
+                } else {
+                    earlyAccessSavings.style.display = 'none';
+                }
+            }
+
+            window.updateCartQuantity = function(productId, newQuantity) {
+                const item = cart.find(item => item.id === productId);
+                if (!item) return;
+
+                if (newQuantity <= 0) {
+                    const index = cart.indexOf(item);
+                    cart.splice(index, 1);
+                } else {
+                    item.quantity = newQuantity;
+                }
+
+                updateCartModal();
+                updateCartCount();
+                localStorage.setItem('freshThreadsCart', JSON.stringify(cart));
+            }
 
         })();
     </script>

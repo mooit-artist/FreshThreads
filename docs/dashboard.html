@@ -3,16 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreshThreads - Dashboard</title>
-    
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co https://*.firebase.googleapis.com https://api.airtable.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <title>FreshThreads LLC - Admin Dashboard</title>
+
+    <!-- Admin-only security headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.supabase.co https://*.firebase.googleapis.com https://api.airtable.com https://api.printify.com https://www.google-analytics.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Referrer-Policy" content="no-referrer">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">
-    
+
+    <!-- Prevent indexing of admin areas -->
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <meta name="theme-color" content="#ff0000">
+
+    <!-- Logo Styles -->
+    <link rel="stylesheet" href="logo.css">
+
     <style>
         * {
             margin: 0;
@@ -21,25 +36,47 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Impact', 'Arial Black', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #000000 100%);
             min-height: 100vh;
             color: white;
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
             backdrop-filter: blur(10px);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 2px solid #ff0000;
+            border-top: 4px solid #ff0000; /* Red border to indicate admin area */
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-family: 'Impact', Arial, sans-serif;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
 
         .user-info {
@@ -49,17 +86,23 @@
         }
 
         .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            border: 2px solid #ff0000;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Impact', Arial, sans-serif;
         }
 
         .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.5), rgba(0, 0, 0, 0.9));
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            transform: translateY(-2px);
         }
 
         .container {
@@ -76,48 +119,80 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(0, 0, 0, 0.8));
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
         }
 
         .card h3 {
-            color: #ffd700;
+            color: #ffffff;
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ffd700;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ff0000;
             margin: 0.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-family: 'Impact', Arial, sans-serif;
         }
 
         .welcome-section {
             text-align: center;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid #ff0000;
+            border-left: 6px solid #ff0000; /* Admin indicator */
             margin-bottom: 2rem;
+            position: relative;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+        }
+
+        .welcome-section::before {
+            content: "🔒 ADMIN AREA";
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            padding: 0.4rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
         }
 
         .welcome-section h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            background: linear-gradient(45deg, #ffffff, #ff0000);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .quick-actions {
@@ -129,19 +204,24 @@
         }
 
         .action-btn {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #333;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 900;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Impact', Arial, sans-serif;
+            border: 2px solid #ff0000;
         }
 
         .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(255, 0, 0, 0.6);
+            background: linear-gradient(135deg, #cc0000, #990000);
         }
 
         .loading {
@@ -165,19 +245,19 @@
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .container {
                 padding: 1rem;
             }
-            
+
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .welcome-section h1 {
                 font-size: 2rem;
             }
-            
+
             .quick-actions {
                 flex-direction: column;
                 align-items: center;
@@ -187,7 +267,17 @@
 </head>
 <body>
     <div class="header">
-        <div class="logo">🧵 FreshThreads Dashboard</div>
+        <div class="logo">
+            <div class="freshthreads-logo logo-header">
+                <div class="brand-main">FRESH THREADS</div>
+                <div class="brand-cross">
+                    <div class="cross-line cross-line-1"></div>
+                    <div class="cross-line cross-line-2"></div>
+                </div>
+                <div class="brand-llc">LLC</div>
+            </div>
+            <span class="admin-badge">🔒 ADMIN</span>
+        </div>
         <div class="user-info">
             <span id="userEmail">Loading...</span>
             <button class="logout-btn" onclick="signOut()">Sign Out</button>
@@ -196,13 +286,13 @@
 
     <div class="container">
         <div class="welcome-section">
-            <h1>Welcome to the Dashboard!</h1>
-            <p>Manage your FreshThreads platform from here</p>
+            <h1>Team Dashboard</h1>
+            <p><strong>⚠️ INTERNAL USE ONLY</strong> - Admin interface for FreshThreads LLC team members</p>
             <div class="quick-actions">
-                <a href="analytics.html" class="action-btn">📊 Analytics</a>
-                <a href="products.html" class="action-btn">👕 Products</a>
-                <a href="users.html" class="action-btn">👥 Users</a>
-                <a href="settings.html" class="action-btn">⚙️ Settings</a>
+                <button class="action-btn" onclick="showAdminNote('analytics')">📊 Analytics</button>
+                <button class="action-btn" onclick="showAdminNote('products')">👕 Product Management</button>
+                <button class="action-btn" onclick="showAdminNote('users')">👥 User Management</button>
+                <button class="action-btn" onclick="showAdminNote('settings')">⚙️ Settings</button>
             </div>
         </div>
 
@@ -255,13 +345,13 @@
 
     <script>
         'use strict';
-        
+
         (function() {
             const AUTH_CONFIG = {
                 sessionKey: 'freshthreads_auth',
                 authUrl: 'auth.html'
             };
-            
+
             // Check authentication on page load
             function checkAuthentication() {
                 try {
@@ -270,14 +360,14 @@
                         redirectToAuth();
                         return null;
                     }
-                    
+
                     const session = JSON.parse(sessionData);
                     if (session.expires <= Date.now()) {
                         localStorage.removeItem(AUTH_CONFIG.sessionKey);
                         redirectToAuth();
                         return null;
                     }
-                    
+
                     return session;
                 } catch (error) {
                     console.error('Authentication check failed:', error);
@@ -286,11 +376,11 @@
                     return null;
                 }
             }
-            
+
             function redirectToAuth() {
                 window.location.href = AUTH_CONFIG.authUrl;
             }
-            
+
             // Sign out function
             window.signOut = function() {
                 if (confirm('Are you sure you want to sign out?')) {
@@ -298,7 +388,19 @@
                     redirectToAuth();
                 }
             };
-            
+
+            // Admin note function for demo interface
+            window.showAdminNote = function(section) {
+                const messages = {
+                    analytics: 'Admin Analytics - Track site performance, user engagement, and sales metrics',
+                    products: 'Product Management - Add/edit/remove products, manage inventory, set pricing',
+                    users: 'User Management - View customer accounts, manage orders, handle support tickets',
+                    settings: 'System Settings - Configure site settings, payment gateways, shipping options'
+                };
+
+                alert(`🔒 ${messages[section] || 'Admin function not yet implemented'}\n\nThis is a demo admin interface. In production, this would navigate to secure admin tools.`);
+            };
+
             // Load dashboard data
             function loadDashboardData() {
                 // Simulate loading real data
@@ -306,7 +408,7 @@
                     document.getElementById('visitsToday').textContent = Math.floor(Math.random() * 500 + 100);
                     document.getElementById('emailSignups').textContent = Math.floor(Math.random() * 50 + 10);
                     document.getElementById('conversionRate').textContent = (Math.random() * 10 + 5).toFixed(1) + '%';
-                    
+
                     // Calculate days until launch (30 days from now)
                     const launchDate = new Date();
                     launchDate.setDate(launchDate.getDate() + 30);
@@ -315,7 +417,7 @@
                     document.getElementById('daysUntilLaunch').textContent = daysUntil;
                 }, 1000);
             }
-            
+
             // Initialize dashboard
             document.addEventListener('DOMContentLoaded', function() {
                 const session = checkAuthentication();
@@ -324,10 +426,10 @@
                     loadDashboardData();
                 }
             });
-            
+
             // Auto-refresh data every 30 seconds
             setInterval(loadDashboardData, 30000);
-            
+
         })();
     </script>
 </body>

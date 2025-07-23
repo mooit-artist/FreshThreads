@@ -8,9 +8,9 @@
 
 ---
 
-## 🚀 **About FreshThreads**
+## 🚀 **About FreshThreads LLC**
 
-FreshThreads is a modern print-on-demand apparel company specializing in premium custom clothing with unique, trendy designs. Our platform offers high-quality t-shirts, hoodies, and accessories that let customers express their individual style.
+FreshThreads LLC is a modern print-on-demand apparel company specializing in premium custom clothing with unique, trendy designs. Our platform offers high-quality t-shirts, hoodies, and accessories that let customers express their individual style.
 
 ### ✨ **Key Features**
 - 🎨 **Custom Designs** - Unique, trendy apparel designs
@@ -126,7 +126,7 @@ Automatic deployment via GitHub Actions to GitHub Pages on push to `main` branch
 ## 📁 **Project Structure**
 
 ```
-FreshThreads/
+FreshThreads LLC/
 ├── docs/                          # Website files (GitHub Pages source)
 │   ├── index.html                 # Homepage with social integration
 │   ├── auth.html                  # Team authentication
