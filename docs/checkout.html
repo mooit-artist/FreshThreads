@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - FreshThreads LLC</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Complete your FreshThreads order. Secure checkout with multiple payment options.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.stripe.com; frame-src https://js.stripe.com;">
+
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #F7F7F4;
+        color: #191919;
+        line-height: 1.6;
+      }
+
+      .checkout-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 3rem;
+      }
+
+      .checkout-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        border: 1px solid #E0E0E0;
+      }
+
+      .form-section {
+        margin-bottom: 2rem;
+      }
+
+      .form-section h3 {
+        margin-bottom: 1rem;
+        color: #191919;
+        font-size: 1.2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #191919;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #191919;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      /* Stripe Elements styling */
+      #card-element {
+        padding: 0.75rem;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        background: white;
+      }
+
+      #card-element.StripeElement--focus {
+        border-color: #191919;
+      }
+
+      #card-errors {
+        color: #e74c3c;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .order-summary {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        border: 1px solid #E0E0E0;
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+      }
+
+      .order-summary h3 {
+        margin-bottom: 1.5rem;
+        color: #191919;
+      }
+
+      .order-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #F0F0F0;
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .item-image {
+        width: 60px;
+        height: 60px;
+        background: #F0F0F0;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .item-details {
+        flex: 1;
+      }
+
+      .item-name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .item-variant {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .item-price {
+        font-weight: 600;
+        color: #191919;
+      }
+
+      .order-totals {
+        border-top: 1px solid #E0E0E0;
+        padding-top: 1rem;
+        margin-top: 1rem;
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
+
+      .total-row.final {
+        font-weight: 700;
+        font-size: 1.1rem;
+        border-top: 1px solid #E0E0E0;
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .early-access-savings {
+        color: #e74c3c;
+        font-weight: 600;
+      }
+
+      .submit-button {
+        width: 100%;
+        background: #191919;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin-top: 1rem;
+      }
+
+      .submit-button:hover {
+        background: #333;
+      }
+
+      .submit-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #191919;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .breadcrumb {
+        margin-bottom: 2rem;
+        color: #666;
+      }
+
+      .breadcrumb a {
+        color: #191919;
+        text-decoration: none;
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .checkout-container {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          padding: 1rem;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="checkout-container">
+      <div class="checkout-form">
+        <div class="breadcrumb">
+          <a href="products.html">← Back to Products</a>
+        </div>
+
+        <h2>Checkout</h2>
+
+        <form id="checkout-form">
+          <!-- Customer Information -->
+          <div class="form-section">
+            <h3>Customer Information</h3>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="form-section">
+            <h3>Shipping Address</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+              <label for="apartment">Apartment, suite, etc. (optional)</label>
+              <input type="text" id="apartment" name="apartment">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" required>
+              </div>
+              <div class="form-group">
+                <label for="state">State</label>
+                <select id="state" name="state" required>
+                  <option value="">Select State</option>
+                  <option value="AL">Alabama</option>
+                  <option value="CA">California</option>
+                  <option value="FL">Florida</option>
+                  <option value="NY">New York</option>
+                  <option value="TX">Texas</option>
+                  <!-- Add more states as needed -->
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="zipCode">ZIP Code</label>
+                <input type="text" id="zipCode" name="zipCode" required>
+              </div>
+              <div class="form-group">
+                <label for="country">Country</label>
+                <select id="country" name="country" required>
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Information -->
+          <div class="form-section">
+            <h3>Payment Information</h3>
+            <div class="form-group">
+              <label for="card-element">Credit or Debit Card</label>
+              <div id="card-element">
+                <!-- Stripe Elements will create form elements here -->
+              </div>
+              <div id="card-errors" role="alert"></div>
+            </div>
+          </div>
+
+          <button type="submit" id="submit-button" class="submit-button">
+            Complete Order
+          </button>
+        </form>
+
+        <div id="loading" class="loading">
+          <div class="spinner"></div>
+          <p>Processing your order...</p>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div id="order-items">
+          <!-- Items will be populated by JavaScript -->
+        </div>
+
+        <div class="order-totals">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="subtotal">$0.00</span>
+          </div>
+          <div class="total-row early-access-savings" id="savings-row" style="display: none;">
+            <span>Early Access Savings:</span>
+            <span id="savings-amount">-$0.00</span>
+          </div>
+          <div class="total-row">
+            <span>Shipping:</span>
+            <span id="shipping">$5.99</span>
+          </div>
+          <div class="total-row">
+            <span>Tax:</span>
+            <span id="tax">$0.00</span>
+          </div>
+          <div class="total-row final">
+            <span>Total:</span>
+            <span id="total">$0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      'use strict';
+
+      // Initialize Stripe
+      // In production, replace with your actual publishable key
+      const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY_HERE');
+      const elements = stripe.elements();
+
+      // Create card element
+      const cardElement = elements.create('card', {
+        style: {
+          base: {
+            fontSize: '16px',
+            color: '#191919',
+            '::placeholder': {
+              color: '#999',
+            },
+          },
+        },
+      });
+
+      cardElement.mount('#card-element');
+
+      // Handle real-time validation errors from the card Element
+      cardElement.addEventListener('change', function (event) {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+          displayError.textContent = event.error.message;
+        } else {
+          displayError.textContent = '';
+        }
+      });
+
+      // Load cart data and populate order summary
+      function loadOrderSummary() {
+        const cart = JSON.parse(localStorage.getItem('freshthreads_cart') || '[]');
+        const orderItems = document.getElementById('order-items');
+
+        if (cart.length === 0) {
+          window.location.href = 'products.html';
+          return;
+        }
+
+        let subtotal = 0;
+        let totalSavings = 0;
+
+        const itemsHTML = cart.map(item => {
+          const itemTotal = item.price * item.quantity;
+          subtotal += itemTotal;
+
+          if (item.earlyAccess && item.originalPrice) {
+            totalSavings += (item.originalPrice - item.price) * item.quantity;
+          }
+
+          return `
+                    <div class="order-item">
+                        <div class="item-image">${item.image}</div>
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-variant">Size: ${item.size} | Color: ${item.color}</div>
+                            <div class="item-variant">Qty: ${item.quantity}</div>
+                        </div>
+                        <div class="item-price">$${itemTotal.toFixed(2)}</div>
+                    </div>
+                `;
+        }).join('');
+
+        orderItems.innerHTML = itemsHTML;
+
+        // Calculate totals
+        const shipping = subtotal >= 50 ? 0 : 5.99;
+        const tax = subtotal * 0.08; // 8% tax rate
+        const total = subtotal + shipping + tax;
+
+        // Update totals
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+        document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+        if (totalSavings > 0) {
+          document.getElementById('savings-row').style.display = 'flex';
+          document.getElementById('savings-amount').textContent = `-$${totalSavings.toFixed(2)}`;
+        }
+
+        return { subtotal, shipping, tax, total };
+      }
+
+      // Handle form submission
+      document.getElementById('checkout-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const submitButton = document.getElementById('submit-button');
+        const loading = document.getElementById('loading');
+
+        submitButton.disabled = true;
+        loading.style.display = 'block';
+
+        // Get form data
+        const formData = new FormData(event.target);
+        const customerData = Object.fromEntries(formData);
+
+        try {
+          // In a real implementation, you would:
+          // 1. Send order data to your backend
+          // 2. Create payment intent on backend
+          // 3. Confirm payment with Stripe
+
+          // For demo purposes, we'll simulate a successful payment
+          await simulatePayment(customerData);
+
+          // Clear cart and redirect to success page
+          localStorage.removeItem('freshthreads_cart');
+          window.location.href = 'order-success.html?order=' + generateOrderId();
+
+        } catch (error) {
+          console.error('Payment failed:', error);
+          alert('Payment failed. Please try again.');
+          submitButton.disabled = false;
+          loading.style.display = 'none';
+        }
+      });
+
+      // Simulate payment processing (replace with real Stripe integration)
+      async function simulatePayment(customerData) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            // Simulate 90% success rate
+            if (Math.random() > 0.1) {
+              resolve();
+            } else {
+              reject(new Error('Payment processing failed'));
+            }
+          }, 2000);
+        });
+      }
+
+      // Generate order ID
+      function generateOrderId() {
+        return 'FT' + Date.now().toString().slice(-8) + Math.random().toString(36).substr(2, 4).toUpperCase();
+      }
+
+      // Auto-fill email if user is logged in
+      function checkUserSession() {
+        const userData = localStorage.getItem('freshthreads_user');
+        if (userData) {
+          try {
+            const user = JSON.parse(userData);
+            if (user.email) {
+              document.getElementById('email').value = user.email;
+            }
+          } catch (e) {
+            console.log('Could not parse user data');
+          }
+        }
+      }
+
+      // Initialize page
+      document.addEventListener('DOMContentLoaded', function () {
+        loadOrderSummary();
+        checkUserSession();
+      });
+    </script>
+  </body>
+
+</html>

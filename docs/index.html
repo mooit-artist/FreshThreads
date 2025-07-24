@@ -37,7 +37,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.svg">
-    <meta name="theme-color" content="#ff0000">
+    <meta name="theme-color" content="#191919">
 
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://*.printify.com https://*.printifyapp.com https://www.google-analytics.com https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co https://*.firebase.googleapis.com https://api.airtable.com https://api.printify.com https://www.google-analytics.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
@@ -66,51 +66,126 @@
         }
 
         body {
-            font-family: 'Arial Black', 'Impact', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #000000 100%);
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            background: #F7F7F4;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            color: #ffffff;
+            color: #191919;
+            line-height: 1.6;
         }
 
-        /* Military-style animated background */
+        /* Minimalist particles - subtle and clean */
         .particles {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            background:
-                radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                linear-gradient(45deg, transparent 30%, rgba(255, 0, 0, 0.05) 70%);
+            background: transparent;
         }
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.6);
+            width: 1px;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 50%;
-            animation: militaryFloat 8s ease-in-out infinite;
+            animation: minimalFloat 12s ease-in-out infinite;
         }
 
-        @keyframes militaryFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-            25% { transform: translateY(-20px) rotate(90deg); opacity: 0.8; }
-            50% { transform: translateY(10px) rotate(180deg); opacity: 0.5; }
-            75% { transform: translateY(-30px) rotate(270deg); opacity: 0.9; }
+        @keyframes minimalFloat {
+            0%, 100% { transform: translateY(0px); opacity: 0.1; }
+            50% { transform: translateY(-10px); opacity: 0.3; }
+        }
+
+        /* Header Navigation - Minimalist */
+        .header {
+            background: rgba(247, 247, 244, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(25, 25, 25, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #191919;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .nav-link:hover {
+            background: rgba(25, 25, 25, 0.05);
+            transform: none;
+        }
+
+        .cta-btn {
+            background: #191919;
+            color: #F7F7F4;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+            letter-spacing: 0;
+            border: 1px solid #191919;
+        }
+
+        .cta-btn:hover {
+            background: #333333;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            padding: 120px 2rem 2rem;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .container {
             text-align: center;
-            color: white;
+            color: #191919;
             z-index: 10;
             position: relative;
             max-width: 800px;
@@ -122,135 +197,44 @@
             margin-bottom: 2rem;
             position: relative;
             padding: 2rem;
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
-            border: 2px solid #ff0000;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
-        .brand-main {
-            font-size: 4.5rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 12px;
-            margin-bottom: 0.5rem;
-            font-family: 'Impact', 'Arial Black', Arial, sans-serif;
-            text-shadow:
-                3px 3px 0px #ff0000,
-                6px 6px 10px rgba(0, 0, 0, 0.8);
-            text-transform: uppercase;
-        }
-
-        .brand-cross {
-            position: relative;
-            width: 120px;
-            height: 80px;
-            margin: 1rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cross-line {
-            position: absolute;
-            background: linear-gradient(45deg, #ff0000, #ffffff, #ff0000);
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        }
-
-        .cross-line-1 {
-            width: 90px;
-            height: 10px;
-            transform: rotate(45deg);
-        }
-
-        .cross-line-2 {
-            width: 90px;
-            height: 10px;
-            transform: rotate(-45deg);
-        }
-
-        .brand-llc {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #ff0000;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            font-family: 'Impact', Arial, sans-serif;
-        }
-
-        .brand-tagline {
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 6px;
-            margin-top: 1rem;
-            opacity: 0.95;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            font-family: 'Impact', Arial, sans-serif;
-        }
-
-        @media (max-width: 768px) {
-            .brand-main {
-                font-size: 2.5rem;
-                letter-spacing: 4px;
-            }
-
-            .brand-cross {
-                width: 80px;
-                height: 60px;
-            }
-
-            .cross-line-1, .cross-line-2 {
-                width: 60px;
-                height: 6px;
-            }
-
-            .brand-llc {
-                font-size: 1.2rem;
-                letter-spacing: 1px;
-            }
-
-            .brand-tagline {
-                font-size: 1rem;
-                letter-spacing: 2px;
-            }
-        }        @keyframes glow {
-            from {
-                text-shadow:
-                    3px 3px 0px #ff0000,
-                    6px 6px 10px rgba(0, 0, 0, 0.8);
-            }
-            to {
-                text-shadow:
-                    3px 3px 0px #ff0000,
-                    6px 6px 20px rgba(255, 0, 0, 0.8),
-                    0 0 30px rgba(255, 255, 255, 0.5);
-            }
-        }
-
-        .subtitle {
-            font-size: 1.8rem;
+        .hero-logo {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
             margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s forwards;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            filter: none;
         }
 
-        .construction-icon {
-            font-size: 4rem;
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            text-transform: none;
+            letter-spacing: -1px;
+            color: #191919;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
             margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 1s forwards, bounce 2s ease-in-out 2s infinite;
+            opacity: 0.7;
+            font-weight: 400;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         @keyframes fadeInUp {
@@ -264,32 +248,94 @@
             }
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .btn-primary {
+            background: #191919;
+            color: #F7F7F4;
+            padding: 1rem 2.5rem;
+            border-radius: 3px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+            letter-spacing: 0;
+            border: 1px solid #191919;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: #333333;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #191919;
+            padding: 1rem 2.5rem;
+            border: 1px solid #191919;
+            border-radius: 3px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: #191919;
+            color: #F7F7F4;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 140px 1rem 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
         .countdown {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
-            border-radius: 15px;
+            background: #F7F7F4;
+            border: 1px solid #191919;
+            border-radius: 3px;
             padding: 2rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(10px);
-            border: 2px solid #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 1.5s forwards;
+            margin: 3rem 0;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.8s both;
         }
 
         .countdown h3 {
             margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #191919;
         }
 
         .countdown-timer {
@@ -299,160 +345,174 @@
             flex-wrap: wrap;
         }
 
-        .time-unit {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
-            border-radius: 10px;
+        .countdown-item {
+            text-align: center;
             padding: 1rem;
+            background: #191919;
+            color: #F7F7F4;
+            border-radius: 3px;
             min-width: 80px;
-            border: 2px solid #ff0000;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .countdown-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        .time-unit {
+            text-align: center;
+            padding: 1rem;
+            background: #191919;
+            color: #F7F7F4;
+            border-radius: 3px;
+            min-width: 80px;
         }
 
         .time-number {
-            font-size: 2.2rem;
-            font-weight: 900;
+            font-size: 2rem;
+            font-weight: 700;
             display: block;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1;
         }
 
         .time-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
+            font-size: 0.8rem;
+            font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            color: #ff0000;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            margin-top: 0.5rem;
         }
 
         .message {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             line-height: 1.6;
             margin: 2rem 0;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 2s forwards;
+            color: #191919;
+            animation: fadeInUp 1s ease-out 0.9s both;
         }
 
         .preview-section {
             margin: 2rem 0;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 2.3s forwards;
+            background: #F7F7F4;
+            border: 1px solid #191919;
+            border-radius: 3px;
+            animation: fadeInUp 1s ease-out 1s both;
         }
 
         .preview-section h3 {
             margin-bottom: 0.5rem;
             font-size: 1.3rem;
-            color: #ffd700;
+            color: #191919;
+            font-weight: 600;
         }
 
         .preview-section p {
             margin-bottom: 1rem;
-            opacity: 0.9;
+            color: #191919;
         }
 
         .preview-btn {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: #191919;
+            color: #F7F7F4;
             text-decoration: none;
             padding: 0.8rem 2rem;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 3px;
+            font-weight: 500;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid #191919;
         }
 
         .preview-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(135deg, #764ba2, #667eea);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .preview-btn:active {
-            transform: translateY(0);
+            background: #333333;
+            transform: none;
         }
 
         .contact-info {
             margin-top: 3rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 2.5s forwards;
+            animation: fadeInUp 1s ease-out 1.1s both;
         }
 
         .contact-info p {
             margin: 0.5rem 0;
             font-size: 1.1rem;
+            color: #191919;
         }
 
         .email-link {
-            color: #ffd700;
+            color: #191919;
             text-decoration: none;
-            border-bottom: 2px solid transparent;
+            border-bottom: 1px solid transparent;
             transition: border-bottom 0.3s ease;
         }
 
         .email-link:hover {
-            border-bottom: 2px solid #ffd700;
+            border-bottom: 1px solid #191919;
         }
 
         .auth-section {
             margin-top: 2rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 3.5s forwards;
+            background: #F7F7F4;
+            border: 1px solid #191919;
+            border-radius: 3px;
+            animation: fadeInUp 1s ease-out 1.2s both;
         }
 
         .auth-link {
             display: inline-block;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #333;
+            background: #191919;
+            color: #F7F7F4;
             text-decoration: none;
             padding: 0.8rem 2rem;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 3px;
+            font-weight: 500;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-            margin-top: 1rem;
+            border: 1px solid #191919;
         }
 
         .auth-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-            background: linear-gradient(135deg, #ffed4e, #ffd700);
+            background: #333333;
+            transform: none;
         }
 
-        .auth-link:active {
-            transform: translateY(0);
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: #191919;
+            font-size: 0.9rem;
+            animation: fadeInUp 1s ease-out 1.3s both;
+        }
+
+        .footer p {
+            margin: 0;
         }
 
         .progress-bar {
             width: 100%;
             height: 6px;
-            background: rgba(255, 255, 255, 0.2);
+            background: #E0E0E0;
             border-radius: 3px;
             margin: 2rem 0;
             overflow: hidden;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 3s forwards;
+            animation: fadeInUp 1s ease-out 1.4s both;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            background: #191919;
             border-radius: 3px;
             width: 0%;
-            animation: progressFill 3s ease-out 3.5s forwards;
+            animation: progressFill 3s ease-out 1.8s forwards;
         }
 
         @keyframes progressFill {
@@ -524,47 +584,42 @@
             font-size: 1.5rem;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 3px;
+            text-decoration: none;
+            color: #F7F7F4;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            background: #191919;
+            border: 1px solid #191919;
         }
 
         .social-btn:hover {
-            transform: translateY(-3px) scale(1.1);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: #333333;
+            transform: none;
         }
 
-        .social-btn.instagram {
-            background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
-        }
-
-        .social-btn.facebook {
-            background: #1877f2;
-        }
-
-        .social-btn.twitter {
-            background: #1da1f2;
-        }
-
-        .social-btn.tiktok {
-            background: linear-gradient(45deg, #ff0050, #00f2ea);
-        }
-
-        .social-btn.pinterest {
-            background: #bd081c;
-        }
-
+        .social-btn.instagram,
+        .social-btn.facebook,
+        .social-btn.twitter,
+        .social-btn.tiktok,
+        .social-btn.pinterest,
         .social-btn.youtube {
-            background: #ff0000;
+            background: #191919;
         }
 
         .newsletter-signup {
             margin-top: 2rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 4.5s forwards;
+            background: #F7F7F4;
+            border: 1px solid #191919;
+            border-radius: 3px;
+            animation: fadeInUp 1s ease-out 1.5s both;
         }
 
         .newsletter-form {
@@ -572,60 +627,64 @@
             gap: 0.5rem;
             margin-top: 1rem;
             flex-wrap: wrap;
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
         }
 
         .newsletter-input {
             flex: 1;
             min-width: 250px;
             padding: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            border: 1px solid #191919;
+            border-radius: 3px;
+            background: #F7F7F4;
+            color: #191919;
             font-size: 1rem;
         }
 
         .newsletter-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: #666666;
         }
 
         .newsletter-btn {
             padding: 0.8rem 1.5rem;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #333;
+            background: #191919;
+            color: #F7F7F4;
             border: none;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 3px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .newsletter-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+            background: #333333;
+            transform: none;
         }
 
         .info-section {
             margin-top: 2rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 5s forwards;
+            background: #F7F7F4;
+            border: 1px solid #191919;
+            border-radius: 3px;
+            animation: fadeInUp 1s ease-out 1.6s both;
         }
 
         .info-section h3 {
             margin-bottom: 1rem;
             font-size: 1.3rem;
-            color: #ffd700;
+            color: #191919;
+            font-weight: 600;
         }
 
         .info-section p {
             margin-bottom: 0.8rem;
             line-height: 1.6;
-            opacity: 0.9;
+            color: #191919;
         }
 
         .contact-methods {
@@ -731,7 +790,7 @@
             </form>
             <div style="text-align: center; margin-top: 1rem;">
                 <p style="opacity: 0.8; font-size: 0.9rem;">Want full early access with exclusive benefits?</p>
-                <a href="register.html" style="color: #ffd700; text-decoration: none; font-weight: bold; font-size: 1.1rem;">Join Early Access Program →</a>
+                <a href="register.html" style="color: #191919; text-decoration: none; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid #191919;">Join Early Access Program →</a>
             </div>
         </div>
 
@@ -865,7 +924,7 @@
                         logo.addEventListener('click', function() {
                             this.style.animation = 'none';
                             setTimeout(() => {
-                                this.style.animation = 'glow 2s ease-in-out infinite alternate';
+                                this.style.animation = 'fadeInUp 0.5s ease-out';
                             }, 100);
                         });
                     }
@@ -967,7 +1026,7 @@
                             const button = newsletterForm.querySelector('.newsletter-btn');
                             const originalText = button.textContent;
                             button.textContent = 'Added! 🎉';
-                            button.style.background = 'linear-gradient(135deg, #51cf66, #69db7c)';
+                            button.style.background = '#4A90E2';
 
                             // Reset form
                             emailInput.value = '';
@@ -975,7 +1034,7 @@
                             // Reset button after 3 seconds
                             setTimeout(() => {
                                 button.textContent = originalText;
-                                button.style.background = 'linear-gradient(135deg, #ffd700, #ffed4e)';
+                                button.style.background = '#191919';
                             }, 3000);
 
                             // Track sign-up for analytics (placeholder)

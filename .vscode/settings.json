@@ -1,4 +1,5 @@
 {
+    // File Management
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -28,5 +29,81 @@
         "**/node_modules/**": true,
         "**/tmp/**": true,
         "**/dist/**": true
-    }
+    },
+    // Editor Settings
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+    "editor.trimAutoWhitespace": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 120,
+    "editor.minimap.enabled": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true,
+    // File Settings
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.eol": "\n",
+    "files.autoSave": "onFocusChange",
+    // HTML/CSS Settings
+    "html.format.enable": true,
+    "html.format.wrapLineLength": 120,
+    "html.format.wrapAttributes": "preserve-aligned",
+    "html.format.indentInnerHtml": true,
+    "html.validate.scripts": true,
+    "html.validate.styles": true,
+    "css.validate": true,
+    "css.lint.unknownAtRules": "ignore",
+    // JavaScript Settings
+    "javascript.validate.enable": true,
+    "javascript.format.enable": true,
+    "javascript.format.semicolons": "insert",
+    "javascript.suggest.autoImports": true,
+    // Emmet Settings
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "emmet.triggerExpansionOnTab": true,
+    // Live Server Settings
+    "liveServer.settings.port": 5500,
+    "liveServer.settings.root": "/docs",
+    "liveServer.settings.CustomBrowser": "chrome",
+    "liveServer.settings.donotShowInfoMsg": true,
+    // Git Settings
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    // Workbench Settings
+    "workbench.editor.enablePreview": false,
+    "workbench.tree.indent": 12,
+    // Terminal Settings
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.fontSize": 13,
+    // Prettier Settings
+    "prettier.useTabs": false,
+    "prettier.tabWidth": 2,
+    "prettier.singleQuote": true,
+    "prettier.printWidth": 120,
+    // Project-specific words for spell checker
+    "cSpell.words": [
+        "FreshThreads",
+        "navbar",
+        "mailto",
+        "rgba",
+        "webkit",
+        "keyframes",
+        "fadeInUp",
+        "minmax",
+        "viewport"
+    ]
 }

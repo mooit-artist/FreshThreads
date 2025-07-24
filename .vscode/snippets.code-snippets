@@ -1,0 +1,95 @@
+{
+  // HTML
+  "HTML: Basic Structure": {
+    "prefix": "html5",
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"en\">",
+      "<head>",
+      "    <meta charset=\"UTF-8\">",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "    <title>$1</title>",
+      "</head>",
+      "<body>",
+      "    $2",
+      "</body>",
+      "</html>"
+    ],
+    "description": "HTML5 basic structure"
+  },
+  // CSS
+  "CSS: Flexbox Container": {
+    "prefix": "flexbox",
+    "body": [
+      "display: flex;",
+      "justify-content: $1;",
+      "align-items: $2;"
+    ],
+    "description": "Basic flexbox container"
+  },
+  "CSS: Grid Container": {
+    "prefix": "grid",
+    "body": [
+      "display: grid;",
+      "grid-template-columns: $1;",
+      "gap: $2;"
+    ],
+    "description": "Basic grid container"
+  },
+  "CSS: Media Query": {
+    "prefix": "media",
+    "body": [
+      "@media (max-width: ${1:768px}) {",
+      "    $2",
+      "}"
+    ],
+    "description": "Media query for responsive design"
+  },
+  "CSS: Animation Keyframes": {
+    "prefix": "keyframes",
+    "body": [
+      "@keyframes ${1:animationName} {",
+      "    0% {",
+      "        $2",
+      "    }",
+      "    100% {",
+      "        $3",
+      "    }",
+      "}"
+    ],
+    "description": "CSS animation keyframes"
+  },
+  // FreshThreads specific
+  "FreshThreads: Minimalist Button": {
+    "prefix": "ftbtn",
+    "body": [
+      "background: #191919;",
+      "color: #F7F7F4;",
+      "padding: 1rem 2rem;",
+      "border: 1px solid #191919;",
+      "border-radius: 3px;",
+      "text-decoration: none;",
+      "font-weight: 500;",
+      "transition: all 0.3s ease;"
+    ],
+    "description": "FreshThreads minimalist button style"
+  },
+  "FreshThreads: Container": {
+    "prefix": "ftcontainer",
+    "body": [
+      "background: #F7F7F4;",
+      "color: #191919;",
+      "border: 1px solid #191919;",
+      "border-radius: 3px;",
+      "padding: 2rem;"
+    ],
+    "description": "FreshThreads minimalist container"
+  },
+  "FreshThreads: Fade In Animation": {
+    "prefix": "ftfade",
+    "body": [
+      "animation: fadeInUp 1s ease-out ${1:0.5s} both;"
+    ],
+    "description": "FreshThreads fade in animation"
+  }
+}

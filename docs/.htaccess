@@ -1,0 +1,208 @@
+# FreshThreads LLC - Apache .htaccess Configuration
+# Optimized for GitHub Pages and general web hosting
+
+# Enable URL rewriting
+RewriteEngine On
+
+# =====================================
+# HTTPS and WWW Redirects
+# =====================================
+
+# Force HTTPS (if not already using it)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect www to non-www (or vice versa - choose one)
+# Option 1: Redirect www to non-www (recommended for freshthreadsllc.com)
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Option 2: Redirect non-www to www (uncomment if you prefer www)
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# =====================================
+# Clean URLs and File Extensions
+# =====================================
+
+# Remove .html extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# Redirect .html extension to clean URLs
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R=301]
+
+# =====================================
+# Security Headers
+# =====================================
+
+# Prevent access to sensitive files
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Block access to backup and config files
+<FilesMatch "\.(bak|backup|swp|tmp|temp|log|sql|gz|tar)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Set security headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "DENY"
+
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Content Security Policy (adjust as needed)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://*.printify.com https://*.printifyapp.com https://www.google-analytics.com; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'"
+
+    # Strict Transport Security (HSTS)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Permissions Policy
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()"
+</IfModule>
+
+# =====================================
+# Caching and Performance
+# =====================================
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Images
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/ico "access plus 1 year"
+
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+
+    # Fonts
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+
+    # HTML files
+    ExpiresByType text/html "access plus 1 day"
+
+    # XML files
+    ExpiresByType application/xml "access plus 1 day"
+    ExpiresByType text/xml "access plus 1 day"
+</IfModule>
+
+# Enable compression
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+
+# =====================================
+# SEO and Redirects
+# =====================================
+
+# Redirect old file names or structures if needed
+# Example: Redirect index-ready.html to home page
+RewriteRule ^index-ready/?$ / [R=301,L]
+
+# Custom 404 page
+ErrorDocument 404 /404.html
+
+# Custom 500 page
+ErrorDocument 500 /500.html
+
+# =====================================
+# MIME Types
+# =====================================
+
+<IfModule mod_mime.c>
+    # Web fonts
+    AddType application/font-woff .woff
+    AddType application/font-woff2 .woff2
+    AddType application/vnd.ms-fontobject .eot
+    AddType application/x-font-ttf .ttf
+    AddType font/opentype .otf
+
+    # Images
+    AddType image/webp .webp
+    AddType image/svg+xml .svg
+
+    # Other
+    AddType application/json .json
+    AddType application/ld+json .jsonld
+</IfModule>
+
+# =====================================
+# Bot and Crawler Management
+# =====================================
+
+# Allow all search engines (already handled by robots.txt)
+# Block bad bots (add as needed)
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_USER_AGENT} (semrushbot|ahrefs|majestic|mj12bot) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# =====================================
+# Directory Options
+# =====================================
+
+# Disable directory browsing
+Options -Indexes
+
+# Follow symbolic links
+Options +FollowSymLinks
+
+# =====================================
+# Additional Configuration
+# =====================================
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Set server signature
+ServerSignature Off
+
+# Prevent access to version control files
+<FilesMatch "^\.git">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

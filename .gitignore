@@ -35,8 +35,10 @@ temp/
 Thumbs.db
 
 # IDE and Editor files
-.vscode/settings.json
+# Keep .vscode/settings.json, extensions.json, tasks.json for team consistency
+# But ignore personal launch configurations
 .vscode/launch.json
+.vscode/*.local
 *.swp
 *.swo
 *~
