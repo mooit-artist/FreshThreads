@@ -18,6 +18,10 @@ config/api-keys.json
 **/secrets.*
 **/.env*
 
+# Security Reports
+security-report.json
+.snyk
+
 # Database files
 *.db
 *.sqlite
@@ -33,6 +37,34 @@ temp/
 .cache/
 .DS_Store
 Thumbs.db
+
+# LLM Integration files
+.ollama.pid
+reviews/
+/tmp/llm-*.txt
+*.llm-output
+
+# Analysis and reports
+analysis-report.json
+*-report.json
+
+# Linting configuration caches
+.eslintcache
+.stylelintcache
+
+# Python Environment
+venv/
+env/
+.venv/
+.env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
 
 # IDE and Editor files
 # Keep .vscode/settings.json, extensions.json, tasks.json for team consistency
@@ -97,3 +129,11 @@ printify-webhook-secrets.json
 dev-notes.md
 todo.txt
 debug/
+
+# Aikido security scanning
+.aikido/
+aikido.json
+
+# macOS and system files
+.CFUserTextEncoding
+.Trash/

@@ -1,0 +1,220 @@
+{
+  "project": {
+    "name": "FreshThreads LLC",
+    "description": "Premium Print-on-Demand Apparel Store - Custom T-Shirts, Hoodies & More",
+    "type": "e-commerce-website",
+    "domain": "freshthreadsllc.com",
+    "repository": "https://github.com/mooit-artist/FreshThreads",
+    "version": "1.0.0",
+    "lastUpdated": "2025-07-26"
+  },
+  "architecture": {
+    "type": "static-website",
+    "deployment": "github-pages",
+    "structure": "docs-based",
+    "frontend": "vanilla-html-css-js",
+    "designSystem": "scandinavian-minimalism",
+    "constraints": {
+      "hosting": "github-pages-static-only",
+      "limitations": [
+        "no-server-side-languages",
+        "no-backend-databases",
+        "no-server-side-processing",
+        "client-side-javascript-only",
+        "static-file-serving-only",
+        "https-enforced",
+        "file-size-limits",
+        "repository-size-constraints"
+      ],
+      "workarounds": [
+        "client-side-api-calls",
+        "third-party-service-integration",
+        "jamstack-architecture",
+        "static-site-generators-compatible",
+        "cdn-and-external-apis"
+      ]
+    },
+    "features": [
+      "print-on-demand-ecommerce",
+      "social-media-integration",
+      "analytics-tracking",
+      "secure-authentication",
+      "responsive-design",
+      "accessibility-compliant"
+    ]
+  },
+  "technology": {
+    "frontend": {
+      "html": "HTML5 semantic markup",
+      "css": "CSS3 with glassmorphism design",
+      "javascript": "Vanilla JavaScript (no frameworks)",
+      "approach": "progressive-enhancement"
+    },
+    "hosting": {
+      "platform": "GitHub Pages",
+      "domain": "Custom domain with SSL",
+      "cdn": "Fast global content delivery",
+      "constraints": {
+        "serverSide": "No server-side languages (PHP, Python, Ruby, Node.js)",
+        "database": "No backend databases or server-side data processing",
+        "fileSize": "Individual files should be under 100MB",
+        "repositorySize": "Repository should be under 1GB",
+        "buildTime": "10-minute build time limit",
+        "bandwidth": "100GB soft bandwidth limit per month",
+        "authentication": "No server-side authentication (use client-side or OAuth)",
+        "forms": "No server-side form processing (use third-party services)",
+        "apis": "No backend APIs (use external APIs or serverless functions)"
+      },
+      "allowed": [
+        "Static HTML, CSS, JavaScript",
+        "Client-side frameworks (React, Vue, Angular)",
+        "Static site generators (Jekyll built-in)",
+        "Third-party API integrations",
+        "External authentication services",
+        "CDN and external asset hosting"
+      ]
+    },
+    "analytics": {
+      "google": "Google Analytics integration",
+      "facebook": "Facebook Pixel tracking",
+      "structured": "JSON-LD structured data"
+    }
+  },
+  "fileStructure": {
+    "root": "/",
+    "docs": "/docs/",
+    "assets": "/docs/assets/",
+    "pages": {
+      "index.html": "Homepage - Brand showcase with social media integration",
+      "products.html": "Product management dashboard",
+      "auth.html": "Secure team authentication",
+      "dashboard.html": "Internal team dashboard",
+      "about.html": "Company information and story",
+      "contact.html": "Contact form and information",
+      "account.html": "User account management",
+      "checkout.html": "Shopping cart and checkout process",
+      "inventory.html": "Product inventory management",
+      "register.html": "User registration page",
+      "analytics.html": "Analytics dashboard",
+      "order-success.html": "Order confirmation page",
+      "404.html": "Custom error page"
+    },
+    "config": {
+      "products-config.json": "Product catalog and inventory data",
+      "structured-data.json": "SEO structured data",
+      "robots.txt": "Search engine crawling rules",
+      "sitemap.xml": "Site structure for search engines",
+      "CNAME": "Custom domain configuration"
+    }
+  },
+  "designPrinciples": {
+    "philosophy": "The best design is invisible. It lets the content speak, guides the user effortlessly, and stays out of the way.",
+    "inspiration": ["scandinavian-design", "japanese-minimalism"],
+    "characteristics": [
+      "clean-interfaces",
+      "spatial-harmony",
+      "intuitive-flow",
+      "fast-load-times",
+      "lightweight-code",
+      "purpose-driven-functionality"
+    ],
+    "accessibility": "WCAG compliant",
+    "performance": "Optimized for speed and efficiency"
+  },
+  "businessModel": {
+    "type": "print-on-demand",
+    "products": ["t-shirts", "hoodies", "accessories"],
+    "target": "custom-apparel-market",
+    "channels": ["instagram", "tiktok", "pinterest", "direct-web"],
+    "features": [
+      "no-inventory-model",
+      "made-to-order",
+      "custom-designs",
+      "social-media-ready"
+    ]
+  },
+  "security": {
+    "headers": "Enterprise-grade security headers",
+    "authentication": "Secure team access system",
+    "dataValidation": "Backend validation and sanitization",
+    "threatModeling": "Security assessment practices",
+    "practices": [
+      "secure-api-integration",
+      "input-validation",
+      "xss-protection",
+      "csrf-protection"
+    ]
+  },
+  "development": {
+    "workflow": {
+      "vcs": "Git with GitHub",
+      "deployment": "Automated via GitHub Actions",
+      "testing": "HTML validation and formatting",
+      "linting": "Prettier for code formatting",
+      "constraints": "GitHub Pages static hosting limitations"
+    },
+    "githubPagesLimitations": {
+      "prohibited": [
+        "Server-side scripting (PHP, Python, Ruby, etc.)",
+        "Backend databases (MySQL, PostgreSQL, etc.)",
+        "Server-side form processing",
+        "Custom server configurations",
+        "Executable files or scripts",
+        "Server-side authentication systems"
+      ],
+      "solutions": [
+        "Use client-side JavaScript for interactivity",
+        "Integrate with external APIs for data",
+        "Use third-party services for forms (Formspree, Netlify Forms)",
+        "Implement OAuth for authentication",
+        "Use serverless functions (Vercel, Netlify) for backend logic",
+        "Store data in browser localStorage or external databases"
+      ]
+    },
+    "tasks": {
+      "start-server": "live-server --port=5500",
+      "validate": "html-validate docs/*.html",
+      "format": "prettier --write docs/*.html docs/**/*.css docs/**/*.js",
+      "deploy": "git add . && git commit -m 'Update website' && git push origin main"
+    }
+  },
+  "content": {
+    "brand": {
+      "name": "FreshThreads LLC",
+      "logo": "Fresh_ThreadsLLCLogo.png",
+      "colors": "Modern, clean color palette",
+      "voice": "Premium, trendy, accessible"
+    },
+    "socialMedia": {
+      "platforms": ["instagram", "tiktok", "pinterest"],
+      "strategy": "Social media optimization for engagement",
+      "images": "GitHubSocial optimized images"
+    }
+  },
+  "apis": {
+    "analytics": "Google Analytics integration",
+    "social": "Facebook Pixel tracking",
+    "email": "Newsletter signup functionality"
+  },
+  "conventions": {
+    "naming": "kebab-case for files, camelCase for JavaScript",
+    "structure": "Semantic HTML with BEM-style CSS classes",
+    "comments": "Comprehensive documentation in code",
+    "formatting": "Prettier standard formatting"
+  },
+  "priorities": {
+    "primary": [
+      "user-experience",
+      "performance",
+      "accessibility",
+      "security",
+      "scalability"
+    ],
+    "secondary": [
+      "seo-optimization",
+      "social-media-integration",
+      "analytics-tracking",
+      "maintainability"
+    ]
+  }
+}

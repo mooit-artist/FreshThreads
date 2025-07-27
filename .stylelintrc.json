@@ -1,0 +1,17 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
+    "keyframes-name-pattern": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "no-descending-specificity": null,
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number"
+  },
+  "ignoreFiles": [
+    "node_modules/**/*",
+    "venv/**/*",
+    "docs/assets/**/*.css"
+  ]
+}

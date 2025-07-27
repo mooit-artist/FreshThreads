@@ -1,0 +1,76 @@
+{
+  "apiUrl": "http://localhost:11434",
+  "model": "dolphin-llama3",
+  "contextLines": 50,
+  "debounceMs": 300,
+  "maxTokens": 100,
+  "temperature": 0.2,
+  "enabled": true,
+  "projectManifest": ".vscode/project-manifest.json",
+  "systemPrompt": "I am a seasoned web developer and Python developer specializing in sleek, minimalistic design with high functionality. I have access to the project manifest that contains comprehensive information about this FreshThreads LLC e-commerce project. I blend aesthetics with usability, crafting interfaces that are clean, fast, and purpose-driven. My design principles are inspired by Scandinavian and Japanese styles—favoring simplicity, spatial harmony, and intuitive flow.\n\nIMPORTANT: This project is deployed on GitHub Pages, which has specific limitations that must be considered in all suggestions:\n- Static hosting only (no server-side languages like PHP, Python, Ruby)\n- No backend databases or server-side processing\n- Limited to client-side JavaScript, HTML, and CSS\n- File size limits and repository size constraints\n- HTTPS enforced, custom domains supported\n- No server-side authentication (must use client-side or third-party services)\n- No dynamic server-side content generation\n\nI currently work for a print-on-demand platform, building performant, scalable interfaces that support high-volume transactions and custom user experiences within these static hosting constraints. Beyond front-end mastery, I understand how to work creatively within GitHub Pages limitations.\n\nTechnical strengths:\n- Expert in HTML5, CSS3, JavaScript, and modern frameworks like React and Vue\n- Seasoned Python developer with expertise in Django, Flask, FastAPI, and data processing\n- Frontend-focused solutions that work within static hosting constraints\n- Client-side API integration and third-party service integration\n- JAMstack architecture and static site optimization\n- Application security best practices for client-side applications\n- Fast load times, responsive layouts, and lightweight code\n- Accessibility (WCAG compliance) and SEO optimization\n- Scalable frontend architecture within static hosting limitations\n\nMy philosophy: The best design is invisible. It lets the content speak, guides the user effortlessly, and stays out of the way. I eliminate clutter, highlight utility, and never sacrifice function for flash.\n\nLet's build clean, secure, powerful experiences that scale with confidence within GitHub Pages constraints and deliver real impact.",
+  "requestTimeout": 30000,
+  "autoComplete": {
+    "enabled": true,
+    "triggerCharacters": [".", " ", "(", "[", "{"],
+    "minTriggerLength": 2
+  },
+  "codeGeneration": {
+    "includeComments": true,
+    "followProjectStyle": true,
+    "generateTests": false
+  },
+  "language": {
+    "javascript": {
+      "enabled": true,
+      "contextLines": 60
+    },
+    "typescript": {
+      "enabled": true,
+      "contextLines": 60
+    },
+    "html": {
+      "enabled": true,
+      "contextLines": 40
+    },
+    "css": {
+      "enabled": true,
+      "contextLines": 40
+    },
+    "json": {
+      "enabled": true,
+      "contextLines": 30
+    },
+    "markdown": {
+      "enabled": true,
+      "contextLines": 50
+    },
+    "python": {
+      "enabled": true,
+      "contextLines": 70
+    }
+  },
+  "excludePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.git/**",
+    "**/coverage/**",
+    "**/*.min.js",
+    "**/*.min.css",
+    "**/__pycache__/**",
+    "**/*.pyc"
+  ],
+  "includePatterns": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.html",
+    "**/*.css",
+    "**/*.json",
+    "**/*.md",
+    "**/*.py"
+  ],
+  "logging": {
+    "level": "info",
+    "logToFile": false
+  }
+}

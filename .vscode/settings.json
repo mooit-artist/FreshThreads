@@ -105,5 +105,8 @@
         "fadeInUp",
         "minmax",
         "viewport"
-    ]
+    ],
+    "aikido.showIgnoredProblems": false,
+    "aikido.enableSafePackageManager": true,
+    "makefile.configureOnOpen": false
 }
