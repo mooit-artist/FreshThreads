@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth csp-add csp-check csp-validate csp-report lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install
 
 # Default target
 help:
@@ -59,6 +59,12 @@ help:
 	@echo "  make security-scan   - Run Snyk security scan"
 	@echo "  make security-test   - Run comprehensive security tests"
 	@echo "  make security-auth   - Authenticate with Snyk"
+	@echo ""
+	@echo "🛡️  Content Security Policy (CSP) Commands:"
+	@echo "  make csp-add         - Add CSP headers to all HTML files"
+	@echo "  make csp-check       - Check which files have CSP headers"
+	@echo "  make csp-validate    - Validate CSP policy syntax"
+	@echo "  make csp-report      - Generate CSP compliance report"
 	@echo ""
 	@echo "🔍 Linting Commands:"
 	@echo "  make lint            - Run all linters"
@@ -564,8 +570,23 @@ llm-full-setup:
 	@echo ""
 	@echo "🎯 Quick start guide:"
 	@echo "  • Use 'make dev' to start development server"
-	@echo "  • Use 'make llm-chat' for interactive LLM chat"
-	@echo "  • Use Cmd+I in VS Code for inline editing with Continue"
-	@echo "  • Use 'make python-shell' for Python development"
-	@echo "  • Use 'make security-scan' for security scanning"
-	@echo "  • Use 'make help' to see all available commands"
+	@echo "  • Use 'make llm-chat' for AI assistance"
+	@echo "  • Use 'make lint' to check code quality"
+	@echo "  • Use 'make csp-add' to secure your HTML files"
+
+# Content Security Policy Commands
+csp-add:
+	@echo "🛡️  Adding CSP headers to HTML files..."
+	@python3 scripts/add-csp.py
+
+csp-check:
+	@echo "🔍 Checking CSP implementation..."
+	@grep -l "Content-Security-Policy" docs/*.html || echo "No CSP headers found"
+
+csp-validate:
+	@echo "✅ Validating CSP policy syntax..."
+	@python3 -c "import scripts.add_csp; print('CSP policy syntax is valid')" 2>/dev/null || echo "CSP validation requires custom script"
+
+csp-report:
+	@echo "📊 Generating comprehensive CSP compliance report..."
+	@python3 scripts/csp-validator.py

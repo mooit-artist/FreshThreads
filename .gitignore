@@ -47,6 +47,7 @@ reviews/
 # Analysis and reports
 analysis-report.json
 *-report.json
+csp-report.json
 
 # Linting configuration caches
 .eslintcache
