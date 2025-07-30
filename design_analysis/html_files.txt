@@ -1,0 +1,10 @@
+docs/order-success.html
+docs/logo-components.html
+docs/index.html
+docs/about.html
+docs/inventory.html
+docs/auth.html
+docs/contact.html
+docs/products.html
+docs/register.html
+docs/404.html

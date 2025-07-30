@@ -351,7 +351,8 @@
         }
       }
     </style>
-  </head>
+      <link rel="stylesheet" href="styles/minimalistic.css">
+</head>
 
   <body>
     <!-- Header -->
@@ -384,8 +385,8 @@
           <option value="out">Out of Stock</option>
         </select>
 
-        <button class="action-button" onclick="openAddProductModal()">+ Add Product</button>
-        <button class="action-button secondary" onclick="exportInventory()">Export CSV</button>
+        <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-button" onclick="openAddProductModal()">+ Add Product</button>
+        <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-button secondary" onclick="exportInventory()">Export CSV</button>
       </div>
 
       <!-- Stats -->
@@ -435,7 +436,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h3 id="modalTitle">Add New Product</h3>
-          <button class="close-btn" onclick="closeProductModal()">&times;</button>
+          <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary close-btn" onclick="closeProductModal()">&times;</button>
         </div>
 
         <form id="productForm">
@@ -476,8 +477,8 @@
           </div>
 
           <div class="form-actions">
-            <button type="button" class="action-button secondary" onclick="closeProductModal()">Cancel</button>
-            <button type="submit" class="action-button">Save Product</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="button" class="btn btn-primary action-button secondary" onclick="closeProductModal()">Cancel</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="submit" class="btn btn-primary action-button">Save Product</button>
           </div>
         </form>
       </div>
@@ -606,9 +607,9 @@
                         <div>${product.threshold}</div>
                         <div class="status-badge ${statusClass}">${getStatusText(product.status)}</div>
                         <div class="actions">
-                            <button class="action-btn" onclick="editProduct(${product.id})" title="Edit">✏️</button>
-                            <button class="action-btn" onclick="updateStock(${product.id})" title="Update Stock">📦</button>
-                            <button class="action-btn" onclick="deleteProduct(${product.id})" title="Delete">🗑️</button>
+                            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-btn" onclick="editProduct(${product.id})" title="Edit">✏️</button>
+                            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-btn" onclick="updateStock(${product.id})" title="Update Stock">📦</button>
+                            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-btn" onclick="deleteProduct(${product.id})" title="Delete">🗑️</button>
                         </div>
                     </div>
                 `;

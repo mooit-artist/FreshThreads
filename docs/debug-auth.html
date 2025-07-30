@@ -61,6 +61,7 @@
         .btn-danger { background: #dc3545; color: white; }
         .btn-info { background: #17a2b8; color: white; }
     </style>
+    <link rel="stylesheet" href="styles/minimalistic.css">
 </head>
 <body>
     <div class="container">
@@ -71,11 +72,11 @@
         </div>
 
         <div class="buttons">
-            <button class="btn-primary" onclick="checkAuth()">🔄 Refresh Status</button>
-            <button class="btn-success" onclick="goToProducts()">🛍️ Go to Products</button>
-            <button class="btn-info" onclick="goToAuth()">🔐 Go to Login</button>
-            <button class="btn-warning" onclick="goToRegister()">📝 Go to Register</button>
-            <button class="btn-danger" onclick="clearAll()">🗑️ Clear All Data</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn-primary" onclick="checkAuth()">🔄 Refresh Status</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn-success" onclick="goToProducts()">🛍️ Go to Products</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn-info" onclick="goToAuth()">🔐 Go to Login</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn-warning" onclick="goToRegister()">📝 Go to Register</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn-danger" onclick="clearAll()">🗑️ Clear All Data</button>
         </div>
 
         <div id="dataDisplay"></div>
@@ -137,7 +138,7 @@
                             <div class="data-box">
                                 <h3>⚠️ Missing Password</h3>
                                 <p>Password not found for email registration. Let's fix this:</p>
-                                <button class="btn-warning" onclick="setPassword('${userData.id}')">🔧 Set Password for Login</button>
+                                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn-warning" onclick="setPassword('${userData.id}')">🔧 Set Password for Login</button>
                             </div>
                         `;
                     }

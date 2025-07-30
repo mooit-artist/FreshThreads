@@ -1,14 +1,14 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth csp-add csp-check csp-validate csp-report lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup
 
 # Default target
 help:
 	@echo "🧵 FreshThreads LLC - Development Commands"
 	@echo ""
 	@echo "📋 Available commands:"
-	@echo "  make dev          - Start development server (live-server)"
+	@echo "  make dev          - Start development server (http-server)"
 	@echo "  make validate     - Validate HTML files"
 	@echo "  make format       - Format HTML, CSS, and JS files"
 	@echo "  make deploy       - Deploy to GitHub Pages"
@@ -66,6 +66,12 @@ help:
 	@echo "  make csp-validate    - Validate CSP policy syntax"
 	@echo "  make csp-report      - Generate CSP compliance report"
 	@echo ""
+	@echo "🎨 Design & LLM-Assisted Refactoring Commands:"
+	@echo "  make design-analyze  - Analyze current design with LLM"
+	@echo "  make design-refactor - LLM-assisted design refactoring"
+	@echo "  make design-preview  - Preview design changes locally"
+	@echo "  make design-colors   - Extract and analyze color palette"
+	@echo ""
 	@echo "🔍 Linting Commands:"
 	@echo "  make lint            - Run all linters"
 	@echo "  make lint-html       - Lint HTML files"
@@ -82,7 +88,135 @@ help:
 	@echo "  make clean        - Clean temporary files"
 	@echo "  make install      - Install development dependencies"
 	@echo ""
+	@echo "🐳 Docker Commands:"
+	@echo "  make docker-build         - Build Docker images"
+	@echo "  make docker-dev           - Start development environment in Docker"
+	@echo "  make docker-prod          - Start production environment in Docker"
+	@echo "  make docker-test          - Run full test suite in Docker"
+	@echo "  make docker-test-unit     - Run unit tests in Docker"
+	@echo "  make docker-test-integration - Run integration tests in Docker"
+	@echo "  make docker-test-security - Run security tests in Docker"
+	@echo "  make docker-test-e2e      - Run end-to-end tests in Docker"
+	@echo "  make docker-test-accessibility - Run accessibility tests in Docker"
+	@echo "  make docker-test-load     - Run load tests in Docker"
+	@echo "  make docker-cleanup       - Clean up Docker resources"
+	@echo "  make docker-logs          - Show Docker container logs"
+	@echo "  make docker-status        - Show Docker container status"
+	@echo "  make docker-security-status - Check OpenAppSec security status"
+	@echo "  make docker-security-logs - View OpenAppSec security logs"
+	@echo "  make docker-test-openappsec - Run OpenAppSec security tests"
+	@echo ""
+	@echo "📊 SonarQube Code Quality Commands:"
+	@echo "  make sonar-start          - Start SonarQube server"
+	@echo "  make sonar-stop           - Stop SonarQube server"
+	@echo "  make sonar-status         - Check SonarQube status"
+	@echo "  make sonar-analyze        - Run code quality analysis"
+	@echo "  make sonar-report         - Generate quality report"
+	@echo "  make sonar-cleanup        - Clean up SonarQube data"
+	@echo "  make sonar-logs           - View SonarQube logs"
+	@echo "  make sonar-backup         - Backup SonarQube data"
+	@echo ""
 	@echo "🚀 Combined Workflows:"
+	@echo "  make llm-full-setup - Complete LLM development environment setup"
+	@echo "  make llm-dev      - Start development server with LLM"
+	@echo "  make llm-deploy   - LLM-assisted deployment"
+	@echo "📋 Available commands:"
+	@echo "  make dev          - Start development server (http-server)"
+	@echo "  make validate     - Validate HTML files"
+	@echo "  make format       - Format HTML, CSS, and JS files"
+	@echo "  make deploy       - Deploy to GitHub Pages"
+	@echo ""
+	@echo "🤖 Local LLM Commands:"
+	@echo "  make llm-start    - Start local LLM server (Ollama)"
+	@echo "  make llm-stop     - Stop local LLM server"
+	@echo "  make llm-status   - Check LLM server status"
+	@echo "  make llm-chat     - Interactive chat with local LLM"
+	@echo "  make llm-review   - Review codebase with LLM"
+	@echo "  make llm-analyze  - Analyze project structure with LLM"
+	@echo "  make llm-security - Security review with LLM"
+	@echo "  make llm-improve  - Get improvement suggestions"
+	@echo "  make llm-compat   - Check GitHub Pages compatibility"
+	@echo "  make llm-models   - List available models"
+	@echo "  make llm-tasks    - Show recommended models for tasks"
+	@echo "  make llm-pull MODEL=<name> - Pull a specific model"
+	@echo "  make llm-switch MODEL=<name> - Switch default model"
+	@echo ""
+	@echo "🐍 Python Environment Commands:"
+	@echo "  make python-setup    - Create Python virtual environment"
+	@echo "  make python-install [PACKAGE=name] - Install dependencies or specific package"
+	@echo "  make python-activate - Show activation command and status"
+	@echo "  make python-deps     - Update requirements.txt"
+	@echo "  make python-clean    - Remove Python environment"
+	@echo "  make python-status   - Show environment status"
+	@echo "  make python-shell    - Start Python shell in environment"
+	@echo "  make python-run SCRIPT=<path> - Run Python script"
+	@echo "  make python-update   - Update all packages"
+	@echo "  make analyze-html    - Analyze HTML files for GitHub Pages compatibility"
+	@echo "  make analyze-html-report - Generate detailed HTML analysis report"
+	@echo ""
+	@echo "🔧 Continue Extension Commands:"
+	@echo "  make continue-setup  - Configure Continue extension for local LLM"
+	@echo "  make continue-status - Check Continue extension configuration"
+	@echo "  make continue-sync   - Sync Continue config with local LLM settings"
+	@echo ""
+	@echo "🔐 Secrets Management Commands:"
+	@echo "  make secrets-get KEY=<key> - Retrieve secret from Keychain"
+	@echo "  make secrets-set KEY=<key> - Store secret in Keychain"
+	@echo "  make secrets-list    - List stored secrets for this project"
+	@echo "  make secrets-delete KEY=<key> - Delete secret from Keychain"
+	@echo "  make secrets-export [FILE=path] - Export secrets to .env file"
+	@echo "  make secrets-import [FILE=path] - Import secrets from .env file"
+	@echo "  make secrets-setup   - Interactive setup for common secrets"
+	@echo ""
+	@echo "🔒 Security Commands:"
+	@echo "  make security-scan   - Run Snyk security scan"
+	@echo "  make security-test   - Run comprehensive security tests"
+	@echo "  make security-auth   - Authenticate with Snyk"
+	@echo ""
+	@echo "🛡️  Content Security Policy (CSP) Commands:"
+	@echo "  make csp-add         - Add CSP headers to all HTML files"
+	@echo "  make csp-check       - Check which files have CSP headers"
+	@echo "  make csp-validate    - Validate CSP policy syntax"
+	@echo "  make csp-report      - Generate CSP compliance report"
+	@echo ""
+	@echo "🎨 Design & LLM-Assisted Refactoring Commands:"
+	@echo "  make design-analyze  - Analyze current design with LLM"
+	@echo "  make design-refactor - LLM-assisted design refactoring"
+	@echo "  make design-preview  - Preview design changes locally"
+	@echo "  make design-colors   - Extract and analyze color palette"
+	@echo ""
+	@echo "🔍 Linting Commands:"
+	@echo "  make lint            - Run all linters"
+	@echo "  make lint-html       - Lint HTML files"
+	@echo "  make lint-css        - Lint CSS files"
+	@echo "  make lint-js         - Lint JavaScript files"
+	@echo "  make lint-json       - Lint JSON files"
+	@echo "  make lint-python     - Lint Python files"
+	@echo "  make lint-shell      - Lint shell scripts"
+	@echo "  make lint-markdown   - Lint Markdown files"
+	@echo "  make lint-yaml       - Lint YAML files"
+	@echo "  make lint-fix        - Auto-fix linting issues where possible"
+	@echo ""
+	@echo "🧹 Utility Commands:"
+	@echo "  make clean        - Clean temporary files"
+	@echo "  make install      - Install development dependencies"
+	@echo ""
+	@echo "� Docker Commands:"
+	@echo "  make docker-build         - Build Docker images"
+	@echo "  make docker-dev           - Start development environment in Docker"
+	@echo "  make docker-prod          - Start production environment in Docker"
+	@echo "  make docker-test          - Run full test suite in Docker"
+	@echo "  make docker-test-unit     - Run unit tests in Docker"
+	@echo "  make docker-test-integration - Run integration tests in Docker"
+	@echo "  make docker-test-security - Run security tests in Docker"
+	@echo "  make docker-test-e2e      - Run end-to-end tests in Docker"
+	@echo "  make docker-test-accessibility - Run accessibility tests in Docker"
+	@echo "  make docker-test-load     - Run load tests in Docker"
+	@echo "  make docker-cleanup       - Clean up Docker resources"
+	@echo "  make docker-logs          - Show Docker container logs"
+	@echo "  make docker-status        - Show Docker container status"
+	@echo ""
+	@echo "�🚀 Combined Workflows:"
 	@echo "  make llm-full-setup - Complete LLM development environment setup"
 	@echo "  make llm-dev      - Start development server with LLM"
 	@echo "  make llm-deploy   - LLM-assisted deployment"
@@ -90,7 +224,7 @@ help:
 # Development commands
 dev:
 	@echo "🚀 Starting development server..."
-	@cd docs && npx live-server --port=5500 --entry-file=index.html --mount=/docs:.
+	@cd docs && npx http-server . -p 5500 -c-1 -o
 
 validate:
 	@echo "✅ Validating HTML files..."
@@ -590,3 +724,174 @@ csp-validate:
 csp-report:
 	@echo "📊 Generating comprehensive CSP compliance report..."
 	@python3 scripts/csp-validator.py
+
+# Design & LLM-Assisted Refactoring Commands
+design-analyze:
+	@echo "🎨 Analyzing current design with LLM..."
+	@./scripts/llm-design-refactor.sh
+
+design-refactor:
+	@echo "🔄 Starting LLM-assisted design refactoring..."
+	@echo "🎯 Target: Minimalistic black & white design based on logo"
+	@echo "📁 New design system: docs/styles/minimalistic.css"
+	@echo "🔍 Run 'make design-preview' to see changes"
+	@echo "💡 Next: Update HTML files to use new CSS classes"
+
+design-preview:
+	@echo "👀 Starting design preview server..."
+	@echo "🌐 Preview URL: http://localhost:5500"
+	@echo "📱 Test the new minimalistic design"
+	@make dev
+
+design-colors:
+	@echo "🎨 Analyzing logo colors and design palette..."
+	@echo "📍 Logo location: docs/assets/Fresh_ThreadsLLCLogo.png"
+	@echo "🔤 Primary colors: Black (#000000), White (#ffffff)"
+	@echo "📊 Gray scale: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900"
+	@echo "✨ Design system ready in: docs/styles/minimalistic.css"
+
+# Docker Commands
+docker-build:
+	@echo "🐳 Building Docker images..."
+	@if ! command -v docker >/dev/null 2>&1; then \
+		echo "❌ Docker not found. Please install Docker first."; \
+		echo "   Visit: https://docker.com"; \
+		exit 1; \
+	fi
+	@./scripts/docker-test.sh build
+
+docker-dev:
+	@echo "🐳 Starting development environment in Docker..."
+	@if ! command -v docker >/dev/null 2>&1; then \
+		echo "❌ Docker not found. Please install Docker first."; \
+		exit 1; \
+	fi
+	@docker-compose up dev
+
+docker-prod:
+	@echo "🐳 Starting production environment in Docker..."
+	@if ! command -v docker >/dev/null 2>&1; then \
+		echo "❌ Docker not found. Please install Docker first."; \
+		exit 1; \
+	fi
+	@docker-compose up -d prod
+	@echo "🌐 Production server running at http://localhost:8080"
+	@echo "🔍 Health check: http://localhost:8080/health"
+
+docker-test:
+	@echo "🐳 Running full test suite in Docker..."
+	@./scripts/docker-test.sh test
+
+docker-test-unit:
+	@echo "🐳 Running unit tests in Docker..."
+	@./scripts/docker-test.sh unit
+
+docker-test-integration:
+	@echo "🐳 Running integration tests in Docker..."
+	@./scripts/docker-test.sh integration
+
+docker-test-security:
+	@echo "🐳 Running security tests in Docker..."
+	@./scripts/docker-test.sh security
+
+docker-test-e2e:
+	@echo "🐳 Running end-to-end tests in Docker..."
+	@./scripts/docker-test.sh e2e
+
+docker-test-accessibility:
+	@echo "🐳 Running accessibility tests in Docker..."
+	@./scripts/docker-test.sh accessibility
+
+docker-test-load:
+	@echo "🐳 Running load tests in Docker..."
+	@./scripts/docker-test.sh load
+
+docker-cleanup:
+	@echo "🐳 Cleaning up Docker resources..."
+	@./scripts/docker-test.sh cleanup
+
+docker-logs:
+	@echo "🐳 Showing Docker container logs..."
+	@echo "📋 Available containers:"
+	@docker-compose ps || echo "No containers running"
+	@echo ""
+	@echo "Use 'docker-compose logs [service]' to see specific logs"
+	@echo "Example: docker-compose logs dev"
+
+docker-status:
+	@echo "🐳 Docker container status..."
+	@docker-compose ps || echo "No containers running"
+	@echo ""
+	@echo "🔍 System information:"
+	@docker system df || true
+
+docker-security-status:
+	@echo "🛡️  Checking OpenAppSec security status..."
+	@if docker-compose ps | grep -q "prod.*Up"; then \
+		echo "🔍 OpenAppSec Status:"; \
+		curl -s http://localhost:8080/open-appsec-status 2>/dev/null || echo "Status endpoint not accessible"; \
+		echo ""; \
+		echo "🔒 Security Headers Check:"; \
+		curl -I http://localhost:8080 2>/dev/null | grep -E "(X-|Content-Security-Policy)" || echo "Headers not found"; \
+	else \
+		echo "❌ Production container not running. Start with 'make docker-prod'"; \
+	fi
+
+docker-security-logs:
+	@echo "🛡️  Viewing OpenAppSec security logs..."
+	@if docker-compose ps | grep -q "prod.*Up"; then \
+		echo "📋 OpenAppSec Logs:"; \
+		docker-compose exec prod cat /var/log/nano_agent/cp_nginx.log 2>/dev/null || echo "No OpenAppSec logs found"; \
+		echo ""; \
+		echo "📋 Nginx Error Logs:"; \
+		docker-compose exec prod tail -20 /var/log/nginx/error.log 2>/dev/null || echo "No error logs found"; \
+	else \
+		echo "❌ Production container not running. Start with 'make docker-prod'"; \
+	fi
+
+docker-test-openappsec:
+	@echo "🛡️  Running OpenAppSec security tests..."
+	@if docker-compose ps | grep -q "prod.*Up"; then \
+		echo "🔍 Testing OpenAppSec protection..."; \
+		./scripts/test-openappsec.sh; \
+	else \
+		echo "❌ Production container not running. Start with 'make docker-prod' first"; \
+		echo "💡 Quick start: make docker-prod && sleep 10 && make docker-test-openappsec"; \
+	fi
+
+# SonarQube Commands
+sonar-start:
+	@echo "📊 Starting SonarQube server..."
+	@if ! command -v docker >/dev/null 2>&1; then \
+		echo "❌ Docker not found. Please install Docker first."; \
+		exit 1; \
+	fi
+	@./scripts/sonarqube-manager.sh start
+
+sonar-stop:
+	@echo "📊 Stopping SonarQube server..."
+	@./scripts/sonarqube-manager.sh stop
+
+sonar-status:
+	@echo "📊 Checking SonarQube status..."
+	@./scripts/sonarqube-manager.sh status
+
+sonar-analyze:
+	@echo "📊 Running SonarQube code analysis..."
+	@./scripts/sonarqube-manager.sh analyze
+
+sonar-report:
+	@echo "📊 Generating SonarQube quality report..."
+	@./scripts/sonarqube-manager.sh report
+
+sonar-cleanup:
+	@echo "📊 Cleaning up SonarQube data..."
+	@./scripts/sonarqube-manager.sh cleanup
+
+sonar-logs:
+	@echo "📊 Viewing SonarQube logs..."
+	@./scripts/sonarqube-manager.sh logs
+
+sonar-backup:
+	@echo "📊 Creating SonarQube backup..."
+	@./scripts/sonarqube-manager.sh backup
