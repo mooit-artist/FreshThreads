@@ -1,0 +1,44 @@
+# Emerging Threats rules configuration for FreshThreads
+# This file would typically contain references to ET rulesets
+# For production use, download from https://rules.emergingthreats.net/
+
+# Include emerging threats rulesets
+include $RULE_PATH/emerging-activex.rules
+include $RULE_PATH/emerging-attack_response.rules
+include $RULE_PATH/emerging-botcc.rules
+include $RULE_PATH/emerging-compromised.rules
+include $RULE_PATH/emerging-current_events.rules
+include $RULE_PATH/emerging-dns.rules
+include $RULE_PATH/emerging-dos.rules
+include $RULE_PATH/emerging-exploit.rules
+include $RULE_PATH/emerging-ftp.rules
+include $RULE_PATH/emerging-games.rules
+include $RULE_PATH/emerging-icmp_info.rules
+include $RULE_PATH/emerging-icmp.rules
+include $RULE_PATH/emerging-imap.rules
+include $RULE_PATH/emerging-info.rules
+include $RULE_PATH/emerging-malware.rules
+include $RULE_PATH/emerging-misc.rules
+include $RULE_PATH/emerging-mobile_malware.rules
+include $RULE_PATH/emerging-netbios.rules
+include $RULE_PATH/emerging-p2p.rules
+include $RULE_PATH/emerging-policy.rules
+include $RULE_PATH/emerging-pop3.rules
+include $RULE_PATH/emerging-rpc.rules
+include $RULE_PATH/emerging-scan.rules
+include $RULE_PATH/emerging-shellcode.rules
+include $RULE_PATH/emerging-smtp.rules
+include $RULE_PATH/emerging-snmp.rules
+include $RULE_PATH/emerging-sql.rules
+include $RULE_PATH/emerging-telnet.rules
+include $RULE_PATH/emerging-tftp.rules
+include $RULE_PATH/emerging-trojan.rules
+include $RULE_PATH/emerging-user_agents.rules
+include $RULE_PATH/emerging-voip.rules
+include $RULE_PATH/emerging-web_client.rules
+include $RULE_PATH/emerging-web_server.rules
+include $RULE_PATH/emerging-web_specific_apps.rules
+include $RULE_PATH/emerging-worm.rules
+
+# Custom FreshThreads web application rules
+include $RULE_PATH/emerging-web-freshthreads.rules

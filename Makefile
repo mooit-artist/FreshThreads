@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup
 
 # Default target
 help:
@@ -553,6 +553,91 @@ security-auth:
 	@echo "📋 Opening Snyk authentication..."
 	@snyk auth
 	@echo "✅ Snyk authentication completed"
+
+security-monitor:
+	@echo "🔍 Setting up Snyk monitoring..."
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Installing..."; \
+		npm install -g snyk; \
+	fi
+	@echo "📊 Enabling continuous monitoring..."
+	@snyk monitor
+	@echo "✅ Project is now being monitored for new vulnerabilities"
+
+security-report:
+	@echo "📋 Generating detailed security report..."
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Installing..."; \
+		npm install -g snyk; \
+	fi
+	@echo "📊 Creating vulnerability report..."
+	@snyk test --json > security-report.json || true
+	@snyk test --sarif > security-report.sarif || true
+	@echo "📊 Creating license report..."
+	@snyk test --print-deps --json > license-report.json || true
+	@echo "✅ Security reports generated: security-report.json, security-report.sarif, license-report.json"
+
+security-fix:
+	@echo "🔧 Attempting to fix vulnerabilities..."
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Installing..."; \
+		npm install -g snyk; \
+	fi
+	@echo "🩹 Applying automatic fixes..."
+	@snyk wizard || echo "⚠️  Manual intervention may be required for some vulnerabilities"
+	@echo "✅ Automatic fixes applied where possible"
+
+security-status:
+	@echo "📊 Checking Snyk authentication status..."
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Please run 'make security-auth' first"; \
+		exit 1; \
+	fi
+	@echo "🔍 Checking authentication..."
+	@snyk config get api && echo "✅ Authenticated" || echo "❌ Not authenticated - run 'make security-auth'"
+	@echo "📋 Checking project monitoring status..."
+	@snyk monitor --dry-run 2>/dev/null && echo "✅ Monitoring configured" || echo "⚠️  Monitoring not set up - run 'make security-monitor'"
+
+security-validate:
+	@echo "🔒 Running comprehensive security validation..."
+	@./scripts/security-validation.sh
+
+# Aikido Runtime Security Commands
+aikido-demo:
+	@echo "🛡️ Starting Aikido security demonstration server..."
+	@echo "🔒 Runtime protection will be active during demo"
+	@AIKIDO_BLOCK=true AIKIDO_DEBUG=true node scripts/aikido-demo.js
+
+aikido-test:
+	@echo "🧪 Testing Aikido protection capabilities..."
+	@echo "🚀 Starting demo server in background..."
+	@AIKIDO_BLOCK=true node scripts/aikido-demo.js &
+	@DEMO_PID=$$!
+	@sleep 3
+	@echo "🔍 Testing XSS protection..."
+	@curl -s "http://localhost:3000/security-test?input=<script>alert('xss')</script>" | head -5 || true
+	@echo "🔍 Testing SQL injection protection..."
+	@curl -s "http://localhost:3000/security-test?input='; DROP TABLE users; --" | head -5 || true
+	@echo "🔍 Testing path traversal protection..."
+	@curl -s "http://localhost:3000/security-test?file=../../../etc/passwd" | head -5 || true
+	@echo "🛑 Stopping demo server..."
+	@kill $$DEMO_PID 2>/dev/null || true
+
+aikido-status:
+	@echo "🛡️ Checking Aikido configuration..."
+	@if [ -f "aikido.json" ]; then \
+		echo "✅ Configuration file found: aikido.json"; \
+	else \
+		echo "❌ Configuration file not found"; \
+	fi
+	@echo "📦 Checking Aikido package..."
+	@npm list @aikidosec/firewall 2>/dev/null | grep firewall || echo "❌ Aikido firewall not installed"
+	@echo "🔧 Environment variables:"
+	@echo "  AIKIDO_BLOCK: $${AIKIDO_BLOCK:-not set}"
+	@echo "  AIKIDO_DEBUG: $${AIKIDO_DEBUG:-not set}"
+	@echo "  AIKIDO_TOKEN: $${AIKIDO_TOKEN:+configured}"
+	@echo "🧪 Testing import..."
+	@AIKIDO_BLOCK=true node -e "require('@aikidosec/firewall'); console.log('✅ Aikido can be imported successfully');" 2>/dev/null || echo "❌ Failed to import Aikido"
 
 # Linting Commands
 lint:

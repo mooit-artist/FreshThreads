@@ -1,0 +1,238 @@
+# Security Onion Docker Compose Configuration
+# Security monitoring and analysis platform for FreshThreads
+#
+# Security Onion provides:
+# - Network Security Monitoring (NSM)
+# - Intrusion Detection System (IDS)
+# - Log Management and Analysis
+# - SIEM capabilities
+# - Threat Hunting tools
+
+services:
+  # Elasticsearch for log storage and analysis
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: freshthreads-elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=security-onion-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - 'ES_JAVA_OPTS=-Xms2g -Xmx2g'
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+      - http.cors.allow-credentials=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - ./security-onion/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    networks:
+      - security-onion-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Kibana for visualization and dashboards
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: freshthreads-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - SERVER_NAME=kibana
+      - SERVER_HOST=0.0.0.0
+      - XPACK_SECURITY_ENABLED=false
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${KIBANA_ENCRYPTION_KEY:-defaultkey123456789012345678901234567890}
+    ports:
+      - '5601:5601'
+    volumes:
+      - ./security-onion/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      - kibana_data:/usr/share/kibana/data
+    networks:
+      - security-onion-network
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:5601/api/status || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Logstash for log processing and parsing
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    container_name: freshthreads-logstash
+    environment:
+      - 'LS_JAVA_OPTS=-Xmx1g -Xms1g'
+      - XPACK_MONITORING_ENABLED=false
+    volumes:
+      - ./security-onion/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./security-onion/logstash/config:/usr/share/logstash/config:ro
+      - logstash_data:/usr/share/logstash/data
+      - /var/log:/host/var/log:ro
+      - /var/lib/docker/containers:/host/var/lib/docker/containers:ro
+    ports:
+      - '5044:5044' # Beats input
+      - '9600:9600' # Logstash monitoring
+      - '5000:5000' # TCP input
+    networks:
+      - security-onion-network
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:9600/_node/stats || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Suricata IDS for network intrusion detection
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: freshthreads-suricata
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - SYS_NICE
+    volumes:
+      - ./security-onion/suricata/suricata.yaml:/etc/suricata/suricata.yaml:ro
+      - ./security-onion/suricata/rules:/var/lib/suricata/rules:ro
+      - suricata_logs:/var/log/suricata
+      - ./security-onion/suricata/etc:/etc/suricata:ro
+    environment:
+      - SURICATA_OPTIONS=-i any
+    restart: unless-stopped
+    depends_on:
+      - logstash
+
+  # Filebeat for log shipping
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.11.0
+    container_name: freshthreads-filebeat
+    user: root
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch:9200
+      - LOGSTASH_HOST=logstash:5044
+    volumes:
+      - ./security-onion/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/log:/host/var/log:ro
+      - /var/lib/docker/containers:/host/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - suricata_logs:/host/var/log/suricata:ro
+      - filebeat_data:/usr/share/filebeat/data
+    networks:
+      - security-onion-network
+    depends_on:
+      logstash:
+        condition: service_healthy
+    restart: unless-stopped
+    command: >
+      bash -c "
+        filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=[\"elasticsearch:9200\"]' &&
+        filebeat -e
+      "
+
+  # Zeek (formerly Bro) for network analysis
+  zeek:
+    image: blacktop/zeek:latest
+    container_name: freshthreads-zeek
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - ./security-onion/zeek/site:/usr/local/zeek/share/zeek/site:ro
+      - zeek_logs:/usr/local/zeek/logs
+      - zeek_spool:/usr/local/zeek/spool
+    environment:
+      - ZEEK_INTERFACE=any
+    restart: unless-stopped
+    depends_on:
+      - logstash
+
+  # NGINX reverse proxy for secure access
+  security-proxy:
+    image: nginx:alpine
+    container_name: freshthreads-security-proxy
+    ports:
+      - '8443:443'
+      - '8080:80'
+    volumes:
+      - ./security-onion/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./security-onion/nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - security-onion-network
+    depends_on:
+      - kibana
+      - elasticsearch
+    restart: unless-stopped
+
+  # Security Onion Manager (custom orchestration)
+  so-manager:
+    build:
+      context: ./security-onion/manager
+      dockerfile: Dockerfile
+    container_name: freshthreads-so-manager
+    environment:
+      - SO_ELASTICSEARCH_HOST=elasticsearch:9200
+      - SO_KIBANA_HOST=kibana:5601
+      - SO_LOGSTASH_HOST=logstash:5044
+    volumes:
+      - ./security-onion/manager/scripts:/opt/so-manager/scripts:ro
+      - ./security-onion/manager/config:/opt/so-manager/config:ro
+      - so_manager_data:/opt/so-manager/data
+    networks:
+      - security-onion-network
+    depends_on:
+      - elasticsearch
+      - kibana
+      - logstash
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'python3', '/opt/so-manager/scripts/health_check.py']
+      interval: 60s
+      timeout: 30s
+      retries: 3
+      start_period: 120s
+
+networks:
+  security-onion-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  elasticsearch_data:
+    driver: local
+  kibana_data:
+    driver: local
+  logstash_data:
+    driver: local
+  filebeat_data:
+    driver: local
+  suricata_logs:
+    driver: local
+  zeek_logs:
+    driver: local
+  zeek_spool:
+    driver: local
+  so_manager_data:
+    driver: local

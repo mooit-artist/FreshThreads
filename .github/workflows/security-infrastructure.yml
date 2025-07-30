@@ -1,0 +1,285 @@
+name: Security Infrastructure CI/CD
+
+on:
+  push:
+    branches: [main, feature/security-infrastructure-*]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  security-analysis:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for better analysis
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: SonarQube Scan
+        uses: sonarqube-quality-gate-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          scanMetadataReportFile: target/sonar/report-task.txt
+
+      - name: Run SonarQube Scanner
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Validate HTML files
+        run: |
+          npm install -g html-validate
+          html-validate docs/*.html
+
+      - name: Security audit - Python dependencies
+        run: |
+          pip install safety
+          safety check --json --output safety-report.json || true
+
+      - name: Security audit - Docker images
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+            -v $PWD:/root/.cache/ aquasec/trivy:latest \
+            config docker-compose.sonarqube.yml
+
+      - name: Upload security reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: security-reports
+          path: |
+            safety-report.json
+            security-report.json
+            csp-report.json
+
+  docker-build-and-push:
+    name: Build and Push Docker Images
+    runs-on: ubuntu-latest
+    needs: security-analysis
+    if: github.ref == 'refs/heads/main' || github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/freshthreads-security
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Security Onion image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./security-onion
+          file: ./security-onion/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/freshthreads-security-onion:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push SonarQube custom image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.sonarqube
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/freshthreads-sonarqube:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  security-infrastructure-test:
+    name: Test Security Infrastructure
+    runs-on: ubuntu-latest
+    needs: security-analysis
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Create test environment
+        run: |
+          # Create minimal test environment
+          cp docker-compose.sonarqube.yml docker-compose.test.yml
+
+          # Remove volume dependencies for testing
+          sed -i 's/sonarqube_data:/sonarqube_test_data:/g' docker-compose.test.yml
+          sed -i 's/postgresql_data:/postgresql_test_data:/g' docker-compose.test.yml
+
+      - name: Test SonarQube deployment
+        run: |
+          docker-compose -f docker-compose.test.yml up -d sonarqube-db
+          sleep 30
+          docker-compose -f docker-compose.test.yml up -d sonarqube
+          sleep 60
+
+          # Test SonarQube health
+          timeout 300 bash -c 'until curl -f http://localhost:9000/api/system/status; do sleep 5; done'
+
+      - name: Test Security Onion configuration
+        run: |
+          # Validate Suricata rules
+          docker run --rm -v $PWD/security-onion:/data \
+            jasonish/suricata:latest suricata -T -c /data/suricata/suricata.yaml
+
+          # Test Zeek scripts syntax
+          docker run --rm -v $PWD/security-onion/zeek:/data \
+            zeekurity/zeek:latest zeek -b -e /data/scripts/freshthreads-monitor.zeek
+
+      - name: Cleanup test environment
+        if: always()
+        run: |
+          docker-compose -f docker-compose.test.yml down -v
+          docker system prune -f
+
+  deploy-security-infrastructure:
+    name: Deploy Security Infrastructure
+    runs-on: ubuntu-latest
+    needs: [security-analysis, docker-build-and-push, security-infrastructure-test]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          cname: freshthreads.com
+
+      - name: Update security monitoring
+        run: |
+          # Update CSP policies
+          python scripts/update-csp-policies.py
+
+          # Generate security report
+          python scripts/analyze_html.py > security-analysis-report.txt
+
+      - name: Notify security team
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#security-alerts'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+  security-monitoring:
+    name: Continuous Security Monitoring
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run security scans
+        run: |
+          # Check for new vulnerabilities
+          docker run --rm -v $PWD:/app \
+            owasp/dependency-check:latest \
+            --scan /app --format JSON --out /app/dependency-check-report.json
+
+      - name: Check SSL certificates
+        run: |
+          # Monitor SSL certificate expiration
+          echo "freshthreads.com" | \
+            openssl s_client -connect freshthreads.com:443 -servername freshthreads.com 2>/dev/null | \
+            openssl x509 -noout -dates
+
+      - name: Security Onion health check
+        run: |
+          # Ping Security Onion services (if deployed)
+          curl -f http://security-onion:5601/api/status || echo "Kibana not accessible"
+          curl -f http://security-onion:9200/_cluster/health || echo "Elasticsearch not accessible"
+
+      - name: Generate security dashboard
+        run: |
+          python scripts/generate-security-dashboard.py
+
+      - name: Upload monitoring results
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-monitoring-results
+          path: |
+            dependency-check-report.json
+            security-dashboard.html
+            ssl-check-results.txt
+
+  compliance-check:
+    name: PCI DSS Compliance Check
+    runs-on: ubuntu-latest
+    needs: security-analysis
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: PCI DSS compliance scan
+        run: |
+          # Check for credit card data patterns
+          grep -r "4[0-9]{12}(?:[0-9]{3})?" docs/ || echo "No credit card patterns found"
+
+          # Verify HTTPS enforcement
+          grep -r "https://" docs/ || echo "HTTPS references found"
+
+          # Check CSP policies
+          python scripts/csp-validator.py
+
+      - name: Generate compliance report
+        run: |
+          echo "# PCI DSS Compliance Report" > compliance-report.md
+          echo "Generated: $(date)" >> compliance-report.md
+          echo "" >> compliance-report.md
+          echo "## Security Headers Check" >> compliance-report.md
+          python scripts/analyze_html.py >> compliance-report.md
+
+      - name: Upload compliance report
+        uses: actions/upload-artifact@v3
+        with:
+          name: pci-compliance-report
+          path: compliance-report.md

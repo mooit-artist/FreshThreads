@@ -124,13 +124,26 @@ run_analysis() {
     # Use internal Docker network URL for scanner
     SONAR_INTERNAL_URL="http://sonarqube:9000"
 
+    # Get or generate token
+    if [[ -z "${SONAR_TOKEN:-}" ]]; then
+        print_status "Generating SonarQube token..."
+        SONAR_TOKEN=$(curl -s -u admin:admin "$SONAR_URL/api/user_tokens/generate" -X POST -d 'name=freshthreads-analysis' | jq -r '.token' 2>/dev/null)
+        if [[ -z "$SONAR_TOKEN" || "$SONAR_TOKEN" == "null" ]]; then
+            print_warning "Could not generate token, using default credentials"
+            SONAR_AUTH_PARAMS="-Dsonar.login=admin -Dsonar.password=admin"
+        else
+            SONAR_AUTH_PARAMS="-Dsonar.token=$SONAR_TOKEN"
+        fi
+    else
+        SONAR_AUTH_PARAMS="-Dsonar.token=$SONAR_TOKEN"
+    fi
+
     if docker-compose -f "$SONAR_COMPOSE_FILE" run --rm sonar-scanner \
         sonar-scanner \
         -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
         -Dsonar.sources=. \
         -Dsonar.host.url="$SONAR_INTERNAL_URL" \
-        -Dsonar.login=admin \
-        -Dsonar.password=admin \
+        $SONAR_AUTH_PARAMS \
         -Dsonar.projectBaseDir=/usr/src; then
 
         print_success "Code analysis completed successfully"
