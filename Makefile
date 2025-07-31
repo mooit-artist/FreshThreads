@@ -1325,26 +1325,14 @@ branch-protect:
 	fi
 	@echo "🔒 Enabling branch protection rules..."
 	@echo "⚠️  This requires admin permissions on the repository."
-	@gh api repos/mooit-artist/FreshThreads/branches/main/protection \
-		--method PUT \
-		--input - <<< '{ \
-			"required_status_checks": { \
-				"strict": true, \
-				"contexts": [] \
-			}, \
-			"enforce_admins": true, \
-			"required_pull_request_reviews": { \
-				"required_approving_review_count": 1, \
-				"dismiss_stale_reviews": true, \
-				"require_code_owner_reviews": false \
-			}, \
-			"restrictions": null \
-		}' && echo "✅ Branch protection enabled!" || echo "❌ Failed to set branch protection. You need admin access."
+	@echo '{"required_status_checks":null,"required_pull_request_reviews":{"required_approving_review_count":1},"enforce_admins":true,"restrictions":null}' | \
+		gh api repos/mooit-artist/FreshThreads/branches/main/protection --method PUT --input - > /dev/null && \
+		echo "✅ Branch protection enabled!" || echo "❌ Failed to set branch protection. You need admin access."
 	@echo "📋 Protection rules applied:"
 	@echo "   • Require pull request reviews (1 approving review)"
-	@echo "   • Dismiss stale reviews when new commits are pushed"
 	@echo "   • Enforce restrictions for administrators"
-	@echo "   • Require status checks to pass"
+	@echo "   • Direct commits to main are now blocked"
+	@echo "   • Changes must be made through pull requests"
 
 branch-protect-status:
 	@echo "🛡️  Checking branch protection status..."
@@ -1353,9 +1341,17 @@ branch-protect-status:
 		exit 1; \
 	fi
 	@echo "🔍 Main branch protection status:"
-	@gh api repos/mooit-artist/FreshThreads/branches/main/protection 2>/dev/null | jq -r '.required_pull_request_reviews // "No protection rules found"' || echo "❌ Branch is not protected - direct commits are allowed!"
-	@echo ""
-	@echo "💡 To enable protection: make branch-protect"
+	@if gh api repos/mooit-artist/FreshThreads/branches/main/protection >/dev/null 2>&1; then \
+		echo "✅ Branch protection is ENABLED"; \
+		echo "📋 Protection details:"; \
+		gh api repos/mooit-artist/FreshThreads/branches/main/protection | jq -r '.required_pull_request_reviews // "No PR review requirements"'; \
+		echo "🔒 Direct commits to main are BLOCKED"; \
+		echo "🔀 Changes must be made through pull requests"; \
+	else \
+		echo "❌ Branch protection is DISABLED"; \
+		echo "⚠️  Direct commits to main are ALLOWED"; \
+		echo "💡 To enable protection: make branch-protect"; \
+	fi
 
 branch-protect-disable:
 	@echo "🛡️  Disabling branch protection for main branch..."
