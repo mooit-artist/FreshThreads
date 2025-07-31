@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels pr-create pr-list pr-view pr-merge pr-status pr-help
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels pr-create pr-list pr-view pr-merge pr-status pr-help branch-protect branch-protect-status branch-protect-disable
 
 # Default target
 help:
@@ -143,6 +143,11 @@ help:
 	@echo "  make pr-merge NUM=<n>     - Merge pull request"
 	@echo "  make pr-status            - Show pull request statistics"
 	@echo "  make pr-help              - Show detailed PR management help"
+	@echo ""
+	@echo "🛡️  Branch Protection Commands:"
+	@echo "  make branch-protect       - Enable branch protection on main"
+	@echo "  make branch-protect-status - Check branch protection status"
+	@echo "  make branch-protect-disable - Disable branch protection (admin only)"
 	@echo ""
 	@echo "🚀 Combined Workflows:"
 	@echo "  make llm-full-setup - Complete LLM development environment setup"
@@ -1310,3 +1315,59 @@ pr-help:
 	@echo "  make pr-create TITLE='Add user authentication' REVIEWERS='@teammate'"
 	@echo "  make pr-view NUM=5"
 	@echo "  make pr-merge NUM=5"
+
+# GitHub Branch Protection Commands
+branch-protect:
+	@echo "🛡️  Setting up branch protection for main branch..."
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		exit 1; \
+	fi
+	@echo "🔒 Enabling branch protection rules..."
+	@echo "⚠️  This requires admin permissions on the repository."
+	@gh api repos/mooit-artist/FreshThreads/branches/main/protection \
+		--method PUT \
+		--input - <<< '{ \
+			"required_status_checks": { \
+				"strict": true, \
+				"contexts": [] \
+			}, \
+			"enforce_admins": true, \
+			"required_pull_request_reviews": { \
+				"required_approving_review_count": 1, \
+				"dismiss_stale_reviews": true, \
+				"require_code_owner_reviews": false \
+			}, \
+			"restrictions": null \
+		}' && echo "✅ Branch protection enabled!" || echo "❌ Failed to set branch protection. You need admin access."
+	@echo "📋 Protection rules applied:"
+	@echo "   • Require pull request reviews (1 approving review)"
+	@echo "   • Dismiss stale reviews when new commits are pushed"
+	@echo "   • Enforce restrictions for administrators"
+	@echo "   • Require status checks to pass"
+
+branch-protect-status:
+	@echo "🛡️  Checking branch protection status..."
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		exit 1; \
+	fi
+	@echo "🔍 Main branch protection status:"
+	@gh api repos/mooit-artist/FreshThreads/branches/main/protection 2>/dev/null | jq -r '.required_pull_request_reviews // "No protection rules found"' || echo "❌ Branch is not protected - direct commits are allowed!"
+	@echo ""
+	@echo "💡 To enable protection: make branch-protect"
+
+branch-protect-disable:
+	@echo "🛡️  Disabling branch protection for main branch..."
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		exit 1; \
+	fi
+	@echo "⚠️  WARNING: This will allow direct commits to main branch!"
+	@read -p "Are you sure you want to disable branch protection? (y/N): " CONFIRM; \
+	if [ "$$CONFIRM" = "y" ] || [ "$$CONFIRM" = "Y" ]; then \
+		gh api repos/mooit-artist/FreshThreads/branches/main/protection --method DELETE --silent || echo "❌ Failed to disable protection. Check your permissions."; \
+		echo "✅ Branch protection disabled. Direct commits to main are now allowed."; \
+	else \
+		echo "❌ Operation cancelled"; \
+	fi
