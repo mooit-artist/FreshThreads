@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment
 
 # Default target
 help:
@@ -115,6 +115,22 @@ help:
 	@echo "  make sonar-cleanup        - Clean up SonarQube data"
 	@echo "  make sonar-logs           - View SonarQube logs"
 	@echo "  make sonar-backup         - Backup SonarQube data"
+	@echo ""
+	@echo "🔗 GitHub Issue Management Commands:"
+	@echo "  make issue-list           - List all GitHub issues"
+	@echo "  make issue-view NUM=<n>   - View specific issue details"
+	@echo "  make issue-create         - Create new issue (interactive)"
+	@echo "  make issue-assign NUM=<n> - Assign issue to yourself"
+	@echo "  make issue-comment NUM=<n> COMMENT='...' - Add comment to issue"
+	@echo "  make issue-close NUM=<n>  - Close issue"
+	@echo "  make issue-labels NUM=<n> LABELS='...' - Add labels to issue"
+	@echo "  make issue-status         - Show issue statistics"
+	@echo "  make issue-help           - Show detailed issue management help"
+	@echo ""
+	@echo "📋 Quick Issue Templates (Interactive):"
+	@echo "  make issue-feature        - Create feature request (prompts for input)"
+	@echo "  make issue-bug            - Create bug report (prompts for input)"
+	@echo "  make issue-deployment     - Create deployment task (prompts for input)"
 	@echo ""
 	@echo "🚀 Combined Workflows:"
 	@echo "  make llm-full-setup - Complete LLM development environment setup"
@@ -980,3 +996,153 @@ sonar-logs:
 sonar-backup:
 	@echo "📊 Creating SonarQube backup..."
 	@./scripts/sonarqube-manager.sh backup
+
+# GitHub Issue Management Commands
+issue-list:
+	@echo "📋 Listing GitHub issues..."
+	@gh issue list
+
+issue-view:
+	@if [ -z "$(NUM)" ]; then \
+		echo "❌ Please specify issue number: make issue-view NUM=1"; \
+		exit 1; \
+	fi
+	@echo "👁️  Viewing issue #$(NUM)..."
+	@gh issue view $(NUM)
+
+issue-create:
+	@if [ -z "$(TITLE)" ]; then \
+		read -p "📝 Enter issue title: " ISSUE_TITLE; \
+	else \
+		ISSUE_TITLE="$(TITLE)"; \
+	fi; \
+	if [ -z "$(BODY)" ]; then \
+		read -p "📄 Enter issue description: " ISSUE_BODY; \
+		if [ -z "$$ISSUE_BODY" ]; then \
+			ISSUE_BODY="## Description\n\n[Add description here]\n\n## Acceptance Criteria\n\n- [ ] Criterion 1\n- [ ] Criterion 2"; \
+		fi; \
+	else \
+		ISSUE_BODY="$(BODY)"; \
+	fi; \
+	echo "🆕 Creating new issue..."; \
+	gh issue create --title "$$ISSUE_TITLE" --body "$$ISSUE_BODY" --label "$(if $(LABEL),$(LABEL),enhancement)"
+
+issue-assign:
+	@if [ -z "$(NUM)" ]; then \
+		echo "❌ Please specify issue number: make issue-assign NUM=1"; \
+		exit 1; \
+	fi
+	@echo "👤 Assigning issue #$(NUM) to yourself..."
+	@gh issue edit $(NUM) --add-assignee @me
+
+issue-comment:
+	@if [ -z "$(NUM)" ] || [ -z "$(COMMENT)" ]; then \
+		echo "❌ Usage: make issue-comment NUM=1 COMMENT='Working on this'"; \
+		exit 1; \
+	fi
+	@echo "💬 Adding comment to issue #$(NUM)..."
+	@gh issue comment $(NUM) --body "$(COMMENT)"
+
+issue-close:
+	@if [ -z "$(NUM)" ]; then \
+		echo "❌ Please specify issue number: make issue-close NUM=1"; \
+		exit 1; \
+	fi
+	@echo "✅ Closing issue #$(NUM)..."
+	@gh issue close $(NUM) --comment "$(if $(COMMENT),$(COMMENT),Completed)"
+
+issue-labels:
+	@if [ -z "$(NUM)" ] || [ -z "$(LABELS)" ]; then \
+		echo "❌ Usage: make issue-labels NUM=1 LABELS='bug,urgent'"; \
+		exit 1; \
+	fi
+	@echo "🏷️  Adding labels to issue #$(NUM)..."
+	@gh issue edit $(NUM) --add-label "$(LABELS)"
+
+issue-status:
+	@echo "📊 Issue summary:"
+	@echo "🔓 Open issues: $(shell gh issue list --state=open --json number | jq length)"
+	@echo "✅ Closed issues: $(shell gh issue list --state=closed --json number | jq length)"
+	@echo ""
+	@echo "📋 Recent issues:"
+	@gh issue list --limit 5
+
+# Issue creation help and examples
+issue-help:
+	@echo "🔗 GitHub Issue Management Help"
+	@echo ""
+	@echo "📋 Basic Commands:"
+	@echo "  make issue-list                    - List all issues"
+	@echo "  make issue-view NUM=1              - View specific issue"
+	@echo "  make issue-assign NUM=1            - Assign issue to yourself"
+	@echo "  make issue-close NUM=1             - Close an issue"
+	@echo ""
+	@echo "🆕 Creating Issues (Interactive):"
+	@echo "  make issue-create                  - Create any type of issue (prompts for input)"
+	@echo "  make issue-feature                 - Create feature request (prompts for input)"
+	@echo "  make issue-bug                     - Create bug report (prompts for input)"
+	@echo "  make issue-deployment              - Create deployment task (prompts for input)"
+	@echo ""
+	@echo "🆕 Creating Issues (Command Line):"
+	@echo "  make issue-feature TITLE='Shopping Cart' DESC='Add cart functionality'"
+	@echo "  make issue-bug TITLE='Login Error' DESC='Users cannot log in'"
+	@echo "  make issue-deployment TITLE='Deploy v1.2' DESC='Deploy new features'"
+	@echo ""
+	@echo "💬 Managing Issues:"
+	@echo "  make issue-comment NUM=1 COMMENT='Working on this now'"
+	@echo "  make issue-labels NUM=1 LABELS='urgent,frontend'"
+	@echo "  make issue-close NUM=1 COMMENT='Fixed in commit abc123'"
+	@echo ""
+	@echo "📊 Status and Reporting:"
+	@echo "  make issue-status                  - Show issue statistics"
+	@echo "  make issue-help                    - Show this help"
+
+# Quick issue creation templates
+issue-feature:
+	@echo "🚀 Creating feature request..."
+	@if [ -z "$(TITLE)" ]; then \
+		read -p "📝 Enter feature title: " FEATURE_TITLE; \
+	else \
+		FEATURE_TITLE="$(TITLE)"; \
+	fi; \
+	if [ -z "$(DESC)" ]; then \
+		read -p "📄 Enter feature description: " FEATURE_DESC; \
+	else \
+		FEATURE_DESC="$(DESC)"; \
+	fi; \
+	gh issue create --title "[FEATURE] $$FEATURE_TITLE" \
+		--body "## Feature Description\n\n**What feature would you like to see added?**\n$$FEATURE_DESC\n\n**Why is this feature needed?**\n[Explain the problem this solves]\n\n**How should it work?**\n[Describe the expected behavior]\n\n## Acceptance Criteria\n\n- [ ] Feature requirement 1\n- [ ] Feature requirement 2\n- [ ] Feature requirement 3\n\n## Priority\n\n- [ ] High\n- [ ] Medium\n- [ ] Low" \
+		--label "enhancement,feature-request"
+
+issue-bug:
+	@echo "🐛 Creating bug report..."
+	@if [ -z "$(TITLE)" ]; then \
+		read -p "📝 Enter bug title: " BUG_TITLE; \
+	else \
+		BUG_TITLE="$(TITLE)"; \
+	fi; \
+	if [ -z "$(DESC)" ]; then \
+		read -p "📄 Enter bug description: " BUG_DESC; \
+	else \
+		BUG_DESC="$(DESC)"; \
+	fi; \
+	gh issue create --title "[BUG] $$BUG_TITLE" \
+		--body "## Bug Description\n\n**Describe the bug**\n$$BUG_DESC\n\n**To Reproduce**\n1. Go to '...'\n2. Click on '....'\n3. Scroll down to '....'\n4. See error\n\n**Expected behavior**\n[What you expected to happen]\n\n**Screenshots**\n[If applicable, add screenshots]\n\n**Environment:**\n- Browser: [e.g. Chrome, Safari]\n- Version: [e.g. 22]\n- Device: [e.g. iPhone6]\n\n**Additional context**\n[Any other context about the problem]" \
+		--label "bug"
+
+# GitHub Pages and deployment related issue templates
+issue-deployment:
+	@echo "🚀 Creating deployment issue..."
+	@if [ -z "$(TITLE)" ]; then \
+		read -p "📝 Enter deployment title: " DEPLOY_TITLE; \
+	else \
+		DEPLOY_TITLE="$(TITLE)"; \
+	fi; \
+	if [ -z "$(DESC)" ]; then \
+		read -p "📄 Enter deployment description: " DEPLOY_DESC; \
+	else \
+		DEPLOY_DESC="$(DESC)"; \
+	fi; \
+	gh issue create --title "[DEPLOYMENT] $$DEPLOY_TITLE" \
+		--body "## Deployment Description\n\n**What needs to be deployed?**\n$$DEPLOY_DESC\n\n**Deployment Steps**\n\n- [ ] Step 1\n- [ ] Step 2\n- [ ] Step 3\n\n**Rollback Plan**\n\n- [ ] Rollback step 1\n- [ ] Rollback step 2\n\n**Testing Checklist**\n\n- [ ] Functionality test\n- [ ] Performance test\n- [ ] Security test" \
+		--label "deployment,infrastructure"
