@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels pr-create pr-list pr-view pr-merge pr-status pr-help
 
 # Default target
 help:
@@ -135,6 +135,14 @@ help:
 	@echo "🏷️  Label Management:"
 	@echo "  make issue-setup-labels   - Create standard GitHub issue labels"
 	@echo "  make issue-list-labels    - List all available labels"
+	@echo ""
+	@echo "🔀 GitHub Pull Request Management Commands:"
+	@echo "  make pr-create            - Create pull request (interactive)"
+	@echo "  make pr-list              - List all pull requests"
+	@echo "  make pr-view NUM=<n>      - View specific pull request details"
+	@echo "  make pr-merge NUM=<n>     - Merge pull request"
+	@echo "  make pr-status            - Show pull request statistics"
+	@echo "  make pr-help              - Show detailed PR management help"
 	@echo ""
 	@echo "🚀 Combined Workflows:"
 	@echo "  make llm-full-setup - Complete LLM development environment setup"
@@ -1172,3 +1180,133 @@ issue-setup-labels:
 issue-list-labels:
 	@echo "🏷️  Available labels:"
 	@gh label list
+
+# GitHub Pull Request Management Commands
+pr-create:
+	@echo "🔀 Creating pull request..."
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		echo "   Visit: https://cli.github.com"; \
+		exit 1; \
+	fi
+	@echo "🔍 Checking if we're on a feature branch..."
+	@CURRENT_BRANCH=$$(git branch --show-current); \
+	if [ "$$CURRENT_BRANCH" = "main" ]; then \
+		echo "❌ Cannot create PR from main branch. Please create a feature branch first."; \
+		exit 1; \
+	fi; \
+	echo "📋 Current branch: $$CURRENT_BRANCH"; \
+	echo "🔄 Checking if branch is pushed to remote..."; \
+	if ! git ls-remote --exit-code --heads origin "$$CURRENT_BRANCH" >/dev/null 2>&1; then \
+		echo "📤 Branch not found on remote. Pushing to origin..."; \
+		git push -u origin "$$CURRENT_BRANCH"; \
+	fi; \
+	if [ -z "$(TITLE)" ]; then \
+		echo "💡 Generating smart title from recent commits..."; \
+		SUGGESTED_TITLE=$$(git log --oneline -1 --pretty=format:"%s" | sed 's/^[A-Z]*: *//'); \
+		read -p "📝 Enter PR title (or press Enter for: $$SUGGESTED_TITLE): " PR_TITLE; \
+		if [ -z "$$PR_TITLE" ]; then \
+			PR_TITLE="$$SUGGESTED_TITLE"; \
+		fi; \
+	else \
+		PR_TITLE="$(TITLE)"; \
+	fi; \
+	if [ -z "$(BODY)" ]; then \
+		echo "📄 Generating PR description from commits..."; \
+		COMMIT_LIST=$$(git log --oneline origin/main..HEAD --pretty=format:"- %s"); \
+		DEFAULT_BODY="## Changes\n\n$$COMMIT_LIST\n\n## Testing\n\n- [ ] Manual testing completed\n- [ ] All tests pass\n\n## Checklist\n\n- [ ] Code follows project style guidelines\n- [ ] Self-review completed\n- [ ] Documentation updated if needed"; \
+		read -p "📄 Enter PR description (or press Enter for auto-generated): " PR_BODY; \
+		if [ -z "$$PR_BODY" ]; then \
+			PR_BODY="$$DEFAULT_BODY"; \
+		fi; \
+	else \
+		PR_BODY="$(BODY)"; \
+	fi; \
+	echo "🚀 Creating pull request..."; \
+	PR_URL=$$(gh pr create --title "$$PR_TITLE" --body "$$PR_BODY" $(if $(REVIEWERS),--reviewer "$(REVIEWERS)",) $(if $(LABELS),--label "$(LABELS)",)); \
+	echo "✅ Pull request created: $$PR_URL"
+
+pr-list:
+	@echo "📋 Listing pull requests..."
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		exit 1; \
+	fi
+	@gh pr list
+
+pr-view:
+	@if [ -z "$(NUM)" ]; then \
+		echo "❌ Please specify PR number: make pr-view NUM=1"; \
+		exit 1; \
+	fi
+	@echo "👁️  Viewing pull request #$(NUM)..."
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		exit 1; \
+	fi
+	@gh pr view $(NUM)
+
+pr-merge:
+	@if [ -z "$(NUM)" ]; then \
+		echo "❌ Please specify PR number: make pr-merge NUM=1"; \
+		exit 1; \
+	fi
+	@echo "🔀 Merging pull request #$(NUM)..."
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		exit 1; \
+	fi
+	@echo "⚠️  This will merge PR #$(NUM) into main branch."
+	@read -p "Are you sure? (y/N): " CONFIRM; \
+	if [ "$$CONFIRM" = "y" ] || [ "$$CONFIRM" = "Y" ]; then \
+		gh pr merge $(NUM) --squash --delete-branch; \
+		echo "✅ Pull request #$(NUM) merged and branch deleted"; \
+	else \
+		echo "❌ Merge cancelled"; \
+	fi
+
+pr-status:
+	@echo "📊 Pull request summary:"
+	@if ! command -v gh >/dev/null 2>&1; then \
+		echo "❌ GitHub CLI not found. Please install GitHub CLI first."; \
+		exit 1; \
+	fi
+	@echo "🔓 Open PRs: $$(gh pr list --state=open --json number | jq length)"
+	@echo "✅ Merged PRs: $$(gh pr list --state=merged --json number | jq length)"
+	@echo "❌ Closed PRs: $$(gh pr list --state=closed --json number | jq length)"
+	@echo ""
+	@echo "📋 Recent pull requests:"
+	@gh pr list --limit 5
+
+pr-help:
+	@echo "🔀 GitHub Pull Request Management Help"
+	@echo ""
+	@echo "📋 Basic Commands:"
+	@echo "  make pr-list                       - List all pull requests"
+	@echo "  make pr-view NUM=1                 - View specific pull request"
+	@echo "  make pr-merge NUM=1                - Merge pull request (with confirmation)"
+	@echo "  make pr-status                     - Show pull request statistics"
+	@echo ""
+	@echo "🆕 Creating Pull Requests:"
+	@echo "  make pr-create                     - Create PR (interactive with smart defaults)"
+	@echo "  make pr-create TITLE='Feature X'   - Create PR with custom title"
+	@echo "  make pr-create REVIEWERS='@user1,@user2' - Create PR with reviewers"
+	@echo "  make pr-create LABELS='feature,urgent' - Create PR with labels"
+	@echo ""
+	@echo "💡 Smart Features:"
+	@echo "  • Auto-detects if you're on main branch (prevents PR creation)"
+	@echo "  • Auto-pushes branch to remote if not already pushed"
+	@echo "  • Generates smart title from recent commit messages"
+	@echo "  • Creates description with commit list and checklist"
+	@echo "  • Supports custom titles, reviewers, and labels"
+	@echo ""
+	@echo "🔄 Workflow Integration:"
+	@echo "  1. Work on feature branch"
+	@echo "  2. Commit and push changes"
+	@echo "  3. Run 'make pr-create' to create pull request"
+	@echo "  4. Use 'make pr-merge NUM=X' when ready to merge"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make pr-create TITLE='Add user authentication' REVIEWERS='@teammate'"
+	@echo "  make pr-view NUM=5"
+	@echo "  make pr-merge NUM=5"
