@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels pr-create pr-list pr-view pr-merge pr-status pr-help branch-protect branch-protect-status branch-protect-disable
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status aikido-scan aikido-scan-cli aikido-scan-release aikido-setup-cli csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels pr-create pr-list pr-view pr-merge pr-status pr-help branch-protect branch-protect-status branch-protect-disable
 
 # Default target
 help:
@@ -671,6 +671,80 @@ aikido-status:
 	@echo "  AIKIDO_TOKEN: $${AIKIDO_TOKEN:+configured}"
 	@echo "🧪 Testing import..."
 	@AIKIDO_BLOCK=true node -e "require('@aikidosec/firewall'); console.log('✅ Aikido can be imported successfully');" 2>/dev/null || echo "❌ Failed to import Aikido"
+
+# Aikido CLI Security Scanning Commands
+aikido-setup-cli:
+	@echo "🛡️ Setting up Aikido CLI for security scanning..."
+	@if ! command -v npx >/dev/null 2>&1; then \
+		echo "❌ npx not found. Please install Node.js first."; \
+		exit 1; \
+	fi
+	@echo "📦 Installing Aikido CI API client..."
+	@npm list -g @aikidosec/ci-api-client >/dev/null 2>&1 || npm install -g @aikidosec/ci-api-client
+	@echo "✅ Aikido CLI ready for security scanning"
+	@echo "💡 Configure API key with: npx @aikidosec/ci-api-client apikey <your-key>"
+
+aikido-scan-cli:
+	@echo "🔍 Running Aikido CLI security scan..."
+	@if ! command -v npx >/dev/null 2>&1; then \
+		echo "❌ npx not found. Please install Node.js first."; \
+		exit 1; \
+	fi
+	@if [ -z "$(REPO_ID)" ] || [ -z "$(BASE_COMMIT)" ] || [ -z "$(HEAD_COMMIT)" ]; then \
+		echo "❌ Missing required parameters. Usage:"; \
+		echo "   make aikido-scan-cli REPO_ID=<id> BASE_COMMIT=<base> HEAD_COMMIT=<head> [BRANCH=<branch>]"; \
+		echo ""; \
+		echo "Example:"; \
+		echo "   make aikido-scan-cli REPO_ID=12345 BASE_COMMIT=abc123 HEAD_COMMIT=def456 BRANCH=feature/security"; \
+		exit 1; \
+	fi
+	@echo "🔍 Scanning repository $(REPO_ID) from $(BASE_COMMIT) to $(HEAD_COMMIT)..."
+	@npx @aikidosec/ci-api-client scan $(REPO_ID) $(BASE_COMMIT) $(HEAD_COMMIT) $(if $(BRANCH),$(BRANCH),main) \
+		$(if $(MIN_SEVERITY),--minimum-severity-level $(MIN_SEVERITY),) \
+		$(if $(FAIL_ON_DEPS),--fail-on-dependency-scan,--no-fail-on-dependency-scan) \
+		$(if $(FAIL_ON_SAST),--fail-on-sast-scan,) \
+		$(if $(FAIL_ON_IAC),--fail-on-iac-scan,) \
+		$(if $(FAIL_ON_SECRETS),--fail-on-secrets-scan,)
+
+aikido-scan:
+	@echo "🔍 Running Aikido security scan with auto-detected commits..."
+	@if ! command -v npx >/dev/null 2>&1; then \
+		echo "❌ npx not found. Please install Node.js first."; \
+		exit 1; \
+	fi
+	@if [ -z "$(REPO_ID)" ]; then \
+		echo "❌ REPO_ID required. Usage: make aikido-scan REPO_ID=<repository_id>"; \
+		echo "💡 Find your repository ID in the Aikido dashboard"; \
+		exit 1; \
+	fi
+	@echo "🔍 Auto-detecting commit range..."
+	@BASE_COMMIT=$$(git merge-base origin/main HEAD); \
+	HEAD_COMMIT=$$(git rev-parse HEAD); \
+	CURRENT_BRANCH=$$(git branch --show-current); \
+	echo "📋 Scan parameters:"; \
+	echo "   Repository ID: $(REPO_ID)"; \
+	echo "   Base commit: $$BASE_COMMIT"; \
+	echo "   Head commit: $$HEAD_COMMIT"; \
+	echo "   Branch: $$CURRENT_BRANCH"; \
+	echo "🚀 Starting scan..."; \
+	npx @aikidosec/ci-api-client scan $(REPO_ID) $$BASE_COMMIT $$HEAD_COMMIT $$CURRENT_BRANCH \
+		--minimum-severity-level $(if $(MIN_SEVERITY),$(MIN_SEVERITY),MEDIUM) \
+		$(if $(FAIL_ON_DEPS),,--no-fail-on-dependency-scan)
+
+aikido-scan-release:
+	@echo "🚀 Running Aikido release scan..."
+	@if ! command -v npx >/dev/null 2>&1; then \
+		echo "❌ npx not found. Please install Node.js first."; \
+		exit 1; \
+	fi
+	@if [ -z "$(REPO_ID)" ]; then \
+		echo "❌ REPO_ID required. Usage: make aikido-scan-release REPO_ID=<repository_id> [COMMIT_ID=<commit>]"; \
+		exit 1; \
+	fi
+	@COMMIT_ID=$(if $(COMMIT_ID),$(COMMIT_ID),$$(git rev-parse HEAD)); \
+	echo "🔍 Running release scan for commit: $$COMMIT_ID"; \
+	npx @aikidosec/ci-api-client scan-release $(REPO_ID) $$COMMIT_ID \
+		--minimum-severity-level $(if $(MIN_SEVERITY),$(MIN_SEVERITY),HIGH)
 
 # Linting Commands
 lint:
