@@ -20,7 +20,9 @@ config/api-keys.json
 
 # Security Reports
 security-report.json
+security-reports/
 .snyk
+.aikido-last-scan
 
 # Database files
 *.db

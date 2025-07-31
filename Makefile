@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status aikido-scan aikido-scan-cli aikido-scan-release aikido-setup-cli csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels pr-create pr-list pr-view pr-merge pr-status pr-help branch-protect branch-protect-status branch-protect-disable
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate cve-scan cve-fix cve-report cve-monitor security-update aikido-demo aikido-test aikido-status aikido-scan aikido-scan-cli aikido-scan-release aikido-scan-availability aikido-setup-cli csp-add csp-check csp-validate csp-report hsts-add hsts-check hsts-validate hsts-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels pr-create pr-list pr-view pr-merge pr-status pr-help branch-protect branch-protect-status branch-protect-disable
 
 # Default target
 help:
@@ -635,6 +635,99 @@ security-validate:
 	@echo "🔒 Running comprehensive security validation..."
 	@./scripts/security-validation.sh
 
+# CVE Vulnerability Management Commands
+cve-scan:
+	@echo "🔍 Scanning for CVE vulnerabilities..."
+	@echo "📊 Running comprehensive CVE analysis..."
+	@mkdir -p security-reports
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Installing..."; \
+		npm install -g snyk; \
+	fi
+	@echo "🔍 Scanning dependencies for CVEs..."
+	@snyk test --severity-threshold=low --json > security-reports/cve-scan.json || true
+	@echo "🔍 Checking for specific CVE identifiers..."
+	@snyk test --print-deps | grep -i cve || echo "ℹ️  No specific CVE identifiers found in immediate output"
+	@echo "📋 Generating CVE summary..."
+	@if [ -f security-reports/cve-scan.json ]; then \
+		node -e "try { const data = require('./security-reports/cve-scan.json'); console.log('🎯 CVE Summary:'); console.log('  Total vulnerabilities:', data.vulnerabilities?.length || 0); data.vulnerabilities?.forEach(v => v.identifiers?.cve?.forEach(cve => console.log('  CVE:', cve))); } catch(e) { console.log('📋 Raw scan completed - check security-reports/cve-scan.json'); }" || true; \
+	fi
+	@echo "✅ CVE scan completed. Results in security-reports/cve-scan.json"
+
+cve-fix:
+	@echo "🔧 Attempting to fix CVE vulnerabilities..."
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Installing..."; \
+		npm install -g snyk; \
+	fi
+	@echo "🩹 Applying automatic CVE fixes..."
+	@snyk fix || echo "⚠️  Some CVEs may require manual intervention"
+	@echo "📦 Updating npm packages to latest secure versions..."
+	@npm audit fix --force || echo "⚠️  Some packages could not be automatically updated"
+	@echo "🔍 Running post-fix CVE scan..."
+	@$(MAKE) -s cve-scan
+	@echo "✅ CVE fix attempt completed"
+
+cve-report:
+	@echo "📋 Generating comprehensive CVE report..."
+	@mkdir -p security-reports
+	@echo "📊 Creating detailed vulnerability report..."
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Installing..."; \
+		npm install -g snyk; \
+	fi
+	@echo "🔍 Scanning for vulnerabilities..."
+	@snyk test --json > security-reports/cve-detailed.json || true
+	@snyk test --sarif > security-reports/cve-detailed.sarif || true
+	@echo "📊 Generating npm audit report..."
+	@npm audit --json > security-reports/npm-audit.json 2>/dev/null || true
+	@echo "📋 Creating human-readable CVE summary..."
+	@echo "# CVE Vulnerability Report" > security-reports/cve-summary.md
+	@echo "Generated: $$(date)" >> security-reports/cve-summary.md
+	@echo "" >> security-reports/cve-summary.md
+	@echo "## Summary" >> security-reports/cve-summary.md
+	@if [ -f security-reports/cve-detailed.json ]; then \
+		node -e "try { const data = require('./security-reports/cve-detailed.json'); console.log('- Total vulnerabilities found:', data.vulnerabilities?.length || 0); data.vulnerabilities?.slice(0,10).forEach(v => console.log('- ' + v.title + ' (Severity: ' + v.severity + ')')); } catch(e) { console.log('- Unable to parse detailed results'); }" >> security-reports/cve-summary.md || true; \
+	fi
+	@echo "✅ CVE reports generated in security-reports/"
+
+cve-monitor:
+	@echo "📊 Setting up CVE monitoring..."
+	@if ! command -v snyk >/dev/null 2>&1; then \
+		echo "❌ Snyk not found. Installing..."; \
+		npm install -g snyk; \
+	fi
+	@echo "🔍 Enabling continuous CVE monitoring..."
+	@snyk monitor
+	@echo "📋 Setting up GitHub Dependabot (if not already configured)..."
+	@mkdir -p .github
+	@if [ ! -f .github/dependabot.yml ]; then \
+		echo "Creating Dependabot configuration..."; \
+		echo "version: 2" > .github/dependabot.yml; \
+		echo "updates:" >> .github/dependabot.yml; \
+		echo "  - package-ecosystem: \"npm\"" >> .github/dependabot.yml; \
+		echo "    directory: \"/\"" >> .github/dependabot.yml; \
+		echo "    schedule:" >> .github/dependabot.yml; \
+		echo "      interval: \"weekly\"" >> .github/dependabot.yml; \
+		echo "    reviewers:" >> .github/dependabot.yml; \
+		echo "      - \"mooit-artist\"" >> .github/dependabot.yml; \
+		echo "✅ Dependabot configuration created"; \
+	else \
+		echo "ℹ️  Dependabot already configured"; \
+	fi
+	@echo "✅ CVE monitoring setup completed"
+
+security-update:
+	@echo "🔄 Running comprehensive security updates..."
+	@echo "📦 Updating all packages to latest secure versions..."
+	@npm update
+	@npm audit fix
+	@echo "🔍 Running post-update security scan..."
+	@$(MAKE) -s security-scan
+	@echo "🔍 Running post-update CVE scan..."
+	@$(MAKE) -s cve-scan
+	@echo "✅ Security updates completed"
+
 # Aikido Runtime Security Commands
 aikido-demo:
 	@echo "🛡️ Starting Aikido security demonstration server..."
@@ -698,13 +791,16 @@ aikido-scan-cli:
 		echo "   make aikido-scan-cli REPO_ID=12345 BASE_COMMIT=abc123 HEAD_COMMIT=def456 BRANCH=feature/security"; \
 		exit 1; \
 	fi
+	@$(MAKE) -s aikido-check-rate-limit
 	@echo "🔍 Scanning repository $(REPO_ID) from $(BASE_COMMIT) to $(HEAD_COMMIT)..."
-	@npx @aikidosec/ci-api-client scan $(REPO_ID) $(BASE_COMMIT) $(HEAD_COMMIT) $(if $(BRANCH),$(BRANCH),main) \
+	@if npx @aikidosec/ci-api-client scan $(REPO_ID) $(BASE_COMMIT) $(HEAD_COMMIT) $(if $(BRANCH),$(BRANCH),main) \
 		$(if $(MIN_SEVERITY),--minimum-severity-level $(MIN_SEVERITY),) \
 		$(if $(FAIL_ON_DEPS),--fail-on-dependency-scan,--no-fail-on-dependency-scan) \
 		$(if $(FAIL_ON_SAST),--fail-on-sast-scan,) \
 		$(if $(FAIL_ON_IAC),--fail-on-iac-scan,) \
-		$(if $(FAIL_ON_SECRETS),--fail-on-secrets-scan,)
+		$(if $(FAIL_ON_SECRETS),--fail-on-secrets-scan,); then \
+		$(MAKE) -s aikido-update-last-scan; \
+	fi
 
 aikido-scan:
 	@echo "🔍 Running Aikido security scan with auto-detected commits..."
@@ -717,6 +813,7 @@ aikido-scan:
 		echo "💡 Find your repository ID in the Aikido dashboard"; \
 		exit 1; \
 	fi
+	@$(MAKE) -s aikido-check-rate-limit
 	@echo "🔍 Auto-detecting commit range..."
 	@BASE_COMMIT=$$(git merge-base origin/main HEAD); \
 	HEAD_COMMIT=$$(git rev-parse HEAD); \
@@ -727,9 +824,74 @@ aikido-scan:
 	echo "   Head commit: $$HEAD_COMMIT"; \
 	echo "   Branch: $$CURRENT_BRANCH"; \
 	echo "🚀 Starting scan..."; \
-	npx @aikidosec/ci-api-client scan $(REPO_ID) $$BASE_COMMIT $$HEAD_COMMIT $$CURRENT_BRANCH \
+	if npx @aikidosec/ci-api-client scan $(REPO_ID) $$BASE_COMMIT $$HEAD_COMMIT $$CURRENT_BRANCH \
 		--minimum-severity-level $(if $(MIN_SEVERITY),$(MIN_SEVERITY),MEDIUM) \
-		$(if $(FAIL_ON_DEPS),,--no-fail-on-dependency-scan)
+		$(if $(FAIL_ON_DEPS),,--no-fail-on-dependency-scan); then \
+		$(MAKE) -s aikido-update-last-scan; \
+	fi
+
+# Check if 3 days have passed since last scan (free account limitation)
+aikido-check-rate-limit:
+	@LAST_SCAN_FILE=".aikido-last-scan"; \
+	if [ -f "$$LAST_SCAN_FILE" ]; then \
+		LAST_SCAN=$$(cat $$LAST_SCAN_FILE 2>/dev/null || echo "0"); \
+		CURRENT_TIME=$$(date +%s); \
+		TIME_DIFF=$$((CURRENT_TIME - LAST_SCAN)); \
+		DAYS_PASSED=$$((TIME_DIFF / 86400)); \
+		if [ $$DAYS_PASSED -lt 3 ]; then \
+			REMAINING_DAYS=$$((3 - DAYS_PASSED)); \
+			REMAINING_HOURS=$$(((3 * 86400 - TIME_DIFF) / 3600)); \
+			echo "⏰ Aikido Free Account Limitation"; \
+			echo "❌ You can only run scans every 3 days"; \
+			echo "📅 Last scan: $$DAYS_PASSED day(s) ago"; \
+			echo "⏳ Next scan available in: $$REMAINING_DAYS day(s) ($$REMAINING_HOURS hours)"; \
+			echo "💡 Upgrade to paid plan for unlimited scans"; \
+			echo "🛡️ Runtime protection is still active and protecting your app!"; \
+			exit 1; \
+		fi; \
+	fi; \
+	echo "✅ Rate limit check passed - proceeding with scan"
+
+# Update last scan timestamp
+aikido-update-last-scan:
+	@date +%s > .aikido-last-scan
+	@echo "📝 Updated last scan timestamp"
+
+# Check when next Aikido scan will be available (free account limitation)
+aikido-scan-availability:
+	@echo "📅 Checking Aikido scan availability..."
+	@LAST_SCAN_FILE=".aikido-last-scan"; \
+	if [ -f "$$LAST_SCAN_FILE" ]; then \
+		LAST_SCAN=$$(cat $$LAST_SCAN_FILE 2>/dev/null || echo "0"); \
+		CURRENT_TIME=$$(date +%s); \
+		TIME_DIFF=$$((CURRENT_TIME - LAST_SCAN)); \
+		DAYS_PASSED=$$((TIME_DIFF / 86400)); \
+		HOURS_PASSED=$$((TIME_DIFF / 3600)); \
+		if [ $$DAYS_PASSED -lt 3 ]; then \
+			REMAINING_DAYS=$$((3 - DAYS_PASSED)); \
+			REMAINING_HOURS=$$(((3 * 86400 - TIME_DIFF) / 3600)); \
+			LAST_SCAN_DATE=$$(date -r $$LAST_SCAN '+%Y-%m-%d %H:%M:%S' 2>/dev/null || date -d "@$$LAST_SCAN" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "Unknown"); \
+			echo "⏰ Free Account Scan Status:"; \
+			echo "   📅 Last scan: $$LAST_SCAN_DATE ($$DAYS_PASSED day(s), $$HOURS_PASSED hour(s) ago)"; \
+			echo "   ⏳ Next scan available in: $$REMAINING_DAYS day(s) ($$REMAINING_HOURS hours)"; \
+			echo "   🚫 Status: Scan not available yet"; \
+			echo ""; \
+			echo "💡 Tip: Upgrade to paid plan for unlimited scans"; \
+			echo "🛡️ Note: Runtime protection is active and protecting your app!"; \
+		else \
+			LAST_SCAN_DATE=$$(date -r $$LAST_SCAN '+%Y-%m-%d %H:%M:%S' 2>/dev/null || date -d "@$$LAST_SCAN" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "Unknown"); \
+			echo "✅ Scan Status: AVAILABLE"; \
+			echo "   📅 Last scan: $$LAST_SCAN_DATE ($$DAYS_PASSED day(s) ago)"; \
+			echo "   🚀 You can run a new scan now!"; \
+			echo ""; \
+			echo "Run: make aikido-scan REPO_ID=$(if $(REPO_ID),$(REPO_ID),<your-repo-id>)"; \
+		fi; \
+	else \
+		echo "✅ Scan Status: AVAILABLE (No previous scans recorded)"; \
+		echo "   🚀 You can run your first scan now!"; \
+		echo ""; \
+		echo "Run: make aikido-scan REPO_ID=$(if $(REPO_ID),$(REPO_ID),<your-repo-id>)"; \
+	fi
 
 aikido-scan-release:
 	@echo "🚀 Running Aikido release scan..."
@@ -916,6 +1078,23 @@ csp-validate:
 csp-report:
 	@echo "📊 Generating comprehensive CSP compliance report..."
 	@python3 scripts/csp-validator.py
+
+# HTTP Strict Transport Security (HSTS) Commands
+hsts-add:
+	@echo "🔒 Adding HSTS headers to HTML files..."
+	@python3 scripts/add-hsts.py
+
+hsts-check:
+	@echo "🔍 Checking HSTS implementation..."
+	@grep -l "Strict-Transport-Security" docs/*.html || echo "No HSTS headers found"
+
+hsts-validate:
+	@echo "✅ Validating HSTS policy syntax..."
+	@python3 scripts/validate-hsts.py
+
+hsts-report:
+	@echo "📊 Generating comprehensive HSTS compliance report..."
+	@python3 scripts/hsts-validator.py
 
 # Design & LLM-Assisted Refactoring Commands
 design-analyze:
