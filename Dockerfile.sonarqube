@@ -1,5 +1,5 @@
 # Custom SonarQube image with FreshThreads plugins
-FROM sonarqube:25.7.0-community
+FROM sonarqube:25.7.0.110598-community
 
 # Switch to root to install plugins
 USER root
