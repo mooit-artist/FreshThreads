@@ -18,6 +18,7 @@
     <!-- SEO Meta Tags -->
     <meta name="description" content="Manage your FreshThreads account, view order history, and update preferences.">
     <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
     <style>
       * {
@@ -369,14 +370,15 @@
         }
       }
     </style>
-  </head>
+      <link rel="stylesheet" href="styles/minimalistic.css">
+</head>
 
   <body>
     <!-- Header -->
     <header class="header">
       <div class="nav-container">
         <a href="index.html" class="logo">FreshThreads</a>
-        <nav class="nav-links">
+        <nav class="nav container">
           <a href="index.html">Home</a>
           <a href="products.html">Shop</a>
           <a href="account.html">Account</a>
@@ -400,9 +402,9 @@
       </aside>
 
       <!-- Main Content -->
-      <main class="main-content">
+      <main class="main"><div class="container">
         <!-- Overview Section -->
-        <section id="overview" class="content-section active">
+        <section class="section  class="section  id="overview" class="content-section active""">
           <h2 class="section-title">Account Overview</h2>
 
           <div class="user-info">
@@ -434,7 +436,7 @@
         </section>
 
         <!-- Orders Section -->
-        <section id="orders" class="content-section">
+        <section class="section  class="section  id="orders" class="content-section""">
           <h2 class="section-title">Order History</h2>
           <div id="orderHistory">
             <!-- Orders will be populated here -->
@@ -442,7 +444,7 @@
         </section>
 
         <!-- Profile Section -->
-        <section id="profile" class="content-section">
+        <section class="section  class="section  id="profile" class="content-section""">
           <h2 class="section-title">Profile Settings</h2>
           <form id="profileForm">
             <div class="form-group">
@@ -465,21 +467,21 @@
               <label for="birthday">Birthday</label>
               <input type="date" id="birthday" name="birthday">
             </div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="submit" class="btn btn-primary btn btn-primary">Save Changes</button>
           </form>
         </section>
 
         <!-- Addresses Section -->
-        <section id="addresses" class="content-section">
+        <section class="section  class="section  id="addresses" class="content-section""">
           <h2 class="section-title">Shipping Addresses</h2>
           <div id="addressList">
             <!-- Addresses will be populated here -->
           </div>
-          <button class="btn btn-secondary" onclick="addNewAddress()">Add New Address</button>
+          <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn btn-secondary" onclick="addNewAddress()">Add New Address</button>
         </section>
 
         <!-- Preferences Section -->
-        <section id="preferences" class="content-section">
+        <section class="section  class="section  id="preferences" class="content-section""">
           <h2 class="section-title">Preferences</h2>
           <form id="preferencesForm">
             <div class="form-group">
@@ -506,12 +508,12 @@
                 <option value="XXL">XXL</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Save Preferences</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="submit" class="btn btn-primary btn btn-primary">Save Preferences</button>
           </form>
         </section>
 
         <!-- Security Section -->
-        <section id="security" class="content-section">
+        <section class="section  class="section  id="security" class="content-section""">
           <h2 class="section-title">Security Settings</h2>
           <form id="passwordForm">
             <div class="form-group">
@@ -526,18 +528,18 @@
               <label for="confirmPassword">Confirm New Password</label>
               <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
-            <button type="submit" class="btn btn-primary">Update Password</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="submit" class="btn btn-primary btn btn-primary">Update Password</button>
           </form>
 
           <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #E0E0E0;">
             <h3>Account Actions</h3>
             <p style="margin-bottom: 1rem; color: #666;">Manage your account data and privacy settings.</p>
-            <button class="btn btn-secondary" onclick="downloadData()">Download My Data</button>
-            <button class="btn btn-secondary" onclick="deleteAccount()"
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn btn-secondary" onclick="downloadData()">Download My Data</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary btn btn-secondary" onclick="deleteAccount()"
                     style="color: #e74c3c; border-color: #e74c3c; margin-left: 1rem;">Delete Account</button>
           </div>
         </section>
-      </main>
+      </div></main>
     </div>
 
     <script>

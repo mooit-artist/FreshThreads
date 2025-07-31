@@ -2,13 +2,16 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start Live Server",
+      "label": "Start HTTP Server",
       "type": "shell",
-      "command": "live-server",
+      "command": "npx",
       "args": [
-        "--port=5500",
-        "--entry-file=index.html",
-        "--mount=/docs:."
+        "http-server",
+        ".",
+        "-p",
+        "5500",
+        "-c-1",
+        "-o"
       ],
       "group": {
         "kind": "build",

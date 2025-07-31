@@ -22,414 +22,221 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #F7F7F4;
-            min-height: 100vh;
-            color: #191919;
-        }
-
-        .header {
-            background: #F7F7F4;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #191919;
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .page-header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .content-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 2rem;
-        }
-
-        .content-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: #ffd700;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .content-section h3 {
-            font-size: 1.5rem;
-            margin: 2rem 0 1rem 0;
-            color: #ffed4e;
-        }
-
-        .content-section p {
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .value-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .value-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #ffd700;
-        }
-
-        .value-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: #ffed4e;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .team-member {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .member-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            margin: 0 auto 1rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        .member-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #ffd700;
-        }
-
-        .member-role {
-            opacity: 0.8;
-            margin-bottom: 1rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ffd700;
-            display: block;
-        }
-
-        .stat-label {
-            opacity: 0.8;
-            margin-top: 0.5rem;
-        }
-
-        .cta-section {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        .cta-section h2 {
-            margin-bottom: 1rem;
-            color: #ffd700;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #333;
-            text-decoration: none;
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-        }
-
-        .cta-btn.secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .cta-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            .page-header h1 {
-                font-size: 2rem;
-            }
-
-            .content-section {
-                padding: 2rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/minimalistic.css">
 </head>
-<body>
-    <div class="header">
-        <a href="index.html" class="logo">👕 FreshThreads LLC</a>
-        <div class="nav-menu">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="products.html" class="nav-link">Shop</a>
-            <a href="about.html" class="nav-link" style="background: rgba(255, 255, 255, 0.2);">About</a>
-            <a href="contact.html" class="nav-link">Contact</a>
-        </div>
-    </div>
+<body class="dark-theme">
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-brand">
+                <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
+                <span class="brand-text">Fresh Threads</span>
+            </div>
 
-    <div class="container">
-        <div class="page-header">
-            <h1>About FreshThreads LLC</h1>
-            <p>Revolutionizing custom apparel with premium designs, sustainable practices, and uncompromising quality.</p>
-        </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="products.html" class="nav-link">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link active">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="account.html" class="nav-link">Account</a>
+                </li>
+            </ul>
 
-        <div class="content-section">
-            <h2><i class="fas fa-star"></i> Our Story</h2>
-            <p>FreshThreads LLC was born from a simple belief: everyone deserves to wear their story. Founded in 2024, we recognized a gap in the print-on-demand market where quality often took a backseat to quantity, and personal expression was limited by generic designs.</p>
+            <div class="nav-actions">
+                <button class="btn btn-ghost">Sign In</button>
+                <button class="btn btn-primary">Shop Now</button>
+            </div>
 
-            <p>Our journey began when our founders, frustrated with the lack of truly premium custom apparel options, decided to create something different. We envisioned a company that would combine cutting-edge design with sustainable manufacturing practices, all while maintaining the highest standards of quality.</p>
+            <!-- Mobile menu toggle -->
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
 
-            <p>Today, FreshThreads has grown from a small startup to a trusted name in custom apparel, serving customers worldwide who demand both style and substance in their clothing choices.</p>
-        </div>
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <section class="page-header" style="padding: calc(80px + var(--space-xl)) 0 var(--space-lg);">
+            <div class="container">
+                <h1 class="page-title">About Fresh Threads</h1>
+                <p class="page-description">Revolutionizing custom apparel with premium designs, sustainable practices, and uncompromising quality.</p>
+            </div>
+        </section>
 
-        <div class="content-section">
-            <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
-            <p>To democratize premium custom apparel by making high-quality, personalized clothing accessible to everyone while supporting independent artists and promoting sustainable manufacturing practices.</p>
+        <!-- Our Story Section -->
+        <section class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2 class="section-title">
+                        <span class="section-icon">⭐</span>
+                        Our Story
+                    </h2>
+                    <p>FreshThreads LLC was born from a simple belief: everyone deserves to wear their story. Founded in 2024, we recognized a gap in the print-on-demand market where quality often took a backseat to quantity, and personal expression was limited by generic designs.</p>
 
-            <h3>What Sets Us Apart</h3>
-            <p>Unlike traditional print-on-demand services, we focus exclusively on premium materials, innovative designs, and environmental responsibility. Every product is crafted with care, ensuring that your custom apparel not only looks great but also stands the test of time.</p>
-        </div>
+                    <p>Our journey began when our founders, frustrated with the lack of truly premium custom apparel options, decided to create something different. We envisioned a company that would combine cutting-edge design with sustainable manufacturing practices, all while maintaining the highest standards of quality.</p>
 
-        <div class="content-section">
-            <h2><i class="fas fa-heart"></i> Our Values</h2>
-            <div class="values-grid">
-                <div class="value-card">
-                    <div class="value-icon">🌱</div>
-                    <div class="value-title">Sustainability</div>
-                    <p>We're committed to eco-friendly practices, from our organic materials to our carbon-neutral shipping options.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">⭐</div>
-                    <div class="value-title">Quality</div>
-                    <p>Every piece is crafted with premium materials and undergoes rigorous quality control to ensure perfection.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">🎨</div>
-                    <div class="value-title">Creativity</div>
-                    <p>We celebrate individuality and provide a platform for unique designs that help you express your personal style.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">🤝</div>
-                    <div class="value-title">Community</div>
-                    <p>We support independent artists and designers, creating a thriving ecosystem of creative collaboration.</p>
+                    <p>Today, FreshThreads has grown from a small startup to a trusted name in custom apparel, serving customers worldwide who demand both style and substance in their clothing choices.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="content-section">
-            <h2><i class="fas fa-users"></i> Meet Our Team</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-avatar">👨‍💼</div>
-                    <div class="member-name">Alex Chen</div>
-                    <div class="member-role">CEO & Co-Founder</div>
-                    <p>Visionary leader with 10+ years in e-commerce and sustainable fashion.</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-avatar">👩‍🎨</div>
-                    <div class="member-name">Sarah Johnson</div>
-                    <div class="member-role">Creative Director</div>
-                    <p>Award-winning designer passionate about bringing unique artistic visions to life.</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-avatar">👨‍💻</div>
-                    <div class="member-name">Marcus Rodriguez</div>
-                    <div class="member-role">CTO</div>
-                    <p>Tech innovator focused on building seamless customer experiences and cutting-edge platforms.</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-avatar">👩‍🌱</div>
-                    <div class="member-name">Emma Thompson</div>
-                    <div class="member-role">Sustainability Officer</div>
-                    <p>Environmental advocate ensuring our practices align with our commitment to the planet.</p>
+        <!-- Mission Section -->
+        <section class="section" style="background: var(--bg-secondary);">
+            <div class="container">
+                <div class="content-card">
+                    <h2 class="section-title">
+                        <span class="section-icon">🎯</span>
+                        Our Mission
+                    </h2>
+                    <p>To democratize premium custom apparel by making high-quality, personalized clothing accessible to everyone while supporting independent artists and promoting sustainable manufacturing practices.</p>
+
+                    <h3 class="subsection-title">What Sets Us Apart</h3>
+                    <p>Unlike traditional print-on-demand services, we focus exclusively on premium materials, innovative designs, and environmental responsibility. Every product is crafted with care, ensuring that your custom apparel not only looks great but also stands the test of time.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="content-section">
-            <h2><i class="fas fa-chart-line"></i> By The Numbers</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-number">50K+</span>
-                    <div class="stat-label">Happy Customers</div>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">500+</span>
-                    <div class="stat-label">Unique Designs</div>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">100+</span>
-                    <div class="stat-label">Partner Artists</div>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">25</span>
-                    <div class="stat-label">Countries Served</div>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">99.5%</span>
-                    <div class="stat-label">Customer Satisfaction</div>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">Carbon Neutral</span>
-                    <div class="stat-label">Shipping</div>
+        <!-- Values Section -->
+        <section class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2 class="section-title">
+                        <span class="section-icon">💎</span>
+                        Our Values
+                    </h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🌱</div>
+                            <h3 class="feature-title">Sustainability</h3>
+                            <p class="feature-description">We're committed to eco-friendly practices, from our organic materials to our carbon-neutral shipping options.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⭐</div>
+                            <h3 class="feature-title">Quality</h3>
+                            <p class="feature-description">Every piece is crafted with premium materials and undergoes rigorous quality control to ensure perfection.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎨</div>
+                            <h3 class="feature-title">Creativity</h3>
+                            <p class="feature-description">We celebrate individuality and provide a platform for unique designs that help you express your personal style.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🤝</div>
+                            <h3 class="feature-title">Community</h3>
+                            <p class="feature-description">We support independent artists and designers, creating a thriving ecosystem of creative collaboration.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="cta-section">
-            <h2>Ready to Express Yourself?</h2>
-            <p>Join thousands of customers who've discovered the FreshThreads difference. Premium quality, unique designs, and sustainable practices - all in one place.</p>
-            <div class="cta-buttons">
-                <a href="products.html" class="cta-btn">Shop Now</a>
-                <a href="contact.html" class="cta-btn secondary">Get in Touch</a>
+        <!-- Team Section -->
+        <section class="section" style="background: var(--bg-secondary);">
+            <div class="container">
+                <div class="content-card">
+                    <h2 class="section-title">
+                        <span class="section-icon">👥</span>
+                        Meet Our Team
+                    </h2>
+                    <div class="team-grid">
+                        <div class="team-card">
+                            <div class="team-avatar">👨‍💼</div>
+                            <h3 class="team-name">Alex Chen</h3>
+                            <p class="team-role">CEO & Co-Founder</p>
+                            <p class="team-bio">Visionary leader with 10+ years in e-commerce and sustainable fashion.</p>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">👩‍🎨</div>
+                            <h3 class="team-name">Sarah Johnson</h3>
+                            <p class="team-role">Creative Director</p>
+                            <p class="team-bio">Award-winning designer passionate about bringing unique artistic visions to life.</p>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">👨‍💻</div>
+                            <h3 class="team-name">Marcus Rodriguez</h3>
+                            <p class="team-role">CTO</p>
+                            <p class="team-bio">Tech innovator focused on building seamless customer experiences and cutting-edge platforms.</p>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">👩‍🌱</div>
+                            <h3 class="team-name">Emma Thompson</h3>
+                            <p class="team-role">Sustainability Officer</p>
+                            <p class="team-bio">Environmental advocate ensuring our practices align with our commitment to the planet.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="section">
+            <div class="container">
+                <div class="content-card">
+                    <h2 class="section-title">
+                        <span class="section-icon">📊</span>
+                        By The Numbers
+                    </h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">50K+</span>
+                            <div class="stat-label">Happy Customers</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">500+</span>
+                            <div class="stat-label">Unique Designs</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">100+</span>
+                            <div class="stat-label">Partner Artists</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">25</span>
+                            <div class="stat-label">Countries Served</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">99.5%</span>
+                            <div class="stat-label">Customer Satisfaction</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">Carbon Neutral</span>
+                            <div class="stat-label">Shipping</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section" style="background: var(--bg-secondary);">
+            <div class="container">
+                <div class="cta-section">
+                    <h2 class="section-title">Ready to Express Yourself?</h2>
+                    <p>Join thousands of customers who've discovered the FreshThreads difference. Premium quality, unique designs, and sustainable practices - all in one place.</p>
+                    <div class="cta-buttons">
+                        <a href="products.html" class="btn btn-primary btn-large">Shop Now</a>
+                        <a href="contact.html" class="btn btn-outline btn-large">Get in Touch</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

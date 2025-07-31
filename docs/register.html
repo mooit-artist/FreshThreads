@@ -22,6 +22,7 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -385,6 +386,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="styles/minimalistic.css">
 </head>
 <body>
     <div class="registration-container">
@@ -462,7 +464,7 @@
                     <label for="password">Password *</label>
                     <div class="password-group">
                         <input type="password" id="password" name="password" class="form-control" placeholder="Create a strong password" required>
-                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="button" class="btn btn-primary password-toggle" onclick="togglePassword()">
                             <i class="fas fa-eye" id="passwordIcon"></i>
                         </button>
                     </div>
@@ -493,7 +495,7 @@
                     </label>
                 </div>
 
-                <button type="submit" class="submit-btn">Create Early Access Account</button>
+                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="submit" class="btn btn-primary submit-btn">Create Early Access Account</button>
             </form>
         </div>
 
