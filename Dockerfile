@@ -2,7 +2,7 @@
 # Multi-stage build for development and production
 
 # Development stage
-FROM node:18-alpine AS development
+FROM node:24-alpine AS development
 
 LABEL maintainer="FreshThreads LLC"
 LABEL description="Development environment for FreshThreads static website"
