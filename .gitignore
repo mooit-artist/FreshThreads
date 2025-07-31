@@ -122,6 +122,15 @@ user-uploads/
 printify-cache/
 temp-designs/
 
+# Private documentation and security files
+private-docs/
+**/SECRETS-INVENTORY.*
+**/GITHUB-SECRETS-SETUP.*
+**/SECURITY-AUDIT-REPORT.*
+**/BITWARDEN-CLI-GUIDE.*
+**/CSP-POLICY.*
+**/LLM-MODELS.*
+
 # Production secrets (never commit these!)
 production.env
 staging.env
