@@ -12,6 +12,7 @@
 
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
     <!-- Stripe.js -->
     <script src="https://js.stripe.com/v3/"></script>
@@ -266,7 +267,8 @@
         }
       }
     </style>
-  </head>
+      <link rel="stylesheet" href="styles/minimalistic.css">
+</head>
 
   <body>
     <div class="checkout-container">
@@ -353,7 +355,7 @@
             </div>
           </div>
 
-          <button type="submit" id="submit-button" class="submit-button">
+          <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" type="submit" id="submit-button" class="btn btn-primary submit-button">
             Complete Order
           </button>
         </form>

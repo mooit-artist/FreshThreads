@@ -1,0 +1,50 @@
+# Custom SonarQube Scanner for FreshThreads
+# Extends the official scanner with additional tools for web development
+
+FROM sonarsource/sonar-scanner-cli:4.8
+
+LABEL maintainer="FreshThreads LLC"
+LABEL description="Custom SonarQube scanner with web development tools"
+
+# Switch to root for installations
+USER root
+
+# Install additional tools and create directories
+RUN apk add --no-cache \
+  bash \
+  curl \
+  git \
+  jq \
+  nodejs \
+  npm \
+  py3-pip \
+  python3 && \
+  npm install -g \
+  @typescript-eslint/eslint-plugin \
+  @typescript-eslint/parser \
+  eslint \
+  htmlhint \
+  jshint \
+  stylelint && \
+  pip3 install --no-cache-dir \
+  bandit \
+  flake8 \
+  mypy \
+  pylint \
+  safety && \
+  mkdir -p /opt/analysis-scripts && \
+  mkdir -p /opt/reports
+
+# Copy custom analysis scripts and make executable
+COPY docker/sonar-analysis.sh /opt/analysis-scripts/
+COPY docker/pre-analysis.sh /opt/analysis-scripts/
+RUN chmod +x /opt/analysis-scripts/*.sh
+
+# Set working directory
+WORKDIR /usr/src
+
+# Switch back to scanner user
+USER sonar-scanner
+
+# Default command
+CMD ["/opt/analysis-scripts/sonar-analysis.sh"]

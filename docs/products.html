@@ -40,6 +40,7 @@
         <link rel="icon" type="image/png" href="favicon.png">
         <link rel="apple-touch-icon" href="favicon.svg">
         <meta name="theme-color" content="#ff0000">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
         <!-- Logo Styles -->
         <link rel="stylesheet" href="logo.css">
@@ -755,48 +756,74 @@
                 }
             }
         </style>
-    </head>
+        <link rel="stylesheet" href="styles/minimalistic.css">
+</head>
 
-    <body>
-        <div class="header">
-            <a href="index.html" class="logo" style="text-decoration: none;">
-                <div class="freshthreads-logo logo-header">
-                    <div class="brand-main">FRESH THREADS</div>
-                    <div class="brand-cross">
-                        <div class="cross-line cross-line-1"></div>
-                        <div class="cross-line cross-line-2"></div>
-                    </div>
-                    <div class="brand-llc">LLC</div>
+    <body class="dark-theme">
+        <!-- Header -->
+        <header class="header">
+            <nav class="nav container">
+                <div class="nav-brand">
+                    <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
+                    <span class="brand-text">Fresh Threads</span>
                 </div>
-            </a>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="products.html" class="nav-link" style="background: rgba(255, 255, 255, 0.2);">Shop</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-                <button class="cart-icon" onclick="showCartModal()">
-                    🛒
-                    <span class="cart-count" id="cartCount">0</span>
+
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="products.html" class="nav-link active">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="account.html" class="nav-link">Account</a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="btn btn-ghost cart-icon" onclick="showCartModal()">
+                        🛒
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <button class="btn btn-primary">Shop Now</button>
+                </div>
+
+                <!-- Mobile menu toggle -->
+                <button class="nav-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
-            </div>
-        </div>
+            </nav>
+        </header>
 
-        <div class="container">
-            <div class="page-header">
-                <h1>Shop Fresh Threads</h1>
-                <p>Discover our collection of premium custom apparel. From trendy graphic tees to cozy hoodies, find the
-                    perfect style to express yourself.</p>
-                <div id="earlyAccessBanner" class="early-access-banner" style="display: none;">
-                    <div class="banner-content">
-                        <span class="badge">🎉 EARLY ACCESS</span>
-                        <span class="message">You have exclusive early access! Enjoy 30% off and free shipping.</span>
+        <!-- Main Content -->
+        <main>
+            <!-- Page Header -->
+            <section class="page-header" style="padding: calc(80px + var(--space-xl)) 0 var(--space-lg);">
+                <div class="container">
+                    <h1 class="page-title">Shop Fresh Threads</h1>
+                    <p class="page-description">Discover our collection of premium custom apparel. From trendy graphic tees to cozy hoodies, find the
+                        perfect style to express yourself.</p>
+                    <div id="earlyAccessBanner" class="early-access-banner" style="display: none;">
+                        <div class="banner-content">
+                            <span class="badge">🎉 EARLY ACCESS</span>
+                            <span class="message">You have exclusive early access! Enjoy 30% off and free shipping.</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Categories Section -->
-            <div class="categories-section">
-                <div class="categories-grid">
+            <section class="categories-section">
+                <div class="container">
+                    <div class="categories-grid">
                     <div class="category-card active" data-category="all" onclick="selectCategory('all')">
                         <div class="category-icon">🎯</div>
                         <div class="category-name">All Products</div>
@@ -823,10 +850,11 @@
                         <div class="category-count" id="mugCount">1 item</div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Filters Section -->
-            <div class="filters-section">
+            <section class="filters-section">
+                <div class="container">
                 <div class="filters-grid">
                     <div class="filter-group">
                         <div class="filter-label">Sort by</div>
@@ -854,29 +882,32 @@
                                oninput="applyFilters()">
                     </div>
                 </div>
-            </div>
+                </div>
+            </section>
 
             <!-- Products Section -->
-            <div class="products-section">
-                <div class="products-header">
-                    <h2>Our Products</h2>
-                    <div id="resultsCount">Showing 12 products</div>
-                </div>
+            <section class="products-section">
+                <div class="container">
+                    <div class="products-header">
+                        <h2>Our Products</h2>
+                        <div id="resultsCount">Showing 12 products</div>
+                    </div>
 
-                <div id="loadingMessage" class="loading">Loading products...</div>
-                <div id="errorMessage" class="error" style="display: none;"></div>
+                    <div id="loadingMessage" class="loading">Loading products...</div>
+                    <div id="errorMessage" class="error" style="display: none;"></div>
 
-                <div class="products-grid" id="productsGrid">
-                    <!-- Products will be loaded here -->
+                    <div class="product-grid product-grid products-grid" id="productsGrid">
+                        <!-- Products will be loaded here -->
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Cart Preview Modal -->
             <div id="cartModal" class="cart-modal" style="display: none;">
                 <div class="cart-modal-content">
                     <div class="cart-header">
                         <h3>Shopping Cart</h3>
-                        <button class="close-cart" onclick="closeCartModal()">&times;</button>
+                        <button class="btn btn-primary close-cart" onclick="closeCartModal()">&times;</button>
                     </div>
                     <div id="cartItems" class="cart-items">
                         <!-- Cart items will be populated here -->
@@ -889,11 +920,11 @@
                             </div>
                             <div class="total-price">Total: $<span id="cartTotal">0.00</span></div>
                         </div>
-                        <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                        <button class="btn btn-primary checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
 
         <script>
             'use strict';
@@ -1174,7 +1205,7 @@
                             : 0;
 
                         return `
-                        <div class="product-card" data-id="${product.id}">
+                        <div class="product-card product-card product-card" data-id="${product.id}">
                             <div class="product-image">
                                 ${product.image}
                                 ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'sale' ? `-${discountPercent}%` : product.badge.toUpperCase()}</div>` : ''}
@@ -1204,8 +1235,8 @@
                                     ${product.sizes.length > 4 ? '<div class="size-btn">+more</div>' : ''}
                                 </div>
                                 <div class="product-actions">
-                                    <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
-                                    <button class="wishlist-btn" onclick="toggleWishlist('${product.id}')">♡</button>
+                                    <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
+                                    <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary wishlist-btn" onclick="toggleWishlist('${product.id}')">♡</button>
                                 </div>
                             </div>
                         </div>
@@ -1386,9 +1417,9 @@
                                 </div>
                             </div>
                             <div class="cart-item-quantity">
-                                <button onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})">-</button>
                                 <span>${item.quantity}</span>
-                                <button onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})">+</button>
                             </div>
                         </div>
                     `;

@@ -1,0 +1,79 @@
+services:
+  # SonarQube server
+  sonarqube:
+    image: sonarqube:community
+    container_name: freshthreads-sonarqube
+    ports:
+      - '9000:9000'
+    environment:
+      - SONAR_JDBC_URL=jdbc:postgresql://sonarqube-db:5432/sonar
+      - SONAR_JDBC_USERNAME=sonar
+      - SONAR_JDBC_PASSWORD=${POSTGRES_PASSWORD:-sonar_password}
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+      - SONAR_WEB_JAVAADDITIONALOPTS=-XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport
+      - SONAR_CE_JAVAADDITIONALOPTS=-XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    depends_on:
+      - sonarqube-db
+    networks:
+      - sonarqube-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/api/system/status']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  # PostgreSQL database for SonarQube
+  sonarqube-db:
+    image: postgres:16-alpine
+    container_name: freshthreads-sonarqube-db
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-sonar_password}
+      - POSTGRES_DB=sonar
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    networks:
+      - sonarqube-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U sonar']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # SonarScanner service for code analysis
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli:10.0
+    container_name: freshthreads-sonar-scanner
+    working_dir: /usr/src
+    volumes:
+      - .:/usr/src
+      - sonar_cache:/opt/sonar-scanner/.sonar/cache
+    environment:
+      - SONAR_HOST_URL=http://sonarqube:9000
+      - SONAR_LOGIN=${SONAR_TOKEN:-admin}
+      - SONAR_PASSWORD=${SONAR_PASSWORD:-admin}
+    networks:
+      - sonarqube-network
+    depends_on:
+      - sonarqube
+    profiles:
+      - analysis
+
+networks:
+  sonarqube-network:
+    driver: bridge
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+  postgresql_data:
+  sonar_cache:

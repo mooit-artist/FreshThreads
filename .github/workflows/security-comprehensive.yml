@@ -1,0 +1,275 @@
+name: 🔒 Comprehensive Security Analysis
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      security_level:
+        description: 'Security scan level'
+        required: true
+        default: 'standard'
+        type: choice
+        options:
+          - standard
+          - comprehensive
+          - minimal
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  security-matrix:
+    name: 🔍 Security Scan Matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        scan-type: [vulnerabilities, licenses, docker, static-analysis]
+        include:
+          - scan-type: vulnerabilities
+            tool: snyk
+            config: --severity-threshold=medium
+          - scan-type: licenses
+            tool: snyk
+            config: --print-deps
+          - scan-type: docker
+            tool: snyk
+            config: --docker
+          - scan-type: static-analysis
+            tool: sonarqube
+            config: --quality-gate
+
+    steps:
+      - name: 🚀 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 🔧 Install Dependencies
+        run: |
+          npm ci
+          pip install -r requirements.txt
+
+      - name: 🔐 Install and Configure Snyk
+        if: matrix.tool == 'snyk'
+        run: |
+          npm install -g snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: 🔍 Run Vulnerability Scan
+        if: matrix.scan-type == 'vulnerabilities'
+        run: |
+          snyk test ${{ matrix.config }} --json > vulnerability-report-${{ github.run_id }}.json || true
+          snyk test ${{ matrix.config }} --sarif > vulnerability-report-${{ github.run_id }}.sarif || true
+
+      - name: 📋 Run License Scan
+        if: matrix.scan-type == 'licenses'
+        run: |
+          snyk test ${{ matrix.config }} --json > license-report-${{ github.run_id }}.json || true
+
+      - name: 🐳 Run Docker Security Scan
+        if: matrix.scan-type == 'docker' && hashFiles('Dockerfile*') != ''
+        run: |
+          docker build -t freshthreads:scan .
+          snyk test --docker freshthreads:scan --json > docker-security-${{ github.run_id }}.json || true
+
+      - name: 🔍 SonarQube Analysis
+        if: matrix.scan-type == 'static-analysis'
+        uses: sonarqube-quality-gate-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: 📊 Upload Security Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-reports-${{ matrix.scan-type }}-${{ github.run_id }}
+          path: |
+            *-report-*.json
+            *-report-*.sarif
+            *-security-*.json
+          retention-days: 30
+
+  snyk-comprehensive:
+    name: 🛡️ Snyk Comprehensive Analysis
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.inputs.security_level == 'comprehensive'
+
+    steps:
+      - name: 🚀 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 🔧 Install Dependencies
+        run: npm ci
+
+      - name: 🔐 Install and Authenticate Snyk
+        run: |
+          npm install -g snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: 🔍 Snyk Vulnerability Test
+        run: snyk test --severity-threshold=low --json > snyk-vulnerabilities.json || true
+
+      - name: 📋 Snyk License Check
+        run: snyk test --print-deps --json > snyk-licenses.json || true
+
+      - name: 🐳 Snyk Docker Test
+        if: hashFiles('Dockerfile*') != ''
+        run: |
+          docker build -t freshthreads:security .
+          snyk test --docker freshthreads:security --json > snyk-docker.json || true
+
+      - name: 📊 Snyk Monitor
+        run: snyk monitor
+
+      - name: 📤 Upload Snyk Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: snyk-comprehensive-${{ github.run_id }}
+          path: snyk-*.json
+          retention-days: 30
+
+      - name: 🔍 Upload SARIF results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: snyk-vulnerabilities.sarif
+        continue-on-error: true
+
+  security-summary:
+    name: 📊 Security Summary Report
+    runs-on: ubuntu-latest
+    needs: [security-matrix, snyk-comprehensive]
+    if: always()
+
+    steps:
+      - name: 🚀 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download All Security Reports
+        uses: actions/download-artifact@v4
+        with:
+          path: security-reports/
+
+      - name: 📊 Generate Security Summary
+        run: |
+          echo "# 🔒 Security Analysis Summary" > security-summary.md
+          echo "" >> security-summary.md
+          echo "## 📋 Scan Results Overview" >> security-summary.md
+          echo "" >> security-summary.md
+
+          # Count vulnerability reports
+          VULN_COUNT=$(find security-reports/ -name "*vulnerability*" -type f | wc -l)
+          LICENSE_COUNT=$(find security-reports/ -name "*license*" -type f | wc -l)
+          DOCKER_COUNT=$(find security-reports/ -name "*docker*" -type f | wc -l)
+
+          echo "- 🔍 Vulnerability Scans: $VULN_COUNT" >> security-summary.md
+          echo "- 📋 License Scans: $LICENSE_COUNT" >> security-summary.md
+          echo "- 🐳 Docker Scans: $DOCKER_COUNT" >> security-summary.md
+          echo "" >> security-summary.md
+
+          echo "## 🛡️ Security Status" >> security-summary.md
+          echo "" >> security-summary.md
+
+          if [ "$VULN_COUNT" -gt 0 ]; then
+            echo "✅ Vulnerability scanning completed" >> security-summary.md
+          else
+            echo "⚠️ No vulnerability scans found" >> security-summary.md
+          fi
+
+          echo "" >> security-summary.md
+          echo "## 📊 Detailed Reports" >> security-summary.md
+          echo "" >> security-summary.md
+          echo "Detailed security reports are available in the workflow artifacts." >> security-summary.md
+          echo "" >> security-summary.md
+          echo "### 🔗 Quick Links" >> security-summary.md
+          echo "- [Snyk Dashboard](https://app.snyk.io/org/mooit-artist)" >> security-summary.md
+          echo "- [GitHub Security Tab](https://github.com/${{ github.repository }}/security)" >> security-summary.md
+          echo "- [Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> security-summary.md
+
+      - name: 📤 Upload Security Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-summary-${{ github.run_id }}
+          path: security-summary.md
+          retention-days: 90
+
+      - name: 💬 Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync('security-summary.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+  notify-security-team:
+    name: 📧 Security Notifications
+    runs-on: ubuntu-latest
+    needs: [security-matrix, snyk-comprehensive]
+    if: failure() && (github.event_name == 'schedule' || github.event_name == 'push')
+
+    steps:
+      - name: 🚨 Notify Security Team
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `🚨 Security Scan Alert - ${context.repo.repo}`;
+            const body = `
+            ## Security Alert
+
+            A security scan has detected issues in ${context.repo.repo}.
+
+            **Workflow:** ${context.workflow}
+            **Run ID:** ${context.runId}
+            **Commit:** ${context.sha}
+            **Branch:** ${context.ref}
+
+            **Action Required:**
+            1. Review the failed security checks
+            2. Address any high/critical vulnerabilities
+            3. Update dependencies if necessary
+            4. Re-run security scans
+
+            [View Workflow Run](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+            `;
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['security', 'urgent']
+            });

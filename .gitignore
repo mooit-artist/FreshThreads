@@ -20,7 +20,9 @@ config/api-keys.json
 
 # Security Reports
 security-report.json
+security-reports/
 .snyk
+.aikido-last-scan
 
 # Database files
 *.db
@@ -120,6 +122,15 @@ user-uploads/
 printify-cache/
 temp-designs/
 
+# Private documentation and security files
+private-docs/
+**/SECRETS-INVENTORY.*
+**/GITHUB-SECRETS-SETUP.*
+**/SECURITY-AUDIT-REPORT.*
+**/BITWARDEN-CLI-GUIDE.*
+**/CSP-POLICY.*
+**/LLM-MODELS.*
+
 # Production secrets (never commit these!)
 production.env
 staging.env
@@ -135,6 +146,75 @@ debug/
 .aikido/
 aikido.json
 
+# Bitwarden CLI sensitive files
+.bw-session
+bw-session.txt
+bitwarden-session.*
+secrets-backup-*.json
+*-inventory-backup.*
+
+# Docker secrets and configs
+docker-compose.override.yml
+.docker/
+docker-config.json
+*.dockerignore.local
+
+# SonarQube sensitive files
+.sonar/
+sonar-scanner.properties
+sonar-project.properties.local
+*-sonar-report.*
+
+# Security Onion sensitive data
+security-onion/logs/
+security-onion/data/
+so-session.*
+kibana-credentials.*
+elasticsearch-certs/
+
+# CI/CD sensitive files
+.github/secrets/
+secrets-rotation-*.log
+rotation-backup-*.json
+deployment-keys/
+service-account-*.json
+
+# Certificate and key files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+ssl-certs/
+tls-keys/
+ca-certificates/
+
+# SSH and GPG keys
+id_rsa*
+id_ed25519*
+*.pub.backup
+.ssh/
+.gnupg/
+
+# Cloud provider credentials
+aws-credentials
+gcp-service-account-*.json
+azure-credentials.json
+.aws/
+.gcp/
+.azure/
+
+# Monitoring and alerting
+grafana-admin.*
+prometheus-config.local
+alert-manager-secrets.*
+
 # macOS and system files
 .CFUserTextEncoding
 .Trash/
+
+# Security testing artifacts
+penetration-test-results/
+vulnerability-scan-*.xml
+security-audit-*.pdf
+pentest-reports/

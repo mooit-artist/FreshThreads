@@ -13,6 +13,7 @@
 FreshThreads LLC is a modern print-on-demand apparel company specializing in premium custom clothing with unique, trendy designs. Our platform offers high-quality t-shirts, hoodies, and accessories that let customers express their individual style.
 
 ### ✨ **Key Features**
+
 - 🎨 **Custom Designs** - Unique, trendy apparel designs
 - 🏭 **Print-on-Demand** - No inventory, fresh products made to order
 - 📱 **Social Media Ready** - Optimized for Instagram, TikTok, Pinterest
@@ -27,6 +28,7 @@ FreshThreads LLC is a modern print-on-demand apparel company specializing in pre
 **Main Site**: [https://freshthreadsllc.com](https://freshthreadsllc.com)
 
 ### 📄 **Pages**
+
 - **Homepage** (`/`) - Brand showcase with social media integration
 - **Products** (`/products.html`) - Product management dashboard
 - **Team Access** (`/auth.html`) - Secure team authentication
@@ -37,17 +39,21 @@ FreshThreads LLC is a modern print-on-demand apparel company specializing in pre
 ## 🛠️ **Technology Stack**
 
 ### **Frontend**
+
 - **HTML5** - Semantic markup with accessibility features
 - **CSS3** - Modern styling with glassmorphism design
 - **Vanilla JavaScript** - No frameworks, pure performance
 - **Progressive Enhancement** - Works without JavaScript
 
 ### **Hosting & Deployment**
+
 - **GitHub Pages** - Automated deployment via GitHub Actions
+- **Docker** - Containerized development and testing environments
 - **Custom Domain** - Professional domain with SSL
 - **CDN** - Fast global content delivery
 
 ### **SEO & Social Media**
+
 - **Open Graph** - Perfect social media sharing
 - **Twitter Cards** - Enhanced Twitter integration
 - **JSON-LD** - Structured data for search engines
@@ -58,6 +64,7 @@ FreshThreads LLC is a modern print-on-demand apparel company specializing in pre
 ## 📱 **Social Media Integration**
 
 ### **Platform Presence**
+
 - 📷 **Instagram**: [@freshthreadsllc](https://instagram.com/freshthreadsllc)
 - 📘 **Facebook**: [FreshThreads LLC](https://facebook.com/freshthreadsllc)
 - 🐦 **Twitter**: [@freshthreadsllc](https://twitter.com/freshthreadsllc)
@@ -66,6 +73,7 @@ FreshThreads LLC is a modern print-on-demand apparel company specializing in pre
 - 📺 **YouTube**: [FreshThreads LLC](https://youtube.com/@freshthreadsllc)
 
 ### **Social Features**
+
 - Social media buttons with click tracking
 - Newsletter signup for early access
 - User-generated content integration
@@ -76,11 +84,15 @@ FreshThreads LLC is a modern print-on-demand apparel company specializing in pre
 ## 🔧 **Development Setup**
 
 ### **Prerequisites**
+
+- Node.js 18+ (for development tools)
 - Git
 - Web browser
 - Text editor (VS Code recommended)
+- Docker (optional, for containerized development)
 
 ### **Local Development**
+
 ```bash
 # Clone the repository
 git clone https://github.com/mooit-artist/FreshThreads.git
@@ -92,7 +104,24 @@ cd FreshThreads
 open docs/index.html
 ```
 
+### **Docker Development** 🐳
+
+```bash
+# Build and start development environment
+make docker-build
+make docker-dev
+
+# Run tests in Docker
+make docker-test
+
+# Start production environment
+make docker-prod
+```
+
+> See [DOCKER.md](DOCKER.md) for comprehensive Docker setup and usage guide.
+
 ### **Deployment**
+
 Automatic deployment via GitHub Actions to GitHub Pages on push to `main` branch.
 
 ---
@@ -100,6 +129,7 @@ Automatic deployment via GitHub Actions to GitHub Pages on push to `main` branch
 ## 📊 **Analytics & Tracking**
 
 ### **Implemented**
+
 - Google Analytics 4 ready
 - Facebook Pixel integration
 - Social media click tracking
@@ -107,6 +137,7 @@ Automatic deployment via GitHub Actions to GitHub Pages on push to `main` branch
 - Enhanced ecommerce events
 
 ### **Setup Required**
+
 1. Replace `GA_MEASUREMENT_ID` in analytics setup
 2. Add Facebook Pixel ID if using Facebook ads
 3. Configure conversion tracking for sales
@@ -159,17 +190,20 @@ FreshThreads LLC/
 ## 📈 **Business Strategy**
 
 ### **Target Market**
+
 - **Age**: 18-35 years old
 - **Interests**: Fashion, self-expression, custom apparel
 - **Platforms**: Instagram, TikTok, Pinterest
 
 ### **Revenue Model**
+
 - Print-on-demand apparel sales
 - Custom design services
 - Seasonal collections
 - Influencer collaborations
 
 ### **Growth Strategy**
+
 - Social media marketing
 - Influencer partnerships
 - Email marketing campaigns
@@ -199,4 +233,4 @@ We welcome contributions! Please feel free to submit a Pull Request.
 
 **Built with ❤️ for the fashion-forward community**
 
-*Last Updated: July 21, 2025*
+_Last Updated: July 21, 2025_

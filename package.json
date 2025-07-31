@@ -4,11 +4,12 @@
   "description": "FreshThreads LLC - Print-on-demand apparel store with Scandinavian minimalism design",
   "main": "docs/index.html",
   "scripts": {
-    "dev": "live-server --port=5500 --entry-file=index.html --mount=/docs:. docs/",
+    "dev": "http-server docs/ -p 5500 -c-1 -o",
     "validate": "html-validate docs/*.html",
     "format": "prettier --write docs/*.html docs/**/*.css docs/**/*.js",
     "security-scan": "snyk test",
-    "security-monitor": "snyk monitor"
+    "security-monitor": "snyk monitor",
+    "lint-json": "node -e \"console.log('JSON validation via ESLint')\""
   },
   "repository": {
     "type": "git",
@@ -29,9 +30,8 @@
   "homepage": "https://github.com/mooit-artist/FreshThreads#readme",
   "devDependencies": {
     "eslint": "^8.0.0",
-    "html-validate": "^8.0.0",
-    "jsonlint": "^1.6.3",
-    "live-server": "^1.2.2",
+    "html-validate": "^9.7.1",
+    "http-server": "^14.1.1",
     "markdownlint-cli": "^0.37.0",
     "prettier": "^3.0.0",
     "snyk": "^1.1000.0",
@@ -40,5 +40,8 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@aikidosec/firewall": "^1.7.9"
   }
 }

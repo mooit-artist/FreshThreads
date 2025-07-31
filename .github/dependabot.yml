@@ -9,18 +9,26 @@ updates:
     directory: "/"  # Python dependencies
     schedule:
       interval: "weekly"
+    reviewers:
+      - "mooit-artist"
 
   - package-ecosystem: "github-actions"
     directory: "/"  # GitHub workflows
     schedule:
       interval: "weekly"
+    reviewers:
+      - "mooit-artist"
 
   - package-ecosystem: "docker"
     directory: "/"  # Dockerfiles
     schedule:
       interval: "weekly"
+    reviewers:
+      - "mooit-artist"
 
   - package-ecosystem: "npm"
     directory: "/"  # Node-based tools or front-end packages
     schedule:
       interval: "weekly"
+    reviewers:
+      - "mooit-artist"

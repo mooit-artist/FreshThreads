@@ -75,7 +75,7 @@
     },
     "emmet.triggerExpansionOnTab": true,
     // Live Server Settings
-    "liveServer.settings.port": 5500,
+    "liveServer.settings.port": 5501,
     "liveServer.settings.root": "/docs",
     "liveServer.settings.CustomBrowser": "chrome",
     "liveServer.settings.donotShowInfoMsg": true,

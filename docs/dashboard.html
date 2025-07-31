@@ -26,6 +26,7 @@
         <link rel="icon" type="image/png" href="favicon.png">
         <link rel="apple-touch-icon" href="favicon.svg">
         <meta name="theme-color" content="#ff0000">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
         <!-- Logo Styles -->
         <link rel="stylesheet" href="logo.css">
@@ -309,7 +310,8 @@
                 }
             }
         </style>
-    </head>
+        <link rel="stylesheet" href="styles/minimalistic.css">
+</head>
 
     <body>
         <!-- Header -->
@@ -389,7 +391,7 @@
                         View comprehensive business metrics, revenue trends, customer behavior, and performance insights
                         to make data-driven decisions.
                     </p>
-                    <a href="analytics.html" class="action-button">View Analytics</a>
+                    <a href="analytics.html" class="btn btn-primary btn btn-primary action-button">View Analytics</a>
                 </div>
 
                 <!-- Inventory -->
@@ -402,7 +404,7 @@
                         Manage product catalog, monitor stock levels, set low-stock alerts, and add new products to your
                         print-on-demand store.
                     </p>
-                    <a href="inventory.html" class="action-button">Manage Inventory</a>
+                    <a href="inventory.html" class="btn btn-primary btn btn-primary action-button">Manage Inventory</a>
                 </div>
 
                 <!-- Customer Accounts -->
@@ -415,7 +417,7 @@
                         View customer profiles, manage user tiers, track order history, and handle customer support
                         requests.
                     </p>
-                    <a href="account.html" class="action-button">View Accounts</a>
+                    <a href="account.html" class="btn btn-primary btn btn-primary action-button">View Accounts</a>
                 </div>
 
                 <!-- Products -->
@@ -428,7 +430,7 @@
                         Browse your complete product catalog, manage pricing tiers, and view products as customers see
                         them.
                     </p>
-                    <a href="products.html" class="action-button">View Catalog</a>
+                    <a href="products.html" class="btn btn-primary btn btn-primary action-button">View Catalog</a>
                 </div>
 
                 <!-- Orders -->
@@ -441,7 +443,7 @@
                         Process orders, manage fulfillment, handle returns, and track shipping status for all customer
                         orders.
                     </p>
-                    <a href="#" class="action-button" onclick="alert('Order management coming soon!')">Manage Orders</a>
+                    <a href="#" class="btn btn-primary btn btn-primary action-button" onclick="alert('Order management coming soon!')">Manage Orders</a>
                 </div>
 
                 <!-- Settings -->
@@ -453,7 +455,7 @@
                     <p class="card-description">
                         Configure store settings, payment methods, shipping options, tax settings, and integrations.
                     </p>
-                    <a href="#" class="action-button" onclick="alert('Settings coming soon!')">Store Settings</a>
+                    <a href="#" class="btn btn-primary btn btn-primary action-button" onclick="alert('Settings coming soon!')">Store Settings</a>
                 </div>
             </div>
 
@@ -763,6 +765,7 @@ align-items: center;
 }
 }
 </style>
+    <link rel="stylesheet" href="styles/minimalistic.css">
 </head>
 
 <body>
@@ -780,7 +783,7 @@ align-items: center;
         </div>
         <div class="user-info">
             <span id="userEmail">Loading...</span>
-            <button class="logout-btn" onclick="signOut()">Sign Out</button>
+            <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary logout-btn" onclick="signOut()">Sign Out</button>
         </div>
     </div>
 
@@ -789,10 +792,10 @@ align-items: center;
             <h1>Team Dashboard</h1>
             <p><strong>⚠️ INTERNAL USE ONLY</strong> - Admin interface for FreshThreads LLC team members</p>
             <div class="quick-actions">
-                <button class="action-btn" onclick="showAdminNote('analytics')">📊 Analytics</button>
-                <button class="action-btn" onclick="showAdminNote('products')">👕 Product Management</button>
-                <button class="action-btn" onclick="showAdminNote('users')">👥 User Management</button>
-                <button class="action-btn" onclick="showAdminNote('settings')">⚙️ Settings</button>
+                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-btn" onclick="showAdminNote('analytics')">📊 Analytics</button>
+                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-btn" onclick="showAdminNote('products')">👕 Product Management</button>
+                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-btn" onclick="showAdminNote('users')">👥 User Management</button>
+                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary action-btn" onclick="showAdminNote('settings')">⚙️ Settings</button>
             </div>
         </div>
 
