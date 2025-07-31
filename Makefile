@@ -1,7 +1,7 @@
 # FreshThreads LLC - Makefile
 # Provides convenient commands for development and local LLM integration
 
-.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment
+.PHONY: help dev validate format deploy llm-start llm-stop llm-status llm-chat llm-review llm-analyze llm-security llm-improve llm-compat llm-models llm-pull llm-switch llm-tasks python-setup python-install python-activate python-clean python-deps python-status python-shell python-run python-update analyze-html analyze-html-report continue-setup continue-status continue-sync llm-full-setup secrets-get secrets-set secrets-list secrets-delete secrets-export secrets-import secrets-setup security-scan security-test security-auth security-monitor security-report security-fix security-status security-validate aikido-demo aikido-test aikido-status csp-add csp-check csp-validate csp-report design-analyze design-refactor design-preview design-colors lint lint-html lint-css lint-js lint-json lint-python lint-shell lint-markdown lint-yaml lint-fix clean install docker-build docker-dev docker-prod docker-test docker-test-unit docker-test-integration docker-test-security docker-test-e2e docker-test-accessibility docker-test-load docker-cleanup docker-logs docker-status docker-security-status docker-security-logs docker-test-openappsec sonar-start sonar-stop sonar-status sonar-analyze sonar-report sonar-cleanup sonar-logs sonar-backup issue-list issue-view issue-create issue-assign issue-comment issue-close issue-labels issue-status issue-help issue-feature issue-bug issue-deployment issue-setup-labels issue-list-labels
 
 # Default target
 help:
@@ -131,6 +131,10 @@ help:
 	@echo "  make issue-feature        - Create feature request (prompts for input)"
 	@echo "  make issue-bug            - Create bug report (prompts for input)"
 	@echo "  make issue-deployment     - Create deployment task (prompts for input)"
+	@echo ""
+	@echo "🏷️  Label Management:"
+	@echo "  make issue-setup-labels   - Create standard GitHub issue labels"
+	@echo "  make issue-list-labels    - List all available labels"
 	@echo ""
 	@echo "🚀 Combined Workflows:"
 	@echo "  make llm-full-setup - Complete LLM development environment setup"
@@ -1112,7 +1116,8 @@ issue-feature:
 	fi; \
 	gh issue create --title "[FEATURE] $$FEATURE_TITLE" \
 		--body "## Feature Description\n\n**What feature would you like to see added?**\n$$FEATURE_DESC\n\n**Why is this feature needed?**\n[Explain the problem this solves]\n\n**How should it work?**\n[Describe the expected behavior]\n\n## Acceptance Criteria\n\n- [ ] Feature requirement 1\n- [ ] Feature requirement 2\n- [ ] Feature requirement 3\n\n## Priority\n\n- [ ] High\n- [ ] Medium\n- [ ] Low" \
-		--label "enhancement,feature-request"
+		--label "enhancement" || gh issue create --title "[FEATURE] $$FEATURE_TITLE" \
+		--body "## Feature Description\n\n**What feature would you like to see added?**\n$$FEATURE_DESC\n\n**Why is this feature needed?**\n[Explain the problem this solves]\n\n**How should it work?**\n[Describe the expected behavior]\n\n## Acceptance Criteria\n\n- [ ] Feature requirement 1\n- [ ] Feature requirement 2\n- [ ] Feature requirement 3\n\n## Priority\n\n- [ ] High\n- [ ] Medium\n- [ ] Low"
 
 issue-bug:
 	@echo "🐛 Creating bug report..."
@@ -1145,4 +1150,25 @@ issue-deployment:
 	fi; \
 	gh issue create --title "[DEPLOYMENT] $$DEPLOY_TITLE" \
 		--body "## Deployment Description\n\n**What needs to be deployed?**\n$$DEPLOY_DESC\n\n**Deployment Steps**\n\n- [ ] Step 1\n- [ ] Step 2\n- [ ] Step 3\n\n**Rollback Plan**\n\n- [ ] Rollback step 1\n- [ ] Rollback step 2\n\n**Testing Checklist**\n\n- [ ] Functionality test\n- [ ] Performance test\n- [ ] Security test" \
-		--label "deployment,infrastructure"
+		--label "deployment" || gh issue create --title "[DEPLOYMENT] $$DEPLOY_TITLE" \
+		--body "## Deployment Description\n\n**What needs to be deployed?**\n$$DEPLOY_DESC\n\n**Deployment Steps**\n\n- [ ] Step 1\n- [ ] Step 2\n- [ ] Step 3\n\n**Rollback Plan**\n\n- [ ] Rollback step 1\n- [ ] Rollback step 2\n\n**Testing Checklist**\n\n- [ ] Functionality test\n- [ ] Performance test\n- [ ] Security test"
+
+# Label management commands
+issue-setup-labels:
+	@echo "🏷️  Setting up GitHub issue labels..."
+	@echo "Creating standard labels for issue management..."
+	@gh label create "feature-request" --description "New feature request" --color "a2eeef" --force || true
+	@gh label create "deployment" --description "Deployment related tasks" --color "0e8a16" --force || true
+	@gh label create "infrastructure" --description "Infrastructure and tooling" --color "0052cc" --force || true
+	@gh label create "security" --description "Security related issues" --color "d93f0b" --force || true
+	@gh label create "performance" --description "Performance improvements" --color "f9d0c4" --force || true
+	@gh label create "ui/ux" --description "User interface and experience" --color "c5def5" --force || true
+	@gh label create "backend" --description "Backend development" --color "5319e7" --force || true
+	@gh label create "frontend" --description "Frontend development" --color "0052cc" --force || true
+	@gh label create "urgent" --description "High priority issue" --color "d93f0b" --force || true
+	@gh label create "low-priority" --description "Low priority issue" --color "fef2c0" --force || true
+	@echo "✅ Labels setup complete!"
+
+issue-list-labels:
+	@echo "🏷️  Available labels:"
+	@gh label list
