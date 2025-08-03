@@ -1,47 +1,29 @@
 {
   "name": "freshthreads-llc",
   "version": "1.0.0",
-  "description": "FreshThreads LLC - Print-on-demand apparel store with Scandinavian minimalism design",
+  "description": "FreshThreads LLC - Print-on-demand T-shirt business",
   "main": "docs/index.html",
   "scripts": {
     "dev": "http-server docs/ -p 5500 -c-1 -o",
-    "validate": "html-validate docs/*.html",
-    "format": "prettier --write docs/*.html docs/**/*.css docs/**/*.js",
-    "security-scan": "snyk test",
-    "security-monitor": "snyk monitor",
-    "lint-json": "node -e \"console.log('JSON validation via ESLint')\""
+    "format": "prettier --write docs/*.html docs/**/*.css docs/**/*.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mooit-artist/FreshThreads.git"
   },
   "keywords": [
-    "e-commerce",
+    "t-shirts",
     "print-on-demand",
     "apparel",
-    "static-site",
-    "github-pages"
+    "e-commerce"
   ],
   "author": "FreshThreads LLC",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mooit-artist/FreshThreads/issues"
-  },
-  "homepage": "https://github.com/mooit-artist/FreshThreads#readme",
   "devDependencies": {
-    "eslint": "^9.32.0",
-    "html-validate": "^9.7.1",
     "http-server": "^14.1.1",
-    "markdownlint-cli": "^0.45.0",
-    "prettier": "^3.0.0",
-    "snyk": "^1.1000.0",
-    "stylelint": "^16.23.0",
-    "stylelint-config-standard": "^39.0.0"
+    "prettier": "^3.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "@aikidosec/firewall": "^1.7.9"
   }
 }

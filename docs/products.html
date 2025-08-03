@@ -8,7 +8,7 @@
 
         <!-- SEO Meta Tags -->
         <meta name="description"
-              content="Shop premium custom apparel from FreshThreads LLC. Unique t-shirts, hoodies, and accessories with trendy designs. High-quality print-on-demand fashion.">
+              content="Shop premium custom apparel from FreshThreads LLC. Custom t-shirts, long sleeve shirts, sweatshirts, and hoodies with military-inspired designs. High-quality custom fashion.">
         <meta name="keywords"
               content="custom t-shirts, hoodies, apparel, clothing, print on demand, fashion, trendy designs, FreshThreads">
 
@@ -36,10 +36,10 @@
               content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">
 
         <!-- Favicon -->
-        <link rel="icon" type="image/svg+xml" href="favicon.svg">
-        <link rel="icon" type="image/png" href="favicon.png">
-        <link rel="apple-touch-icon" href="favicon.svg">
-        <meta name="theme-color" content="#ff0000">
+        <link rel="icon" type="image/png" href="assets/Fresh_ThreadsLLCLogo.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/Fresh_ThreadsLLCLogo.png">
+        <link rel="apple-touch-icon" href="assets/Fresh_ThreadsLLCLogo.png">
+        <meta name="theme-color" content="#000000">
   <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
         <!-- Logo Styles -->
@@ -54,25 +54,25 @@
 
             body {
                 font-family: 'Impact', 'Arial Black', Arial, sans-serif;
-                background: #F7F7F4;
+                background: var(--bg-primary, #0a0a0a);
                 min-height: 100vh;
-                color: #191919;
+                color: var(--text-primary, #ffffff);
             }
 
             .header {
-                background: #F7F7F4;
+                background: var(--bg-primary, #0a0a0a);
                 padding: 1rem 2rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 2px solid #e0e0e0;
+                border-bottom: 2px solid var(--border-color, #1f1f1f);
                 box-shadow: none;
             }
 
             .logo {
                 font-size: 1.8rem;
                 font-weight: 900;
-                color: #191919;
+                color: var(--text-primary, #ffffff);
                 text-decoration: none;
                 text-transform: uppercase;
                 letter-spacing: 2px;
@@ -138,14 +138,84 @@
             .page-header {
                 text-align: center;
                 padding: 2rem 0;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+                color: var(--text-primary, #ffffff);
                 margin-bottom: 2rem;
             }
 
             .page-header h1 {
                 font-size: 2.5rem;
                 margin-bottom: 0.5rem;
+                color: var(--text-primary, #ffffff);
+            }
+
+            /* Search Section Styles */
+            .search-section {
+                padding: 1rem 0 2rem 0;
+                background: var(--bg-primary, #0a0a0a);
+            }
+
+            .search-container {
+                max-width: 600px;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            .search-bar {
+                position: relative;
+                display: flex;
+                align-items: center;
+                background: var(--bg-secondary, #1a1a1a);
+                border: 2px solid var(--border-color, #333);
+                border-radius: 50px;
+                overflow: hidden;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .search-bar:focus-within {
+                border-color: var(--accent-color, #666);
+                box-shadow: 0 4px 25px rgba(102, 102, 102, 0.2);
+            }
+
+            .search-input {
+                flex: 1;
+                background: transparent;
+                border: none;
+                padding: 1rem 1.5rem;
+                color: var(--text-primary, #ffffff);
+                font-size: 1rem;
+                font-family: inherit;
+                outline: none;
+            }
+
+            .search-input::placeholder {
+                color: var(--text-secondary, #888);
+                font-style: italic;
+            }
+
+            .search-button {
+                background: transparent;
+                border: none;
+                padding: 1rem 1.5rem;
+                color: var(--text-secondary, #888);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .search-button:hover {
+                color: var(--text-primary, #ffffff);
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .search-results-count {
+                margin-top: 1rem;
+                color: var(--text-secondary, #888);
+                font-size: 0.9rem;
+                font-style: italic;
             }
 
             .page-header p {
@@ -211,7 +281,7 @@
             }
 
             .cart-modal-content {
-                background: white;
+                background: var(--bg-primary, #0a0a0a);
                 width: 90%;
                 max-width: 500px;
                 max-height: 80vh;
@@ -315,8 +385,9 @@
             .cart-item-quantity button {
                 width: 30px;
                 height: 30px;
-                border: 1px solid #ddd;
-                background: white;
+                border: 1px solid var(--border-color, #1f1f1f);
+                background: var(--bg-secondary, #111111);
+                color: var(--text-primary, #ffffff);
                 border-radius: 50%;
                 cursor: pointer;
                 display: flex;
@@ -332,9 +403,9 @@
             }
 
             .cart-footer {
-                background: #f8f9fa;
+                background: var(--bg-secondary, #111111);
                 padding: 1.5rem;
-                border-top: 1px solid #eee;
+                border-top: 1px solid var(--border-color, #1f1f1f);
             }
 
             .cart-total {
@@ -353,7 +424,7 @@
             .total-price {
                 font-size: 1.2rem;
                 font-weight: bold;
-                color: #333;
+                color: var(--text-primary, #ffffff);
             }
 
             .checkout-btn {
@@ -543,7 +614,7 @@
 
             .product-badge.sale {
                 background: #ffd700;
-                color: #333;
+                color: var(--text-dark, #000000);
             }
 
             .product-info h3 {
@@ -562,7 +633,7 @@
             .product-price {
                 font-size: 1.3rem;
                 font-weight: bold;
-                color: #333;
+                color: var(--text-primary, #ffffff);
                 margin: 0.5rem 0;
                 display: flex;
                 align-items: center;
@@ -630,7 +701,7 @@
             .size-btn:hover,
             .size-btn.selected {
                 background: #ffd700;
-                color: #333;
+                color: var(--text-dark, #000000);
                 border-color: #ffd700;
             }
 
@@ -642,7 +713,7 @@
             .add-to-cart-btn {
                 flex: 1;
                 background: linear-gradient(135deg, #ffd700, #ffed4e);
-                color: #333;
+                color: var(--text-dark, #000000);
                 border: none;
                 padding: 0.8rem;
                 border-radius: 10px;
@@ -820,34 +891,60 @@
                 </div>
             </section>
 
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="container">
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <input type="text"
+                                   id="productSearch"
+                                   placeholder="Search products..."
+                                   class="search-input">
+                            <button class="search-button" onclick="searchProducts()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M21 21L16.5 16.5M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="search-results-count" id="searchResultsCount" style="display: none;">
+                            <span id="resultCount">0</span> products found
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Categories Section -->
             <section class="categories-section">
                 <div class="container">
                     <div class="categories-grid">
                     <div class="category-card active" data-category="all" onclick="selectCategory('all')">
-                        <div class="category-icon">🎯</div>
+                        <div class="category-icon"></div>
                         <div class="category-name">All Products</div>
                         <div class="category-count" id="allCount">12 items</div>
                     </div>
-                    <div class="category-card" data-category="t-shirts" onclick="selectCategory('t-shirts')">
-                        <div class="category-icon">👕</div>
-                        <div class="category-name">T-Shirts</div>
-                        <div class="category-count" id="tshirtCount">6 items</div>
+                    <div class="category-card" data-category="new-items" onclick="selectCategory('new-items')">
+                        <div class="category-icon"></div>
+                        <div class="category-name">New Items</div>
+                        <div class="category-count" id="newItemsCount">3 items</div>
                     </div>
-                    <div class="category-card" data-category="hoodies" onclick="selectCategory('hoodies')">
-                        <div class="category-icon">🧥</div>
-                        <div class="category-name">Hoodies</div>
-                        <div class="category-count" id="hoodieCount">3 items</div>
+                    <div class="category-card" data-category="mens" onclick="selectCategory('mens')">
+                        <div class="category-icon"></div>
+                        <div class="category-name">Men's</div>
+                        <div class="category-count" id="mensCount">6 items</div>
                     </div>
-                    <div class="category-card" data-category="accessories" onclick="selectCategory('accessories')">
-                        <div class="category-icon">🧢</div>
-                        <div class="category-name">Accessories</div>
-                        <div class="category-count" id="accessoryCount">2 items</div>
+                    <div class="category-card" data-category="womens" onclick="selectCategory('womens')">
+                        <div class="category-icon"></div>
+                        <div class="category-name">Women's</div>
+                        <div class="category-count" id="womensCount">4 items</div>
                     </div>
-                    <div class="category-card" data-category="mugs" onclick="selectCategory('mugs')">
-                        <div class="category-icon">☕</div>
-                        <div class="category-name">Mugs</div>
-                        <div class="category-count" id="mugCount">1 item</div>
+                    <div class="category-card" data-category="subscriptions" onclick="selectCategory('subscriptions')">
+                        <div class="category-icon"></div>
+                        <div class="category-name">Subscriptions</div>
+                        <div class="category-count" id="subscriptionsCount">2 items</div>
                     </div>
                 </div>
             </section>
@@ -970,88 +1067,160 @@
                             price: 24.99,
                             originalPrice: null,
                             category: 't-shirts',
-                            image: '👕',
+                            image: '',
                             badge: 'new',
                             rating: 4.8,
                             reviewCount: 127,
                             sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
                             colors: ['Black', 'White', 'Navy', 'Heather Gray'],
-                            featured: true
+                            featured: true,
+                            gender: 'unisex',
+                            isNew: true,
+                            isSubscription: false
                         },
                         {
                             id: 'ft002',
-                            name: 'Trendy Graphic Hoodie',
-                            description: 'Cozy pullover hoodie with unique artistic design',
-                            price: 39.99,
-                            originalPrice: 49.99,
-                            category: 'hoodies',
-                            image: '🧥',
-                            badge: 'sale',
-                            rating: 4.6,
+                            name: 'Military Inspired Long Sleeve',
+                            description: 'Premium long sleeve t-shirt with tactical design elements',
+                            price: 34.99,
+                            originalPrice: null,
+                            category: 'long-sleeve',
+                            image: '',
+                            badge: 'new',
+                            rating: 4.7,
                             reviewCount: 89,
                             sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-                            colors: ['Black', 'Gray', 'Burgundy'],
-                            featured: true
+                            colors: ['Black', 'OD Green', 'Charcoal'],
+                            featured: true,
+                            gender: 'mens',
+                            isNew: true,
+                            isSubscription: false
                         },
                         {
                             id: 'ft003',
-                            name: 'Coffee Lover Mug',
-                            description: 'Premium ceramic mug perfect for your morning brew',
-                            price: 14.99,
-                            originalPrice: null,
-                            category: 'mugs',
-                            image: '☕',
-                            badge: null,
-                            rating: 4.9,
-                            reviewCount: 203,
-                            sizes: ['11oz', '15oz'],
-                            colors: ['White', 'Black'],
-                            featured: false
+                            name: 'Tactical Sweatshirt',
+                            description: 'Heavy-duty cotton blend sweatshirt for durability and comfort',
+                            price: 49.99,
+                            originalPrice: 59.99,
+                            category: 'sweatshirts',
+                            image: '',
+                            badge: 'sale',
+                            rating: 4.8,
+                            reviewCount: 156,
+                            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+                            colors: ['Black', 'Gray', 'Navy'],
+                            featured: true,
+                            gender: 'mens',
+                            isNew: false,
+                            isSubscription: false
                         },
                         {
                             id: 'ft004',
-                            name: 'Vintage Style Cap',
-                            description: 'Adjustable baseball cap with embroidered logo',
-                            price: 19.99,
+                            name: 'Combat Ready Hoodie',
+                            description: 'Premium hoodie with military-inspired graphics and designs',
+                            price: 59.99,
                             originalPrice: null,
-                            category: 'accessories',
-                            image: '🧢',
+                            category: 'hoodies',
+                            image: '',
                             badge: null,
-                            rating: 4.4,
-                            reviewCount: 56,
-                            sizes: ['One Size'],
-                            colors: ['Black', 'Navy', 'White', 'Khaki'],
-                            featured: false
+                            rating: 4.9,
+                            reviewCount: 203,
+                            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+                            colors: ['Black', 'OD Green', 'Coyote Brown'],
+                            featured: true,
+                            gender: 'mens',
+                            isNew: false,
+                            isSubscription: false
                         },
                         {
                             id: 'ft005',
-                            name: 'Minimalist Tote Bag',
-                            description: 'Eco-friendly canvas tote with clean design',
-                            price: 16.99,
+                            name: 'Women\'s Fitted Tee',
+                            description: 'Soft cotton t-shirt with tailored fit and feminine styling',
+                            price: 26.99,
                             originalPrice: null,
-                            category: 'accessories',
-                            image: '👜',
-                            badge: null,
-                            rating: 4.7,
-                            reviewCount: 34,
-                            sizes: ['One Size'],
-                            colors: ['Natural', 'Black'],
-                            featured: false
+                            category: 't-shirts',
+                            image: '',
+                            badge: 'new',
+                            rating: 4.6,
+                            reviewCount: 142,
+                            sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                            colors: ['Black', 'White', 'Pink', 'Heather Gray'],
+                            featured: true,
+                            gender: 'womens',
+                            isNew: true,
+                            isSubscription: false
                         },
                         {
                             id: 'ft006',
+                            name: 'Women\'s Cozy Hoodie',
+                            description: 'Ultra-soft hoodie with relaxed fit and feminine details',
+                            price: 54.99,
+                            originalPrice: null,
+                            category: 'hoodies',
+                            image: '',
+                            badge: null,
+                            rating: 4.8,
+                            reviewCount: 98,
+                            sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                            colors: ['Black', 'Gray', 'Blush', 'Navy'],
+                            featured: true,
+                            gender: 'womens',
+                            isNew: false,
+                            isSubscription: false
+                        },
+                        {
+                            id: 'ft007',
+                            name: 'Monthly Tee Subscription',
+                            description: 'Get a new custom t-shirt delivered monthly with exclusive designs',
+                            price: 19.99,
+                            originalPrice: 24.99,
+                            category: 'subscription',
+                            image: '',
+                            badge: 'subscription',
+                            rating: 4.9,
+                            reviewCount: 245,
+                            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+                            colors: ['Varies'],
+                            featured: true,
+                            gender: 'unisex',
+                            isNew: false,
+                            isSubscription: true
+                        },
+                        {
+                            id: 'ft008',
+                            name: 'Premium Apparel Box',
+                            description: 'Quarterly subscription box with premium hoodies and exclusive items',
+                            price: 39.99,
+                            originalPrice: 49.99,
+                            category: 'subscription',
+                            image: '',
+                            badge: 'subscription',
+                            rating: 4.7,
+                            reviewCount: 89,
+                            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+                            colors: ['Varies'],
+                            featured: true,
+                            gender: 'unisex',
+                            isNew: false,
+                            isSubscription: true
+                        },
+                        {
+                            id: 'ft009',
                             name: 'Streetwear Oversized Tee',
                             description: 'Relaxed fit t-shirt with bold street art design',
                             price: 28.99,
                             originalPrice: null,
                             category: 't-shirts',
-                            image: '👕',
+                            image: '',
                             badge: null,
                             rating: 4.5,
                             reviewCount: 78,
                             sizes: ['M', 'L', 'XL', 'XXL'],
                             colors: ['Black', 'White'],
-                            featured: true
+                            featured: true,
+                            gender: 'mens',
+                            isNew: false,
+                            isSubscription: false
                         }
                     ];
                 }
@@ -1136,9 +1305,20 @@
                     const searchInput = document.getElementById('searchInput').value.toLowerCase();
 
                     // Start with selected category
-                    filteredProducts = selectedCategory === 'all'
-                        ? [...products]
-                        : products.filter(p => p.category === selectedCategory);
+                    if (selectedCategory === 'all') {
+                        filteredProducts = [...products];
+                    } else if (selectedCategory === 'new-items') {
+                        filteredProducts = products.filter(p => p.isNew);
+                    } else if (selectedCategory === 'mens') {
+                        filteredProducts = products.filter(p => p.gender === 'mens' || p.gender === 'unisex');
+                    } else if (selectedCategory === 'womens') {
+                        filteredProducts = products.filter(p => p.gender === 'womens' || p.gender === 'unisex');
+                    } else if (selectedCategory === 'subscriptions') {
+                        filteredProducts = products.filter(p => p.isSubscription);
+                    } else {
+                        // Fallback for any other categories
+                        filteredProducts = [...products];
+                    }
 
                     // Apply search filter
                     if (searchInput) {
@@ -1246,7 +1426,20 @@
 
                 function updateResultsCount() {
                     const count = filteredProducts.length;
-                    const total = selectedCategory === 'all' ? products.length : products.filter(p => p.category === selectedCategory).length;
+                    let total;
+                    if (selectedCategory === 'all') {
+                        total = products.length;
+                    } else if (selectedCategory === 'new-items') {
+                        total = products.filter(p => p.isNew).length;
+                    } else if (selectedCategory === 'mens') {
+                        total = products.filter(p => p.gender === 'mens' || p.gender === 'unisex').length;
+                    } else if (selectedCategory === 'womens') {
+                        total = products.filter(p => p.gender === 'womens' || p.gender === 'unisex').length;
+                    } else if (selectedCategory === 'subscriptions') {
+                        total = products.filter(p => p.isSubscription).length;
+                    } else {
+                        total = products.length;
+                    }
                     document.getElementById('resultsCount').textContent =
                         `Showing ${count} of ${total} products`;
                 }
@@ -1255,17 +1448,17 @@
                 function updateCategoryCounts() {
                     const counts = {
                         all: products.length,
-                        't-shirts': products.filter(p => p.category === 't-shirts').length,
-                        hoodies: products.filter(p => p.category === 'hoodies').length,
-                        accessories: products.filter(p => p.category === 'accessories').length,
-                        mugs: products.filter(p => p.category === 'mugs').length
+                        new: products.filter(p => p.isNew).length,
+                        mens: products.filter(p => p.gender === 'mens' || p.gender === 'unisex').length,
+                        womens: products.filter(p => p.gender === 'womens' || p.gender === 'unisex').length,
+                        subscriptions: products.filter(p => p.isSubscription).length
                     };
 
                     document.getElementById('allCount').textContent = `${counts.all} items`;
-                    document.getElementById('tshirtCount').textContent = `${counts['t-shirts']} items`;
-                    document.getElementById('hoodieCount').textContent = `${counts.hoodies} items`;
-                    document.getElementById('accessoryCount').textContent = `${counts.accessories} items`;
-                    document.getElementById('mugCount').textContent = `${counts.mugs} items`;
+                    document.getElementById('newCount').textContent = `${counts.new} items`;
+                    document.getElementById('mensCount').textContent = `${counts.mens} items`;
+                    document.getElementById('womensCount').textContent = `${counts.womens} items`;
+                    document.getElementById('subscriptionsCount').textContent = `${counts.subscriptions} items`;
                 }
 
                 // Shopping cart functions
@@ -1316,7 +1509,7 @@
                         showNotification('Removed from wishlist');
                     } else {
                         btn.classList.add('active');
-                        btn.textContent = '❤️';
+                        btn.textContent = '♡';
                         showNotification('Added to wishlist');
                     }
                 };
@@ -1465,6 +1658,52 @@
 
                 // Initialize page when DOM is loaded
                 document.addEventListener('DOMContentLoaded', initializePage);
+
+                // Search functionality
+                // Search products function
+                window.searchProducts = function() {
+                    const searchTerm = document.getElementById('productSearch').value.toLowerCase().trim();
+                    const searchResultsCount = document.getElementById('searchResultsCount');
+                    const resultCount = document.getElementById('resultCount');
+
+                    if (searchTerm === '') {
+                        // Show all products if search is empty
+                        filteredProducts = products;
+                        searchResultsCount.style.display = 'none';
+                    } else {
+                        // Filter products by search term
+                        filteredProducts = products.filter(product =>
+                            product.name.toLowerCase().includes(searchTerm) ||
+                            product.description.toLowerCase().includes(searchTerm) ||
+                            product.category.toLowerCase().includes(searchTerm)
+                        );
+
+                        // Show search results count
+                        resultCount.textContent = filteredProducts.length;
+                        searchResultsCount.style.display = 'block';
+                    }
+
+                    // Display filtered products
+                    displayProducts(filteredProducts);
+                };
+
+                // Add real-time search on input
+                document.addEventListener('DOMContentLoaded', function() {
+                    const searchInput = document.getElementById('productSearch');
+                    if (searchInput) {
+                        searchInput.addEventListener('input', function() {
+                            window.searchProducts();
+                        });
+
+                        // Handle Enter key press
+                        searchInput.addEventListener('keypress', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                window.searchProducts();
+                            }
+                        });
+                    }
+                });
 
             })();
         </script>
