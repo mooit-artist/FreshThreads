@@ -66,7 +66,7 @@ jobs:
             config docker-compose.sonarqube.yml
 
       - name: Upload security reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: security-reports
@@ -242,7 +242,7 @@ jobs:
           python scripts/generate-security-dashboard.py
 
       - name: Upload monitoring results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: security-monitoring-results
           path: |
@@ -279,7 +279,7 @@ jobs:
           python scripts/analyze_html.py >> compliance-report.md
 
       - name: Upload compliance report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pci-compliance-report
           path: compliance-report.md
