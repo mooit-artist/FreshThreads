@@ -554,6 +554,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </section>
     </main>
 
@@ -561,77 +562,54 @@
     <div class="promo-circle" onclick="openSignupModal()">
         <div class="promo-text">GET 20%<br>OFF!</div>
     </div>
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Why Choose FreshThreads?</h2>
-                    <p class="section-description">
-                        Premium custom apparel with military precision and American values.
-                    </p>
-                </div>
 
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">�</div>
-                        <h3 class="feature-title">Military Precision</h3>
-                        <p class="feature-description">
-                            Every design crafted with military precision and attention to detail.
-                            Bold graphics that command respect and express your values.
-                        </p>
-                    </div>
+    <script>
+        // Modal functionality for promotional circle
+        function openSignupModal() {
+            alert('Sign up for 20% off your first order!\n\nEmail: hello@freshthreadsllc.com');
+        }
 
-                    <div class="feature-card">
-                        <div class="feature-icon"></div>
-                        <h3 class="feature-title">Premium Quality</h3>
-                        <p class="feature-description">
-                            Superior materials and printing technology ensure your apparel
-                            stands the test of time, just like your principles.
-                        </p>
-                    </div>
+        // Handle all button interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to all buttons
+            var buttons = document.querySelectorAll('button, .btn');
+            buttons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    var buttonText = this.textContent.trim();
 
-                    <div class="feature-card">
-                        <div class="feature-icon"></div>
-                        <h3 class="feature-title">Custom Made</h3>
-                        <p class="feature-description">
-                            Every piece crafted specifically for you, ensuring perfect fit and freshness.
-                            Fast shipping, sustainable practices.
-                        </p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">�🇸</div>
-                        <h3 class="feature-title">Proudly American</h3>
-                        <p class="feature-description">
-                            Supporting American values and veterans. Every purchase contributes
-                            to causes that matter to our community.
-                        </p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon"></div>
-                        <h3 class="feature-title">Unique Designs</h3>
-                        <p class="feature-description">
-                            Original artwork and designs you won't find anywhere else.
-                            Stand out from the crowd with authentic military-inspired style.
-                        </p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon"></div>
-                        <h3 class="feature-title">Fast Delivery</h3>
-                        <p class="feature-description">
-                            Quick turnaround times and reliable shipping. Get your gear
-                            when you need it, where you need it.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Products -->
-        <section class="section featured-products">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Featured Products</h2>
+                    switch(buttonText) {
+                        case 'Shop Now':
+                        case 'Shop Collection':
+                            window.location.href = 'products.html';
+                            break;
+                        case 'Learn More':
+                            window.location.href = 'about.html';
+                            break;
+                        case 'Join Early Access':
+                            window.location.href = 'register.html';
+                            break;
+                        case 'View Details':
+                            alert('Product details coming soon!');
+                            break;
+                        case 'Subscribe':
+                            var emailInput = document.querySelector('input[type="email"]');
+                            var email = emailInput && emailInput.value;
+                            if (email && email.indexOf('@') !== -1) {
+                                alert('Thank you for subscribing!');
+                                emailInput.value = '';
+                            } else {
+                                alert('Please enter a valid email address.');
+                            }
+                            break;
+                        default:
+                            console.log('Button clicked:', buttonText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
                     <p class="section-description">
                         Explore our premium custom apparel collection.
                     </p>
