@@ -1,0 +1,23 @@
+{
+  "filename": "kawaii_cute_20250804_232940_1.png",
+  "theme": "kawaii_cute",
+  "prompt_data": {
+    "main_prompt": "Design a T-shirt featuring kawaii and cute Japanese-inspired characters in pastel colors, with cheerful expressions. The composition should showcase multiple adorable creatures interacting or engaging in activities that embody kawaii culture. Use typography that complements the aesthetic and avoid overly complex designs or unnecessary details. Ensure the final image is of high quality and suitable for print-on-demand production.",
+    "negative_prompt": "Avoid low-quality images, overly busy compositions, and poor color choices. Steer clear of designs with harsh lines or aggressive characters, as these don't align with the kawaii vibe. Keep typography simple and readable.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_ midas"
+  },
+  "generated_at": "2025-08-04T23:29:40.596563",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "original_filename": "FreshThreads_design_00028_.png"
+}

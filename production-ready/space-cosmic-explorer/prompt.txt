@@ -1,0 +1,15 @@
+MAIN PROMPT:
+A celestial T-shirt design featuring a cosmic explorer embarking on an ethereal journey through the stars, surrounded by mesmerizing galaxy elements and vibrant space colors. The composition showcases a balanced blend of visual interest and legibility, with a focus on intricate star patterns and deep purples complementing cosmic blues and starlight whites. Typography should be clear and modern, evoking a sense of adventure and wonder.
+
+NEGATIVE PROMPT:
+Avoid excessive noise or blurriness, poor color balance, overly complex compositions, and unrecognizable elements that don't effectively convey the concept on a T-shirt.
+
+GENERATION PARAMETERS:
+- Model: DreamShaperXL Turbo
+- Acceleration: LCM-LoRA
+- Steps: 6
+- CFG Scale: 1.5
+- Sampler: euler_ancestral
+- Resolution: 768x768
+- ControlNet: depth_ocr (strength: 0.8)
+- Generated: 2025-08-04 23:29:26

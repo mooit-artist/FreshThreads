@@ -1,0 +1,93 @@
+{
+  "batch_id": "20250804_231802",
+  "total_items": 3,
+  "successful": 3,
+  "failed": 0,
+  "results": [
+    {
+      "success": true,
+      "theme": "tech_minimal",
+      "concept": "Error 404: Sleep Not Found - minimalist design for developers",
+      "images": [
+        "advanced-design-pipeline/generated-designs/tech_minimal_20250804_231817_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231817",
+        "images": [
+          "advanced-design-pipeline/github-ready/tech_minimal_20250804_231817/tech_minimal_20250804_231817_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231817/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231817/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231817/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "The T-shirt design features a minimalist tech aesthetic with clean typography and geometric shapes. The main focus is on the 'Error 404: Sleep Not Found' concept, with a monochromatic color palette and an accent of bright blue. The design consists of bold lines representing code glitches, with a sleek font displaying the error message in an eye-catching way.",
+        "negative_prompt": "Avoid overcomplicated designs that don't work well on T-shirts due to low legibility or unappealing aesthetics. Also avoid poor quality indicators such as blurriness, pixelation, or low color contrast.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "retro_gaming",
+      "concept": "Level Up Your Style - retro gaming inspired design",
+      "images": [
+        "advanced-design-pipeline/generated-designs/retro_gaming_20250804_231831_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231831",
+        "images": [
+          "advanced-design-pipeline/github-ready/retro_gaming_20250804_231831/retro_gaming_20250804_231831_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231831/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231831/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231831/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "A retro gaming-inspired T-shirt design featuring a pixel art character 'Level Up Your Style.' The concept focuses on nostalgic gaming culture with elements of iconic 8-bit pixel art and neon colors. This design includes characters playing classic video games in vibrant neon hues, set against dark backgrounds to emphasize the retro aesthetic. Typography should be clean and bold, utilizing graphic elements such as pixelated outlines or neon accents to enhance the overall style.",
+        "negative_prompt": "Avoid overly complex designs that may not translate well to a T-shirt format. Poor quality indicators include low-resolution images, poor color balance, and cluttered compositions that are difficult to read at a glance.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "streetwear_urban",
+      "concept": "Fresh Threads - bold urban streetwear design",
+      "images": [
+        "advanced-design-pipeline/generated-designs/streetwear_urban_20250804_231846_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231846",
+        "images": [
+          "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231846/streetwear_urban_20250804_231846_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231846/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231846/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231846/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "Bold urban streetwear T-shirt design featuring a fresh take on graffiti-inspired graphics. The composition consists of a large, eye-catching graphic on the front, with bold typography and additional graphical elements surrounding it. The colors are high contrast and vibrant, utilizing bold accent colors to make the design stand out. Ensure that the final image is of high quality and suitable for print-on-demand production.",
+        "negative_prompt": "Avoid poorly executed designs with low-quality graphics, unappealing color choices, or uncomfortable typography. Also, steer clear of overly complex compositions that may not work well on a T-shirt.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_ midas"
+      }
+    }
+  ],
+  "generated_at": "2025-08-04T23:18:46.308810"
+}

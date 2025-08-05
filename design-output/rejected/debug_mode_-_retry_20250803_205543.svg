@@ -1,0 +1,8 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <text x="150" y="250" font-size="16px" fill="#00FF00">Error 404: Sleep Not Found</text>
+  <path d="M150 250 L300 250 L400 150 Z" fill="#000000" stroke="#ffffff" stroke-width="2px"></path>
+  <linearGradient id="grad" x1="0" y1="0" x2="400" y2="300">
+    <stop offset="0% " stop-color="#00FF00" stop-opacity="1"></stop>
+    <stop offset="100% " stop-color="#000000" stop-opacity="1"></stop>
+  </linearGradient>
+</svg>

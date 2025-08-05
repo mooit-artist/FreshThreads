@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Threads - AI Design Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/minimalistic.css">
+    <link rel="stylesheet" href="logo.css">
+    <style>
+        .ai-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-primary, #0a0a0a);
+            min-height: 100vh;
+            color: var(--text-primary, #ffffff);
+        }
+
+        .ai-header {
+            text-align: center;
+            padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
+            border-bottom: 1px solid var(--border-color, #1f1f1f);
+        }
+
+        .header-logo {
+            margin-bottom: var(--space-lg);
+        }
+
+        .ai-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            background: linear-gradient(135deg, var(--text-primary, #ffffff), rgba(255, 255, 255, 0.7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .ai-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary, #9ca3af);
+            margin-bottom: var(--space-xl);
+            font-weight: 500;
+        }
+
+        .pipeline-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            justify-content: center;
+            margin-top: var(--space-lg);
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, #1f1f1f);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-primary, #ffffff);
+        }
+
+        .ai-content {
+            padding: var(--space-2xl);
+        }
+
+        .ai-section {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .ai-section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary, #ffffff);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .theme-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color, #1f1f1f);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .theme-card.selected {
+            border-color: var(--text-primary, #ffffff);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-header h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-primary, #ffffff);
+        }
+
+        .theme-description p {
+            margin-bottom: var(--space-sm);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: var(--text-secondary, #9ca3af);
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color, #1f1f1f);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary, #ffffff);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-md);
+            border: 1px solid var(--border-color, #1f1f1f);
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary, #ffffff);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            margin-top: var(--space-sm);
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-label {
+            display: inline-block;
+            padding: var(--space-md) var(--space-xl);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, #1f1f1f);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            color: var(--text-primary, #ffffff);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+
+        .file-upload-label:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .file-preview {
+            margin-top: var(--space-md);
+            text-align: center;
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color, #1f1f1f);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+        }
+
+        .file-preview img {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color, #1f1f1f);
+        }
+
+        .file-preview-name {
+            margin-top: var(--space-sm);
+            font-size: 0.875rem;
+            color: var(--text-secondary, #9ca3af);
+            font-weight: 500;
+        }
+
+        .buttons {
+            display: flex;
+            gap: var(--space-lg);
+            justify-content: center;
+            margin-top: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .status-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color, #1f1f1f);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin: var(--space-xl) 0;
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: var(--space-sm);
+            border: 1px solid;
+            font-size: 0.875rem;
+        }
+
+        .status-connected {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .status-disconnected {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .demo-note {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            margin: var(--space-xl) 0;
+            text-align: center;
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="ai-container">
+        <div class="ai-header">
+            <div class="header-logo">
+                <div class="freshthreads-logo logo-header">
+                    <div class="brand-main">FRESH THREADS</div>
+                    <div class="brand-cross">
+                        <div class="cross-line cross-line-1"></div>
+                        <div class="cross-line cross-line-2"></div>
+                    </div>
+                    <div class="brand-llc">LLC</div>
+                </div>
+            </div>
+            <h1>🎨 AI Design Generator</h1>
+            <p>Military-Inspired Custom Apparel | DreamShaperXL Turbo + ControlNet + Dolphin Llama 3</p>
+            <div class="pipeline-features">
+                <div class="feature">🧠 Smart Prompts</div>
+                <div class="feature">🎨 Military Themes</div>
+                <div class="feature">🔍 Reference Control</div>
+                <div class="feature">⚡ Ultra Speed</div>
+                <div class="feature">🇺🇸 American Made</div>
+            </div>
+        </div>
+
+        <div class="ai-content">
+            <div class="demo-note">
+                <strong>🎨 Preview Mode:</strong> This is a static preview of the Fresh Threads themed ComfyUI interface.
+                The actual interface includes full AI generation capabilities.
+            </div>
+
+            <!-- ComfyUI Status -->
+            <div class="ai-section">
+                <h2 class="ai-section-title">🔗 Pipeline Connection</h2>
+                <div class="status-section">
+                    <div class="status-indicator status-disconnected">
+                        🔴 ComfyUI Demo Mode
+                    </div>
+                    <p style="font-weight: 500; color: var(--text-secondary, #9ca3af); margin-top: var(--space-sm);">
+                        Interface themed to match Fresh Threads index.html styling
+                    </p>
+                </div>
+            </div>
+
+            <!-- Theme Selection -->
+            <div class="ai-section">
+                <h2 class="ai-section-title">🎯 Mission Theme Selection</h2>
+                <div class="themes-grid">
+                    <div class="theme-card selected" data-theme="tech_operator">
+                        <div class="theme-header">
+                            <h3>🔧 Tech Operator</h3>
+                        </div>
+                        <div class="theme-description">
+                            <p>Error 404: Sleep Not Found</p>
+                            <p>Tactical minimalism for tech warriors</p>
+                        </div>
+                    </div>
+                    <div class="theme-card" data-theme="digital_combat">
+                        <div class="theme-header">
+                            <h3>🎮 Digital Combat</h3>
+                        </div>
+                        <div class="theme-description">
+                            <p>Level Up Your Arsenal</p>
+                            <p>Cyber warfare meets vintage gaming</p>
+                        </div>
+                    </div>
+                    <div class="theme-card" data-theme="urban_warfare">
+                        <div class="theme-header">
+                            <h3>🏙️ Urban Warfare</h3>
+                        </div>
+                        <div class="theme-description">
+                            <p>Fresh Threads Command</p>
+                            <p>Dominant streetwear operation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design Configuration -->
+            <div class="ai-section">
+                <h2 class="ai-section-title">⚙️ Mission Configuration</h2>
+                <div class="form-section">
+                    <div class="form-group">
+                        <label class="form-label">💡 Design Concept</label>
+                        <textarea class="form-input form-textarea" placeholder="Describe your T-shirt design mission. Our AI will enhance this with military precision...">Cyberpunk tech warrior with glitch effects and neon accents</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">⚡ Combat Speed</label>
+                        <div style="margin-top: var(--space-sm);">
+                            <div style="margin-bottom: var(--space-sm);">
+                                <input type="radio" id="speedFast" name="generationSpeed" value="fast" checked>
+                                <label for="speedFast" style="margin-left: var(--space-sm); font-weight: 500; color: var(--text-primary, #ffffff);">
+                                    ⚡ <strong>Fast Strike</strong> - ~6 seconds, tactical quality, rapid deployment
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" id="speedSlow" name="generationSpeed" value="slow">
+                                <label for="speedSlow" style="margin-left: var(--space-sm); font-weight: 500; color: var(--text-primary, #ffffff);">
+                                    🎯 <strong>Precision Strike</strong> - ~30 seconds, maximum quality, mission critical
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">🖼️ Intel Reference (Optional)</label>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary, #9ca3af); margin-bottom: var(--space-sm); font-weight: 500;">
+                            Upload reference intel to guide the AI using ControlNet tactical analysis
+                        </p>
+                        <div class="file-upload">
+                            <input type="file" id="referenceImage" accept="image/*">
+                            <label for="referenceImage" class="file-upload-label">
+                                📤 Upload Intel
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation Options -->
+            <div class="ai-section">
+                <h2 class="ai-section-title">🚀 Deploy Mission</h2>
+                <div class="buttons">
+                    <button class="btn btn-primary">
+                        🎨 Single Strike
+                    </button>
+                    <button class="btn btn-secondary">
+                        📊 Full Deployment
+                    </button>
+                    <button class="btn btn-outline">
+                        🔄 Status Check
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme selection
+        document.querySelectorAll('.theme-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // File upload
+        document.getElementById('referenceImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                console.log('File selected:', file.name);
+            }
+        });
+    </script>
+</body>
+</html>

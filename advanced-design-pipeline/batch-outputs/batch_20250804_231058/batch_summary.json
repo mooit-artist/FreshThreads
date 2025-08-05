@@ -1,0 +1,93 @@
+{
+  "batch_id": "20250804_231058",
+  "total_items": 3,
+  "successful": 3,
+  "failed": 0,
+  "results": [
+    {
+      "success": true,
+      "theme": "tech_minimal",
+      "concept": "Error 404: Sleep Not Found - minimalist design for developers",
+      "images": [
+        "advanced-design-pipeline/generated-designs/tech_minimal_20250804_231113_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231113",
+        "images": [
+          "advanced-design-pipeline/github-ready/tech_minimal_20250804_231113/tech_minimal_20250804_231113_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231113/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231113/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/tech_minimal_20250804_231113/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "Description: An attractive T-shirt design featuring a minimalist tech aesthetic and clean typography, perfect for developers who appreciate sleek, modern designs. The image showcases geometric shapes in shades of monochromatic colors, accented by vibrant hues that pop against the backdrop. Typography is clear and easy to read, with an emphasis on legibility and simplicity. The composition is balanced and visually appealing, making it an ideal choice for print-on-demand production.",
+        "negative_prompt": "Avoid using low-quality graphics or poorly designed elements that may not translate well onto a T-shirt. Keep typography simple and easily readable, avoiding overly complex fonts. Maintain a consistent color palette throughout the design to ensure a professional appearance.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "retro_gaming",
+      "concept": "Level Up Your Style - retro gaming inspired design",
+      "images": [
+        "advanced-design-pipeline/generated-designs/retro_gaming_20250804_231127_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231127",
+        "images": [
+          "advanced-design-pipeline/github-ready/retro_gaming_20250804_231127/retro_gaming_20250804_231127_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231127/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231127/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/retro_gaming_20250804_231127/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "Create a retro gaming inspired T-shirt design featuring pixel art elements, neon colors, and 8-bit nostalgia. The concept is 'Level Up Your Style' with a focus on iconic gaming characters from the 80s and 90s. Design should include a dark background and vibrant neon color scheme to create an eye-catching effect. Typography should be bold and retro-inspired, complementing the overall design aesthetic.",
+        "negative_prompt": "Avoid overly complex compositions or designs that may not translate well onto a T-shirt. Minimize pixelation and ensure crisp lines for better print quality.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "streetwear_urban",
+      "concept": "Fresh Threads - bold urban streetwear design",
+      "images": [
+        "advanced-design-pipeline/generated-designs/streetwear_urban_20250804_231142_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231142",
+        "images": [
+          "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231142/streetwear_urban_20250804_231142_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231142/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231142/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/streetwear_urban_20250804_231142/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "professional T-shirt design, Fresh Threads - bold urban streetwear design, urban streetwear with bold graphics, bold, urban, street, graffiti, contemporary, high quality, detailed, print-ready, commercial design",
+        "negative_prompt": "low quality, blurry, pixelated, text, watermark, signature, frame, border, bad anatomy, deformed, ugly, poor composition",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_midas"
+      }
+    }
+  ],
+  "generated_at": "2025-08-04T23:11:42.461778"
+}

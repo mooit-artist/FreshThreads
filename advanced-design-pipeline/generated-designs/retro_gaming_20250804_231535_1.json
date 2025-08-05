@@ -1,0 +1,23 @@
+{
+  "filename": "retro_gaming_20250804_231535_1.png",
+  "theme": "retro_gaming",
+  "prompt_data": {
+    "main_prompt": "The T-shirt design features a retro gaming theme inspired by the nostalgic pixel art culture of the '80s and '90s. The central image is a stylized, 8-bit version of the iconic DreamShaperXL Turbo logo, rendered in vibrant neon colors against a dark background. The composition includes the original logo elements in a visually appealing arrangement, with an emphasis on clean lines and well-defined shapes. The design also incorporates typographic details such as retro-inspired font choices and tasteful use of negative space. This T-shirt design is perfect for print-on-demand production, offering a unique and eye-catching item for fans of retro gaming culture.",
+    "negative_prompt": "Avoid generic or overly simplified designs. Keep composition clear and avoid overcrowding. Ensure adequate contrast between text and background to maintain readability. Minimize blurriness and pixelation, which can be problematic in print-on-demand production.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "generated_at": "2025-08-04T23:15:35.290909",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "original_filename": "FreshThreads_design_00012_.png"
+}

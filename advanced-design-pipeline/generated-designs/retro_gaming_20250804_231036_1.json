@@ -1,0 +1,23 @@
+{
+  "filename": "retro_gaming_20250804_231036_1.png",
+  "theme": "retro_gaming",
+  "prompt_data": {
+    "main_prompt": "The T-shirt design features a retro gaming theme inspired by Pac-Man's maze gameplay. The concept is centered around a pixelated maze made of bright neon colors on a dark background, reminiscent of 8-bit and synthwave aesthetics. The composition showcases a detailed maze design that fills the shirt's front, with the game's iconic characters strategically placed within the labyrinth. Typography should be bold and playful, using retro-style fonts like Commodore 64 or Game Boy. Avoid overly complicated compositions or color schemes that may not translate well to print-on-demand production.",
+    "negative_prompt": "Common issues include poor resolution, unclear or pixelated graphics, and excessive clutter that makes it difficult to discern the main elements of the design. Elements that don't work well on T-shirts are complex vector art or highly detailed illustrations with lots of small details that may not reproduce well when printed.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "generated_at": "2025-08-04T23:10:36.629846",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "original_filename": "FreshThreads_design_00006_.png"
+}

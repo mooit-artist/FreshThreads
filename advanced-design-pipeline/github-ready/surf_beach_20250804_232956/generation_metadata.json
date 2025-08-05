@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "surf_beach",
+    "timestamp": "20250804_232956",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "A T-shirt design featuring a stunning ocean wave scene, evoking the spirit of surf culture and beach lifestyle. The image showcases a serene beachscape with crystal clear water, perfect waves for surfing, and a vibrant sun setting behind it all. The composition is simple yet striking, focusing on the beautiful natural elements while maintaining a clean and modern aesthetic. A bold font displays the phrase 'Ride the Waves' in a stylish yet readable way. The color palette consists of ocean blues, sandy beiges, and sunset oranges, creating an inviting atmosphere. This T-shirt design is perfect for print-on-demand production, appealing to those who love the beach, surfing, and the great outdoors.",
+    "negative_prompt": "Avoid overly complicated designs or elements that don't work well on a T-shirt such as small text or detailed illustrations. Poor quality indicators include pixelated images or low-resolution visuals.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_ midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "surf_beach_20250804_232956_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

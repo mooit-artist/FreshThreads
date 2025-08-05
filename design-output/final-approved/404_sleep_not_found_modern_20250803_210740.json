@@ -1,0 +1,34 @@
+{
+  "design_name": "Error 404: Sleep Not Found",
+  "style": "modern",
+  "collection": "Debug Mode",
+  "target_audience": "Developers, IT professionals, programmers",
+  "final_approved": true,
+  "production_ready": true,
+  "print_specifications": {
+    "format": "SVG vector",
+    "size": "10\" x 7.5\" recommended",
+    "placement": "Front chest, centered",
+    "print_methods": [
+      "Screen printing",
+      "DTG",
+      "Heat transfer"
+    ],
+    "color_profile": "RGB optimized"
+  },
+  "marketing_copy": {
+    "title": "Error 404: Sleep Not Found",
+    "description": "Perfect for developers who debug by day and dream in code by night",
+    "tags": [
+      "developer",
+      "programming",
+      "humor",
+      "404",
+      "sleep",
+      "tech"
+    ],
+    "suggested_price": "$24.99"
+  },
+  "timestamp": "20250803_210740",
+  "svg_file": "design-output/final-approved/404_sleep_not_found_modern_20250803_210740.svg"
+}

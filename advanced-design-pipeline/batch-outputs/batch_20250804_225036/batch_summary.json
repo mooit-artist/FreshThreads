@@ -1,0 +1,24 @@
+{
+  "batch_id": "20250804_225036",
+  "total_items": 3,
+  "successful": 0,
+  "failed": 3,
+  "results": [
+    {
+      "success": false,
+      "theme": "tech_minimal",
+      "error": "Workflow failed or timed out"
+    },
+    {
+      "success": false,
+      "theme": "retro_gaming",
+      "error": "Workflow failed or timed out"
+    },
+    {
+      "success": false,
+      "theme": "streetwear_urban",
+      "error": "Workflow failed or timed out"
+    }
+  ],
+  "generated_at": "2025-08-04T22:50:54.310081"
+}

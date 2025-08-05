@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "tech_minimal",
+    "timestamp": "20250804_232842",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "Design a minimalist tech-inspired T-shirt for ComfyUI's DreamShaperXL Turbo, featuring a clean aesthetic and modern geometric shapes. The design should incorporate a monochromatic color palette with accent colors to create an eye-catching print-on-demand product. Typography should be easily readable and complement the overall theme of 'Error 404: Sleep Not Found.' Avoid overly complex compositions or elements that may not translate well onto a T-shirt.",
+    "negative_prompt": "Common issues in AI-generated designs include low resolution, poor color choices, and unappealing compositions. Elements that don't work well on T-shirts might include intricate patterns or text-heavy designs. Poor quality indicators to avoid are blurriness, pixelation, and an overall lack of aesthetic appeal.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_ midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "tech_minimal_20250804_232842_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

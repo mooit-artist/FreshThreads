@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "gothic_dark",
+    "timestamp": "20250805_001553",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "Create a visually striking T-shirt design featuring a dark gothic aesthetic with mysterious elements inspired by the USA. The design should include intricate ornate patterns and dramatic compositions set against deep blacks, dark purples, and silver accents. Typography should be bold and eye-catching, ensuring high print quality suitable for on-demand production.",
+    "negative_prompt": "Avoid generic or overly simplified designs, low-quality graphics, and elements that don't work well on T-shirts such as poor legibility or excessive detail.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "gothic_dark_20250805_001553_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

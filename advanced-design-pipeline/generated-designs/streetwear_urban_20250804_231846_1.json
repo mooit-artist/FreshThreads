@@ -1,0 +1,23 @@
+{
+  "filename": "streetwear_urban_20250804_231846_1.png",
+  "theme": "streetwear_urban",
+  "prompt_data": {
+    "main_prompt": "Bold urban streetwear T-shirt design featuring a fresh take on graffiti-inspired graphics. The composition consists of a large, eye-catching graphic on the front, with bold typography and additional graphical elements surrounding it. The colors are high contrast and vibrant, utilizing bold accent colors to make the design stand out. Ensure that the final image is of high quality and suitable for print-on-demand production.",
+    "negative_prompt": "Avoid poorly executed designs with low-quality graphics, unappealing color choices, or uncomfortable typography. Also, steer clear of overly complex compositions that may not work well on a T-shirt.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_ midas"
+  },
+  "generated_at": "2025-08-04T23:18:46.305938",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "original_filename": "FreshThreads_design_00016_.png"
+}

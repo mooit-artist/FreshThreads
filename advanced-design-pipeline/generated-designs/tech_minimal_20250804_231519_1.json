@@ -1,0 +1,23 @@
+{
+  "filename": "tech_minimal_20250804_231519_1.png",
+  "theme": "tech_minimal",
+  "prompt_data": {
+    "main_prompt": "Design a minimalist T-shirt for DreamShaperXL Turbo featuring an 'Error 404: Sleep Not Found' concept. The design should incorporate clean typography and a monochromatic color palette with accent colors. Include geometric shapes in the composition, reflecting a modern tech aesthetic.",
+    "negative_prompt": "Avoid overly complex designs that may not reproduce well on T-shirt fabric. Limit the use of intricate details or patterns as they might appear pixelated when printed.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "generated_at": "2025-08-04T23:15:19.761915",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "original_filename": "FreshThreads_design_00011_.png"
+}

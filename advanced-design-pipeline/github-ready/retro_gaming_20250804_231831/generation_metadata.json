@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "retro_gaming",
+    "timestamp": "20250804_231831",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "A retro gaming-inspired T-shirt design featuring a pixel art character 'Level Up Your Style.' The concept focuses on nostalgic gaming culture with elements of iconic 8-bit pixel art and neon colors. This design includes characters playing classic video games in vibrant neon hues, set against dark backgrounds to emphasize the retro aesthetic. Typography should be clean and bold, utilizing graphic elements such as pixelated outlines or neon accents to enhance the overall style.",
+    "negative_prompt": "Avoid overly complex designs that may not translate well to a T-shirt format. Poor quality indicators include low-resolution images, poor color balance, and cluttered compositions that are difficult to read at a glance.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "retro_gaming_20250804_231831_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

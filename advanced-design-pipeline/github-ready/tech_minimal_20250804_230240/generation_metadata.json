@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "tech_minimal",
+    "timestamp": "20250804_230240",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "Design a minimalist T-shirt for developers featuring an 'Error 404: Sleep Not Found' theme. The design should incorporate clean typography and a modern geometric style with monochromatic colors and accent hues. Include an illustration of a computer screen displaying the error message, surrounded by circuit board patterns or similar technological elements. Use bold, legible typefaces for the text 'Error 404: Sleep Not Found' and any additional descriptive or humorous text on the back. Ensure the design is suitable for print-on-demand production.",
+    "negative_prompt": "Avoid using low-quality graphics, poorly chosen color combinations, or cluttered layouts that may distract from the main concept. Refrain from using copyrighted material without permission.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "tech_minimal_20250804_230240_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

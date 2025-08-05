@@ -1,0 +1,14 @@
+{
+  "filename": "gaming_20250803_212815.svg",
+  "theme": "gaming",
+  "enhanced_prompt": "## T-shirt Design Brief: Gaming/Geek - Humorous GenX Reference\n\n**Main Concept/Message:**\n\nA humorous take on GenX technology references within the gaming world. The design should evoke nostalgia and a sense of humor, appealing to young adults by referencing iconic tech brands and cultural moments.\n\n**Visual Style and Aesthetics:**\n\n* **Retro gaming:** Pixel art style reminiscent of classic video game interfaces and graphics.\n* **Boss battles:** Large, exaggerated boss characters from popular games as the main visual elements.\n* **Level up:** Icons and text that represent progress and progression in the game.\n* **Respawn humor:** Humorous visuals that reference the constant need to \"respawn\" in video games.\n* **Achievement unlocked:** Icons and text that represent unlocking achievements and milestones.\n* **Easter eggs:** Hidden references to additional content or jokes within the design.\n* **Console wars:** References to the iconic rivalry between PlayStation, Xbox, and Nintendo consoles.\n* **Speedrun references:** Visuals and text that speak to the competitive gaming community and speedrunning culture.\n* **Game over:** A playful and humorous ending to the design.\n\n**Typography Recommendations:**\n\n* **Pixel font:** For game titles, level up text, and other retro gaming references.\n* **Bold sans-serif font:** For headings and body text.\n* **Cursive font:** For humorous quotes or messages.\n\n**Color Palette Suggestions:**\n\n* **Primary:** Bright, vibrant colors like neon green, blue, and yellow.\n* **Secondary:** More subdued colors like black, gray, and white.\n\n**Composition Layout:**\n\n* **Center:** Large, dominant boss character takes center stage.\n* **Upper left:** Retro gaming references like joysticks, controllers, and game cartridges.\n* **Lower left:** Level up icons, achievement unlocked text, and respawn humor elements.\n* **Lower right:** Speedrun references, console wars imagery, and game over text.\n\n**Target Audience Appeal:**\n\n* Young adults (18-35)\n* Gamers and geek culture enthusiasts\n* People with a sense of humor and appreciation for pop culture references\n\n**Additional Notes:**\n\n* The design should be visually balanced and engaging.\n* The text should be clear, concise, and humorous.\n* The overall tone should be lighthearted and playful.\n* The design should be unique and stand out in the marketplace.\n* The final design should be suitable for screen printing or DTG printing.",
+  "model_used": "llama3.2:latest",
+  "timestamp": "20250803_212815",
+  "created_at": "2025-08-03T21:28:15.375169",
+  "status": "generated",
+  "outputs": {
+    "svg_file": "design-output/gaming_20250803_212815.svg",
+    "github_ready": false,
+    "printify_ready": false
+  }
+}

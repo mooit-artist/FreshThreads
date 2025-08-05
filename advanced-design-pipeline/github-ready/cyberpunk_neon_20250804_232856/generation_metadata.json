@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "cyberpunk_neon",
+    "timestamp": "20250804_232856",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "The T-shirt design features a futuristic cyberpunk aesthetic with neon lighting. The composition showcases a sleek black background with electric blues, hot pinks, and acid greens neon elements arranged in a visually striking pattern. Typography should be bold and modern, complementing the overall style while being easily readable. Avoid overly complex graphics or elements that may not translate well to print-on-demand production.",
+    "negative_prompt": "Avoid low-quality designs, poor color choices, and overcrowded compositions. Ensure that the design is optimized for print-on-demand production.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "cyberpunk_neon_20250804_232856_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

@@ -1,0 +1,37 @@
+<svg version="1.1" xmlns="http://www.w3.org/2thcv">
+    <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:rgba(255, 0, 0, 0.8); stop-opacity:1;"/>
+            <stop offset="100%" style="stop-color:rgba(255, 0, 0, 0); stop-opacity:0;">
+                <!-- Gradient stops -->
+            </stop>
+        </linearGradient>
+        
+        <filter id="dropshadow" height="135%">
+            <feGaussianBlur ink="white" result="diamond" stdDeviation="2.5"/>
+            <!-- Shadows -->
+            <feComposite operator="in" inks="diamond" in="SourceGraphic"/>
+        </filter>
+    </defs>
+    
+    <text x="10px" y="46%" width="80%"> 
+        400 Error: Please enter your credentials with a "@" key, not as @#$!@*
+    </text>
+    
+    <!-- Additional styling and positioning -->
+    <style>
+        text {
+            font-family: 'Helvetica', Arial, sans-serif;
+            font-size: 24px;
+            fill: #000;
+            filter: url(#dropshadow); /* Apply the shadow */
+        }
+        
+        .retro {
+            color: white;
+            stroke: black;
+            stroke-width: 3;
+            font-weight: bold;
+        }
+    </style>
+</svg>

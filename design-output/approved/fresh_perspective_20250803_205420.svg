@@ -1,0 +1,6 @@
+<svg width="400" height="300">
+  <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <text x="150" y="30" font-size="16" text-anchor="middle" fill="#1e3a8a">Fresh Perspective</text>
+    <text x="270" y="30" font-size="16" text-anchor="middle" fill="#10b981">Fresh Success</text>
+    <path d="M150 30 Q400 30 Q400 150" fill="#ffffff" stroke="#ffffff" stroke-width="2"/>
+  </svg>

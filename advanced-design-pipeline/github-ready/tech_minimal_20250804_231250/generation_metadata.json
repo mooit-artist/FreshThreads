@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "tech_minimal",
+    "timestamp": "20250804_231250",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "The T-shirt design for DreamShaperXL Turbo features a minimalist tech aesthetic with clean typography inspired by Einstein's famous equation, E=mc2. The design focuses on geometric shapes and sleek lines, representing the modern technology landscape. The monochromatic color palette complements the minimalistic approach, while an accent color adds a touch of visual interest.",
+    "negative_prompt": "Avoid overly complex designs that may not translate well to a T-shirt, as well as low-quality indicators such as pixelation or lack of detail. Poor typography choices and cluttered layouts should also be avoided.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_ midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "tech_minimal_20250804_231250_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

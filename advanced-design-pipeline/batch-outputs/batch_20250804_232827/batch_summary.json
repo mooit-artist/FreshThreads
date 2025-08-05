@@ -1,0 +1,177 @@
+{
+  "batch_id": "20250804_232827",
+  "total_items": 6,
+  "successful": 6,
+  "failed": 0,
+  "results": [
+    {
+      "success": true,
+      "theme": "tech_minimal",
+      "concept": "Error 404: Sleep Not Found - minimalist design for developers",
+      "images": [
+        "advanced-design-pipeline/generated-designs/tech_minimal_20250804_232842_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/tech_minimal_20250804_232842",
+        "images": [
+          "advanced-design-pipeline/github-ready/tech_minimal_20250804_232842/tech_minimal_20250804_232842_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/tech_minimal_20250804_232842/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/tech_minimal_20250804_232842/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/tech_minimal_20250804_232842/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "Design a minimalist tech-inspired T-shirt for ComfyUI's DreamShaperXL Turbo, featuring a clean aesthetic and modern geometric shapes. The design should incorporate a monochromatic color palette with accent colors to create an eye-catching print-on-demand product. Typography should be easily readable and complement the overall theme of 'Error 404: Sleep Not Found.' Avoid overly complex compositions or elements that may not translate well onto a T-shirt.",
+        "negative_prompt": "Common issues in AI-generated designs include low resolution, poor color choices, and unappealing compositions. Elements that don't work well on T-shirts might include intricate patterns or text-heavy designs. Poor quality indicators to avoid are blurriness, pixelation, and an overall lack of aesthetic appeal.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_ midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "cyberpunk_neon",
+      "concept": "Neural Network Dreams - futuristic cyberpunk aesthetic",
+      "images": [
+        "advanced-design-pipeline/generated-designs/cyberpunk_neon_20250804_232856_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/cyberpunk_neon_20250804_232856",
+        "images": [
+          "advanced-design-pipeline/github-ready/cyberpunk_neon_20250804_232856/cyberpunk_neon_20250804_232856_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/cyberpunk_neon_20250804_232856/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/cyberpunk_neon_20250804_232856/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/cyberpunk_neon_20250804_232856/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "The T-shirt design features a futuristic cyberpunk aesthetic with neon lighting. The composition showcases a sleek black background with electric blues, hot pinks, and acid greens neon elements arranged in a visually striking pattern. Typography should be bold and modern, complementing the overall style while being easily readable. Avoid overly complex graphics or elements that may not translate well to print-on-demand production.",
+        "negative_prompt": "Avoid low-quality designs, poor color choices, and overcrowded compositions. Ensure that the design is optimized for print-on-demand production.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "retro_gaming",
+      "concept": "Level Up Your Style - retro gaming inspired design",
+      "images": [
+        "advanced-design-pipeline/generated-designs/retro_gaming_20250804_232911_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/retro_gaming_20250804_232911",
+        "images": [
+          "advanced-design-pipeline/github-ready/retro_gaming_20250804_232911/retro_gaming_20250804_232911_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/retro_gaming_20250804_232911/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/retro_gaming_20250804_232911/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/retro_gaming_20250804_232911/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "A retro gaming inspired T-shirt design featuring pixel art elements and a nostalgic gaming culture theme. The concept is to 'Level Up Your Style' with a focus on 8-bit, neon, and synthwave style keywords. The color palette consists of vibrant neon colors on dark backgrounds. The T-shirt design should have an appealing composition that suits print-on-demand production, including specific visual elements such as retro gaming characters, consoles, or iconic pixel art designs. Typography should be bold yet playful to match the theme.",
+        "negative_prompt": "Avoid common issues in AI-generated designs such as poor quality indicators, overly complex compositions, and low-resolution images. Ensure that the design works well on T-shirts, with appropriate color choices and legible typography.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "space_cosmic",
+      "concept": "Cosmic Explorer - journey through the stars",
+      "images": [
+        "advanced-design-pipeline/generated-designs/space_cosmic_20250804_232926_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/space_cosmic_20250804_232926",
+        "images": [
+          "advanced-design-pipeline/github-ready/space_cosmic_20250804_232926/space_cosmic_20250804_232926_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/space_cosmic_20250804_232926/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/space_cosmic_20250804_232926/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/space_cosmic_20250804_232926/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "A celestial T-shirt design featuring a cosmic explorer embarking on an ethereal journey through the stars, surrounded by mesmerizing galaxy elements and vibrant space colors. The composition showcases a balanced blend of visual interest and legibility, with a focus on intricate star patterns and deep purples complementing cosmic blues and starlight whites. Typography should be clear and modern, evoking a sense of adventure and wonder.",
+        "negative_prompt": "Avoid excessive noise or blurriness, poor color balance, overly complex compositions, and unrecognizable elements that don't effectively convey the concept on a T-shirt.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_ocr"
+      }
+    },
+    {
+      "success": true,
+      "theme": "kawaii_cute",
+      "concept": "Kawaii Vibes - adorable Japanese inspired design",
+      "images": [
+        "advanced-design-pipeline/generated-designs/kawaii_cute_20250804_232940_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/kawaii_cute_20250804_232940",
+        "images": [
+          "advanced-design-pipeline/github-ready/kawaii_cute_20250804_232940/kawaii_cute_20250804_232940_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/kawaii_cute_20250804_232940/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/kawaii_cute_20250804_232940/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/kawaii_cute_20250804_232940/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "Design a T-shirt featuring kawaii and cute Japanese-inspired characters in pastel colors, with cheerful expressions. The composition should showcase multiple adorable creatures interacting or engaging in activities that embody kawaii culture. Use typography that complements the aesthetic and avoid overly complex designs or unnecessary details. Ensure the final image is of high quality and suitable for print-on-demand production.",
+        "negative_prompt": "Avoid low-quality images, overly busy compositions, and poor color choices. Steer clear of designs with harsh lines or aggressive characters, as these don't align with the kawaii vibe. Keep typography simple and readable.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_ midas"
+      }
+    },
+    {
+      "success": true,
+      "theme": "surf_beach",
+      "concept": "Ocean Waves - surf culture and beach lifestyle",
+      "images": [
+        "advanced-design-pipeline/generated-designs/surf_beach_20250804_232956_1.png"
+      ],
+      "github_output": {
+        "folder": "advanced-design-pipeline/github-ready/surf_beach_20250804_232956",
+        "images": [
+          "advanced-design-pipeline/github-ready/surf_beach_20250804_232956/surf_beach_20250804_232956_1.png"
+        ],
+        "readme": "advanced-design-pipeline/github-ready/surf_beach_20250804_232956/README.md",
+        "workflow": "advanced-design-pipeline/github-ready/surf_beach_20250804_232956/comfyui_workflow.json",
+        "metadata": "advanced-design-pipeline/github-ready/surf_beach_20250804_232956/generation_metadata.json"
+      },
+      "prompt_data": {
+        "main_prompt": "A T-shirt design featuring a stunning ocean wave scene, evoking the spirit of surf culture and beach lifestyle. The image showcases a serene beachscape with crystal clear water, perfect waves for surfing, and a vibrant sun setting behind it all. The composition is simple yet striking, focusing on the beautiful natural elements while maintaining a clean and modern aesthetic. A bold font displays the phrase 'Ride the Waves' in a stylish yet readable way. The color palette consists of ocean blues, sandy beiges, and sunset oranges, creating an inviting atmosphere. This T-shirt design is perfect for print-on-demand production, appealing to those who love the beach, surfing, and the great outdoors.",
+        "negative_prompt": "Avoid overly complicated designs or elements that don't work well on a T-shirt such as small text or detailed illustrations. Poor quality indicators include pixelated images or low-resolution visuals.",
+        "steps": 6,
+        "cfg_scale": 1.5,
+        "sampler": "euler_ancestral",
+        "width": 768,
+        "height": 768,
+        "controlnet_strength": 0.8,
+        "preprocessing": "depth_ midas"
+      }
+    }
+  ],
+  "generated_at": "2025-08-04T23:29:56.111661"
+}

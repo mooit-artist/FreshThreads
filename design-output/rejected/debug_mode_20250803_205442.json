@@ -1,0 +1,14 @@
+{
+  "collection": "Debug Mode",
+  "text": "Currently Debugging Life...",
+  "colors": [
+    "#000000",
+    "#00FF00",
+    "#ffffff"
+  ],
+  "theme": "Tech humor with terminal/console aesthetics and monospace font",
+  "target": "Developers, IT professionals",
+  "timestamp": "20250803_205442",
+  "status": "rejected",
+  "svg_file": "design-output/rejected/debug_mode_20250803_205442.svg"
+}

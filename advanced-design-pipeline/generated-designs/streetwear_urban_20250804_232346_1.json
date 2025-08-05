@@ -1,0 +1,23 @@
+{
+  "filename": "streetwear_urban_20250804_232346_1.png",
+  "theme": "streetwear_urban",
+  "prompt_data": {
+    "main_prompt": "Design a bold and contemporary urban streetwear T-shirt featuring eye-catching graffiti-inspired graphics. Use high contrast colors with bold accent hues such as electric blue, hot pink, or neon green. Include a clear, legible typography for the logo and make sure the design is suitable for print-on-demand production.",
+    "negative_prompt": "Avoid low-quality designs, poorly chosen color combinations, unclear or illegible typography, and overly complex compositions. Keep the focus on urban streetwear aesthetics with bold graphics.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "generated_at": "2025-08-04T23:23:46.016941",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "original_filename": "FreshThreads_design_00021_.png"
+}

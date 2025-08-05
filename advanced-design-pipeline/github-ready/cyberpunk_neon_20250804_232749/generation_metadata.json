@@ -1,0 +1,34 @@
+{
+  "generation_info": {
+    "theme": "cyberpunk_neon",
+    "timestamp": "20250804_232749",
+    "pipeline": "DreamShaperXL_Turbo_ControlNet_Depth",
+    "ai_models": {
+      "prompt_generator": "dolphin-llama3:latest",
+      "image_generator": "DreamShaperXL Turbo",
+      "controlnet": "ControlNet Depth",
+      "acceleration": "LCM-LoRA"
+    }
+  },
+  "prompt_data": {
+    "main_prompt": "Create a captivating cyberpunk-inspired T-shirt design featuring a digital ghost in the machine against a futuristic city backdrop, illuminated by neon lights. The design should evoke the essence of the original DreamShaperXL Turbo concept while incorporating electric blues, hot pinks, and acid greens on black. Focus on creating an eye-catching composition that utilizes bold typography and graphic elements reminiscent of classic cyberpunk aesthetics.",
+    "negative_prompt": "Avoid overly busy designs, low-quality graphics, and poorly fitting typography. Ensure the image is suitable for print-on-demand production without any issues that could hinder its creation or sale.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "models": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "output_files": [
+    "cyberpunk_neon_20250804_232749_1.png"
+  ],
+  "workflow_file": "comfyui_workflow.json",
+  "readme_file": "README.md"
+}

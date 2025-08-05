@@ -1,0 +1,23 @@
+{
+  "filename": "kawaii_cute_20250804_232814_1.png",
+  "theme": "kawaii_cute",
+  "prompt_data": {
+    "main_prompt": "For DreamShaperXL Turbo, create a T-shirt design featuring a magical unicorn surrounded by cute, kawaii elements from Japanese culture. The unicorn should have an adorable, pastel-colored body and a cheerful expression. In the background, incorporate elements like cherry blossoms, clouds, and a bright pink moon. Use kawaii typography for the text \"Magical Unicorn Dreams\" in a soft, rounded font. Ensure the design is balanced and visually appealing, with a focus on print-ondemand production quality.",
+    "negative_prompt": "Avoid overly complex compositions, low-quality graphics, and unappealing color palettes. Keep typography legible and well-spaced for easy reading. Maintain a consistent style throughout the design.",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "generated_at": "2025-08-04T23:28:14.033400",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "original_filename": "FreshThreads_design_00023_.png"
+}

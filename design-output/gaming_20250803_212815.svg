@@ -1,0 +1,79 @@
+<svg viewBox="0 0 400 300">
+    <!-- Background -->
+    <rect x="0" y="0" width="400" height="300" fill="#FFFFFF" rx="10"/>
+    
+    <!-- Boss Character -->
+    <g id="boss-character">
+        <circle cx="190" cy="180" r="100" fill="#F7DC6F" stroke="#000" stroke-width="5"/>
+        
+        <text x="200" y="220" font-size="50" font-family="Pixel, sans-serif" text-anchor="middle">BOSS MAN</text>
+    </g>
+    
+    <!-- Retro Gaming References -->
+    <g id="retro-gaming">
+        <rect x="20" y="100" width="40" height="30" fill="#F2C464" rx="5"/>
+        
+        <text x="25" y="120" font-size="18" font-family="Pixel, sans-serif" text-anchor="middle">JOYSTICK</text>
+    </g>
+    
+    <!-- Level Up Icons -->
+    <g id="level-up">
+        <rect x="160" y="150" width="30" height="20" fill="#8BC34A" rx="5"/>
+        
+        <text x="170" y="165" font-size="18" font-family="Pixel, sans-serif" text-anchor="middle">LEVEL UP</text>
+    </g>
+    
+    <!-- Respawn Humor -->
+    <g id="respawn-humor">
+        <rect x="220" y="100" width="30" height="20" fill="#FF9800" rx="5"/>
+        
+        <text x="230" y="120" font-size="18" font-family="Pixel, sans-serif" text-anchor="middle">RESPAWN</text>
+    </g>
+    
+    <!-- Achievement Unlocked -->
+    <g id="achievement-unlocked">
+        <rect x="260" y="150" width="30" height="20" fill="#2196F3" rx="5"/>
+        
+        <text x="270" y="165" font-size="18" font-family="Pixel, sans-serif" text-anchor="middle">ACHIEVEMENT UNLOCKED</text>
+    </g>
+    
+    <!-- Speedrun References -->
+    <g id="speedrun">
+        <rect x="300" y="100" width="40" height="30" fill="#009688" rx="5"/>
+        
+        <text x="305" y="120" font-size="18" font-family="Pixel, sans-serif" text-anchor="middle">SPEEDRUN</text>
+    </g>
+    
+    <!-- Console Wars -->
+    <g id="console-wars">
+        <rect x="20" y="250" width="30" height="20" fill="#03A9F4" rx="5"/>
+        
+        <text x="25" y="265" font-size="18" font-family="Pixel, sans-serif" text-anchor="middle">PSVSX</text>
+    </g>
+    
+    <!-- Game Over -->
+    <g id="game-over">
+        <rect x="200" y="250" width="40" height="20" fill="#E91E63" rx="5"/>
+        
+        <text x="205" y="265" font-size="18" font-family="Pixel, sans-serif" text-anchor="middle">GAME OVER</text>
+    </g>
+    
+    <!-- Typography -->
+    <font id="pixel-font">
+        <span style="font-family: 'Pixel', sans-serif; font-weight: normal; font-style: normal; font-variant: normal; font-size: 18px; letter-spacing: 0px; text-transform: none;">
+            JOYSTICK
+        </span>
+    </font>
+    
+    <font id="bold-sans-serif-font">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: bold; font-style: normal; font-variant: normal; font-size: 18px; letter-spacing: 0px; text-transform: none;">
+            LEVEL UP
+        </span>
+    </font>
+    
+    <font id="cursive-font">
+        <span style="font-family: 'Pacifico', cursive; font-weight: normal; font-style: normal; font-variant: normal; font-size: 18px; letter-spacing: 0px; text-transform: none;">
+            "Respawn, respawn, respawn!"
+        </span>
+    </font>
+</svg>
