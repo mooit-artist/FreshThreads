@@ -211,7 +211,45 @@ FreshThreads LLC/
 
 ---
 
-## 📝 **License**
+## �️ **Roadmap & Feature Requests**
+
+### **Upcoming Features**
+
+#### **Infrastructure & Performance**
+
+- 🚀 **Linode (Akamai) Integration** - Enhanced hosting and CDN support
+  - Automated deployment to Linode cloud infrastructure
+  - Akamai CDN integration for global performance
+  - EdgeWorkers implementation for dynamic optimization
+  - Enhanced security through Akamai Web Application Firewall
+  - Real-time performance monitoring and analytics
+  - _Status: Feature Request Submitted_ - See [FEATURE_REQUEST_LINODE_AKAMAI.md](FEATURE_REQUEST_LINODE_AKAMAI.md)
+
+#### **Business Features**
+
+- 💳 **Payment Processing** - Stripe/PayPal integration
+- 📦 **Order Management** - Complete e-commerce workflow
+- 👥 **User Accounts** - Customer registration and profiles
+- 🎨 **Design Studio** - Interactive custom design tools
+
+#### **Technical Improvements**
+
+- 📱 **Progressive Web App** - Offline capabilities and app-like experience
+- 🔍 **Advanced Search** - Product filtering and search functionality
+- 🌙 **Dark Mode** - Theme switching for user preference
+- ♿ **Accessibility** - WCAG 2.1 AA compliance
+
+### **Submit Feature Requests**
+
+Have an idea for FreshThreads? We'd love to hear it!
+
+1. Check existing feature requests in [Issues](https://github.com/mooit-artist/FreshThreads/issues)
+2. Use our [Feature Request Template](.github/ISSUE_TEMPLATE/feature_request.md)
+3. Label your issue with `enhancement`
+
+---
+
+## �📝 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
