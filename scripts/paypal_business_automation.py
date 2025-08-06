@@ -2,7 +2,15 @@
 """
 PayPal Business Automation - FreshThreads LLC
 Complete PayPal integration for e-commerce and B2B operations
-Cross-platform Python implementation
+Cross-platform Python implementation using latest PayPal REST API specifications
+
+Based on PayPal REST API Specifications v2:
+- Orders API v2 (latest)
+- Payments API v2 (latest)
+- Webhooks Management v1 (latest)
+- OAuth 2.0 authentication
+
+Reference: https://github.com/paypal/paypal-rest-api-specifications
 """
 
 import os
@@ -10,7 +18,8 @@ import sys
 import json
 import requests
 import subprocess
-from datetime import datetime
+import base64
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 import argparse

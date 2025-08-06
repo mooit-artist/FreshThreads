@@ -218,3 +218,18 @@ penetration-test-results/
 vulnerability-scan-*.xml
 security-audit-*.pdf
 pentest-reports/
+paypaldev.params
+paypal-config.env
+paypal-checkout.html
+
+# Sensitive files
+*.params
+*config*.env
+*secret*
+*credential*
+*key*
+.env*
+*token*
+
+# Backup directories
+security-backup-*
