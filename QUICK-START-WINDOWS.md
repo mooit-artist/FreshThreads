@@ -17,6 +17,9 @@ cp .env.template .env
 
 # 5. Create bryan@freshthreadsllc.com business user
 .\scripts\create-business-user-graph.ps1
+
+# 6. Set up PayPal business integration
+.\scripts\paypal-business-automation.ps1 -Action setup -Environment sandbox
 ```
 
 ## 📋 Current Status Snapshot
@@ -25,6 +28,9 @@ cp .env.template .env
 
 - Microsoft Teams PowerShell automation
 - Microsoft Graph user creation
+- **PayPal business payment processing**
+- **PayPal Express Checkout integration**
+- **PayPal webhook automation**
 - Business email system (mailbox + aliases)
 - Environment configuration templates
 - Cross-platform automation scripts

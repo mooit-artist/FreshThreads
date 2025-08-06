@@ -47,13 +47,14 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ### Available Scripts
 
-| Script                                   | Purpose                   | Status            |
-| ---------------------------------------- | ------------------------- | ----------------- |
-| `scripts/business-automation-suite.sh`   | Master automation suite   | ✅ Cross-platform |
-| `scripts/teams-business-setup.ps1`       | Teams configuration       | ✅ Windows native |
-| `scripts/create-business-user-graph.ps1` | User creation (Graph API) | ✅ Windows native |
-| `scripts/setup-teams-business.sh`        | Teams setup launcher      | ✅ Cross-platform |
-| `scripts/check-users.ps1`                | User verification         | ✅ Windows native |
+| Script                                   | Purpose                     | Status            |
+| ---------------------------------------- | --------------------------- | ----------------- |
+| `scripts/business-automation-suite.sh`   | Master automation suite     | ✅ Cross-platform |
+| `scripts/teams-business-setup.ps1`       | Teams configuration         | ✅ Windows native |
+| `scripts/create-business-user-graph.ps1` | User creation (Graph API)   | ✅ Windows native |
+| `scripts/paypal-business-automation.ps1` | PayPal business integration | ✅ Windows native |
+| `scripts/setup-teams-business.sh`        | Teams setup launcher        | ✅ Cross-platform |
+| `scripts/check-users.ps1`                | User verification           | ✅ Windows native |
 
 ### Environment Setup
 
@@ -85,7 +86,20 @@ cp .env.template .env
 .\scripts\create-business-user-graph.ps1
 ```
 
-### Option 3: User Management
+### Option 3: PayPal Business Setup
+
+```powershell
+# Complete PayPal business integration
+.\scripts\paypal-business-automation.ps1 -Action setup -Environment sandbox
+
+# Test PayPal payment processing
+.\scripts\paypal-business-automation.ps1 -Action test
+
+# Start PayPal webhook server
+.\scripts\paypal-business-automation.ps1 -Action webhook
+```
+
+### Option 4: User Management
 
 ```powershell
 # Check existing users first
@@ -179,10 +193,13 @@ After running the user creation script, bryan@freshthreadsllc.com will have:
 
 ### Payment Processing
 
-- PayPal Business integration
-- Stripe payment gateway
+- **PayPal Business integration** with automation
+- **PayPal Express Checkout** for FreshThreads website
+- **PayPal Webhooks** for order notifications
+- **PayPal Invoicing** for B2B customers
+- Stripe payment gateway (secondary)
 - Banking automation
-- Financial reporting
+- Financial reporting and analytics
 
 ## 🚀 Quick Commands for Windows
 
