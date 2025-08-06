@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshThreads - PayPal Checkout</title>
+    <style>
+        .paypal-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .checkout-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .brand-header h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .brand-tagline {
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .order-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+        .order-item.total {
+            font-weight: bold;
+            font-size: 1.2em;
+            border-top: 2px solid #333;
+            padding-top: 15px;
+            margin-top: 15px;
+            color: #007bff;
+        }
+        .item-details {
+            color: #666;
+            font-size: 0.9em;
+        }
+        #paypal-button-container {
+            margin-top: 20px;
+        }
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            opacity: 0.7;
+        }
+        .security-badge {
+            font-size: 0.8em;
+            color: #666;
+            text-align: center;
+        }
+        .status-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+    </style>
+</head>
+<body>
+    <div class="paypal-container">
+        <div class="checkout-card">
+            <div class="brand-header">
+                <h1>🛍️ FreshThreads</h1>
+                <div class="brand-tagline">Premium Fashion, Fresh Style</div>
+            </div>
+
+            <div class="order-summary">
+                <h3>📦 Order Summary</h3>
+                <div id="order-items">
+                    <!-- Order items will be populated by JavaScript -->
+                </div>
+                <div class="order-item total">
+                    <span>Total:</span>
+                    <span id="order-total">$0.00</span>
+                </div>
+            </div>
+
+            <!-- PayPal Buttons Container -->
+            <div id="paypal-button-container"></div>
+
+            <!-- Security Badges -->
+            <div class="security-badges">
+                <div class="security-badge">
+                    🔒<br>SSL Secured
+                </div>
+                <div class="security-badge">
+                    🛡️<br>PayPal Protected
+                </div>
+                <div class="security-badge">
+                    ✅<br>PCI Compliant
+                </div>
+            </div>
+
+            <!-- Order Status -->
+            <div id="order-status" style="display: none;">
+                <div id="status-message" class="status-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+
+    <script>
+        // FreshThreads PayPal Integration
+        class FreshThreadsCheckout {
+            constructor() {
+                this.cartItems = [
+                    {
+                        name: "Premium Cotton T-Shirt",
+                        sku: "FT-TEE-001",
+                        price: 29.99,
+                        quantity: 2,
+                        description: "100% organic cotton, premium quality"
+                    },
+                    {
+                        name: "Designer Jeans",
+                        sku: "FT-JEAN-002",
+                        price: 89.99,
+                        quantity: 1,
+                        description: "Slim fit, premium denim"
+                    }
+                ];
+
+                this.shipping = 9.99;
+                this.taxRate = 0.08;
+
+                this.init();
+            }
+
+            init() {
+                this.displayOrderSummary();
+                this.initPayPalButtons();
+            }
+
+            displayOrderSummary() {
+                const orderItemsContainer = document.getElementById('order-items');
+                const orderTotalElement = document.getElementById('order-total');
+
+                let subtotal = 0;
+                let itemsHtml = '';
+
+                this.cartItems.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    subtotal += itemTotal;
+
+                    itemsHtml += `
+                        <div class="order-item">
+                            <div>
+                                <strong>${item.name}</strong> (x${item.quantity})
+                                <div class="item-details">${item.description}</div>
+                            </div>
+                            <span>$${itemTotal.toFixed(2)}</span>
+                        </div>
+                    `;
+                });
+
+                const tax = subtotal * this.taxRate;
+                const total = subtotal + this.shipping + tax;
+
+                itemsHtml += `
+                    <div class="order-item">
+                        <span>Subtotal:</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="order-item">
+                        <span>Shipping:</span>
+                        <span>$${this.shipping.toFixed(2)}</span>
+                    </div>
+                    <div class="order-item">
+                        <span>Tax:</span>
+                        <span>$${tax.toFixed(2)}</span>
+                    </div>
+                `;
+
+                orderItemsContainer.innerHTML = itemsHtml;
+                orderTotalElement.textContent = `$${total.toFixed(2)}`;
+
+                this.orderTotal = total;
+            }
+
+            initPayPalButtons() {
+                paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color: 'blue',
+                        shape: 'rect',
+                        label: 'paypal'
+                    },
+
+                    createOrder: (data, actions) => {
+                        return actions.order.create({
+                            purchase_units: [{
+                                description: 'FreshThreads Premium Fashion',
+                                custom_id: `FT-${Date.now()}`,
+                                soft_descriptor: 'FRESHTHREADS',
+                                amount: {
+                                    currency_code: 'USD',
+                                    value: this.orderTotal.toFixed(2),
+                                    breakdown: {
+                                        item_total: {
+                                            currency_code: 'USD',
+                                            value: this.calculateSubtotal().toFixed(2)
+                                        },
+                                        shipping: {
+                                            currency_code: 'USD',
+                                            value: this.shipping.toFixed(2)
+                                        },
+                                        tax_total: {
+                                            currency_code: 'USD',
+                                            value: (this.calculateSubtotal() * this.taxRate).toFixed(2)
+                                        }
+                                    }
+                                },
+                                items: this.cartItems.map(item => ({
+                                    name: item.name,
+                                    unit_amount: {
+                                        currency_code: 'USD',
+                                        value: item.price.toFixed(2)
+                                    },
+                                    quantity: item.quantity.toString(),
+                                    sku: item.sku,
+                                    description: item.description
+                                }))
+                            }],
+                            application_context: {
+                                brand_name: 'FreshThreads LLC',
+                                landing_page: 'NO_PREFERENCE',
+                                user_action: 'PAY_NOW',
+                                shipping_preference: 'SET_PROVIDED_ADDRESS'
+                            }
+                        });
+                    },
+
+                    onApprove: (data, actions) => {
+                        return actions.order.capture().then((details) => {
+                            this.handlePaymentSuccess(details);
+                        });
+                    },
+
+                    onError: (err) => {
+                        this.handlePaymentError(err);
+                    },
+
+                    onCancel: (data) => {
+                        this.handlePaymentCancel(data);
+                    }
+
+                }).render('#paypal-button-container');
+            }
+
+            calculateSubtotal() {
+                return this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            }
+
+            handlePaymentSuccess(details) {
+                console.log('Payment completed:', details);
+
+                const statusDiv = document.getElementById('order-status');
+                const statusMessage = document.getElementById('status-message');
+
+                statusMessage.className = 'status-message status-success';
+                statusMessage.innerHTML = `
+                    <h3>✅ Payment Successful!</h3>
+                    <p><strong>Transaction ID:</strong> ${details.id}</p>
+                    <p><strong>Amount:</strong> $${details.purchase_units[0].amount.value}</p>
+                    <p><strong>Status:</strong> ${details.status}</p>
+                    <br>
+                    <p>Thank you for shopping with FreshThreads! You will receive an email confirmation shortly.</p>
+                    <p>Your premium fashion items will be shipped within 2-3 business days.</p>
+                `;
+
+                statusDiv.style.display = 'block';
+
+                // Send order to backend for processing
+                this.processOrder(details);
+            }
+
+            handlePaymentError(err) {
+                console.error('Payment error:', err);
+
+                const statusDiv = document.getElementById('order-status');
+                const statusMessage = document.getElementById('status-message');
+
+                statusMessage.className = 'status-message status-error';
+                statusMessage.innerHTML = `
+                    <h3>❌ Payment Failed</h3>
+                    <p>We're sorry, but there was an issue processing your payment.</p>
+                    <p>Please try again or contact our support team.</p>
+                    <p><strong>Support:</strong> support@freshthreadsllc.com</p>
+                `;
+
+                statusDiv.style.display = 'block';
+            }
+
+            handlePaymentCancel(data) {
+                console.log('Payment cancelled:', data);
+
+                const statusDiv = document.getElementById('order-status');
+                const statusMessage = document.getElementById('status-message');
+
+                statusMessage.className = 'status-message status-warning';
+                statusMessage.innerHTML = `
+                    <h3>⚠️ Payment Cancelled</h3>
+                    <p>Your payment was cancelled. No charges were made.</p>
+                    <p>Feel free to try again when you're ready to complete your purchase!</p>
+                `;
+
+                statusDiv.style.display = 'block';
+            }
+
+            processOrder(paymentDetails) {
+                // Send order data to your backend
+                fetch('/api/orders/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        payment_id: paymentDetails.id,
+                        items: this.cartItems,
+                        amount: this.orderTotal,
+                        customer_email: paymentDetails.payer.email_address,
+                        shipping_address: paymentDetails.purchase_units[0].shipping,
+                        timestamp: new Date().toISOString()
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Order processed:', data);
+                })
+                .catch(error => {
+                    console.error('Order processing error:', error);
+                });
+            }
+        }
+
+        // Initialize checkout when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new FreshThreadsCheckout();
+        });
+    </script>
+</body>
+</html>

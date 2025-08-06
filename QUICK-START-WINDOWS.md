@@ -18,8 +18,9 @@ cp .env.template .env
 # 5. Create bryan@freshthreadsllc.com business user
 .\scripts\create-business-user-graph.ps1
 
-# 6. Set up PayPal business integration
-.\scripts\paypal-business-automation.ps1 -Action setup -Environment sandbox
+# 6. Set up PayPal business integration (Python - Cross-platform)
+pip install -r requirements-paypal.txt
+python scripts/paypal_business_automation.py --action setup --environment sandbox
 ```
 
 ## 📋 Current Status Snapshot

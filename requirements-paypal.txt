@@ -1,0 +1,32 @@
+# FreshThreads LLC - PayPal Business Automation Requirements
+# Cross-platform Python dependencies
+
+# PayPal SDK for payment processing
+paypalrestsdk>=1.13.1
+
+# HTTP requests for API calls
+requests>=2.28.0
+
+# Environment variable management
+python-dotenv>=0.19.0
+
+# Web framework for webhook server
+flask>=2.2.0
+
+# Template engine
+jinja2>=3.1.0
+
+# Date/time utilities
+python-dateutil>=2.8.0
+
+# JSON handling (built-in, but ensuring compatibility)
+# json - built-in module
+
+# Path handling (built-in, but ensuring compatibility)
+# pathlib - built-in module
+
+# Command line argument parsing
+# argparse - built-in module
+
+# Additional utilities for business automation
+colorama>=0.4.4  # Cross-platform colored terminal output

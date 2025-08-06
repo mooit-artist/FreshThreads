@@ -1,5 +1,12 @@
-# Windows Setup Guide - FreshThreads Business Automation
+# Windows Setup Guide - FreshThreads Business Aut| Script | Purpose | Status |
 
+| ------------------------------------------ | ----------------------------- | ------------------- |
+| `scripts/business-automation-suite.sh` | Master automation suite | ✅ Cross-platform |
+| `scripts/teams-business-setup.ps1` | Teams configuration | ✅ Windows native |
+| `scripts/create-business-user-graph.ps1` | User creation (Graph API) | ✅ Windows native |
+| `scripts/paypal_business_automation.py` | PayPal business integration | ✅ Python/Cross-platform |
+| `scripts/setup-teams-business.sh` | Teams setup launcher | ✅ Cross-platform |
+| `scripts/check-users.ps1` | User verification | ✅ Windows native |
 **Date:** August 5, 2025
 **Project:** FreshThreads LLC Business Automation Suite
 **Target:** Windows Environment Setup
@@ -86,17 +93,20 @@ cp .env.template .env
 .\scripts\create-business-user-graph.ps1
 ```
 
-### Option 3: PayPal Business Setup
+### Option 3: PayPal Business Setup (Python - Cross-Platform)
 
-```powershell
-# Complete PayPal business integration
-.\scripts\paypal-business-automation.ps1 -Action setup -Environment sandbox
+```bash
+# Complete PayPal business integration (Python)
+python scripts/paypal_business_automation.py --action setup --environment sandbox
 
 # Test PayPal payment processing
-.\scripts\paypal-business-automation.ps1 -Action test
+python scripts/paypal_business_automation.py --action test
 
 # Start PayPal webhook server
-.\scripts\paypal-business-automation.ps1 -Action webhook
+python scripts/paypal_business_automation.py --action webhook
+
+# Generate setup report
+python scripts/paypal_business_automation.py --action report
 ```
 
 ### Option 4: User Management
