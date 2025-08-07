@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-PayPal Configuration from Parameters File - FreshThreads LLC
-Automatically configure PayPal integration using credentials from paypaldev.params
+PayPal Configuration for FreshThreads LLC
+Automatically configure PayPal integration from GitHub Secrets or parameters file
 """
 
 import os
 import sys
+import subprocess
 from pathlib import Path
 from datetime import datetime
 
@@ -23,6 +24,74 @@ class PayPalAutoConfig:
 
         print("🏪 FreshThreads PayPal Auto-Configuration")
         print("=" * 50)
+
+    def check_github_secrets(self):
+        """Check if GitHub Secrets are available"""
+        try:
+            result = subprocess.run(['gh', 'secret', 'list'],
+                                    capture_output=True, text=True, check=True)
+            secrets = result.stdout
+
+            required_secrets = [
+                'PAYPAL_CLIENT_ID_SANDBOX',
+                'PAYPAL_CLIENT_SECRET_SANDBOX',
+                'PAYPAL_BUSINESS_EMAIL'
+            ]
+
+            available_secrets = []
+            for secret in required_secrets:
+                if secret in secrets:
+                    available_secrets.append(secret)
+
+            if len(available_secrets) == len(required_secrets):
+                print("✅ GitHub Secrets available and configured")
+                return True
+            else:
+                missing = set(required_secrets) - set(available_secrets)
+                print(f"⚠️  Missing GitHub Secrets: {', '.join(missing)}")
+                return False
+
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("⚠️  GitHub CLI not available or not authenticated")
+            return False
+
+    def get_credentials_from_secrets(self):
+        """Get PayPal credentials from GitHub Secrets"""
+        print("🔑 Fetching credentials from GitHub Secrets...")
+
+        credentials = {}
+        secret_mappings = {
+            'PAYPAL_CLIENT_ID_SANDBOX': 'client_id',
+            'PAYPAL_CLIENT_SECRET_SANDBOX': 'client_secret',
+            'PAYPAL_BUSINESS_EMAIL': 'business_email',
+            'PAYPAL_ENVIRONMENT': 'environment',
+            'BUSINESS_WEBSITE': 'business_website',
+            'PAYPAL_WEBHOOK_URL': 'webhook_url'
+        }
+
+        # Try to get secrets from environment (GitHub Actions context)
+        for github_secret, local_key in secret_mappings.items():
+            value = os.getenv(github_secret)
+            if value:
+                credentials[local_key] = value
+                print(f"✅ Got {local_key} from environment")
+
+        # If we have the main credentials, we're good
+        if 'client_id' in credentials and 'client_secret' in credentials:
+            # Set defaults for missing values
+            credentials.setdefault('environment', 'sandbox')
+            credentials.setdefault(
+                'business_email', 'bryan@freshthreadsllc.com')
+            credentials.setdefault(
+                'business_website', 'https://freshthreadsllc.com')
+            credentials.setdefault(
+                'webhook_url', 'https://freshthreadsllc.com/api/paypal/webhook')
+
+            print("✅ Successfully retrieved credentials from GitHub Secrets")
+            return credentials
+
+        print("❌ Could not retrieve credentials from GitHub Secrets")
+        return None
 
     def parse_params_file(self):
         """Parse the PayPal parameters file"""
@@ -260,10 +329,25 @@ def main():
 
     config = PayPalAutoConfig()
 
-    # Parse parameters file
-    credentials = config.parse_params_file()
+    # Try GitHub Secrets first (preferred method)
+    credentials = None
+
+    if config.check_github_secrets():
+        print("🔑 Using GitHub Secrets for configuration...")
+        credentials = config.get_credentials_from_secrets()
+
+    # Fallback to parameters file if GitHub Secrets not available
     if not credentials:
-        print("\n❌ Failed to parse PayPal credentials")
+        print("📁 Falling back to parameters file...")
+        credentials = config.parse_params_file()
+
+    if not credentials:
+        print("\n❌ Failed to get PayPal credentials from any source")
+        print("\n💡 Available options:")
+        print("1. GitHub Secrets (recommended for CI/CD)")
+        print("   - Run: ./scripts/upload_secrets_to_github.sh")
+        print("2. Parameters file (local development)")
+        print("   - Create: scripts/paypaldev.params")
         return 1
 
     # Create configuration
@@ -303,9 +387,10 @@ def main():
     else:
         print("❌ FAILED: Please check your PayPal credentials")
         print("\nTroubleshooting:")
-        print("1. Verify credentials in scripts/paypaldev.params")
-        print("2. Check PayPal Developer Dashboard")
-        print("3. Ensure sandbox environment is selected")
+        print("1. Check GitHub Secrets: gh secret list")
+        print("2. Verify credentials in scripts/paypaldev.params")
+        print("3. Check PayPal Developer Dashboard")
+        print("4. Ensure sandbox environment is selected")
         return 1
 
 

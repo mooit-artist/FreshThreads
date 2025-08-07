@@ -160,6 +160,18 @@ jobs:
             echo "✅ PayPal Client ID updated in checkout page"
           fi
 
+      - name: Configure Printify API for Production
+        env:
+          PRINTIFY_API_KEY: ${{ secrets.PRINTIFY_API_KEY }}
+        run: |
+          echo "🛍️ Configuring Printify API for deployment..."
+          if [ -f "docs/assets/js/config.js" ] && [ -n "$PRINTIFY_API_KEY" ]; then
+            sed -i "s/YOUR_PRINTIFY_API_KEY_HERE/$PRINTIFY_API_KEY/g" docs/assets/js/config.js
+            echo "✅ Printify API key updated in config.js"
+          else
+            echo "⚠️ Printify API key not found or config.js missing"
+          fi
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v3
 
@@ -186,7 +198,7 @@ jobs:
           echo "🔍 Running security checks..."
 
           # Check for exposed secrets in code
-          if grep -r "PAYPAL_CLIENT_ID\|PAYPAL_CLIENT_SECRET" --include="*.py" --include="*.js" --include="*.html" . | grep -v "YOUR_PAYPAL_CLIENT_ID" | grep -v "secrets\." | grep -v "#"; then
+          if grep -r "PAYPAL_CLIENT_ID\|PAYPAL_CLIENT_SECRET\|PRINTIFY_API_KEY" --include="*.py" --include="*.js" --include="*.html" . | grep -v "YOUR_PAYPAL_CLIENT_ID\|YOUR_PRINTIFY_API_KEY" | grep -v "secrets\." | grep -v "#"; then
             echo "❌ Potential exposed secrets found!"
             exit 1
           else

@@ -4,18 +4,18 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FreshThreads LLC - Shop Custom Apparel</title>
+        <title>FreshThreads LLC - Shop Apparel</title>
 
         <!-- SEO Meta Tags -->
         <meta name="description"
-              content="Shop premium apparel from FreshThreads LLC. Custom t-shirts, long sleeve shirts, sweatshirts, and hoodies with military-inspired designs. High-quality custom fashion.">
+              content="Shop premium t-shirts from FreshThreads LLC. Short sleeve and long sleeve t-shirts with unique designs. High-quality apparel with military-inspired graphics.">
         <meta name="keywords"
-              content="custom t-shirts, hoodies, apparel, clothing, print on demand, fashion, trendy designs, FreshThreads">
+              content="custom t-shirts, long sleeve t-shirts, apparel, clothing, print on demand, fashion, trendy designs, FreshThreads".>
 
         <!-- Open Graph Meta Tags -->
         <meta property="og:title" content="FreshThreads LLC - Premium Apparel">
         <meta property="og:description"
-              content="Discover unique, high-quality custom apparel. From graphic tees to cozy hoodies - express yourself with FreshThreads premium designs.">
+              content="Discover unique, high-quality t-shirts. From short sleeve graphic tees to long sleeve designs - express yourself with FreshThreads premium t-shirts.">
         <meta property="og:image" content="https://freshthreadsllc.com/assets/products-og-image.jpg">
         <meta property="og:url" content="https://freshthreadsllc.com/products.html">
 
@@ -23,11 +23,11 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="FreshThreads LLC - Premium Apparel">
         <meta name="twitter:description"
-              content="Discover unique, high-quality custom apparel. From graphic tees to cozy hoodies - express yourself with FreshThreads premium designs.">
+              content="Discover unique, high-quality t-shirts. From short sleeve graphic tees to long sleeve designs - express yourself with FreshThreads premium t-shirts.">
         <meta name="twitter:image" content="https://freshthreadsllc.com/assets/products-twitter-image.jpg">
 
         <!-- Security Headers -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob: https://api.printify.com https://api.printful.com https://files.printful.com https://printify-upload.s3.amazonaws.com; connect-src 'self' https://api.printify.com https://api.printful.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
         <meta http-equiv="X-Content-Type-Options" content="nosniff">
         <meta http-equiv="X-Frame-Options" content="DENY">
         <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -44,6 +44,14 @@
 
         <!-- Logo Styles -->
         <link rel="stylesheet" href="logo.css">
+
+        <!-- Shopping Cart Styles -->
+        <link rel="stylesheet" href="styles/cart.css">
+
+        <!-- Print-on-Demand Integration -->
+        <script src="assets/js/config.js"></script>
+        <script src="assets/js/print-on-demand.js"></script>
+        <script src="assets/js/pod-templates.js"></script>
 
         <style>
             * {
@@ -117,8 +125,8 @@
                 position: absolute;
                 top: -5px;
                 right: -5px;
-                background: #ff6b6b;
-                color: white;
+                background: #ffffff;
+                color: #000000;
                 border-radius: 50%;
                 width: 20px;
                 height: 20px;
@@ -225,13 +233,15 @@
             }
 
             .early-access-banner {
-                background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+                background: #ffffff;
+                color: #000000;
                 padding: 12px 20px;
                 border-radius: 12px;
                 margin: 1rem auto 0;
                 max-width: 600px;
-                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
                 animation: glow 2s ease-in-out infinite alternate;
+                border: 2px solid #000000;
             }
 
             .banner-content {
@@ -600,21 +610,23 @@
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                background: #ff6b6b;
-                color: white;
+                background: #ffffff;
+                color: #000000;
                 padding: 0.3rem 0.8rem;
                 border-radius: 15px;
                 font-size: 0.8rem;
                 font-weight: bold;
+                border: 1px solid #000000;
             }
 
             .product-badge.new {
-                background: #51cf66;
+                background: #000000;
+                color: #ffffff;
             }
 
             .product-badge.sale {
-                background: #ffd700;
-                color: var(--text-dark, #000000);
+                background: #000000;
+                color: #ffffff;
             }
 
             .product-info h3 {
@@ -672,7 +684,7 @@
             }
 
             .stars {
-                color: #ffd700;
+                color: #000000;
             }
 
             .rating-count {
@@ -712,20 +724,22 @@
 
             .add-to-cart-btn {
                 flex: 1;
-                background: linear-gradient(135deg, #ffd700, #ffed4e);
-                color: var(--text-dark, #000000);
-                border: none;
+                background: #000000;
+                color: #ffffff;
+                border: 2px solid #ffffff;
                 padding: 0.8rem;
                 border-radius: 10px;
                 font-weight: bold;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             }
 
             .add-to-cart-btn:hover {
+                background: #ffffff;
+                color: #000000;
                 transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
             }
 
             .wishlist-btn {
@@ -741,8 +755,9 @@
 
             .wishlist-btn:hover,
             .wishlist-btn.active {
-                background: #ff6b6b;
-                border-color: #ff6b6b;
+                background: #ffffff;
+                border-color: #ffffff;
+                color: #000000;
             }
 
             .printify-status {
@@ -762,11 +777,11 @@
             }
 
             .status-connected {
-                background: #51cf66;
+                background: #ffffff;
             }
 
             .status-disconnected {
-                background: #ff6b6b;
+                background: #000000;
             }
 
             .loading {
@@ -776,20 +791,20 @@
             }
 
             .error {
-                background: rgba(255, 0, 0, 0.2);
-                color: #ff6b6b;
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
                 padding: 1rem;
                 border-radius: 8px;
-                border: 1px solid rgba(255, 0, 0, 0.3);
+                border: 1px solid #ffffff;
                 margin-bottom: 1rem;
             }
 
             .success {
-                background: rgba(0, 255, 0, 0.2);
-                color: #51cf66;
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
                 padding: 1rem;
                 border-radius: 8px;
-                border: 1px solid rgba(0, 255, 0, 0.3);
+                border: 1px solid #ffffff;
                 margin-bottom: 1rem;
             }
 
@@ -923,28 +938,18 @@
                     <div class="categories-grid">
                     <div class="category-card active" data-category="all" onclick="selectCategory('all')">
                         <div class="category-icon"></div>
-                        <div class="category-name">All Products</div>
-                        <div class="category-count" id="allCount">12 items</div>
+                        <div class="category-name">All T-Shirts</div>
+                        <div class="category-count" id="allCount">6 items</div>
                     </div>
-                    <div class="category-card" data-category="new-items" onclick="selectCategory('new-items')">
+                    <div class="category-card" data-category="t-shirts" onclick="selectCategory('t-shirts')">
                         <div class="category-icon"></div>
-                        <div class="category-name">New Items</div>
-                        <div class="category-count" id="newItemsCount">3 items</div>
+                        <div class="category-name">Short Sleeve T-Shirts</div>
+                        <div class="category-count" id="tshirtsCount">3 items</div>
                     </div>
-                    <div class="category-card" data-category="mens" onclick="selectCategory('mens')">
+                    <div class="category-card" data-category="long-sleeve" onclick="selectCategory('long-sleeve')">
                         <div class="category-icon"></div>
-                        <div class="category-name">Men's</div>
-                        <div class="category-count" id="mensCount">6 items</div>
-                    </div>
-                    <div class="category-card" data-category="womens" onclick="selectCategory('womens')">
-                        <div class="category-icon"></div>
-                        <div class="category-name">Women's</div>
-                        <div class="category-count" id="womensCount">4 items</div>
-                    </div>
-                    <div class="category-card" data-category="subscriptions" onclick="selectCategory('subscriptions')">
-                        <div class="category-icon"></div>
-                        <div class="category-name">Subscriptions</div>
-                        <div class="category-count" id="subscriptionsCount">2 items</div>
+                        <div class="category-name">Long Sleeve T-Shirts</div>
+                        <div class="category-count" id="longsleeveCount">3 items</div>
                     </div>
                 </div>
             </section>
@@ -1037,27 +1042,50 @@
                 // Shopping cart
                 let cart = JSON.parse(localStorage.getItem('freshthreads_cart') || '[]');
                 let selectedCategory = 'all';
-                let productsConfig = {};
                 let userTier = localStorage.getItem('userTier') || 'retail';
 
-                // Load products configuration
-                async function loadProductsConfig() {
+                // Printify integration
+                let podManager;
+                let printifyProducts = [];
+
+                async function loadPrintifyProducts() {
                     try {
-                        const response = await fetch('products-config.json');
-                        if (!response.ok) {
-                            throw new Error('Failed to load products configuration');
+                        if (!window.podConfig || !window.podConfig.printifyApiKey || !window.podConfig.printifyShopId || window.podConfig.printifyApiKey.includes('YOUR_PRINTIFY_API_KEY')) {
+                            throw new Error('Printify API key or Shop ID not set.');
                         }
-                        productsConfig = await response.json();
-                        console.log('Products config loaded:', productsConfig);
-                        return productsConfig.products || [];
+                        podManager = new PrintOnDemandManager(window.podConfig);
+                        printifyProducts = await podManager.getPrintifyProducts();
+                        if (!Array.isArray(printifyProducts) || printifyProducts.length === 0) {
+                            throw new Error('No Printify products found.');
+                        }
+                        renderProducts(printifyProducts, true);
+                        document.getElementById('loadingMessage').style.display = 'none';
+                        document.getElementById('errorMessage').style.display = 'none';
                     } catch (error) {
-                        console.error('Error loading products config:', error);
-                        // Fallback to hardcoded data if config file fails to load
-                        return getFallbackProducts();
+                        console.warn('Falling back to local products:', error);
+                        document.getElementById('errorMessage').textContent = 'Could not load live products. Showing local catalog.';
+                        document.getElementById('errorMessage').style.display = 'block';
+                        loadLocalProducts();
                     }
                 }
 
-                // Fallback product data if config file doesn't load
+                async function loadLocalProducts() {
+                    try {
+                        const response = await fetch('products-config.json');
+                        let productsConfig = {};
+                        if (response.ok) {
+                            productsConfig = await response.json();
+                        }
+                        const localProducts = (productsConfig.products && productsConfig.products.length) ? productsConfig.products : getFallbackProducts();
+                        renderProducts(localProducts, false);
+                        document.getElementById('loadingMessage').style.display = 'none';
+                    } catch (error) {
+                        console.error('Error loading local products:', error);
+                        renderProducts(getFallbackProducts(), false);
+                        document.getElementById('loadingMessage').style.display = 'none';
+                    }
+                }
+
                 function getFallbackProducts() {
                     return [
                         {
@@ -1097,44 +1125,8 @@
                             isSubscription: false
                         },
                         {
-                            id: 'ft003',
-                            name: 'Tactical Sweatshirt',
-                            description: 'Heavy-duty cotton blend sweatshirt for durability and comfort',
-                            price: 49.99,
-                            originalPrice: 59.99,
-                            category: 'sweatshirts',
-                            image: '',
-                            badge: 'sale',
-                            rating: 4.8,
-                            reviewCount: 156,
-                            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-                            colors: ['Black', 'Gray', 'Navy'],
-                            featured: true,
-                            gender: 'mens',
-                            isNew: false,
-                            isSubscription: false
-                        },
-                        {
-                            id: 'ft004',
-                            name: 'Combat Ready Hoodie',
-                            description: 'Premium hoodie with military-inspired graphics and designs',
-                            price: 59.99,
-                            originalPrice: null,
-                            category: 'hoodies',
-                            image: '',
-                            badge: null,
-                            rating: 4.9,
-                            reviewCount: 203,
-                            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-                            colors: ['Black', 'OD Green', 'Coyote Brown'],
-                            featured: true,
-                            gender: 'mens',
-                            isNew: false,
-                            isSubscription: false
-                        },
-                        {
                             id: 'ft005',
-                            name: 'Women\'s Fitted Tee',
+                            name: "Women's Fitted Tee",
                             description: 'Soft cotton t-shirt with tailored fit and feminine styling',
                             price: 26.99,
                             originalPrice: null,
@@ -1149,60 +1141,6 @@
                             gender: 'womens',
                             isNew: true,
                             isSubscription: false
-                        },
-                        {
-                            id: 'ft006',
-                            name: 'Women\'s Cozy Hoodie',
-                            description: 'Ultra-soft hoodie with relaxed fit and feminine details',
-                            price: 54.99,
-                            originalPrice: null,
-                            category: 'hoodies',
-                            image: '',
-                            badge: null,
-                            rating: 4.8,
-                            reviewCount: 98,
-                            sizes: ['XS', 'S', 'M', 'L', 'XL'],
-                            colors: ['Black', 'Gray', 'Blush', 'Navy'],
-                            featured: true,
-                            gender: 'womens',
-                            isNew: false,
-                            isSubscription: false
-                        },
-                        {
-                            id: 'ft007',
-                            name: 'Monthly Tee Subscription',
-                            description: 'Get a new custom t-shirt delivered monthly with exclusive designs',
-                            price: 19.99,
-                            originalPrice: 24.99,
-                            category: 'subscription',
-                            image: '',
-                            badge: 'subscription',
-                            rating: 4.9,
-                            reviewCount: 245,
-                            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-                            colors: ['Varies'],
-                            featured: true,
-                            gender: 'unisex',
-                            isNew: false,
-                            isSubscription: true
-                        },
-                        {
-                            id: 'ft008',
-                            name: 'Premium Apparel Box',
-                            description: 'Quarterly subscription box with premium hoodies and exclusive items',
-                            price: 39.99,
-                            originalPrice: 49.99,
-                            category: 'subscription',
-                            image: '',
-                            badge: 'subscription',
-                            rating: 4.7,
-                            reviewCount: 89,
-                            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-                            colors: ['Varies'],
-                            featured: true,
-                            gender: 'unisex',
-                            isNew: false,
-                            isSubscription: true
                         },
                         {
                             id: 'ft009',
@@ -1221,6 +1159,114 @@
                             gender: 'mens',
                             isNew: false,
                             isSubscription: false
+                        },
+                        {
+                            id: 'ft010',
+                            name: 'Classic Long Sleeve Tee',
+                            description: 'Comfortable long sleeve t-shirt perfect for layering',
+                            price: 32.99,
+                            originalPrice: null,
+                            category: 'long-sleeve',
+                            image: '',
+                            badge: null,
+                            rating: 4.7,
+                            reviewCount: 95,
+                            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+                            colors: ['Black', 'White', 'Gray'],
+                            featured: true,
+                            gender: 'unisex',
+                            isNew: false,
+                            isSubscription: false
+                        },
+                        {
+                            id: 'ft011',
+                            name: "Women's Long Sleeve Tee",
+                            description: 'Stylish long sleeve t-shirt with feminine cut',
+                            price: 29.99,
+                            originalPrice: null,
+                            category: 'long-sleeve',
+                            image: '',
+                            badge: null,
+                            rating: 4.8,
+                            reviewCount: 112,
+                            sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                            colors: ['Black', 'White', 'Navy'],
+                            featured: true,
+                            gender: 'womens',
+                            isNew: false,
+                            isSubscription: false
+                        }
+                    ];
+                }
+
+                // Render products into the grid
+                function renderProducts(products, isPrintify) {
+                    const grid = document.getElementById('productsGrid');
+                    grid.innerHTML = '';
+                    if (!products || !products.length) {
+                        grid.innerHTML = '<div class="error">No products found.</div>';
+                        return;
+                    }
+                    products.forEach(product => {
+                        let imageUrl = '';
+                        let title = '';
+                        let price = '';
+                        let description = '';
+                        if (isPrintify) {
+                            title = product.title || 'Untitled';
+                            price = product.variants && product.variants[0] ? `$${(product.variants[0].price / 100).toFixed(2)}` : '';
+                            description = product.description || '';
+                            imageUrl = product.images && product.images[0] ? product.images[0].src : '';
+                        } else {
+                            title = product.name;
+                            price = product.price ? `$${product.price.toFixed(2)}` : '';
+                            description = product.description || '';
+                            imageUrl = product.image || '';
+                        }
+                        grid.innerHTML += `
+                            <div class="product-card">
+                                <div class="product-image">${imageUrl ? `<img src="${imageUrl}" alt="${title}" style="width:100%;height:200px;object-fit:cover;border-radius:10px;">` : '<span>🛍️</span>'}</div>
+                                <div class="product-info">
+                                    <h3>${title}</h3>
+                                    <div class="product-description">${description}</div>
+                                    <div class="product-price">${price}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                // On page load, try Printify first, fallback to local
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.getElementById('loadingMessage').style.display = 'block';
+                    loadPrintifyProducts();
+                });
+
+                // ...existing code...
+                            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+                            colors: ['Black', 'White', 'Gray'],
+                            featured: true,
+                            gender: 'unisex',
+                            isNew: false,
+                            isSubscription: false
+                        },
+                        {
+                            id: 'ft011',
+                            name: 'Women\'s Long Sleeve Tee',
+                            description: 'Stylish long sleeve t-shirt with feminine cut',
+                            price: 29.99,
+                            originalPrice: null,
+                            category: 'long-sleeve',
+                            image: '',
+                            badge: null,
+                            rating: 4.8,
+                            reviewCount: 112,
+                            sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                            colors: ['Black', 'White', 'Navy'],
+                            featured: true,
+                            gender: 'womens',
+                            isNew: false,
+                            isSubscription: false
                         }
                     ];
                 }
@@ -1228,10 +1274,28 @@
                 let products = [];
                 let filteredProducts = [];
 
+                // Initialize Print-on-Demand Manager
+                let podManager;
+                let podTemplates;
+
                 // Initialize the page
                 async function initializePage() {
                     try {
+                        // Initialize POD services if configured
+                        if (window.podConfig && window.PODProductTemplates && window.PrintOnDemandManager) {
+                            console.log('POD configuration found, initializing...');
+                            podManager = new PrintOnDemandManager(window.podConfig);
+                            podTemplates = new PODProductTemplates();
+                            console.log('POD integration initialized successfully');
+                        } else {
+                            console.log('POD not configured - running in local mode');
+                        }
+
+                        // Load local products
                         products = await loadProductsConfig();
+
+                        // Try to sync with POD providers (in background)
+                        syncWithPODProviders().catch(console.error);
 
                         // Apply user tier pricing
                         products = products.map(product => {
@@ -1257,6 +1321,80 @@
                     }
                 }
 
+                // Sync products with Print-on-Demand providers
+                async function syncWithPODProviders() {
+                    if (!podManager || !podManager.isApiConfigured()) {
+                        console.log('POD providers not configured, skipping sync');
+                        return;
+                    }
+
+                    console.log('Syncing products with POD providers...');
+
+                    try {
+                        // Get current POD products
+                        const podProducts = await podManager.getAllProducts();
+                        console.log('POD Products:', podProducts);
+
+                        // Optionally sync local products to POD providers
+                        // This would typically be done in an admin interface
+                        // syncLocalProductsToPOD();
+
+                    } catch (error) {
+                        console.error('Error syncing with POD providers:', error);
+                    }
+                }
+
+                // Sync local products to POD providers (admin function)
+                async function syncLocalProductsToPOD() {
+                    if (!podManager) return;
+
+                    for (const product of products) {
+                        try {
+                            const syncResults = await podManager.syncProductWithProviders(product);
+                            console.log(`Sync results for ${product.name}:`, syncResults);
+                        } catch (error) {
+                            console.error(`Error syncing product ${product.name}:`, error);
+                        }
+                    }
+                }
+
+                // Enhanced add to cart function with POD integration
+                async function addToCartWithPOD(productId, selectedSize, selectedColor) {
+                    const product = products.find(p => p.id === productId);
+                    if (!product) return;
+
+                    // Add product to local cart
+                    const cartItem = {
+                        id: productId,
+                        name: product.name,
+                        price: product.price,
+                        size: selectedSize,
+                        color: selectedColor,
+                        quantity: 1,
+                        podProvider: product.podProvider || null, // Track which POD provider
+                        podProductId: product.podProductId || null // Track POD product ID
+                    };
+
+                    // Add to cart
+                    cart.push(cartItem);
+                    localStorage.setItem('freshthreads_cart', JSON.stringify(cart));
+                    updateCartCount();
+
+                    showNotification(`Added ${product.name} to cart!`, 'success');
+                }
+
+                // Show POD provider status (for debugging)
+                function showPODStatus() {
+                    if (podManager) {
+                        const status = podManager.getProviderStatus();
+                        console.log('POD Provider Status:', status);
+
+                        // You could show this in the UI if needed
+                        const statusMessage = `Printify: ${status.printify.configured ? '✅' : '❌'} | Printful: ${status.printful.configured ? '✅' : '❌'}`;
+                        console.log(statusMessage);
+                    }
+                }
+
                 // Utility functions
                 function updateCartCount() {
                     const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1272,8 +1410,9 @@
                     position: fixed;
                     top: 20px;
                     right: 20px;
-                    background: ${type === 'success' ? '#51cf66' : '#ff6b6b'};
-                    color: white;
+                    background: ${type === 'success' ? '#ffffff' : '#000000'};
+                    color: ${type === 'success' ? '#000000' : '#ffffff'};
+                    border: 2px solid ${type === 'success' ? '#000000' : '#ffffff'};
                     padding: 1rem 1.5rem;
                     border-radius: 10px;
                     z-index: 1000;
@@ -1307,14 +1446,10 @@
                     // Start with selected category
                     if (selectedCategory === 'all') {
                         filteredProducts = [...products];
-                    } else if (selectedCategory === 'new-items') {
-                        filteredProducts = products.filter(p => p.isNew);
-                    } else if (selectedCategory === 'mens') {
-                        filteredProducts = products.filter(p => p.gender === 'mens' || p.gender === 'unisex');
-                    } else if (selectedCategory === 'womens') {
-                        filteredProducts = products.filter(p => p.gender === 'womens' || p.gender === 'unisex');
-                    } else if (selectedCategory === 'subscriptions') {
-                        filteredProducts = products.filter(p => p.isSubscription);
+                    } else if (selectedCategory === 't-shirts') {
+                        filteredProducts = products.filter(p => p.category === 't-shirts');
+                    } else if (selectedCategory === 'long-sleeve') {
+                        filteredProducts = products.filter(p => p.category === 'long-sleeve');
                     } else {
                         // Fallback for any other categories
                         filteredProducts = [...products];
@@ -1388,7 +1523,7 @@
                         <div class="product-card product-card product-card" data-id="${product.id}">
                             <div class="product-image">
                                 ${product.image}
-                                ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'sale' ? `-${discountPercent}%` : product.badge.toUpperCase()}</div>` : ''}
+                                ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'sale' && discountPercent > 0 ? `-${discountPercent}%` : product.badge.toUpperCase()}</div>` : ''}
                             </div>
                             <div class="product-info">
                                 <h3>${product.name}</h3>
@@ -1415,8 +1550,19 @@
                                     ${product.sizes.length > 4 ? '<div class="size-btn">+more</div>' : ''}
                                 </div>
                                 <div class="product-actions">
-                                    <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
-                                    <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" class="btn btn-primary wishlist-btn" onclick="toggleWishlist('${product.id}')">♡</button>
+                                    <button class="btn btn-primary add-to-cart-btn"
+                                            data-product-id="${product.id}"
+                                            data-product-name="${product.name}"
+                                            data-product-price="${(() => {
+                                                const basePrice = product.price;
+                                                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1;
+                                                return (basePrice * earlyAccessDiscount).toFixed(2);
+                                            })()}"
+                                            data-product-image="${product.image ? product.image.match(/src="([^"]+)"/)?.[1] || 'assets/Fresh_ThreadsLLCLogo.png' : 'assets/Fresh_ThreadsLLCLogo.png'}"
+                                            onclick="addToCartFromProduct('${product.id}')">
+                                        🛒 Add to Cart
+                                    </button>
+                                    <button class="btn btn-primary wishlist-btn" onclick="toggleWishlist('${product.id}')">♡</button>
                                 </div>
                             </div>
                         </div>
@@ -1448,17 +1594,13 @@
                 function updateCategoryCounts() {
                     const counts = {
                         all: products.length,
-                        new: products.filter(p => p.isNew).length,
-                        mens: products.filter(p => p.gender === 'mens' || p.gender === 'unisex').length,
-                        womens: products.filter(p => p.gender === 'womens' || p.gender === 'unisex').length,
-                        subscriptions: products.filter(p => p.isSubscription).length
+                        tshirts: products.filter(p => p.category === 't-shirts').length,
+                        longsleeve: products.filter(p => p.category === 'long-sleeve').length
                     };
 
                     document.getElementById('allCount').textContent = `${counts.all} items`;
-                    document.getElementById('newCount').textContent = `${counts.new} items`;
-                    document.getElementById('mensCount').textContent = `${counts.mens} items`;
-                    document.getElementById('womensCount').textContent = `${counts.womens} items`;
-                    document.getElementById('subscriptionsCount').textContent = `${counts.subscriptions} items`;
+                    document.getElementById('tshirtsCount').textContent = `${counts.tshirts} items`;
+                    document.getElementById('longsleeveCount').textContent = `${counts.longsleeve} items`;
                 }
 
                 // Shopping cart functions
@@ -1706,6 +1848,80 @@
                 });
 
             })();
+        </script>
+
+        <!-- Shopping Cart JavaScript -->
+        <script src="assets/cart.js"></script>
+
+        <script>
+            // Product-specific cart functions
+            window.addToCartFromProduct = function(productId) {
+                const product = products.find(p => p.id === productId);
+                if (!product) return;
+
+                // Get selected size (default to first available)
+                const selectedSizeBtn = document.querySelector(`[data-id="${productId}"] .size-btn.active`);
+                const size = selectedSizeBtn ? selectedSizeBtn.textContent : product.sizes[0];
+
+                // Calculate final price (including early access discount)
+                const basePrice = product.price;
+                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1;
+                const finalPrice = (basePrice * earlyAccessDiscount).toFixed(2);
+
+                // Extract image URL from HTML string
+                let imageUrl = 'assets/Fresh_ThreadsLLCLogo.png';
+                if (product.image) {
+                    const imgMatch = product.image.match(/src="([^"]+)"/);
+                    if (imgMatch) {
+                        imageUrl = imgMatch[1];
+                    }
+                }
+
+                const productData = {
+                    id: product.id,
+                    name: product.name,
+                    price: parseFloat(finalPrice),
+                    image: imageUrl,
+                    size: size,
+                    color: 'Black' // Default color, could be made selectable
+                };
+
+                // Add to cart using the cart system
+                if (window.freshThreadsCart) {
+                    window.freshThreadsCart.addToCart(productData);
+                    window.freshThreadsCart.showAddToCartNotification(productData);
+
+                    // Visual feedback on button
+                    const button = document.querySelector(`[data-id="${productId}"] .add-to-cart-btn`);
+                    if (button) {
+                        const originalText = button.innerHTML;
+                        button.innerHTML = '✅ Added!';
+                        button.classList.add('added');
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('added');
+                        }, 2000);
+                    }
+                } else {
+                    console.error('Cart system not initialized');
+                }
+            };
+
+            // Size selection function
+            window.selectSize = function(productId, size) {
+                // Remove active class from all size buttons for this product
+                document.querySelectorAll(`[data-id="${productId}"] .size-btn`).forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Add active class to selected size
+                event.target.classList.add('active');
+            };
+
+            // Legacy function for compatibility
+            window.addToCart = function(productId) {
+                window.addToCartFromProduct(productId);
+            };
         </script>
     </body>
 

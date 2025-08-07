@@ -10,7 +10,7 @@
 
 ## 🚀 **About FreshThreads LLC**
 
-FreshThreads LLC is a modern print-on-demand apparel company specializing in premium custom clothing with unique, trendy designs. Our platform offers high-quality t-shirts, hoodies, and accessories that let customers express their individual style.
+FreshThreads LLC is a modern print-on-demand apparel company specializing in premium clothing with unique, trendy designs. Our platform offers high-quality t-shirts, hoodies, and accessories that let customers express their individual style.
 
 ### ✨ **Key Features**
 
@@ -192,7 +192,7 @@ FreshThreads LLC/
 ### **Target Market**
 
 - **Age**: 18-35 years old
-- **Interests**: Fashion, self-expression, custom apparel
+- **Interests**: Fashion, self-expression, apparel
 - **Platforms**: Instagram, TikTok, Pinterest
 
 ### **Revenue Model**

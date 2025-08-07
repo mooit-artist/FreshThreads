@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshThreads POD Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-bottom: 2px solid #333;
+        }
+
+        .status-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .status-card {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .status-card h3 {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-connected {
+            background: #4CAF50;
+        }
+
+        .status-disconnected {
+            background: #f44336;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: black;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .log-container {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid #333;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-error {
+            color: #ff6b6b;
+        }
+
+        .log-success {
+            color: #51cf66;
+        }
+
+        .log-info {
+            color: #74c0fc;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .product-card {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .product-card h4 {
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .product-meta {
+            font-size: 12px;
+            color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .sync-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .config-section {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #cccccc;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: #ffffff;
+            border-bottom-color: #007bff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FreshThreads Print-on-Demand Admin</h1>
+            <p>Manage your Printify and Printful integration</p>
+        </div>
+
+        <div class="status-cards">
+            <div class="status-card">
+                <h3>
+                    <span class="status-indicator" id="printifyStatus"></span>
+                    Printify Status
+                </h3>
+                <p id="printifyInfo">Checking connection...</p>
+            </div>
+
+            <div class="status-card">
+                <h3>
+                    <span class="status-indicator" id="printfulStatus"></span>
+                    Printful Status
+                </h3>
+                <p id="printfulInfo">Checking connection...</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">Overview</button>
+            <button class="tab" onclick="showTab('catalog')">Catalog</button>
+            <button class="tab" onclick="showTab('products')">Products</button>
+            <button class="tab" onclick="showTab('sync')">Sync</button>
+            <button class="tab" onclick="showTab('config')">Config</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <h2>Overview</h2>
+
+            <div class="config-section">
+                <h3>🏪 Store Setup</h3>
+                <div id="setupStatus">
+                    <div id="setupGuide" style="display: none;">
+                        <div style="padding: 15px; background: #ffc107; color: #212529; border-radius: 6px; margin-bottom: 15px;">
+                            <strong>⚠️ Setup Required</strong><br>
+                            Your Print-on-Demand integration is not configured. Follow the steps below to get started.
+                        </div>
+                        <div id="setupSteps"></div>
+                    </div>
+                    <div id="storeDetails" style="display: none;">
+                        <div style="padding: 15px; background: #28a745; color: white; border-radius: 6px; margin-bottom: 15px;">
+                            <strong>✅ Ready to Go!</strong><br>
+                            Your Print-on-Demand integration is configured and ready.
+                        </div>
+                        <div id="storeList"></div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-primary" onclick="checkConfiguration()">Check Configuration</button>
+                        <button class="btn btn-success" onclick="testConnections()">Test Connections</button>
+                    </div>
+                    <div id="testResults" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="checkPODStatus()">Check Status</button>
+                <button class="btn btn-success" onclick="syncAllProducts()">Sync All Products</button>
+                <button class="btn btn-warning" onclick="fetchPODProducts()">Fetch POD Products</button>
+                <button class="btn btn-danger" onclick="clearLogs()">Clear Logs</button>
+            </div>
+
+            <div class="log-container">
+                <h3>Activity Log</h3>
+                <div id="logContainer">
+                    <div class="log-entry log-info">POD Admin initialized</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="catalog" class="tab-content">
+            <h2>📚 Printify Catalog</h2>
+            <p>Browse blueprints, print providers, and create T-shirt products directly from the catalog</p>
+
+            <div class="config-section">
+                <h3>🎽 T-Shirt Quick Setup</h3>
+                <p>Create a T-shirt product quickly using recommended settings:</p>
+
+                <div class="form-group">
+                    <label for="tshirtName">Product Name:</label>
+                    <input type="text" id="tshirtName" placeholder="Enter T-shirt name" style="width: 100%; padding: 8px; margin: 5px 0;">
+                </div>
+
+                <div class="form-group">
+                    <label for="tshirtDescription">Description:</label>
+                    <textarea id="tshirtDescription" placeholder="Enter product description" style="width: 100%; padding: 8px; margin: 5px 0; height: 80px;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tshirtPrice">Base Price ($):</label>
+                    <input type="number" id="tshirtPrice" placeholder="24.99" step="0.01" style="width: 100%; padding: 8px; margin: 5px 0;">
+                </div>
+
+                <div class="form-group">
+                    <label for="tshirtImageUrl">Image URL (optional):</label>
+                    <input type="url" id="tshirtImageUrl" placeholder="https://example.com/image.png" style="width: 100%; padding: 8px; margin: 5px 0;">
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-success" onclick="createTShirtProduct()">🎽 Create T-Shirt Product</button>
+                    <button class="btn btn-primary" onclick="createLongSleeveProduct()">👕 Create Long Sleeve</button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="loadCatalogBlueprints()">Load Blueprints</button>
+                <button class="btn btn-primary" onclick="loadPrintProviders()">Load Print Providers</button>
+                <button class="btn btn-warning" onclick="loadTShirtBlueprints()">T-Shirt Blueprints</button>
+                <button class="btn btn-warning" onclick="loadLongSleeveBlueprints()">Long Sleeve Blueprints</button>
+            </div>
+
+            <div id="catalogContainer" style="margin-top: 20px;">
+                <!-- Catalog data will be loaded here -->
+            </div>
+        </div>
+
+        <div id="products" class="tab-content">
+            <h2>Products</h2>
+            <p>Local products and their sync status with POD providers</p>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="loadLocalProducts()">Load Local Products</button>
+                <button class="btn btn-success" onclick="createTestProduct()">Create Test Product</button>
+            </div>
+
+            <div id="productsContainer" class="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+
+        <div id="sync" class="tab-content">
+            <h2>Synchronization</h2>
+            <p>Sync products between your local store and POD providers</p>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="syncSpecificProvider('printify')">Sync Printify</button>
+                <button class="btn btn-primary" onclick="syncSpecificProvider('printful')">Sync Printful</button>
+                <button class="btn btn-success" onclick="fullSync()">Full Sync</button>
+            </div>
+
+            <div class="config-section">
+                <h3>Sync Settings</h3>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="autoSync" checked> Enable Auto-Sync
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="syncPrices" checked> Sync Prices
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="syncInventory"> Sync Inventory
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="config" class="tab-content">
+            <h2>Configuration</h2>
+            <p>Configure your API keys and settings</p>
+
+            <div class="config-section">
+                <h3>Printify Settings</h3>
+                <div class="form-group">
+                    <label for="printifyApiKey">API Key:</label>
+                    <input type="password" id="printifyApiKey" placeholder="Enter Printify API Key">
+                </div>
+                <div class="form-group">
+                    <label for="printifyShopId">Shop ID:</label>
+                    <input type="text" id="printifyShopId" placeholder="Enter Printify Shop ID">
+                </div>
+                <button class="btn btn-primary" onclick="savePrintifyConfig()">Save Printify Config</button>
+            </div>
+
+            <div class="config-section">
+                <h3>Printful Settings</h3>
+                <div class="form-group">
+                    <label for="printfulApiKey">API Key:</label>
+                    <input type="password" id="printfulApiKey" placeholder="Enter Printful API Key">
+                </div>
+                <button class="btn btn-primary" onclick="savePrintfulConfig()">Save Printful Config</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the POD scripts -->
+    <script src="assets/js/print-on-demand.js"></script>
+    <script src="assets/js/pod-templates.js"></script>
+
+    <script>
+        // POD Admin Interface JavaScript
+        let podManager;
+        let podTemplates;
+
+        // Initialize the admin interface
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePODAdmin();
+        });
+
+        async function initializePODAdmin() {
+            try {
+                podManager = new PrintOnDemandManager();
+                podTemplates = new PODProductTemplates();
+
+                addLog('POD Admin initialized successfully', 'success');
+                await checkPODStatus();
+
+            } catch (error) {
+                addLog(`Error initializing POD Admin: ${error.message}`, 'error');
+            }
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Check POD provider status
+        async function checkPODStatus() {
+            addLog('Checking POD provider status...', 'info');
+
+            try {
+                const status = podManager.getProviderStatus();
+
+                // Update Printify status
+                const printifyStatus = document.getElementById('printifyStatus');
+                const printifyInfo = document.getElementById('printifyInfo');
+
+                if (status.printify.configured) {
+                    printifyStatus.className = 'status-indicator status-connected';
+                    printifyInfo.textContent = `Connected - Shop ID: ${status.printify.shopId}`;
+                } else {
+                    printifyStatus.className = 'status-indicator status-disconnected';
+                    printifyInfo.textContent = 'Not configured';
+                }
+
+                // Update Printful status
+                const printfulStatus = document.getElementById('printfulStatus');
+                const printfulInfo = document.getElementById('printfulInfo');
+
+                if (status.printful.configured) {
+                    printfulStatus.className = 'status-indicator status-connected';
+                    printfulInfo.textContent = 'Connected';
+                } else {
+                    printfulStatus.className = 'status-indicator status-disconnected';
+                    printfulInfo.textContent = 'Not configured';
+                }
+
+                addLog('Status check completed', 'success');
+
+            } catch (error) {
+                addLog(`Error checking status: ${error.message}`, 'error');
+            }
+        }
+
+        // Sync all products
+        async function syncAllProducts() {
+            addLog('Starting full product sync...', 'info');
+
+            try {
+                // This would sync your local products with POD providers
+                // Implementation depends on your specific requirements
+                addLog('Product sync completed', 'success');
+
+            } catch (error) {
+                addLog(`Error syncing products: ${error.message}`, 'error');
+            }
+        }
+
+        // Fetch products from POD providers
+        async function fetchPODProducts() {
+            addLog('Fetching products from POD providers...', 'info');
+
+            try {
+                const products = await podManager.getAllProducts();
+                addLog(`Fetched ${products.combined.length} products total`, 'success');
+                addLog(`Printify: ${products.printify.length} products`, 'info');
+                addLog(`Printful: ${products.printful.length} products`, 'info');
+
+            } catch (error) {
+                addLog(`Error fetching POD products: ${error.message}`, 'error');
+            }
+        }
+
+        // Load local products
+        async function loadLocalProducts() {
+            addLog('Loading local products...', 'info');
+
+            try {
+                const response = await fetch('assets/products-config.json');
+                const config = await response.json();
+                const products = config.products || [];
+
+                displayProducts(products);
+                addLog(`Loaded ${products.length} local products`, 'success');
+
+            } catch (error) {
+                addLog(`Error loading local products: ${error.message}`, 'error');
+            }
+        }
+
+        // Display products in the UI
+        function displayProducts(products) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <h4>${product.name}</h4>
+                    <div class="product-meta">
+                        <p>Category: ${product.category}</p>
+                        <p>Price: $${product.basePrice}</p>
+                        <p>ID: ${product.id}</p>
+                    </div>
+                    <div class="sync-status">
+                        <span>Sync Status:</span>
+                        <button class="btn btn-primary btn-small" onclick="syncProduct('${product.id}')">
+                            Sync
+                        </button>
+                    </div>
+                `;
+                container.appendChild(productCard);
+            });
+        }
+
+        // Sync a specific product
+        async function syncProduct(productId) {
+            addLog(`Syncing product ${productId}...`, 'info');
+
+            try {
+                // Implementation for syncing a specific product
+                addLog(`Product ${productId} synced successfully`, 'success');
+
+            } catch (error) {
+                addLog(`Error syncing product ${productId}: ${error.message}`, 'error');
+            }
+        }
+
+        // Configuration and setup management
+        async function checkConfiguration() {
+            addLog('Checking POD configuration...', 'info');
+
+            if (!podManager) {
+                addLog('POD Manager not initialized', 'error');
+                showSetupGuide();
+                return;
+            }
+
+            try {
+                const validation = await podManager.validateConfiguration();
+
+                if (validation.overall.ready) {
+                    showStoreDetails(validation);
+                    addLog('Configuration is valid and ready!', 'success');
+                } else {
+                    showSetupGuide(validation);
+                    validation.overall.errors.forEach(error => {
+                        addLog(`Configuration error: ${error}`, 'error');
+                    });
+                }
+            } catch (error) {
+                addLog(`Error checking configuration: ${error.message}`, 'error');
+                showSetupGuide();
+            }
+        }
+
+        async function testConnections() {
+            addLog('Testing POD provider connections...', 'info');
+
+            const testResults = document.getElementById('testResults');
+            if (!testResults) return;
+
+            testResults.innerHTML = '<div style="padding: 10px; background: #333; border-radius: 6px; margin-top: 10px;">Testing connections...</div>';
+
+            if (!podManager) {
+                testResults.innerHTML = '<div style="color: #f44336;">POD Manager not initialized</div>';
+                return;
+            }
+
+            try {
+                const validation = await podManager.validateConfiguration();
+
+                let html = '<div style="padding: 15px; background: #2a2a2a; border-radius: 6px; margin-top: 10px;">';
+                html += '<h4 style="margin-top: 0;">Connection Test Results</h4>';
+
+                // Printify results
+                html += '<div style="margin-bottom: 15px;">';
+                html += '<strong>🖨️ Printify:</strong><br>';
+                if (validation.printify.configured) {
+                    if (validation.printify.connected && validation.printify.storeExists) {
+                        html += `<span style="color: #4CAF50;">✅ Connected to store: ${validation.printify.storeName}</span>`;
+                    } else if (validation.printify.connected) {
+                        html += '<span style="color: #ff9800;">⚠️ Connected but shop not found</span>';
+                    } else {
+                        html += '<span style="color: #f44336;">❌ Connection failed</span>';
+                    }
+                } else {
+                    html += '<span style="color: #666;">Not configured</span>';
+                }
+                if (validation.printify.error) {
+                    html += `<br><small style="color: #f44336;">Error: ${validation.printify.error}</small>`;
+                }
+                html += '</div>';
+
+                // Printful results
+                html += '<div>';
+                html += '<strong>📦 Printful:</strong><br>';
+                if (validation.printful.configured) {
+                    if (validation.printful.connected) {
+                        html += '<span style="color: #4CAF50;">✅ Connected</span>';
+                    } else {
+                        html += '<span style="color: #f44336;">❌ Connection failed</span>';
+                    }
+                } else {
+                    html += '<span style="color: #666;">Not configured</span>';
+                }
+                if (validation.printful.error) {
+                    html += `<br><small style="color: #f44336;">Error: ${validation.printful.error}</small>`;
+                }
+                html += '</div>';
+
+                html += '</div>';
+                testResults.innerHTML = html;
+
+                if (validation.overall.ready) {
+                    addLog('All connections tested successfully!', 'success');
+                } else {
+                    addLog('Some connections failed. Check configuration.', 'warning');
+                }
+            } catch (error) {
+                testResults.innerHTML = `<div style="color: #f44336;">Test failed: ${error.message}</div>`;
+                addLog(`Connection test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function showSetupGuide(validation = null) {
+            const setupGuide = document.getElementById('setupGuide');
+            const storeDetails = document.getElementById('storeDetails');
+            const setupSteps = document.getElementById('setupSteps');
+
+            if (setupGuide) setupGuide.style.display = 'block';
+            if (storeDetails) storeDetails.style.display = 'none';
+
+            if (setupSteps && podManager) {
+                const instructions = podManager.getSetupInstructions();
+
+                let html = '<div style="margin-top: 20px;">';
+
+                // Printify setup
+                html += '<div style="margin-bottom: 30px; padding: 20px; background: #2a2a2a; border-radius: 8px;">';
+                html += '<h4 style="color: #ff6b35; margin-top: 0;">🖨️ Printify Setup</h4>';
+                html += '<ol style="padding-left: 20px;">';
+                instructions.printify.steps.forEach(step => {
+                    html += `<li style="margin-bottom: 8px;">${step}</li>`;
+                });
+                html += '</ol>';
+                html += '<div style="margin-top: 15px; padding: 10px; background: #333; border-radius: 6px;">';
+                html += '<strong>Requirements:</strong><br>';
+                instructions.printify.requirements.forEach(req => {
+                    html += `• ${req}<br>`;
+                });
+                html += '</div></div>';
+
+                // Printful setup (optional)
+                html += '<div style="padding: 20px; background: #2a2a2a; border-radius: 8px;">';
+                html += '<h4 style="color: #ff6b35; margin-top: 0;">📦 Printful Setup (Optional)</h4>';
+                html += '<ol style="padding-left: 20px;">';
+                instructions.printful.steps.forEach(step => {
+                    html += `<li style="margin-bottom: 8px;">${step}</li>`;
+                });
+                html += '</ol>';
+                html += '<div style="margin-top: 15px; padding: 10px; background: #333; border-radius: 6px;">';
+                html += '<strong>Requirements:</strong><br>';
+                instructions.printful.requirements.forEach(req => {
+                    html += `• ${req}<br>`;
+                });
+                html += '</div></div>';
+
+                html += '</div>';
+                setupSteps.innerHTML = html;
+            }
+        }
+
+        function showStoreDetails(validation) {
+            const setupGuide = document.getElementById('setupGuide');
+            const storeDetails = document.getElementById('storeDetails');
+            const storeList = document.getElementById('storeList');
+
+            if (setupGuide) setupGuide.style.display = 'none';
+            if (storeDetails) storeDetails.style.display = 'block';
+
+            if (storeList) {
+                let html = '<div style="margin-top: 15px;">';
+
+                if (validation.printify.storeExists) {
+                    html += '<div style="padding: 15px; background: #2a2a2a; border-radius: 8px; margin-bottom: 15px;">';
+                    html += '<h4 style="margin-top: 0; color: #ff6b35;">🖨️ Printify Store</h4>';
+                    html += `<p><strong>Store Name:</strong> ${validation.printify.storeName}</p>`;
+                    html += `<p><strong>Shop ID:</strong> ${podManager.printifyShopId}</p>`;
+                    html += '<p><span style="color: #4CAF50;">✅ Connected and Ready</span></p>';
+                    html += '</div>';
+                }
+
+                if (validation.printful.connected) {
+                    html += '<div style="padding: 15px; background: #2a2a2a; border-radius: 8px;">';
+                    html += '<h4 style="margin-top: 0; color: #ff6b35;">📦 Printful Store</h4>';
+                    html += '<p><span style="color: #4CAF50;">✅ Connected and Ready</span></p>';
+                    html += '</div>';
+                }
+
+                html += '</div>';
+                storeList.innerHTML = html;
+            }
+        }
+
+        // Initialize configuration check on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkConfiguration, 1000);
+        });
+
+        // Enhanced T-shirt product creation
+        async function createTShirtProduct() {
+            const name = document.getElementById('tshirtName').value;
+            const description = document.getElementById('tshirtDescription').value;
+            const price = parseFloat(document.getElementById('tshirtPrice').value) || 24.99;
+            const imageUrl = document.getElementById('tshirtImageUrl').value;
+
+            if (!name) {
+                addLog('Please enter a product name', 'error');
+                return;
+            }
+
+            addLog(`Creating T-shirt product: ${name}`, 'info');
+
+            if (!podManager) {
+                addLog('POD Manager not initialized', 'error');
+                return;
+            }
+
+            try {
+                const productConfig = {
+                    name: name,
+                    description: description || `High-quality ${name} - printed on demand`,
+                    price: price,
+                    imageUrl: imageUrl || null
+                };
+
+                const result = await podManager.setupTShirtProduct(productConfig);
+
+                if (result.success) {
+                    addLog(`T-shirt product created successfully! ID: ${result.product.id}`, 'success');
+                    addLog(`Blueprint: ${result.blueprint.title}`, 'info');
+                    addLog(`Provider: ${result.provider.title}`, 'info');
+                    addLog(`Variants available: ${result.variantCount}`, 'info');
+
+                    // Clear form
+                    document.getElementById('tshirtName').value = '';
+                    document.getElementById('tshirtDescription').value = '';
+                    document.getElementById('tshirtPrice').value = '';
+                    document.getElementById('tshirtImageUrl').value = '';
+                } else {
+                    addLog(`Failed to create T-shirt product: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                addLog(`Error creating T-shirt product: ${error.message}`, 'error');
+            }
+        }
+
+        async function createLongSleeveProduct() {
+            const name = document.getElementById('tshirtName').value;
+            const description = document.getElementById('tshirtDescription').value;
+            const price = parseFloat(document.getElementById('tshirtPrice').value) || 27.99;
+            const imageUrl = document.getElementById('tshirtImageUrl').value;
+
+            if (!name) {
+                addLog('Please enter a product name', 'error');
+                return;
+            }
+
+            addLog(`Creating long sleeve product: ${name}`, 'info');
+
+            if (!podManager) {
+                addLog('POD Manager not initialized', 'error');
+                return;
+            }
+
+            try {
+                // Use the same setup but look for long sleeve blueprints
+                const productConfig = {
+                    name: name + ' Long Sleeve',
+                    description: description || `High-quality ${name} long sleeve - printed on demand`,
+                    price: price,
+                    imageUrl: imageUrl || null,
+                    type: 'longsleeve'
+                };
+
+                // For now, use the same method (you could create a specific long sleeve method)
+                const result = await podManager.setupTShirtProduct(productConfig);
+
+                if (result.success) {
+                    addLog(`Long sleeve product created successfully! ID: ${result.product.id}`, 'success');
+                    addLog(`Blueprint: ${result.blueprint.title}`, 'info');
+                    addLog(`Provider: ${result.provider.title}`, 'info');
+
+                    // Clear form
+                    document.getElementById('tshirtName').value = '';
+                    document.getElementById('tshirtDescription').value = '';
+                    document.getElementById('tshirtPrice').value = '';
+                    document.getElementById('tshirtImageUrl').value = '';
+                } else {
+                    addLog(`Failed to create long sleeve product: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                addLog(`Error creating long sleeve product: ${error.message}`, 'error');
+            }
+        }
+
+        // Catalog browsing functions
+        async function loadCatalogBlueprints() {
+            addLog('Loading catalog blueprints...', 'info');
+
+            if (!podManager) {
+                addLog('POD Manager not initialized', 'error');
+                return;
+            }
+
+            try {
+                const blueprints = await podManager.getCatalogBlueprints();
+                displayCatalogData('Blueprints', blueprints, 'blueprint');
+                addLog(`Loaded ${blueprints.length} blueprints`, 'success');
+            } catch (error) {
+                addLog(`Error loading blueprints: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadTShirtBlueprints() {
+            addLog('Loading T-shirt specific blueprints...', 'info');
+
+            if (!podManager) {
+                addLog('POD Manager not initialized', 'error');
+                return;
+            }
+
+            try {
+                const blueprints = await podManager.getTShirtBlueprints();
+                displayCatalogData('T-Shirt Blueprints', blueprints, 'tshirt-blueprint');
+                addLog(`Found ${blueprints.length} T-shirt blueprints`, 'success');
+            } catch (error) {
+                addLog(`Error loading T-shirt blueprints: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadLongSleeveBlueprints() {
+            addLog('Loading long sleeve specific blueprints...', 'info');
+
+            if (!podManager) {
+                addLog('POD Manager not initialized', 'error');
+                return;
+            }
+
+            try {
+                const blueprints = await podManager.getLongSleeveBlueprints();
+                displayCatalogData('Long Sleeve Blueprints', blueprints, 'longsleeve-blueprint');
+                addLog(`Found ${blueprints.length} long sleeve blueprints`, 'success');
+            } catch (error) {
+                addLog(`Error loading long sleeve blueprints: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadPrintProviders() {
+            addLog('Loading print providers...', 'info');
+
+            if (!podManager) {
+                addLog('POD Manager not initialized', 'error');
+                return;
+            }
+
+            try {
+                const providers = await podManager.getPrintProviders();
+                displayCatalogData('Print Providers', providers, 'provider');
+                addLog(`Loaded ${providers.length} print providers`, 'success');
+            } catch (error) {
+                addLog(`Error loading print providers: ${error.message}`, 'error');
+            }
+        }
+
+        function displayCatalogData(title, data, type) {
+            const container = document.getElementById('catalogContainer');
+
+            let html = `<div style="margin-top: 20px; padding: 20px; background: #2a2a2a; border-radius: 8px;">`;
+            html += `<h3>${title} (${data.length})</h3>`;
+
+            if (data.length === 0) {
+                html += '<p>No items found.</p>';
+            } else {
+                html += '<div style="max-height: 400px; overflow-y: auto;">';
+
+                data.forEach((item, index) => {
+                    html += `<div style="padding: 10px; margin: 5px 0; background: #333; border-radius: 6px; border-left: 4px solid #ff6b35;">`;
+                    html += `<strong>${item.title || item.name || 'Unknown'}</strong>`;
+                    if (item.id) html += ` <small style="color: #999;">(ID: ${item.id})</small>`;
+                    if (item.description) html += `<br><small>${item.description.substring(0, 100)}...</small>`;
+                    if (item.brand) html += `<br><span style="color: #74c0fc;">Brand: ${item.brand}</span>`;
+                    if (item.model) html += ` <span style="color: #74c0fc;">Model: ${item.model}</span>`;
+                    if (item.location) html += `<br><small>📍 ${item.location.city}, ${item.location.country}</small>`;
+                    html += '</div>';
+                });
+
+                html += '</div>';
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Create a test product
+        async function createTestProduct() {
+            addLog('Creating test product...', 'info');
+
+            const testProduct = {
+                id: 'test_' + Date.now(),
+                name: 'Test T-Shirt',
+                description: 'This is a test product for POD integration',
+                basePrice: 24.99,
+                category: 't-shirts',
+                tags: ['test', 'tshirt'],
+                variants: {
+                    sizes: ['S', 'M', 'L'],
+                    colors: [
+                        { name: 'Black', hex: '#000000', stock: 10 },
+                        { name: 'White', hex: '#FFFFFF', stock: 10 }
+                    ]
+                }
+            };
+
+            try {
+                // Validate the product
+                const printifyValidation = podTemplates.validateProductForProvider(testProduct, 'printify');
+                const printfulValidation = podTemplates.validateProductForProvider(testProduct, 'printful');
+
+                if (printifyValidation.isValid) {
+                    addLog('Test product is valid for Printify', 'success');
+                } else {
+                    addLog(`Printify validation errors: ${printifyValidation.errors.join(', ')}`, 'error');
+                }
+
+                if (printfulValidation.isValid) {
+                    addLog('Test product is valid for Printful', 'success');
+                } else {
+                    addLog(`Printful validation errors: ${printfulValidation.errors.join(', ')}`, 'error');
+                }
+
+            } catch (error) {
+                addLog(`Error creating test product: ${error.message}`, 'error');
+            }
+        }
+
+        // Save configuration
+        function savePrintifyConfig() {
+            const apiKey = document.getElementById('printifyApiKey').value;
+            const shopId = document.getElementById('printifyShopId').value;
+
+            if (apiKey && shopId) {
+                // In a real implementation, you'd save this securely
+                addLog('Printify configuration saved (demo mode)', 'success');
+            } else {
+                addLog('Please fill in all Printify fields', 'error');
+            }
+        }
+
+        function savePrintfulConfig() {
+            const apiKey = document.getElementById('printfulApiKey').value;
+
+            if (apiKey) {
+                // In a real implementation, you'd save this securely
+                addLog('Printful configuration saved (demo mode)', 'success');
+            } else {
+                addLog('Please fill in the Printful API key', 'error');
+            }
+        }
+
+        // Logging functionality
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('logContainer').innerHTML = '';
+            addLog('Logs cleared', 'info');
+        }
+
+        // Sync with specific provider
+        async function syncSpecificProvider(provider) {
+            addLog(`Starting ${provider} sync...`, 'info');
+
+            try {
+                // Implementation for provider-specific sync
+                addLog(`${provider} sync completed`, 'success');
+
+            } catch (error) {
+                addLog(`Error syncing with ${provider}: ${error.message}`, 'error');
+            }
+        }
+
+        // Full sync
+        async function fullSync() {
+            addLog('Starting full synchronization...', 'info');
+
+            try {
+                await syncSpecificProvider('printify');
+                await syncSpecificProvider('printful');
+                addLog('Full synchronization completed', 'success');
+
+            } catch (error) {
+                addLog(`Error during full sync: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

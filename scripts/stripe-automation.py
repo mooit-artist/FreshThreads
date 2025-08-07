@@ -11,6 +11,7 @@ from datetime import datetime
 
 load_dotenv()
 
+
 class StripeAutomation:
     def __init__(self):
         self.secret_key = os.getenv('STRIPE_SECRET_KEY', '')
@@ -33,11 +34,13 @@ class StripeAutomation:
         }
 
         try:
-            response = requests.get(f"{self.base_url}/account", headers=headers)
+            response = requests.get(
+                f"{self.base_url}/account", headers=headers)
             response.raise_for_status()
 
             account_info = response.json()
-            self.log(f"✅ Stripe connection successful. Account: {account_info.get('display_name', 'Unknown')}")
+            self.log(
+                f"✅ Stripe connection successful. Account: {account_info.get('display_name', 'Unknown')}")
             return True
 
         except requests.exceptions.RequestException as e:
@@ -64,7 +67,7 @@ class StripeAutomation:
 
         try:
             response = requests.post(f"{self.base_url}/products",
-                                   headers=headers, data=product_data)
+                                     headers=headers, data=product_data)
             response.raise_for_status()
             product = response.json()
 
@@ -76,7 +79,7 @@ class StripeAutomation:
             }
 
             response = requests.post(f"{self.base_url}/prices",
-                                   headers=headers, data=price_data)
+                                     headers=headers, data=price_data)
             response.raise_for_status()
             price = response.json()
 
@@ -111,7 +114,7 @@ class StripeAutomation:
 
         try:
             response = requests.post(f"{self.base_url}/webhook_endpoints",
-                                   headers=headers, data=webhook_data)
+                                     headers=headers, data=webhook_data)
             response.raise_for_status()
 
             webhook = response.json()
@@ -187,6 +190,7 @@ document.getElementById('checkout-button').addEventListener('click', function() 
 
         self.log("✅ Stripe integration code generated: docs/stripe-integration.html")
 
+
 def main():
     stripe = StripeAutomation()
 
@@ -213,10 +217,12 @@ def main():
         if stripe.test_connection():
             stripe.setup_webhooks()
             stripe.generate_integration_code()
-            stripe.create_product("FreshThreads T-Shirt", 2999, "Premium custom t-shirt")
+            stripe.create_product("FreshThreads T-Shirt",
+                                  2999, "Premium t-shirt")
             print("✅ Full Stripe setup completed!")
     else:
         print("Invalid option")
+
 
 if __name__ == "__main__":
     main()

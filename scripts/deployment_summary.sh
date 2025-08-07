@@ -27,13 +27,32 @@ echo
 echo -e "${BLUE}📊 Current Status Check${NC}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Check if PayPal config exists
-if [ -f "config/paypal-config.env" ]; then
-    echo -e "${GREEN}✅ PayPal configuration: Ready${NC}"
-    PAYPAL_STATUS="✅"
+# Check GitHub Secrets first (preferred method)
+if command -v gh &> /dev/null && gh auth status &> /dev/null 2>&1; then
+    if gh secret list | grep -q "PAYPAL_CLIENT_ID"; then
+        echo -e "${GREEN}✅ PayPal configuration: GitHub Secrets (Secure)${NC}"
+        PAYPAL_STATUS="✅"
+        CONFIG_SOURCE="GitHub Secrets"
+    elif [ -f "config/paypal-config.env" ]; then
+        echo -e "${YELLOW}⚠️ PayPal configuration: File-based (Consider GitHub Secrets)${NC}"
+        PAYPAL_STATUS="⚠️"
+        CONFIG_SOURCE="Config File"
+    else
+        echo -e "${RED}❌ PayPal configuration: Missing${NC}"
+        PAYPAL_STATUS="❌"
+        CONFIG_SOURCE="None"
+    fi
 else
-    echo -e "${RED}❌ PayPal configuration: Missing${NC}"
-    PAYPAL_STATUS="❌"
+    # Fallback to config file check
+    if [ -f "config/paypal-config.env" ]; then
+        echo -e "${YELLOW}⚠️ PayPal configuration: File-based (GitHub CLI needed for secrets)${NC}"
+        PAYPAL_STATUS="⚠️"
+        CONFIG_SOURCE="Config File"
+    else
+        echo -e "${RED}❌ PayPal configuration: Missing${NC}"
+        PAYPAL_STATUS="❌"
+        CONFIG_SOURCE="None"
+    fi
 fi
 
 # Check if GitHub CLI is available
@@ -79,12 +98,25 @@ echo -e "${BLUE}🛠️  What We've Built${NC}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "${CYAN}📁 PayPal Integration Files:${NC}"
 echo "   • paypal_v2_api_integration.py     → Latest PayPal API v2 implementation"
-echo "   • setup_paypal_from_params.py      → Auto-configuration from credentials"
-echo "   • paypaldev.params                 → Your PayPal Developer credentials"
-echo "   • config/paypal-config.env         → Generated business configuration"
+echo "   • setup_paypal_from_params.py      → Auto-configuration with GitHub Secrets support"
+echo "   • paypal_business_automation.py    → Business automation with secure credential loading"
 echo
 
-echo -e "${CYAN}🔐 Security & CI/CD Files:${NC}"
+echo -e "${CYAN}🔐 Security Features:${NC}"
+if [ "$CONFIG_SOURCE" = "GitHub Secrets" ]; then
+    echo "   • GitHub Secrets                   → ✅ Secure credential storage (Active)"
+    echo "   • Environment Variables            → ✅ Runtime configuration"
+    echo "   • Automated Secret Management      → ✅ CI/CD integration"
+elif [ "$CONFIG_SOURCE" = "Config File" ]; then
+    echo "   • GitHub Secrets                   → ⚠️ Available (run upload_secrets_to_github.sh)"
+    echo "   • Local Configuration              → ✅ File-based (development only)"
+    echo "   • Security Cleanup                 → ✅ Sensitive files removed from git"
+else
+    echo "   • GitHub Secrets                   → ❌ Not configured"
+    echo "   • Configuration                    → ❌ Missing credentials"
+fi
+
+echo -e "${CYAN}�️ Security & CI/CD Files:${NC}"
 echo "   • upload_secrets_to_github.sh      → Upload credentials to GitHub Secrets"
 echo "   • create_config_from_secrets.py    → Generate config from GitHub variables"
 echo "   • setup_environment_protection.sh  → Configure environment protection"

@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success - FreshThreads LLC</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Your FreshThreads LLC order has been successfully placed. Thank you for your purchase!">
+    <meta name="robots" content="noindex, nofollow">
+
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
-    
-    <!-- Additional Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
-    <title>Order Success - FreshThreads LLC</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/Fresh_ThreadsLLCLogo.png">
 
     <style>
       * {
@@ -219,7 +224,7 @@
       </div>
 
       <p class="success-message">
-        Thank you for your order! We've received your payment and your custom apparel
+        Thank you for your order! We've received your payment and your apparel
         is now being prepared for production. You'll receive a confirmation email shortly
         with your order details and tracking information.
       </p>
@@ -263,7 +268,7 @@
       // Social sharing functions
       function shareOnInstagram() {
         // Instagram doesn't have direct URL sharing, so we'll copy text to clipboard
-        const text = "Just ordered some amazing custom apparel from @freshthreadsllc! 🔥 #FreshThreads #CustomApparel";
+        const text = "Just ordered some amazing apparel from @freshthreadsllc! 🔥 #FreshThreads #Apparel";
         navigator.clipboard.writeText(text).then(() => {
           alert('Text copied to clipboard! Share it on Instagram.');
         });
@@ -271,13 +276,13 @@
 
       function shareOnFacebook() {
         const url = encodeURIComponent('https://freshthreadsllc.com');
-        const text = encodeURIComponent('Just ordered amazing custom apparel from FreshThreads!');
+        const text = encodeURIComponent('Just ordered amazing apparel from FreshThreads!');
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
       }
 
       function shareOnTwitter() {
         const url = encodeURIComponent('https://freshthreadsllc.com');
-        const text = encodeURIComponent('Just ordered amazing custom apparel from @freshthreadsllc! 🔥 #FreshThreads #CustomApparel');
+        const text = encodeURIComponent('Just ordered amazing apparel from @freshthreadsllc! 🔥 #FreshThreads #Apparel');
         window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
       }
 
@@ -304,19 +309,73 @@
       // Initialize page
       document.addEventListener('DOMContentLoaded', function () {
         // Set order number
-        document.getElementById('orderNumber').textContent = `Order #${getOrderId()}`;
+        const orderId = getOrderIdFromURL() || getOrderId();
+        document.getElementById('orderNumber').textContent = `Order #${orderId}`;
+
+        // Display order details from cart data
+        displayOrderDetails();
 
         // Track completion
         trackOrderCompletion();
 
-        // Clear any cart data
-        localStorage.removeItem('freshthreads_cart');
+        // Clear cart data
+        clearCartData();
 
         // Update cart count if the function exists
         if (typeof updateCartCount === 'function') {
           updateCartCount();
         }
       });
+
+      function getOrderIdFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('id');
+      }
+
+      function displayOrderDetails() {
+        try {
+          const orderData = localStorage.getItem('freshthreads_last_order');
+          if (orderData) {
+            const order = JSON.parse(orderData);
+
+            // Update order details in the UI
+            const orderDetailsDiv = document.createElement('div');
+            orderDetailsDiv.className = 'order-details';
+            orderDetailsDiv.innerHTML = `
+              <h3>Order Details</h3>
+              <p><strong>Order ID:</strong> ${order.orderId}</p>
+              <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
+              <p><strong>Items:</strong> ${order.items.reduce((sum, item) => sum + item.quantity, 0)}</p>
+              <p><strong>Date:</strong> ${new Date(order.timestamp).toLocaleDateString()}</p>
+            `;
+
+            // Insert after the success message
+            const container = document.querySelector('.success-container');
+            const successMsg = container.querySelector('p');
+            if (successMsg && successMsg.nextSibling) {
+              container.insertBefore(orderDetailsDiv, successMsg.nextSibling);
+            }
+          }
+        } catch (e) {
+          console.error('Error displaying order details:', e);
+        }
+      }
+
+      function clearCartData() {
+        // Clear the shopping cart
+        localStorage.removeItem('freshthreads_cart');
+
+        // Update cart badge if it exists
+        const cartBadge = document.querySelector('.cart-badge');
+        if (cartBadge) {
+          cartBadge.style.display = 'none';
+        }
+
+        // Update cart system if available
+        if (window.freshThreadsCart) {
+          window.freshThreadsCart.clearCart();
+        }
+      }
     </script>
   </body>
 

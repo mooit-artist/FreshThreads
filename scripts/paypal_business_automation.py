@@ -23,6 +23,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 import argparse
+from dotenv import load_dotenv
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -179,9 +180,53 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-# Load environment variables
-env_file = Path(__file__).parent.parent / "config" / "paypal-config.env"
-load_dotenv(env_file)
+# GitHub Secrets integration helper
+def load_from_github_secrets():
+    """Load PayPal credentials from GitHub Secrets if available"""
+    try:
+        # Check if running in GitHub Actions
+        if os.getenv('GITHUB_ACTIONS'):
+            return {
+                'PAYPAL_CLIENT_ID': os.getenv('PAYPAL_CLIENT_ID'),
+                'PAYPAL_CLIENT_SECRET': os.getenv('PAYPAL_CLIENT_SECRET'),
+                'PAYPAL_ENVIRONMENT': os.getenv('PAYPAL_ENVIRONMENT', 'sandbox'),
+                'BUSINESS_NAME': os.getenv('BUSINESS_NAME', 'FreshThreads LLC'),
+                'BUSINESS_WEBSITE': os.getenv('BUSINESS_WEBSITE'),
+                'PAYPAL_BUSINESS_EMAIL': os.getenv('PAYPAL_BUSINESS_EMAIL')
+            }
+
+        # Check if GitHub CLI is available for local development
+        result = subprocess.run(['gh', 'secret', 'list'],
+                              capture_output=True, text=True)
+        if result.returncode == 0:
+            print("🔑 Loading PayPal credentials from GitHub Secrets...")
+            secrets = {}
+            for line in result.stdout.strip().split('\n'):
+                if line.startswith('PAYPAL_') or line.startswith('BUSINESS_'):
+                    secret_name = line.split()[0]
+                    # Get secret value using GitHub CLI
+                    secret_result = subprocess.run(['gh', 'secret', 'get', secret_name],
+                                                 capture_output=True, text=True)
+                    if secret_result.returncode == 0:
+                        secrets[secret_name] = secret_result.stdout.strip()
+                        os.environ[secret_name] = secret_result.stdout.strip()
+            return secrets
+
+    except Exception as e:
+        print(f"⚠️ GitHub Secrets not available: {e}")
+
+    return None
+
+# Try GitHub Secrets first, then fallback to config file
+github_secrets = load_from_github_secrets()
+if not github_secrets:
+    print("📁 Loading PayPal credentials from config file...")
+    # Load environment variables from config file
+    env_file = Path(__file__).parent.parent / "config" / "paypal-config.env"
+    if env_file.exists():
+        load_dotenv(env_file)
+    else:
+        print("⚠️ No PayPal config file found. Please run setup_paypal_from_params.py first.")
 
 class FreshThreadsPayPalCheckout:
     def __init__(self):
