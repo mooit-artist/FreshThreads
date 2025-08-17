@@ -279,7 +279,7 @@ We welcome contributions! Please feel free to submit a Pull Request.
 
 ## 📞 **Contact**
 
-- **Email**: hello@freshthreadsllc.com
+- **Email**: <hello@freshthreadsllc.com>
 - **Website**: [freshthreadsllc.com](https://freshthreadsllc.com)
 - **Social**: Follow us on all platforms @freshthreadsllc
 

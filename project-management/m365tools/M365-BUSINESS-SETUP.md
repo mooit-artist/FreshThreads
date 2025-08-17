@@ -1,7 +1,7 @@
 # 📧 Microsoft 365 Business Setup Guide
 
 **Business:** Fresh Threads LLC
-**Email:** bryan@freshthreadsllc.com
+**Email:** <bryan@freshthreadsllc.com>
 **Plan:** Microsoft 365 Business Basic ($6/month)
 **Purpose:** Professional business email for banking and payment processor applications
 
@@ -41,7 +41,7 @@
 ### 5. **User Account Creation**
 
 - **Username:** bryan
-- **Full Email:** bryan@freshthreadsllc.com
+- **Full Email:** <bryan@freshthreadsllc.com>
 - **Display Name:** Bryan Jorgensen
 - **Password:** Strong business password
 - **Role:** Global Administrator
@@ -96,7 +96,7 @@ Fresh Threads LLC
 - **QuickBooks Online:** Connect with business email
 - **Banking notifications:** Route to business email
 - **Payment processor alerts:** Use business email
-- **Customer service:** Set up info@freshthreadsllc.com (alias)
+- **Customer service:** Set up <info@freshthreadsllc.com> (alias)
 
 ---
 
@@ -104,7 +104,7 @@ Fresh Threads LLC
 
 - [ ] Microsoft 365 Business Basic account created
 - [ ] Domain freshthreadsllc.com verified
-- [ ] bryan@freshthreadsllc.com working
+- [ ] <bryan@freshthreadsllc.com> working
 - [ ] Outlook configured (web, mobile, desktop)
 - [ ] Professional email signature added
 - [ ] Two-factor authentication enabled

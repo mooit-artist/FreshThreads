@@ -1,33 +1,25 @@
 {
   "recommendations": [
-    // Essential Web Development Extensions
     "ritwickdey.liveserver",
     "ms-vscode.vscode-json",
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
-    // HTML/CSS Extensions
     "formulahendry.auto-rename-tag",
     "pranaygp.vscode-css-peek",
     "zignd.html-css-class-completion",
     "ecmel.vscode-html-css",
-    // JavaScript Extensions
     "ms-vscode.vscode-typescript-next",
     "christian-kohler.path-intellisense",
     "formulahendry.auto-close-tag",
-    // Git Extensions
     "eamodio.gitlens",
     "github.vscode-pull-request-github",
     "github.copilot",
-    // Productivity Extensions
     "streetsidesoftware.code-spell-checker",
     "ms-vscode.theme-tomorrowkit",
     "pkief.material-icon-theme",
     "gruntfuggly.todo-tree",
-    // Debugging and Tools
-    "ms-vscode.vscode-json",
     "redhat.vscode-yaml",
     "ms-vscode-remote.remote-containers",
-    // Quality of Life
     "alefragnani.bookmarks",
     "oderwat.indent-rainbow",
     "aaron-bond.better-comments",

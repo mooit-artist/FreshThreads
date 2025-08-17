@@ -1,164 +1,173 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
-    
-    <!-- Additional Security Headers -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
+    />
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    <!-- Additional Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta
+      http-equiv="Referrer-Policy"
+      content="strict-origin-when-cross-origin"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Strict-Transport-Security"
+      content="max-age=31536000; includeSubDomains; preload"
+    />
     <title>404 - Page Not Found | FreshThreads LLC</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Helvetica Neue', 'Arial', sans-serif;
-            background: #ffffff;
-            min-height: 100vh;
-            color: #000000;
-            line-height: 1.6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      body {
+        font-family: "Helvetica Neue", "Arial", sans-serif;
+        background: #ffffff;
+        min-height: 100vh;
+        color: #000000;
+        line-height: 1.6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-        .error-container {
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
-        }
+      .error-container {
+        text-align: center;
+        max-width: 600px;
+        padding: 2rem;
+      }
 
-        .logo {
-            margin-bottom: 2rem;
-        }
+      .logo {
+        margin-bottom: 2rem;
+      }
 
-        .logo img {
-            height: 60px;
-            width: auto;
-        }
+      .logo img {
+        height: 60px;
+        width: auto;
+      }
 
+      .error-code {
+        font-size: 8rem;
+        font-weight: 300;
+        color: #333;
+        margin-bottom: 1rem;
+        line-height: 1;
+      }
+
+      .error-title {
+        font-size: 2rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .error-message {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .error-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        text-decoration: none;
+        border-radius: 3px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background: #000000;
+        color: white;
+        border: 1px solid #000000;
+      }
+
+      .btn-primary:hover {
+        background: #333333;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #000000;
+        border: 1px solid #000000;
+      }
+
+      .btn-secondary:hover {
+        background: #000000;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
         .error-code {
-            font-size: 8rem;
-            font-weight: 300;
-            color: #333;
-            margin-bottom: 1rem;
-            line-height: 1;
+          font-size: 6rem;
         }
 
         .error-title {
-            font-size: 2rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .error-message {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+          font-size: 1.5rem;
         }
 
         .error-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+          flex-direction: column;
+          align-items: center;
         }
 
         .btn {
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 3px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 1rem;
+          width: 100%;
+          max-width: 250px;
         }
-
-        .btn-primary {
-            background: #000000;
-            color: white;
-            border: 1px solid #000000;
-        }
-
-        .btn-primary:hover {
-            background: #333333;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #000000;
-            border: 1px solid #000000;
-        }
-
-        .btn-secondary:hover {
-            background: #000000;
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .error-code {
-                font-size: 6rem;
-            }
-
-            .error-title {
-                font-size: 1.5rem;
-            }
-
-            .error-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 250px;
-            }
-        }
+      }
     </style>
-    <link rel="stylesheet" href="styles/minimalistic.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles/minimalistic.css" />
+  </head>
+  <body>
     <div class="error-container">
-        <div class="logo">
-            <img src="assets/Fresh_ThreadsLLCLogo.png" alt="FreshThreads LLC">
-        </div>
+      <div class="logo">
+        <img src="assets/Fresh_ThreadsLLCLogo.png" alt="FreshThreads LLC" />
+      </div>
 
-        <div class="error-code">404</div>
-        <h1 class="error-title">Page Not Found</h1>
-        <p class="error-message">
-            The page you're looking for doesn't exist or has been moved.
-            Let's get you back to exploring our premium apparel collection.
-        </p>
+      <div class="error-code">404</div>
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-message">
+        The page you're looking for doesn't exist or has been moved. Let's get
+        you back to exploring our premium apparel collection.
+      </p>
 
-        <div class="error-buttons">
-            <a href="/" class="btn btn-primary">Go Home</a>
-            <a href="products.html" class="btn btn-secondary">Shop Collection</a>
-        </div>
+      <div class="error-buttons">
+        <a href="/" class="btn btn-primary">Go Home</a>
+        <a href="products.html" class="btn btn-secondary">Shop Collection</a>
+      </div>
     </div>
 
     <script>
-        // Track 404 errors for analytics
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'page_not_found', {
-                event_category: 'error',
-                event_label: window.location.pathname
-            });
-        }
+      // Track 404 errors for analytics
+      if (typeof gtag !== "undefined") {
+        gtag("event", "page_not_found", {
+          event_category: "error",
+          event_label: window.location.pathname,
+        });
+      }
     </script>
-</body>
+  </body>
 </html>

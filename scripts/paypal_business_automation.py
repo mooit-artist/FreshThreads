@@ -13,16 +13,17 @@ Based on PayPal REST API Specifications v2:
 Reference: https://github.com/paypal/paypal-rest-api-specifications
 """
 
-import os
-import sys
-import json
-import requests
-import subprocess
+import argparse
 import base64
+import json
+import os
+import subprocess
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Any
-import argparse
+from typing import Any, Dict, List, Optional
+
+import requests
 from dotenv import load_dotenv
 
 # Add project root to path
@@ -46,21 +47,20 @@ class FreshThreadsPayPal:
             "name": "FreshThreads LLC",
             "email": "bryan@freshthreadsllc.com",
             "website": "https://freshthreadsllc.com",
-            "phone": "+1-555-0123"
+            "phone": "+1-555-0123",
         }
 
-        self.log(
-            f"Initialized FreshThreads PayPal automation in {environment} mode")
+        self.log(f"Initialized FreshThreads PayPal automation in {environment} mode")
 
     def log(self, message: str, level: str = "INFO"):
         """Log messages with timestamp"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         color_codes = {
-            "INFO": "\033[97m",    # White
+            "INFO": "\033[97m",  # White
             "SUCCESS": "\033[92m",  # Green
             "WARNING": "\033[93m",  # Yellow
-            "ERROR": "\033[91m",   # Red
-            "RESET": "\033[0m"     # Reset
+            "ERROR": "\033[91m",  # Red
+            "RESET": "\033[0m",  # Reset
         }
 
         color = color_codes.get(level, color_codes["INFO"])
@@ -69,9 +69,10 @@ class FreshThreadsPayPal:
         print(f"{color}[{timestamp}] {message}{reset}")
 
         # Also log to file
-        log_file = self.logs_dir / \
-            f"paypal-automation-{datetime.now().strftime('%Y-%m')}.log"
-        with open(log_file, 'a') as f:
+        log_file = (
+            self.logs_dir / f"paypal-automation-{datetime.now().strftime('%Y-%m')}.log"
+        )
+        with open(log_file, "a") as f:
             f.write(f"[{timestamp}] [{level}] {message}\n")
 
     def install_prerequisites(self) -> bool:
@@ -79,23 +80,18 @@ class FreshThreadsPayPal:
         self.log("Installing PayPal Python prerequisites...")
 
         try:
-            packages = [
-                "paypalrestsdk",
-                "requests",
-                "python-dotenv",
-                "flask",
-                "jinja2"
-            ]
+            packages = ["paypalrestsdk", "requests", "python-dotenv", "flask", "jinja2"]
 
             for package in packages:
                 self.log(f"Installing {package}...")
-                result = subprocess.run([
-                    sys.executable, "-m", "pip", "install", package
-                ], capture_output=True, text=True)
+                result = subprocess.run(
+                    [sys.executable, "-m", "pip", "install", package],
+                    capture_output=True,
+                    text=True,
+                )
 
                 if result.returncode != 0:
-                    self.log(
-                        f"Failed to install {package}: {result.stderr}", "ERROR")
+                    self.log(f"Failed to install {package}: {result.stderr}", "ERROR")
                     return False
 
             self.log("✅ All PayPal prerequisites installed successfully", "SUCCESS")
@@ -151,11 +147,10 @@ ADMIN_NOTIFICATION_EMAIL=admin@freshthreadsllc.com
 """
 
             config_path = self.config_dir / "paypal-config.env"
-            with open(config_path, 'w') as f:
+            with open(config_path, "w") as f:
                 f.write(config_content)
 
-            self.log(
-                f"✅ PayPal configuration created: {config_path}", "SUCCESS")
+            self.log(f"✅ PayPal configuration created: {config_path}", "SUCCESS")
             return config_path
 
         except Exception as e:
@@ -385,14 +380,15 @@ if __name__ == "__main__":
 '''
 
             script_path = self.scripts_dir / "paypal_express_checkout.py"
-            with open(script_path, 'w') as f:
+            with open(script_path, "w") as f:
                 f.write(checkout_script)
 
             # Make executable
             os.chmod(script_path, 0o755)
 
             self.log(
-                f"✅ PayPal Express Checkout script created: {script_path}", "SUCCESS")
+                f"✅ PayPal Express Checkout script created: {script_path}", "SUCCESS"
+            )
             return script_path
 
         except Exception as e:
@@ -601,14 +597,13 @@ if __name__ == "__main__":
 '''
 
             webhook_path = self.scripts_dir / "paypal_webhook_handler.py"
-            with open(webhook_path, 'w') as f:
+            with open(webhook_path, "w") as f:
                 f.write(webhook_script)
 
             # Make executable
             os.chmod(webhook_path, 0o755)
 
-            self.log(
-                f"✅ PayPal webhook handler created: {webhook_path}", "SUCCESS")
+            self.log(f"✅ PayPal webhook handler created: {webhook_path}", "SUCCESS")
             return webhook_path
 
         except Exception as e:
@@ -620,7 +615,7 @@ if __name__ == "__main__":
         self.log("Creating PayPal web integration...")
 
         try:
-            html_integration = '''<!DOCTYPE html>
+            html_integration = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1004,14 +999,13 @@ if __name__ == "__main__":
         });
     </script>
 </body>
-</html>'''
+</html>"""
 
             web_path = self.project_root / "docs" / "paypal-checkout.html"
-            with open(web_path, 'w') as f:
+            with open(web_path, "w") as f:
                 f.write(html_integration)
 
-            self.log(
-                f"✅ PayPal web integration created: {web_path}", "SUCCESS")
+            self.log(f"✅ PayPal web integration created: {web_path}", "SUCCESS")
             return web_path
 
         except Exception as e:
@@ -1027,9 +1021,12 @@ if __name__ == "__main__":
             checkout_script = self.scripts_dir / "paypal_express_checkout.py"
             if checkout_script.exists():
                 self.log("Running PayPal Express Checkout test...")
-                result = subprocess.run([
-                    sys.executable, str(checkout_script)
-                ], capture_output=True, text=True, cwd=self.project_root)
+                result = subprocess.run(
+                    [sys.executable, str(checkout_script)],
+                    capture_output=True,
+                    text=True,
+                    cwd=self.project_root,
+                )
 
                 if result.returncode == 0:
                     self.log("✅ PayPal Express Checkout test passed", "SUCCESS")
@@ -1054,9 +1051,9 @@ if __name__ == "__main__":
             webhook_script = self.scripts_dir / "paypal_webhook_handler.py"
             if webhook_script.exists():
                 self.log("🚀 Starting webhook server on port 5000...")
-                subprocess.run([
-                    sys.executable, str(webhook_script)
-                ], cwd=self.project_root)
+                subprocess.run(
+                    [sys.executable, str(webhook_script)], cwd=self.project_root
+                )
                 return True
             else:
                 self.log("❌ Webhook handler script not found", "ERROR")
@@ -1258,14 +1255,15 @@ logs/
 
             reports_dir = self.project_root / "project-management"
             reports_dir.mkdir(exist_ok=True)
-            report_path = reports_dir / \
-                f"paypal-python-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.md"
+            report_path = (
+                reports_dir
+                / f"paypal-python-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.md"
+            )
 
-            with open(report_path, 'w') as f:
+            with open(report_path, "w") as f:
                 f.write(report)
 
-            self.log(
-                f"✅ PayPal business report generated: {report_path}", "SUCCESS")
+            self.log(f"✅ PayPal business report generated: {report_path}", "SUCCESS")
             print(report)
 
             return report_path
@@ -1277,11 +1275,20 @@ logs/
 
 def main():
     parser = argparse.ArgumentParser(
-        description="FreshThreads PayPal Business Automation")
-    parser.add_argument("--action", choices=["setup", "test", "webhook", "report"],
-                        default="setup", help="Action to perform")
-    parser.add_argument("--environment", choices=["sandbox", "live"],
-                        default="sandbox", help="PayPal environment")
+        description="FreshThreads PayPal Business Automation"
+    )
+    parser.add_argument(
+        "--action",
+        choices=["setup", "test", "webhook", "report"],
+        default="setup",
+        help="Action to perform",
+    )
+    parser.add_argument(
+        "--environment",
+        choices=["sandbox", "live"],
+        default="sandbox",
+        help="PayPal environment",
+    )
 
     args = parser.parse_args()
 
@@ -1322,8 +1329,7 @@ def main():
             # Generate report
             report_path = paypal.generate_report()
 
-            paypal.log(
-                "🎉 PayPal business setup completed successfully!", "SUCCESS")
+            paypal.log("🎉 PayPal business setup completed successfully!", "SUCCESS")
             paypal.log(f"📁 Configuration: {config_path}", "INFO")
             paypal.log(f"🛍️ Express Checkout: {checkout_path}", "INFO")
             paypal.log(f"🔗 Webhook Handler: {webhook_path}", "INFO")

@@ -5,12 +5,13 @@ Welcome! FreshTreads is a tightly integrated print-on-demand storefront with sec
 ## 🛠 Scope
 
 This project includes:
-- Frontend storefront logic (HTML, CSS, JS)
 
+- Frontend storefront logic (HTML, CSS, JS)
 
 ## 🔐 Contribution Guidelines
 
 All contributions must:
+
 - Be submitted as Pull Requests (PRs)
 - Comply with active branch protection rules
   - Linear history enforced
@@ -33,6 +34,7 @@ git commit -S -m "Your message"
 ## 👥 Ownership
 
 All paths are currently maintained by:
+
 - `@mooit-artist` (Bryan)
 
 Auto-review is triggered by the CODEOWNERS file. Additional contributors will be added as needed.
@@ -41,6 +43,7 @@ Auto-review is triggered by the CODEOWNERS file. Additional contributors will be
 6. Wait for successful deployment status before merge approval
 
 All paths are currently maintained by:
+
 - `@mooit-artist` (Bryan)
 
 Auto-review is triggered by the CODEOWNERS file. Additional contributors will be added as needed.

@@ -5,10 +5,10 @@ Automatically configure PayPal integration from GitHub Secrets or parameters fil
 """
 
 import os
-import sys
 import subprocess
-from pathlib import Path
+import sys
 from datetime import datetime
+from pathlib import Path
 
 
 class PayPalAutoConfig:
@@ -28,14 +28,15 @@ class PayPalAutoConfig:
     def check_github_secrets(self):
         """Check if GitHub Secrets are available"""
         try:
-            result = subprocess.run(['gh', 'secret', 'list'],
-                                    capture_output=True, text=True, check=True)
+            result = subprocess.run(
+                ["gh", "secret", "list"], capture_output=True, text=True, check=True
+            )
             secrets = result.stdout
 
             required_secrets = [
-                'PAYPAL_CLIENT_ID_SANDBOX',
-                'PAYPAL_CLIENT_SECRET_SANDBOX',
-                'PAYPAL_BUSINESS_EMAIL'
+                "PAYPAL_CLIENT_ID_SANDBOX",
+                "PAYPAL_CLIENT_SECRET_SANDBOX",
+                "PAYPAL_BUSINESS_EMAIL",
             ]
 
             available_secrets = []
@@ -61,12 +62,12 @@ class PayPalAutoConfig:
 
         credentials = {}
         secret_mappings = {
-            'PAYPAL_CLIENT_ID_SANDBOX': 'client_id',
-            'PAYPAL_CLIENT_SECRET_SANDBOX': 'client_secret',
-            'PAYPAL_BUSINESS_EMAIL': 'business_email',
-            'PAYPAL_ENVIRONMENT': 'environment',
-            'BUSINESS_WEBSITE': 'business_website',
-            'PAYPAL_WEBHOOK_URL': 'webhook_url'
+            "PAYPAL_CLIENT_ID_SANDBOX": "client_id",
+            "PAYPAL_CLIENT_SECRET_SANDBOX": "client_secret",
+            "PAYPAL_BUSINESS_EMAIL": "business_email",
+            "PAYPAL_ENVIRONMENT": "environment",
+            "BUSINESS_WEBSITE": "business_website",
+            "PAYPAL_WEBHOOK_URL": "webhook_url",
         }
 
         # Try to get secrets from environment (GitHub Actions context)
@@ -77,15 +78,14 @@ class PayPalAutoConfig:
                 print(f"✅ Got {local_key} from environment")
 
         # If we have the main credentials, we're good
-        if 'client_id' in credentials and 'client_secret' in credentials:
+        if "client_id" in credentials and "client_secret" in credentials:
             # Set defaults for missing values
-            credentials.setdefault('environment', 'sandbox')
+            credentials.setdefault("environment", "sandbox")
+            credentials.setdefault("business_email", "bryan@freshthreadsllc.com")
+            credentials.setdefault("business_website", "https://freshthreadsllc.com")
             credentials.setdefault(
-                'business_email', 'bryan@freshthreadsllc.com')
-            credentials.setdefault(
-                'business_website', 'https://freshthreadsllc.com')
-            credentials.setdefault(
-                'webhook_url', 'https://freshthreadsllc.com/api/paypal/webhook')
+                "webhook_url", "https://freshthreadsllc.com/api/paypal/webhook"
+            )
 
             print("✅ Successfully retrieved credentials from GitHub Secrets")
             return credentials
@@ -105,20 +105,20 @@ class PayPalAutoConfig:
         credentials = {}
 
         try:
-            with open(self.params_file, 'r') as f:
+            with open(self.params_file, "r") as f:
                 for line in f:
                     line = line.strip()
-                    if '=' in line and not line.startswith('#'):
-                        key, value = line.split('=', 1)
-                        key = key.strip().lower().replace(' ', '_')
+                    if "=" in line and not line.startswith("#"):
+                        key, value = line.split("=", 1)
+                        key = key.strip().lower().replace(" ", "_")
                         value = value.strip()
 
-                        if 'clientid' in key or 'client_id' in key:
-                            credentials['client_id'] = value
-                        elif 'secret' in key:
-                            credentials['client_secret'] = value
+                        if "clientid" in key or "client_id" in key:
+                            credentials["client_id"] = value
+                        elif "secret" in key:
+                            credentials["client_secret"] = value
 
-            if 'client_id' in credentials and 'client_secret' in credentials:
+            if "client_id" in credentials and "client_secret" in credentials:
                 print("✅ PayPal credentials successfully parsed")
                 print(f"Client ID: {credentials['client_id'][:20]}...")
                 print(f"Client Secret: {credentials['client_secret'][:20]}...")
@@ -189,7 +189,7 @@ PAYPAL_LOG_LEVEL=INFO
 """
 
         try:
-            with open(self.config_file, 'w') as f:
+            with open(self.config_file, "w") as f:
                 f.write(config_content)
 
             print(f"✅ Configuration saved to: {self.config_file}")
@@ -208,16 +208,13 @@ PAYPAL_LOG_LEVEL=INFO
             web_file = self.project_root / "docs" / "paypal-checkout.html"
 
             if web_file.exists():
-                with open(web_file, 'r') as f:
+                with open(web_file, "r") as f:
                     content = f.read()
 
                 # Replace placeholder with real client ID
-                updated_content = content.replace(
-                    "YOUR_PAYPAL_CLIENT_ID",
-                    client_id
-                )
+                updated_content = content.replace("YOUR_PAYPAL_CLIENT_ID", client_id)
 
-                with open(web_file, 'w') as f:
+                with open(web_file, "w") as f:
                     f.write(updated_content)
 
                 print("✅ Web integration updated with real Client ID")
@@ -235,14 +232,24 @@ PAYPAL_LOG_LEVEL=INFO
         try:
             import subprocess
 
-            result = subprocess.run([
-                sys.executable,
-                str(self.scripts_dir / "paypal_v2_api_integration.py"),
-                "--environment", "sandbox",
-                "--action", "test"
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(self.scripts_dir / "paypal_v2_api_integration.py"),
+                    "--environment",
+                    "sandbox",
+                    "--action",
+                    "test",
+                ],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
 
-            if result.returncode == 0 and "✅ PayPal API v2 connection test passed" in result.stdout:
+            if (
+                result.returncode == 0
+                and "✅ PayPal API v2 connection test passed" in result.stdout
+            ):
                 print("✅ PayPal API v2 test PASSED!")
                 print("✅ OAuth 2.0 authentication working")
                 print("✅ Credentials are valid")
@@ -265,21 +272,35 @@ PAYPAL_LOG_LEVEL=INFO
         try:
             import subprocess
 
-            result = subprocess.run([
-                sys.executable,
-                str(self.scripts_dir / "paypal_v2_api_integration.py"),
-                "--environment", "sandbox",
-                "--action", "create-order"
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(self.scripts_dir / "paypal_v2_api_integration.py"),
+                    "--environment",
+                    "sandbox",
+                    "--action",
+                    "create-order",
+                ],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
 
-            if result.returncode == 0 and "✅ Order created successfully" in result.stdout:
+            if (
+                result.returncode == 0
+                and "✅ Order created successfully" in result.stdout
+            ):
                 print("✅ Test order creation SUCCESSFUL!")
                 print("✅ Orders API v2 working")
 
                 # Extract order details from output
-                lines = result.stdout.split('\n')
+                lines = result.stdout.split("\n")
                 for line in lines:
-                    if 'Order ID:' in line or 'Total:' in line or 'Approval URL:' in line:
+                    if (
+                        "Order ID:" in line
+                        or "Total:" in line
+                        or "Approval URL:" in line
+                    ):
                         print(f"  {line.strip()}")
 
                 return True
@@ -356,12 +377,12 @@ def main():
         return 1
 
     # Update web integration
-    config.update_web_integration(credentials['client_id'])
+    config.update_web_integration(credentials["client_id"])
 
     # Test the integration
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🧪 TESTING PAYPAL INTEGRATION")
-    print("="*60)
+    print("=" * 60)
 
     # Test authentication
     auth_success = config.test_integration()
@@ -372,9 +393,9 @@ def main():
         order_success = config.create_test_order()
 
     # Show results
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📊 CONFIGURATION RESULTS")
-    print("="*60)
+    print("=" * 60)
 
     if auth_success and order_success:
         print("🎉 SUCCESS: PayPal integration fully configured!")

@@ -13,14 +13,15 @@ Reference: https://github.com/paypal/paypal-rest-api-specifications
 PayPal Developer Docs: https://developer.paypal.com/api/rest/
 """
 
+import base64
+import json
 import os
 import sys
-import json
-import requests
-import base64
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
+
+import requests
 from dotenv import load_dotenv
 
 
@@ -53,40 +54,36 @@ class PayPalAPIv2:
         self.api_endpoints = {
             # OAuth 2.0 Authentication
             "oauth_token": f"{self.base_url}/v1/oauth2/token",
-
             # Orders API v2
             "orders": f"{self.base_url}/v2/checkout/orders",
             "orders_capture": f"{self.base_url}/v2/checkout/orders/{{order_id}}/capture",
             "orders_authorize": f"{self.base_url}/v2/checkout/orders/{{order_id}}/authorize",
             "orders_show": f"{self.base_url}/v2/checkout/orders/{{order_id}}",
-
             # Payments API v2
             "payments_capture": f"{self.base_url}/v2/payments/captures/{{capture_id}}",
             "payments_refund": f"{self.base_url}/v2/payments/captures/{{capture_id}}/refund",
-
             # Webhooks Management v1
             "webhooks": f"{self.base_url}/v1/notifications/webhooks",
             "webhooks_verify": f"{self.base_url}/v1/notifications/verify-webhook-signature",
-
             # Transaction Search v1
             "transactions": f"{self.base_url}/v1/reporting/transactions",
         }
 
         # PayPal credentials
-        self.client_id = os.getenv('PAYPAL_CLIENT_ID')
-        self.client_secret = os.getenv('PAYPAL_CLIENT_SECRET')
+        self.client_id = os.getenv("PAYPAL_CLIENT_ID")
+        self.client_secret = os.getenv("PAYPAL_CLIENT_SECRET")
 
         if not self.client_id or not self.client_secret:
             raise ValueError("PayPal Client ID and Client Secret are required")
 
         # Business configuration
         self.business_config = {
-            "name": os.getenv('BUSINESS_NAME', 'FreshThreads LLC'),
-            "email": os.getenv('PAYPAL_BUSINESS_EMAIL', 'bryan@freshthreadsllc.com'),
-            "website": os.getenv('BUSINESS_WEBSITE', 'https://freshthreadsllc.com'),
-            "phone": os.getenv('BUSINESS_PHONE', '+1-555-0123'),
-            "currency": os.getenv('DEFAULT_CURRENCY', 'USD'),
-            "country": os.getenv('BUSINESS_COUNTRY', 'US')
+            "name": os.getenv("BUSINESS_NAME", "FreshThreads LLC"),
+            "email": os.getenv("PAYPAL_BUSINESS_EMAIL", "bryan@freshthreadsllc.com"),
+            "website": os.getenv("BUSINESS_WEBSITE", "https://freshthreadsllc.com"),
+            "phone": os.getenv("BUSINESS_PHONE", "+1-555-0123"),
+            "currency": os.getenv("DEFAULT_CURRENCY", "USD"),
+            "country": os.getenv("BUSINESS_COUNTRY", "US"),
         }
 
         # Access token management
@@ -99,11 +96,11 @@ class PayPalAPIv2:
         """Log messages with timestamp and color"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         colors = {
-            "INFO": "\033[96m",    # Cyan
+            "INFO": "\033[96m",  # Cyan
             "SUCCESS": "\033[92m",  # Green
             "WARNING": "\033[93m",  # Yellow
-            "ERROR": "\033[91m",   # Red
-            "RESET": "\033[0m"     # Reset
+            "ERROR": "\033[91m",  # Red
+            "RESET": "\033[0m",  # Reset
         }
 
         color = colors.get(level, colors["INFO"])
@@ -112,9 +109,8 @@ class PayPalAPIv2:
         print(f"{color}[{timestamp}] {message}{reset}")
 
         # Log to file
-        log_file = self.logs_dir / \
-            f"paypal-v2-{datetime.now().strftime('%Y-%m')}.log"
-        with open(log_file, 'a') as f:
+        log_file = self.logs_dir / f"paypal-v2-{datetime.now().strftime('%Y-%m')}.log"
+        with open(log_file, "a") as f:
             f.write(f"[{timestamp}] [{level}] {message}\n")
 
     def get_access_token(self) -> str:
@@ -123,8 +119,11 @@ class PayPalAPIv2:
         Implements latest PayPal authentication specification
         """
         # Check if current token is still valid
-        if (self.access_token and self.token_expires_at and
-                datetime.now() < self.token_expires_at - timedelta(minutes=5)):
+        if (
+            self.access_token
+            and self.token_expires_at
+            and datetime.now() < self.token_expires_at - timedelta(minutes=5)
+        ):
             return self.access_token
 
         self.log("Getting new PayPal OAuth 2.0 access token...")
@@ -132,14 +131,13 @@ class PayPalAPIv2:
         try:
             # Encode credentials in Base64 (as per PayPal spec)
             credentials = f"{self.client_id}:{self.client_secret}"
-            encoded_credentials = base64.b64encode(
-                credentials.encode()).decode()
+            encoded_credentials = base64.b64encode(credentials.encode()).decode()
 
             headers = {
                 "Accept": "application/json",
                 "Accept-Language": "en_US",
                 "Authorization": f"Basic {encoded_credentials}",
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded",
             }
 
             data = "grant_type=client_credentials"
@@ -148,7 +146,7 @@ class PayPalAPIv2:
                 self.api_endpoints["oauth_token"],
                 headers=headers,
                 data=data,
-                timeout=30
+                timeout=30,
             )
 
             if response.status_code == 200:
@@ -156,22 +154,25 @@ class PayPalAPIv2:
                 self.access_token = token_data["access_token"]
 
                 # Set token expiration (subtract 5 minutes for safety)
-                expires_in = token_data.get(
-                    "expires_in", 32400)  # Default 9 hours
+                expires_in = token_data.get("expires_in", 32400)  # Default 9 hours
                 self.token_expires_at = datetime.now() + timedelta(seconds=expires_in)
 
                 self.log("✅ Access token obtained successfully", "SUCCESS")
                 return self.access_token
             else:
                 self.log(
-                    f"❌ Failed to get access token: {response.status_code} - {response.text}", "ERROR")
+                    f"❌ Failed to get access token: {response.status_code} - {response.text}",
+                    "ERROR",
+                )
                 return None
 
         except Exception as e:
             self.log(f"❌ Error getting access token: {str(e)}", "ERROR")
             return None
 
-    def make_api_request(self, method: str, endpoint: str, data: Dict = None, params: Dict = None) -> Optional[Dict]:
+    def make_api_request(
+        self, method: str, endpoint: str, data: Dict = None, params: Dict = None
+    ) -> Optional[Dict]:
         """
         Make authenticated API request to PayPal
         Handles token refresh and standard error responses
@@ -185,22 +186,24 @@ class PayPalAPIv2:
             "Content-Type": "application/json",
             "Authorization": f"Bearer {access_token}",
             "PayPal-Request-Id": f"freshthreads-{datetime.now().strftime('%Y%m%d%H%M%S')}",
-            "Prefer": "return=representation"
+            "Prefer": "return=representation",
         }
 
         try:
             if method.upper() == "GET":
                 response = requests.get(
-                    endpoint, headers=headers, params=params, timeout=30)
+                    endpoint, headers=headers, params=params, timeout=30
+                )
             elif method.upper() == "POST":
                 response = requests.post(
-                    endpoint, headers=headers, json=data, timeout=30)
+                    endpoint, headers=headers, json=data, timeout=30
+                )
             elif method.upper() == "PATCH":
                 response = requests.patch(
-                    endpoint, headers=headers, json=data, timeout=30)
+                    endpoint, headers=headers, json=data, timeout=30
+                )
             elif method.upper() == "DELETE":
-                response = requests.delete(
-                    endpoint, headers=headers, timeout=30)
+                response = requests.delete(endpoint, headers=headers, timeout=30)
             else:
                 self.log(f"❌ Unsupported HTTP method: {method}", "ERROR")
                 return None
@@ -211,14 +214,18 @@ class PayPalAPIv2:
             else:
                 error_details = response.text
                 self.log(
-                    f"❌ API request failed: {response.status_code} - {error_details}", "ERROR")
+                    f"❌ API request failed: {response.status_code} - {error_details}",
+                    "ERROR",
+                )
                 return None
 
         except Exception as e:
             self.log(f"❌ API request error: {str(e)}", "ERROR")
             return None
 
-    def create_order(self, items: List[Dict], shipping_address: Dict = None) -> Optional[Dict]:
+    def create_order(
+        self, items: List[Dict], shipping_address: Dict = None
+    ) -> Optional[Dict]:
         """
         Create PayPal order using Orders API v2
         Supports multiple items, shipping, tax calculation
@@ -227,27 +234,31 @@ class PayPalAPIv2:
 
         try:
             # Calculate totals
-            subtotal = sum(float(item.get('price', 0)) *
-                           int(item.get('quantity', 1)) for item in items)
-            shipping_cost = float(os.getenv('SHIPPING_COST', '9.99'))
-            tax_rate = float(os.getenv('TAX_RATE', '0.08'))
+            subtotal = sum(
+                float(item.get("price", 0)) * int(item.get("quantity", 1))
+                for item in items
+            )
+            shipping_cost = float(os.getenv("SHIPPING_COST", "9.99"))
+            tax_rate = float(os.getenv("TAX_RATE", "0.08"))
             tax_amount = round(subtotal * tax_rate, 2)
             total = round(subtotal + shipping_cost + tax_amount, 2)
 
             # Format items for PayPal Orders API v2
             order_items = []
             for item in items:
-                order_items.append({
-                    "name": item.get('name', 'FreshThreads Item'),
-                    "description": item.get('description', 'Premium clothing item'),
-                    "sku": item.get('sku', ''),
-                    "unit_amount": {
-                        "currency_code": self.business_config["currency"],
-                        "value": str(item.get('price', 0))
-                    },
-                    "quantity": str(item.get('quantity', 1)),
-                    "category": "PHYSICAL_GOODS"
-                })
+                order_items.append(
+                    {
+                        "name": item.get("name", "FreshThreads Item"),
+                        "description": item.get("description", "Premium clothing item"),
+                        "sku": item.get("sku", ""),
+                        "unit_amount": {
+                            "currency_code": self.business_config["currency"],
+                            "value": str(item.get("price", 0)),
+                        },
+                        "quantity": str(item.get("quantity", 1)),
+                        "category": "PHYSICAL_GOODS",
+                    }
+                )
 
             # Build order request (Orders API v2 specification)
             order_request = {
@@ -258,7 +269,9 @@ class PayPalAPIv2:
                     "user_action": "PAY_NOW",
                     "return_url": f"{self.business_config['website']}/payment/success",
                     "cancel_url": f"{self.business_config['website']}/payment/cancel",
-                    "shipping_preference": "SET_PROVIDED_ADDRESS" if shipping_address else "GET_FROM_FILE"
+                    "shipping_preference": (
+                        "SET_PROVIDED_ADDRESS" if shipping_address else "GET_FROM_FILE"
+                    ),
                 },
                 "purchase_units": [
                     {
@@ -272,52 +285,51 @@ class PayPalAPIv2:
                             "breakdown": {
                                 "item_total": {
                                     "currency_code": self.business_config["currency"],
-                                    "value": str(subtotal)
+                                    "value": str(subtotal),
                                 },
                                 "shipping": {
                                     "currency_code": self.business_config["currency"],
-                                    "value": str(shipping_cost)
+                                    "value": str(shipping_cost),
                                 },
                                 "tax_total": {
                                     "currency_code": self.business_config["currency"],
-                                    "value": str(tax_amount)
-                                }
-                            }
+                                    "value": str(tax_amount),
+                                },
+                            },
                         },
                         "items": order_items,
-                        "payee": {
-                            "email_address": self.business_config["email"]
-                        }
+                        "payee": {"email_address": self.business_config["email"]},
                     }
-                ]
+                ],
             }
 
             # Add shipping address if provided
             if shipping_address:
                 order_request["purchase_units"][0]["shipping"] = {
-                    "name": {
-                        "full_name": shipping_address.get('name', 'Customer')
-                    },
+                    "name": {"full_name": shipping_address.get("name", "Customer")},
                     "address": {
-                        "address_line_1": shipping_address.get('address_line_1', ''),
-                        "address_line_2": shipping_address.get('address_line_2', ''),
-                        "admin_area_2": shipping_address.get('city', ''),
-                        "admin_area_1": shipping_address.get('state', ''),
-                        "postal_code": shipping_address.get('postal_code', ''),
-                        "country_code": shipping_address.get('country', 'US')
-                    }
+                        "address_line_1": shipping_address.get("address_line_1", ""),
+                        "address_line_2": shipping_address.get("address_line_2", ""),
+                        "admin_area_2": shipping_address.get("city", ""),
+                        "admin_area_1": shipping_address.get("state", ""),
+                        "postal_code": shipping_address.get("postal_code", ""),
+                        "country_code": shipping_address.get("country", "US"),
+                    },
                 }
 
             # Create order via API
             result = self.make_api_request(
-                "POST", self.api_endpoints["orders"], order_request)
+                "POST", self.api_endpoints["orders"], order_request
+            )
 
             if result:
                 order_id = result.get("id")
                 status = result.get("status")
 
                 self.log(
-                    f"✅ Order created successfully: {order_id} (Status: {status})", "SUCCESS")
+                    f"✅ Order created successfully: {order_id} (Status: {status})",
+                    "SUCCESS",
+                )
 
                 # Get approval URL
                 approval_url = None
@@ -332,7 +344,7 @@ class PayPalAPIv2:
                     "approval_url": approval_url,
                     "total": total,
                     "currency": self.business_config["currency"],
-                    "full_response": result
+                    "full_response": result,
                 }
             else:
                 self.log("❌ Failed to create order", "ERROR")
@@ -350,8 +362,7 @@ class PayPalAPIv2:
         self.log(f"Capturing PayPal order: {order_id}")
 
         try:
-            endpoint = self.api_endpoints["orders_capture"].format(
-                order_id=order_id)
+            endpoint = self.api_endpoints["orders_capture"].format(order_id=order_id)
             result = self.make_api_request("POST", endpoint)
 
             if result:
@@ -360,19 +371,23 @@ class PayPalAPIv2:
 
                 # Extract capture ID from response
                 for purchase_unit in result.get("purchase_units", []):
-                    for payment in purchase_unit.get("payments", {}).get("captures", []):
+                    for payment in purchase_unit.get("payments", {}).get(
+                        "captures", []
+                    ):
                         if payment.get("status") == "COMPLETED":
                             capture_id = payment.get("id")
                             break
 
                 self.log(
-                    f"✅ Order captured successfully: {order_id} (Capture: {capture_id})", "SUCCESS")
+                    f"✅ Order captured successfully: {order_id} (Capture: {capture_id})",
+                    "SUCCESS",
+                )
 
                 return {
                     "order_id": order_id,
                     "capture_id": capture_id,
                     "status": status,
-                    "full_response": result
+                    "full_response": result,
                 }
             else:
                 self.log(f"❌ Failed to capture order: {order_id}", "ERROR")
@@ -389,8 +404,7 @@ class PayPalAPIv2:
         self.log(f"Getting order details: {order_id}")
 
         try:
-            endpoint = self.api_endpoints["orders_show"].format(
-                order_id=order_id)
+            endpoint = self.api_endpoints["orders_show"].format(order_id=order_id)
             result = self.make_api_request("GET", endpoint)
 
             if result:
@@ -404,7 +418,9 @@ class PayPalAPIv2:
             self.log(f"❌ Error getting order details: {str(e)}", "ERROR")
             return None
 
-    def create_webhook(self, webhook_url: str, events: List[str] = None) -> Optional[Dict]:
+    def create_webhook(
+        self, webhook_url: str, events: List[str] = None
+    ) -> Optional[Dict]:
         """
         Create webhook using Webhooks Management v1 API
         """
@@ -414,7 +430,7 @@ class PayPalAPIv2:
                 "CHECKOUT.ORDER.COMPLETED",
                 "PAYMENT.CAPTURE.COMPLETED",
                 "PAYMENT.CAPTURE.DENIED",
-                "CHECKOUT.ORDER.VOIDED"
+                "CHECKOUT.ORDER.VOIDED",
             ]
 
         self.log(f"Creating webhook for URL: {webhook_url}")
@@ -422,16 +438,16 @@ class PayPalAPIv2:
         try:
             webhook_request = {
                 "url": webhook_url,
-                "event_types": [{"name": event} for event in events]
+                "event_types": [{"name": event} for event in events],
             }
 
             result = self.make_api_request(
-                "POST", self.api_endpoints["webhooks"], webhook_request)
+                "POST", self.api_endpoints["webhooks"], webhook_request
+            )
 
             if result:
                 webhook_id = result.get("id")
-                self.log(
-                    f"✅ Webhook created successfully: {webhook_id}", "SUCCESS")
+                self.log(f"✅ Webhook created successfully: {webhook_id}", "SUCCESS")
                 return result
             else:
                 self.log("❌ Failed to create webhook", "ERROR")
@@ -471,14 +487,22 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="PayPal API v2 Integration - FreshThreads LLC")
-    parser.add_argument("--environment", choices=["sandbox", "live"], default="sandbox",
-                        help="PayPal environment (default: sandbox)")
-    parser.add_argument("--action", choices=["test", "create-order", "capture", "webhook"],
-                        default="test", help="Action to perform")
-    parser.add_argument("--order-id", help="Order ID for capture operations")
+        description="PayPal API v2 Integration - FreshThreads LLC"
+    )
     parser.add_argument(
-        "--webhook-url", help="Webhook URL for webhook creation")
+        "--environment",
+        choices=["sandbox", "live"],
+        default="sandbox",
+        help="PayPal environment (default: sandbox)",
+    )
+    parser.add_argument(
+        "--action",
+        choices=["test", "create-order", "capture", "webhook"],
+        default="test",
+        help="Action to perform",
+    )
+    parser.add_argument("--order-id", help="Order ID for capture operations")
+    parser.add_argument("--webhook-url", help="Webhook URL for webhook creation")
 
     args = parser.parse_args()
 
@@ -503,15 +527,15 @@ def main():
                     "description": "100% organic cotton premium t-shirt",
                     "sku": "FT-TSHIRT-001",
                     "price": 29.99,
-                    "quantity": 2
+                    "quantity": 2,
                 },
                 {
                     "name": "FreshThreads Designer Hoodie",
                     "description": "Premium designer hoodie with FreshThreads logo",
                     "sku": "FT-HOODIE-001",
                     "price": 79.99,
-                    "quantity": 1
-                }
+                    "quantity": 1,
+                },
             ]
 
             order = paypal.create_order(test_items)
@@ -541,7 +565,10 @@ def main():
                 sys.exit(1)
 
         elif args.action == "webhook":
-            webhook_url = args.webhook_url or f"{paypal.business_config['website']}/api/paypal/webhook"
+            webhook_url = (
+                args.webhook_url
+                or f"{paypal.business_config['website']}/api/paypal/webhook"
+            )
 
             print(f"\n🔗 Creating Webhook: {webhook_url}")
             print("=" * 50)

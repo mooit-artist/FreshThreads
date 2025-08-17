@@ -1,0 +1,102 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "dreamshaper_xl_turbo.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "A dark gothic T-shirt design featuring a detailed ornate silver skull with glowing purple eyes set against a deep black background. Intricate patterns reminiscent of ancient runes and Celtic knotwork adorn the skull's surface. The word 'Embrace the Shadows' is written in a bold, elegant gothic font below the skull, using silver accents that shimmer subtly. The design is centered on the T-shirt for optimal visual impact.",
+      "clip": [
+        "8",
+        1
+      ]
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, distorted, low resolution, out of focus, text too small, text overlapping, unrealistic textures, disproportioned elements, cropped, poor composition, amateurish, ugly, bland, generic",
+      "clip": [
+        "8",
+        1
+      ]
+    }
+  },
+  "4": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    }
+  },
+  "5": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 1754685586,
+      "steps": 6,
+      "cfg": 1.5,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "karras",
+      "denoise": 1.0,
+      "model": [
+        "8",
+        0
+      ],
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "3",
+        0
+      ],
+      "latent_image": [
+        "4",
+        0
+      ]
+    }
+  },
+  "6": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "5",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "7": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "6",
+        0
+      ],
+      "filename_prefix": "FreshThreads_design"
+    }
+  },
+  "8": {
+    "class_type": "LoraLoader",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "LCM_LoRA_Weights_SD15.safetensors",
+      "strength_model": 0.8,
+      "strength_clip": 0.8
+    }
+  }
+}

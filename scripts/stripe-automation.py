@@ -3,21 +3,22 @@ Stripe Payment Processing Automation
 Handles Stripe API setup, webhook configuration, and payment processing
 """
 
-import os
 import json
+import os
+from datetime import datetime
+
 import requests
 from dotenv import load_dotenv
-from datetime import datetime
 
 load_dotenv()
 
 
 class StripeAutomation:
     def __init__(self):
-        self.secret_key = os.getenv('STRIPE_SECRET_KEY', '')
-        self.publishable_key = os.getenv('STRIPE_PUBLISHABLE_KEY', '')
-        self.webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET', '')
-        self.base_url = 'https://api.stripe.com/v1'
+        self.secret_key = os.getenv("STRIPE_SECRET_KEY", "")
+        self.publishable_key = os.getenv("STRIPE_PUBLISHABLE_KEY", "")
+        self.webhook_secret = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+        self.base_url = "https://api.stripe.com/v1"
 
     def log(self, message):
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
@@ -29,18 +30,18 @@ class StripeAutomation:
             return False
 
         headers = {
-            'Authorization': f'Bearer {self.secret_key}',
-            'Content-Type': 'application/x-www-form-urlencoded'
+            "Authorization": f"Bearer {self.secret_key}",
+            "Content-Type": "application/x-www-form-urlencoded",
         }
 
         try:
-            response = requests.get(
-                f"{self.base_url}/account", headers=headers)
+            response = requests.get(f"{self.base_url}/account", headers=headers)
             response.raise_for_status()
 
             account_info = response.json()
             self.log(
-                f"✅ Stripe connection successful. Account: {account_info.get('display_name', 'Unknown')}")
+                f"✅ Stripe connection successful. Account: {account_info.get('display_name', 'Unknown')}"
+            )
             return True
 
         except requests.exceptions.RequestException as e:
@@ -54,37 +55,35 @@ class StripeAutomation:
             return None
 
         headers = {
-            'Authorization': f'Bearer {self.secret_key}',
-            'Content-Type': 'application/x-www-form-urlencoded'
+            "Authorization": f"Bearer {self.secret_key}",
+            "Content-Type": "application/x-www-form-urlencoded",
         }
 
         # Create product
-        product_data = {
-            'name': name,
-            'description': description,
-            'type': 'good'
-        }
+        product_data = {"name": name, "description": description, "type": "good"}
 
         try:
-            response = requests.post(f"{self.base_url}/products",
-                                     headers=headers, data=product_data)
+            response = requests.post(
+                f"{self.base_url}/products", headers=headers, data=product_data
+            )
             response.raise_for_status()
             product = response.json()
 
             # Create price for the product
             price_data = {
-                'product': product['id'],
-                'unit_amount': price_cents,
-                'currency': 'usd'
+                "product": product["id"],
+                "unit_amount": price_cents,
+                "currency": "usd",
             }
 
-            response = requests.post(f"{self.base_url}/prices",
-                                     headers=headers, data=price_data)
+            response = requests.post(
+                f"{self.base_url}/prices", headers=headers, data=price_data
+            )
             response.raise_for_status()
             price = response.json()
 
             self.log(f"✅ Created product: {name} (${price_cents/100:.2f})")
-            return {'product': product, 'price': price}
+            return {"product": product, "price": price}
 
         except requests.exceptions.RequestException as e:
             self.log(f"❌ Failed to create product: {e}")
@@ -99,29 +98,30 @@ class StripeAutomation:
         webhook_url = "https://freshthreads.xyz/api/stripe/webhook"
 
         webhook_data = {
-            'url': webhook_url,
-            'enabled_events[]': [
-                'payment_intent.succeeded',
-                'payment_intent.payment_failed',
-                'checkout.session.completed'
-            ]
+            "url": webhook_url,
+            "enabled_events[]": [
+                "payment_intent.succeeded",
+                "payment_intent.payment_failed",
+                "checkout.session.completed",
+            ],
         }
 
         headers = {
-            'Authorization': f'Bearer {self.secret_key}',
-            'Content-Type': 'application/x-www-form-urlencoded'
+            "Authorization": f"Bearer {self.secret_key}",
+            "Content-Type": "application/x-www-form-urlencoded",
         }
 
         try:
-            response = requests.post(f"{self.base_url}/webhook_endpoints",
-                                     headers=headers, data=webhook_data)
+            response = requests.post(
+                f"{self.base_url}/webhook_endpoints", headers=headers, data=webhook_data
+            )
             response.raise_for_status()
 
             webhook = response.json()
             self.log(f"✅ Stripe webhook created: {webhook['id']}")
 
             # Update .env file
-            self.update_env_file('STRIPE_WEBHOOK_SECRET', webhook['secret'])
+            self.update_env_file("STRIPE_WEBHOOK_SECRET", webhook["secret"])
             return True
 
         except requests.exceptions.RequestException as e:
@@ -130,10 +130,10 @@ class StripeAutomation:
 
     def update_env_file(self, key, value):
         """Update .env file with new values"""
-        env_file = '.env'
+        env_file = ".env"
 
         if os.path.exists(env_file):
-            with open(env_file, 'r') as f:
+            with open(env_file, "r") as f:
                 lines = f.readlines()
         else:
             lines = []
@@ -148,7 +148,7 @@ class StripeAutomation:
         if not key_found:
             lines.append(f"{key}={value}\n")
 
-        with open(env_file, 'w') as f:
+        with open(env_file, "w") as f:
             f.writelines(lines)
 
         self.log(f"✅ Updated .env with {key}")
@@ -185,7 +185,7 @@ document.getElementById('checkout-button').addEventListener('click', function() 
 </script>
 """
 
-        with open('docs/stripe-integration.html', 'w') as f:
+        with open("docs/stripe-integration.html", "w") as f:
             f.write(integration_code)
 
         self.log("✅ Stripe integration code generated: docs/stripe-integration.html")
@@ -217,8 +217,7 @@ def main():
         if stripe.test_connection():
             stripe.setup_webhooks()
             stripe.generate_integration_code()
-            stripe.create_product("FreshThreads T-Shirt",
-                                  2999, "Premium t-shirt")
+            stripe.create_product("FreshThreads T-Shirt", 2999, "Premium t-shirt")
             print("✅ Full Stripe setup completed!")
     else:
         print("Invalid option")

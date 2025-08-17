@@ -9,21 +9,9 @@ def calculate_profit_margins():
     """Calculate profit margins for different suppliers"""
 
     suppliers = {
-        "Printful": {
-            "base_cost": 11.95,
-            "shipping": 4.99,
-            "quality_score": 9
-        },
-        "Printify": {
-            "base_cost": 6.99,
-            "shipping": 3.99,
-            "quality_score": 7
-        },
-        "Gooten": {
-            "base_cost": 8.50,
-            "shipping": 4.49,
-            "quality_score": 8
-        }
+        "Printful": {"base_cost": 11.95, "shipping": 4.99, "quality_score": 9},
+        "Printify": {"base_cost": 6.99, "shipping": 3.99, "quality_score": 7},
+        "Gooten": {"base_cost": 8.50, "shipping": 4.49, "quality_score": 8},
     }
 
     retail_prices = [19.99, 22.99, 24.99]
@@ -41,7 +29,8 @@ def calculate_profit_margins():
             margin = (profit / retail_price) * 100
 
             print(
-                f"{supplier:10} | Cost: ${total_cost:5.2f} | Profit: ${profit:5.2f} | Margin: {margin:4.1f}% | Quality: {data['quality_score']}/10")
+                f"{supplier:10} | Cost: ${total_cost:5.2f} | Profit: ${profit:5.2f} | Margin: {margin:4.1f}% | Quality: {data['quality_score']}/10"
+            )
 
     print("\n🎯 Recommendation:")
     print("• Printful at $24.99: Premium positioning, best quality")

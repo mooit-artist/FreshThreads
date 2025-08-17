@@ -154,7 +154,7 @@ Transfer: Not applicable (LLC owns from creation)
 - [ ] Gather EIN number (tax ID)
 - [ ] Use business address for filing
 - [ ] File as "work made for hire"
-- [ ] Use procurement@freshthreadsllc.com for contact
+- [ ] Use <procurement@freshthreadsllc.com> for contact
 - [ ] Pay $45 filing fee directly
 - [ ] Skip registered agent (not needed for copyright)
 

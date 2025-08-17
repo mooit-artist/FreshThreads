@@ -4,11 +4,11 @@ PayPal Developer Configuration Setup - FreshThreads LLC
 Interactive setup for real PayPal Business Developer credentials
 """
 
+import getpass
 import os
 import sys
-from pathlib import Path
 from datetime import datetime
-import getpass
+from pathlib import Path
 
 
 class PayPalBusinessConfig:
@@ -54,34 +54,39 @@ class PayPalBusinessConfig:
             return False
 
         # Get Client Secret
-        client_secret = getpass.getpass(
-            "PayPal Client Secret (hidden): ").strip()
+        client_secret = getpass.getpass("PayPal Client Secret (hidden): ").strip()
         if not client_secret:
             print("❌ Client Secret is required")
             return False
 
         # Business email
         default_email = "bryan@freshthreadsllc.com"
-        business_email = input(
-            f"Business Email ({default_email}): ").strip() or default_email
+        business_email = (
+            input(f"Business Email ({default_email}): ").strip() or default_email
+        )
 
         # Webhook URL
         default_webhook = "https://freshthreadsllc.com/api/paypal/webhook"
-        webhook_url = input(
-            f"Webhook URL ({default_webhook}): ").strip() or default_webhook
+        webhook_url = (
+            input(f"Webhook URL ({default_webhook}): ").strip() or default_webhook
+        )
 
         # Webhook ID (optional for now)
-        webhook_id = input("Webhook ID (optional, can add later): ").strip(
-        ) or "configure_after_setup"
+        webhook_id = (
+            input("Webhook ID (optional, can add later): ").strip()
+            or "configure_after_setup"
+        )
 
         # Business details
         print("\n🏢 Business Information:")
-        business_name = input(
-            "Business Name (FreshThreads LLC): ").strip() or "FreshThreads LLC"
-        website = input(
-            "Website (https://freshthreadsllc.com): ").strip() or "https://freshthreadsllc.com"
-        phone = input(
-            "Business Phone (+1-555-0123): ").strip() or "+1-555-0123"
+        business_name = (
+            input("Business Name (FreshThreads LLC): ").strip() or "FreshThreads LLC"
+        )
+        website = (
+            input("Website (https://freshthreadsllc.com): ").strip()
+            or "https://freshthreadsllc.com"
+        )
+        phone = input("Business Phone (+1-555-0123): ").strip() or "+1-555-0123"
 
         # Address
         print("\n📍 Business Address:")
@@ -152,7 +157,7 @@ PAYPAL_LOG_LEVEL=INFO
         # Save configuration
         try:
             self.config_dir.mkdir(exist_ok=True)
-            with open(self.config_file, 'w') as f:
+            with open(self.config_file, "w") as f:
                 f.write(config_content)
 
             print(f"\n✅ Configuration saved to: {self.config_file}")
@@ -173,16 +178,13 @@ PAYPAL_LOG_LEVEL=INFO
             web_file = self.project_root / "docs" / "paypal-checkout.html"
 
             if web_file.exists():
-                with open(web_file, 'r') as f:
+                with open(web_file, "r") as f:
                     content = f.read()
 
                 # Replace placeholder with real client ID
-                updated_content = content.replace(
-                    "YOUR_PAYPAL_CLIENT_ID",
-                    client_id
-                )
+                updated_content = content.replace("YOUR_PAYPAL_CLIENT_ID", client_id)
 
-                with open(web_file, 'w') as f:
+                with open(web_file, "w") as f:
                     f.write(updated_content)
 
                 print(f"✅ Updated web integration with Client ID")
@@ -198,14 +200,25 @@ PAYPAL_LOG_LEVEL=INFO
         try:
             # Run the new API v2 test script
             import subprocess
-            result = subprocess.run([
-                sys.executable,
-                str(self.project_root / "scripts" / "paypal_v2_api_integration.py"),
-                "--environment", "sandbox",
-                "--action", "test"
-            ], capture_output=True, text=True, cwd=self.project_root)
 
-            if result.returncode == 0 and "✅ PayPal API v2 connection test passed" in result.stdout:
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(self.project_root / "scripts" / "paypal_v2_api_integration.py"),
+                    "--environment",
+                    "sandbox",
+                    "--action",
+                    "test",
+                ],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
+
+            if (
+                result.returncode == 0
+                and "✅ PayPal API v2 connection test passed" in result.stdout
+            ):
                 print("✅ Credentials test passed!")
                 print("✅ OAuth 2.0 authentication working")
                 print("✅ PayPal API v2 connectivity confirmed")
@@ -238,21 +251,20 @@ PAYPAL_LOG_LEVEL=INFO
         print("   - CHECKOUT.ORDER.VOIDED")
         print("6. Copy the Webhook ID and update config")
 
-        webhook_id = input(
-            "\nEnter Webhook ID (or press Enter to skip): ").strip()
+        webhook_id = input("\nEnter Webhook ID (or press Enter to skip): ").strip()
 
         if webhook_id:
             try:
                 # Update config with webhook ID
-                with open(self.config_file, 'r') as f:
+                with open(self.config_file, "r") as f:
                     content = f.read()
 
                 updated_content = content.replace(
                     "PAYPAL_WEBHOOK_ID=configure_after_setup",
-                    f"PAYPAL_WEBHOOK_ID={webhook_id}"
+                    f"PAYPAL_WEBHOOK_ID={webhook_id}",
                 )
 
-                with open(self.config_file, 'w') as f:
+                with open(self.config_file, "w") as f:
                     f.write(updated_content)
 
                 print("✅ Webhook ID updated in configuration")
@@ -270,17 +282,29 @@ PAYPAL_LOG_LEVEL=INFO
 
         try:
             import subprocess
+
             webhook_url = "https://freshthreadsllc.com/api/paypal/webhook"
 
-            result = subprocess.run([
-                sys.executable,
-                str(self.project_root / "scripts" / "paypal_v2_api_integration.py"),
-                "--environment", "sandbox",
-                "--action", "webhook",
-                "--webhook-url", webhook_url
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(self.project_root / "scripts" / "paypal_v2_api_integration.py"),
+                    "--environment",
+                    "sandbox",
+                    "--action",
+                    "webhook",
+                    "--webhook-url",
+                    webhook_url,
+                ],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
 
-            if result.returncode == 0 and "✅ Webhook created successfully" in result.stdout:
+            if (
+                result.returncode == 0
+                and "✅ Webhook created successfully" in result.stdout
+            ):
                 print("✅ Webhook API v2 test passed!")
                 print("✅ Webhook Management v1 API working")
             else:
@@ -326,7 +350,9 @@ PAYPAL_LOG_LEVEL=INFO
         print()
         print("� FreshThreads PayPal API v2 integration is ready for business!")
         print("📋 Based on: https://github.com/paypal/paypal-rest-api-specifications")
-        print("🔗 Authentication: https://developer.paypal.com/api/rest/authentication/")
+        print(
+            "🔗 Authentication: https://developer.paypal.com/api/rest/authentication/"
+        )
 
 
 def main():
@@ -343,12 +369,12 @@ def main():
 
     # Test credentials
     print("\nWould you like to test the credentials now? (y/n): ", end="")
-    if input().lower().startswith('y'):
+    if input().lower().startswith("y"):
         config.test_credentials()
 
     # Setup webhook
     print("\nWould you like to set up webhooks now? (y/n): ", end="")
-    if input().lower().startswith('y'):
+    if input().lower().startswith("y"):
         config.create_webhook()
 
     # Show next steps

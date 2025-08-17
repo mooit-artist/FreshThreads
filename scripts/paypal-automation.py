@@ -3,20 +3,26 @@ PayPal Business Account Integration Automation
 Handles PayPal API setup, webhook configuration, and payment processing
 """
 
-import os
 import json
+import os
+from datetime import datetime
+
 import requests
 from dotenv import load_dotenv
-from datetime import datetime
 
 load_dotenv()
 
+
 class PayPalAutomation:
     def __init__(self):
-        self.client_id = os.getenv('PAYPAL_CLIENT_ID', '')
-        self.client_secret = os.getenv('PAYPAL_CLIENT_SECRET', '')
-        self.sandbox = os.getenv('PAYPAL_SANDBOX', 'true').lower() == 'true'
-        self.base_url = 'https://api-m.sandbox.paypal.com' if self.sandbox else 'https://api-m.paypal.com'
+        self.client_id = os.getenv("PAYPAL_CLIENT_ID", "")
+        self.client_secret = os.getenv("PAYPAL_CLIENT_SECRET", "")
+        self.sandbox = os.getenv("PAYPAL_SANDBOX", "true").lower() == "true"
+        self.base_url = (
+            "https://api-m.sandbox.paypal.com"
+            if self.sandbox
+            else "https://api-m.paypal.com"
+        )
         self.access_token = None
 
     def log(self, message):
@@ -30,18 +36,22 @@ class PayPalAutomation:
 
         url = f"{self.base_url}/v1/oauth2/token"
         headers = {
-            'Accept': 'application/json',
-            'Accept-Language': 'en_US',
+            "Accept": "application/json",
+            "Accept-Language": "en_US",
         }
-        data = 'grant_type=client_credentials'
+        data = "grant_type=client_credentials"
 
         try:
-            response = requests.post(url, headers=headers, data=data,
-                                   auth=(self.client_id, self.client_secret))
+            response = requests.post(
+                url,
+                headers=headers,
+                data=data,
+                auth=(self.client_id, self.client_secret),
+            )
             response.raise_for_status()
 
             token_data = response.json()
-            self.access_token = token_data['access_token']
+            self.access_token = token_data["access_token"]
             self.log("✅ PayPal access token obtained")
             return True
 
@@ -63,13 +73,13 @@ class PayPalAutomation:
                 {"name": "PAYMENT.CAPTURE.COMPLETED"},
                 {"name": "PAYMENT.CAPTURE.DENIED"},
                 {"name": "CHECKOUT.ORDER.APPROVED"},
-                {"name": "CHECKOUT.ORDER.COMPLETED"}
-            ]
+                {"name": "CHECKOUT.ORDER.COMPLETED"},
+            ],
         }
 
         headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {self.access_token}',
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.access_token}",
         }
 
         try:
@@ -81,7 +91,7 @@ class PayPalAutomation:
             self.log(f"✅ PayPal webhook created: {webhook_info['id']}")
 
             # Save webhook ID to .env
-            self.update_env_file('PAYPAL_WEBHOOK_ID', webhook_info['id'])
+            self.update_env_file("PAYPAL_WEBHOOK_ID", webhook_info["id"])
             return True
 
         except requests.exceptions.RequestException as e:
@@ -90,11 +100,11 @@ class PayPalAutomation:
 
     def update_env_file(self, key, value):
         """Update .env file with new values"""
-        env_file = '.env'
+        env_file = ".env"
 
         # Read existing content
         if os.path.exists(env_file):
-            with open(env_file, 'r') as f:
+            with open(env_file, "r") as f:
                 lines = f.readlines()
         else:
             lines = []
@@ -111,7 +121,7 @@ class PayPalAutomation:
             lines.append(f"{key}={value}\n")
 
         # Write back to file
-        with open(env_file, 'w') as f:
+        with open(env_file, "w") as f:
             f.writelines(lines)
 
         self.log(f"✅ Updated .env with {key}")
@@ -154,10 +164,11 @@ paypal.Buttons({{
 </script>
 """
 
-        with open('docs/paypal-integration.html', 'w') as f:
+        with open("docs/paypal-integration.html", "w") as f:
             f.write(integration_code)
 
         self.log("✅ PayPal integration code generated: docs/paypal-integration.html")
+
 
 def main():
     paypal = PayPalAutomation()
@@ -183,6 +194,7 @@ def main():
             print("✅ Full PayPal setup completed!")
     else:
         print("Invalid option")
+
 
 if __name__ == "__main__":
     main()

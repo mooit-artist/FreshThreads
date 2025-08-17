@@ -89,7 +89,7 @@
 ### **Einherjar Repository:**
 
 - **Purpose:** Website orchestration and security infrastructure
-- **Location:** https://github.com/mooit-artist/Einherjar
+- **Location:** <https://github.com/mooit-artist/Einherjar>
 - **Use Case:** Reusable across multiple business projects
 - **Scope:** Security monitoring, Docker orchestration, CI/CD
 

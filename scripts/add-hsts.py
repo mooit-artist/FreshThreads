@@ -4,18 +4,18 @@ HSTS Header Addition Script for FreshThreads LLC
 Adds HTTP Strict Transport Security headers to HTML files
 """
 
+import glob
 import os
 import re
-import glob
 from datetime import datetime
 
 
 class HSTSHeaderManager:
     def __init__(self):
         self.docs_dir = "docs"
-        self.hsts_header = 'Strict-Transport-Security'
+        self.hsts_header = "Strict-Transport-Security"
         # HSTS max-age: 1 year (31536000 seconds), includeSubDomains, preload
-        self.hsts_value = 'max-age=31536000; includeSubDomains; preload'
+        self.hsts_value = "max-age=31536000; includeSubDomains; preload"
         self.processed_files = []
         self.skipped_files = []
         self.errors = []
@@ -33,31 +33,31 @@ class HSTSHeaderManager:
 
     def add_hsts_meta_tag(self, content):
         """Add HSTS meta tag to HTML content"""
-        hsts_meta = f'  <meta http-equiv="{self.hsts_header}" content="{self.hsts_value}">'
+        hsts_meta = (
+            f'  <meta http-equiv="{self.hsts_header}" content="{self.hsts_value}">'
+        )
 
         # Try to add after existing meta tags
-        meta_pattern = r'(<meta[^>]*>)'
+        meta_pattern = r"(<meta[^>]*>)"
         matches = list(re.finditer(meta_pattern, content, re.IGNORECASE))
 
         if matches:
             # Add after the last meta tag
             last_meta = matches[-1]
             insert_pos = last_meta.end()
-            new_content = (content[:insert_pos] +
-                           '\n' + hsts_meta +
-                           content[insert_pos:])
+            new_content = content[:insert_pos] + "\n" + hsts_meta + content[insert_pos:]
         else:
             # Add after <head> tag
-            head_pattern = r'(<head[^>]*>)'
+            head_pattern = r"(<head[^>]*>)"
             head_match = re.search(head_pattern, content, re.IGNORECASE)
             if head_match:
                 insert_pos = head_match.end()
-                new_content = (content[:insert_pos] +
-                               '\n' + hsts_meta +
-                               content[insert_pos:])
+                new_content = (
+                    content[:insert_pos] + "\n" + hsts_meta + content[insert_pos:]
+                )
             else:
                 # Add at the beginning if no head tag found
-                new_content = hsts_meta + '\n' + content
+                new_content = hsts_meta + "\n" + content
 
         return new_content
 
@@ -67,7 +67,7 @@ class HSTSHeaderManager:
             print(f"Processing: {file_path}")
 
             # Read file content
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Check if HSTS header already exists
@@ -80,7 +80,7 @@ class HSTSHeaderManager:
             new_content = self.add_hsts_meta_tag(content)
 
             # Write back to file
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
 
             print(f"  ✅ HSTS header added successfully")
@@ -124,7 +124,7 @@ class HSTSHeaderManager:
 
         template_path = os.path.join(self.docs_dir, "hsts-template.html")
         try:
-            with open(template_path, 'w', encoding='utf-8') as f:
+            with open(template_path, "w", encoding="utf-8") as f:
                 f.write(template_content)
             print(f"📄 HSTS template created: {template_path}")
         except Exception as e:
@@ -141,11 +141,11 @@ class HSTSHeaderManager:
             "hsts_policy": {
                 "max_age": "31536000 seconds (1 year)",
                 "include_subdomains": True,
-                "preload": True
+                "preload": True,
             },
             "processed_list": self.processed_files,
             "skipped_list": self.skipped_files,
-            "errors_list": self.errors
+            "errors_list": self.errors,
         }
 
         return report

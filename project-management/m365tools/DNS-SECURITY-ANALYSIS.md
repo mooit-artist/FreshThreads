@@ -57,7 +57,7 @@ selector2._domainkey.freshthreadsllc.com: NOT FOUND
 
 ### **Step 1: Enable DKIM in Microsoft 365**
 
-1. **Go to:** https://security.microsoft.com
+1. **Go to:** <https://security.microsoft.com>
 2. **Navigate to:** Email & Collaboration → Policies & Rules → Threat Policies
 3. **Select:** DKIM
 4. **Find:** freshthreadsllc.com domain
@@ -149,14 +149,14 @@ v=DMARC1; p=reject; rua=mailto:dmarc-reports@freshthreadsllc.com; ruf=mailto:dma
 
 Your current email aliases should be protected by these DNS records:
 
-- bryan@freshthreadsllc.com
-- admin@freshthreadsllc.com
-- support@freshthreadsllc.com
+- <bryan@freshthreadsllc.com>
+- <admin@freshthreadsllc.com>
+- <support@freshthreadsllc.com>
 - (and other aliases you've configured)
 
 ### **Domain Reputation Monitoring**
 
-- **Check:** https://mxtoolbox.com/domain/freshthreadsllc.com
+- **Check:** <https://mxtoolbox.com/domain/freshthreadsllc.com>
 - **Monitor:** Regular blacklist checking
 - **Set up:** Google Postmaster Tools for Gmail delivery
 
@@ -215,9 +215,9 @@ nslookup -type=CNAME selector2._domainkey.freshthreadsllc.com
 
 ### **Online Tools for Verification:**
 
-- **MXToolbox:** https://mxtoolbox.com/dmarc.aspx
-- **DMARC Analyzer:** https://www.dmarcanalyzer.com/
-- **Microsoft Remote Connectivity Analyzer:** https://testconnectivity.microsoft.com/
+- **MXToolbox:** <https://mxtoolbox.com/dmarc.aspx>
+- **DMARC Analyzer:** <https://www.dmarcanalyzer.com/>
+- **Microsoft Remote Connectivity Analyzer:** <https://testconnectivity.microsoft.com/>
 
 ---
 
@@ -225,7 +225,7 @@ nslookup -type=CNAME selector2._domainkey.freshthreadsllc.com
 
 **🎯 Configure DKIM signing in Microsoft 365 Security Center NOW**
 
-1. Go to: https://security.microsoft.com
+1. Go to: <https://security.microsoft.com>
 2. Email & Collaboration → Threat Policies → DKIM
 3. Enable for freshthreadsllc.com
 4. Copy the CNAME records

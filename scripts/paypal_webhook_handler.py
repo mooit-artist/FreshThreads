@@ -6,22 +6,24 @@ Processes PayPal webhook notifications for real-time order updates
 
 import json
 import os
-from datetime import datetime
-from pathlib import Path
-from dotenv import load_dotenv
-from flask import Flask, request, jsonify
 import smtplib
-from email.mime.text import MimeText
+from datetime import datetime
 from email.mime.multipart import MimeMultipart
+from email.mime.text import MimeText
+from pathlib import Path
+
+from dotenv import load_dotenv
+from flask import Flask, jsonify, request
 
 # Load environment variables
 env_file = Path(__file__).parent.parent / "config" / "paypal-config.env"
 load_dotenv(env_file)
 
+
 class PayPalWebhookHandler:
     def __init__(self):
-        self.business_email = os.getenv('ORDER_NOTIFICATION_EMAIL')
-        self.admin_email = os.getenv('ADMIN_NOTIFICATION_EMAIL')
+        self.business_email = os.getenv("ORDER_NOTIFICATION_EMAIL")
+        self.admin_email = os.getenv("ADMIN_NOTIFICATION_EMAIL")
         self.logs_dir = Path(__file__).parent.parent / "logs" / "paypal"
         self.logs_dir.mkdir(parents=True, exist_ok=True)
 
@@ -29,18 +31,18 @@ class PayPalWebhookHandler:
         """Process incoming PayPal webhook"""
 
         try:
-            event_type = webhook_data.get('event_type')
-            resource = webhook_data.get('resource', {})
+            event_type = webhook_data.get("event_type")
+            resource = webhook_data.get("resource", {})
 
             print(f"📨 Received webhook: {event_type}")
 
-            if event_type == 'PAYMENT.SALE.COMPLETED':
+            if event_type == "PAYMENT.SALE.COMPLETED":
                 return self.handle_payment_completed(resource)
-            elif event_type == 'PAYMENT.SALE.DENIED':
+            elif event_type == "PAYMENT.SALE.DENIED":
                 return self.handle_payment_denied(resource)
-            elif event_type == 'INVOICING.INVOICE.PAID':
+            elif event_type == "INVOICING.INVOICE.PAID":
                 return self.handle_invoice_paid(resource)
-            elif event_type == 'INVOICING.INVOICE.CANCELLED':
+            elif event_type == "INVOICING.INVOICE.CANCELLED":
                 return self.handle_invoice_cancelled(resource)
             else:
                 print(f"⚠️ Unhandled webhook event: {event_type}")
@@ -54,10 +56,10 @@ class PayPalWebhookHandler:
         """Handle completed payment"""
 
         try:
-            payment_id = payment_data.get('id')
-            amount = payment_data.get('amount', {})
-            total = amount.get('total', '0')
-            currency = amount.get('currency', 'USD')
+            payment_id = payment_data.get("id")
+            amount = payment_data.get("amount", {})
+            total = amount.get("total", "0")
+            currency = amount.get("currency", "USD")
 
             print(f"✅ Payment completed: {payment_id} - {currency} {total}")
 
@@ -74,16 +76,16 @@ class PayPalWebhookHandler:
 
                 Please process this order promptly.
                 """,
-                to_email=self.business_email
+                to_email=self.business_email,
             )
 
             # Log to file
-            self.log_transaction('payment_completed', payment_data)
+            self.log_transaction("payment_completed", payment_data)
 
             return {
                 "status": "processed",
                 "payment_id": payment_id,
-                "amount": f"{currency} {total}"
+                "amount": f"{currency} {total}",
             }
 
         except Exception as e:
@@ -94,7 +96,7 @@ class PayPalWebhookHandler:
         """Handle denied payment"""
 
         try:
-            payment_id = payment_data.get('id')
+            payment_id = payment_data.get("id")
             print(f"❌ Payment denied: {payment_id}")
 
             # Send alert email
@@ -109,7 +111,7 @@ class PayPalWebhookHandler:
 
                 Please review and follow up if necessary.
                 """,
-                to_email=self.admin_email
+                to_email=self.admin_email,
             )
 
             return {"status": "processed", "payment_id": payment_id}
@@ -136,16 +138,18 @@ class PayPalWebhookHandler:
         """Log transaction to file"""
 
         try:
-            log_file = self.logs_dir / f"transactions-{datetime.now().strftime('%Y-%m')}.log"
+            log_file = (
+                self.logs_dir / f"transactions-{datetime.now().strftime('%Y-%m')}.log"
+            )
 
             log_entry = {
                 "timestamp": datetime.now().isoformat(),
                 "event_type": event_type,
-                "data": data
+                "data": data,
             }
 
-            with open(log_file, 'a') as f:
-                f.write(json.dumps(log_entry) + '\n')
+            with open(log_file, "a") as f:
+                f.write(json.dumps(log_entry) + "\n")
 
         except Exception as e:
             print(f"❌ Error logging transaction: {str(e)}")
@@ -162,20 +166,22 @@ class PayPalWebhookHandler:
                 "timestamp": datetime.now().isoformat(),
                 "subject": subject,
                 "to": to_email,
-                "message": message
+                "message": message,
             }
 
-            with open(log_file, 'a') as f:
-                f.write(json.dumps(log_entry) + '\n')
+            with open(log_file, "a") as f:
+                f.write(json.dumps(log_entry) + "\n")
 
         except Exception as e:
             print(f"❌ Error logging email: {str(e)}")
+
 
 # Flask web server for webhook endpoint
 app = Flask(__name__)
 webhook_handler = PayPalWebhookHandler()
 
-@app.route('/api/paypal/webhook', methods=['POST'])
+
+@app.route("/api/paypal/webhook", methods=["POST"])
 def paypal_webhook():
     try:
         webhook_data = request.get_json()
@@ -184,11 +190,13 @@ def paypal_webhook():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/health', methods=['GET'])
+
+@app.route("/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "healthy", "service": "PayPal Webhook Handler"})
+
 
 if __name__ == "__main__":
     print("🚀 Starting PayPal webhook server...")
     print("📍 Webhook endpoint: http://localhost:5000/api/paypal/webhook")
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=False)

@@ -1,5 +1,4 @@
 {
-    // File Management
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -30,7 +29,6 @@
         "**/tmp/**": true,
         "**/dist/**": true
     },
-    // Editor Settings
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
     "editor.detectIndentation": true,
@@ -49,13 +47,11 @@
     "editor.minimap.enabled": true,
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": true,
-    // File Settings
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.eol": "\n",
     "files.autoSave": "onFocusChange",
-    // HTML/CSS Settings
     "html.format.enable": true,
     "html.format.wrapLineLength": 120,
     "html.format.wrapAttributes": "preserve-aligned",
@@ -64,37 +60,29 @@
     "html.validate.styles": true,
     "css.validate": true,
     "css.lint.unknownAtRules": "ignore",
-    // JavaScript Settings
     "javascript.validate.enable": true,
     "javascript.format.enable": true,
     "javascript.format.semicolons": "insert",
     "javascript.suggest.autoImports": true,
-    // Emmet Settings
     "emmet.includeLanguages": {
         "javascript": "javascriptreact"
     },
     "emmet.triggerExpansionOnTab": true,
-    // Live Server Settings
     "liveServer.settings.port": 5501,
     "liveServer.settings.root": "/docs",
     "liveServer.settings.CustomBrowser": "chrome",
     "liveServer.settings.donotShowInfoMsg": true,
-    // Git Settings
     "git.autofetch": true,
     "git.confirmSync": false,
     "git.enableSmartCommit": true,
-    // Workbench Settings
     "workbench.editor.enablePreview": false,
     "workbench.tree.indent": 12,
-    // Terminal Settings
     "terminal.integrated.defaultProfile.osx": "zsh",
     "terminal.integrated.fontSize": 13,
-    // Prettier Settings
     "prettier.useTabs": false,
     "prettier.tabWidth": 2,
     "prettier.singleQuote": true,
     "prettier.printWidth": 120,
-    // Project-specific words for spell checker
     "cSpell.words": [
         "FreshThreads",
         "navbar",

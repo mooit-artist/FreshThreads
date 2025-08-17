@@ -38,7 +38,7 @@ Avoid excessive noise or blurriness, poor color balance, overly complex composit
 
 ## Prompt Engineering Notes
 
-### Key Elements Successfully Generated:
+### Key Elements Successfully Generated
 
 - ✅ Cosmic explorer character/silhouette
 - ✅ Star field patterns and galaxy elements
@@ -47,17 +47,17 @@ Avoid excessive noise or blurriness, poor color balance, overly complex composit
 - ✅ Balanced composition for t-shirt printing
 - ✅ Modern, legible design elements
 
-### Design Intent:
+### Design Intent
 
 The prompt was crafted to create a sense of **adventure and wonder** while maintaining **commercial viability** for t-shirt printing. The emphasis on "balanced composition" and "legibility" ensures the design works well on apparel.
 
-### Color Strategy:
+### Color Strategy
 
 - **Deep purples** → Premium, mystical feeling
 - **Cosmic blues** → Space authenticity
 - **Starlight whites** → Contrast and readability
 
-### Style Direction:
+### Style Direction
 
 - **Modern aesthetic** → Contemporary appeal
 - **Clear typography** → Professional finish
@@ -76,7 +76,7 @@ To recreate this design or generate variations:
 
 ## Prompt Variations for Similar Designs
 
-### Alternative Main Prompts:
+### Alternative Main Prompts
 
 ```
 A space traveler's T-shirt design with cosmic journey elements, featuring stellar navigation themes and deep space exploration motifs in purple and blue color schemes.
@@ -86,7 +86,7 @@ A space traveler's T-shirt design with cosmic journey elements, featuring stella
 An astronaut explorer T-shirt design showcasing interstellar adventure through nebula clouds and star formations, with modern typography and cosmic color palette.
 ```
 
-### Theme Variations:
+### Theme Variations
 
 - Replace "cosmic explorer" with "space traveler", "astronaut", "stellar navigator"
 - Adjust color focus: "cosmic blues and purples" → "nebula pinks and purples"

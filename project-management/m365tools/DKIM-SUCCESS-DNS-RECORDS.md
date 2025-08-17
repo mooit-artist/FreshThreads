@@ -1,8 +1,8 @@
-# 🎉 DKIM Setup SUCCESS - DNS Records Ready!
+# 🎉 DKIM Setup SUCCESS - DNS Records Ready
 
 **Generated:** $(date)
 **Domain:** freshthreadsllc.com
-**Admin:** procurement@freshthreadsllc.com
+**Admin:** <procurement@freshthreadsllc.com>
 **Status:** DKIM Configuration Complete - DNS Records Required
 
 ---
@@ -37,7 +37,7 @@ TTL: Auto (or 3600)
 
 ## 📋 **CLOUDFLARE SETUP INSTRUCTIONS**
 
-1. **Login:** https://dash.cloudflare.com
+1. **Login:** <https://dash.cloudflare.com>
 2. **Select:** freshthreadsllc.com domain
 3. **Navigate:** DNS → Records
 4. **Add Record 1:**
@@ -72,8 +72,8 @@ Both commands should return the Microsoft DKIM selectors.
 
 ### **Online Verification:**
 
-- **DKIM Validator:** https://dkimvalidator.com/
-- **MX Toolbox:** https://mxtoolbox.com/dkim.aspx
+- **DKIM Validator:** <https://dkimvalidator.com/>
+- **MX Toolbox:** <https://mxtoolbox.com/dkim.aspx>
 
 ---
 
@@ -83,8 +83,8 @@ Once DNS records are active:
 
 **Send test email:**
 
-- **From:** procurement@freshthreadsllc.com
-- **To:** check-auth@verifier.port25.com
+- **From:** <procurement@freshthreadsllc.com>
+- **To:** <check-auth@verifier.port25.com>
 - **Subject:** DKIM Test
 
 **Expected Authentication Results:**

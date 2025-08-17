@@ -1,7 +1,7 @@
 # 📧 Fresh Threads LLC - Email Alias Strategy
 
 **Domain:** freshthreadsllc.com
-**Primary Account:** bryan@freshthreadsllc.com
+**Primary Account:** <bryan@freshthreadsllc.com>
 **Platform:** Microsoft 365 Business Basic
 **Cost:** No additional cost for aliases!
 
@@ -60,7 +60,7 @@
 ### **Step 1: Access Admin Center**
 
 1. Go to **admin.microsoft.com**
-2. Sign in with bryan@freshthreadsllc.com
+2. Sign in with <bryan@freshthreadsllc.com>
 3. Navigate to **Users** → **Active users**
 
 ### **Step 2: Add Aliases**
@@ -80,7 +80,7 @@
 
 ## 📋 Alias Usage Strategy
 
-### **Auto-Forward to bryan@freshthreadsllc.com:**
+### **Auto-Forward to <bryan@freshthreadsllc.com>:**
 
 All aliases automatically deliver to your main inbox, but you can:
 
@@ -93,7 +93,7 @@ All aliases automatically deliver to your main inbox, but you can:
 
 ### **Professional Email Signatures by Alias:**
 
-**For support@freshthreadsllc.com:**
+**For <support@freshthreadsllc.com>:**
 
 ```
 Fresh Threads LLC - Customer Support
@@ -102,7 +102,7 @@ Fresh Threads LLC - Customer Support
 📞 [Business Phone]
 ```
 
-**For procurement@freshthreadsllc.com:**
+**For <procurement@freshthreadsllc.com>:**
 
 ```
 Fresh Threads LLC - Procurement Department
@@ -160,21 +160,21 @@ Fresh Threads LLC - Procurement Department
 
 ### **Website Integration:**
 
-- **Contact page:** info@freshthreadsllc.com
-- **Customer service:** support@freshthreadsllc.com
-- **Business inquiries:** sales@freshthreadsllc.com
-- **Press/media:** press@freshthreadsllc.com
+- **Contact page:** <info@freshthreadsllc.com>
+- **Customer service:** <support@freshthreadsllc.com>
+- **Business inquiries:** <sales@freshthreadsllc.com>
+- **Press/media:** <press@freshthreadsllc.com>
 
 ### **Business Cards/Marketing:**
 
-- **Primary:** bryan@freshthreadsllc.com
-- **General:** info@freshthreadsllc.com
-- **Orders:** orders@freshthreadsllc.com
+- **Primary:** <bryan@freshthreadsllc.com>
+- **General:** <info@freshthreadsllc.com>
+- **Orders:** <orders@freshthreadsllc.com>
 
 ### **Banking/Legal Applications:**
 
-- **Always use:** bryan@freshthreadsllc.com (your official business email)
-- **Backup contact:** admin@freshthreadsllc.com
+- **Always use:** <bryan@freshthreadsllc.com> (your official business email)
+- **Backup contact:** <admin@freshthreadsllc.com>
 
 ---
 

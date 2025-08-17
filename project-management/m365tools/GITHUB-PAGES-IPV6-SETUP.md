@@ -118,8 +118,8 @@ dig AAAA freshthreadsllc.com
 
 ### **Online IPv6 Testing:**
 
-- https://test-ipv6.com/
-- https://ipv6-test.com/
+- <https://test-ipv6.com/>
+- <https://ipv6-test.com/>
 - Enter: freshthreadsllc.com
 
 ---
@@ -163,7 +163,7 @@ freshthreadsllc.com has AAAA address 2606:4700:3030::6815:xxxx
 
 ### **Test Your Site's IPv6:**
 
-1. Visit: https://test-ipv6.com/
+1. Visit: <https://test-ipv6.com/>
 2. Enter: freshthreadsllc.com
 3. Result should show: "IPv6 supported"
 

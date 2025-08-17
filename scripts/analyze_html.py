@@ -4,19 +4,19 @@ FreshThreads LLC - HTML Analysis Tool
 Analyze HTML files for GitHub Pages compatibility and optimization opportunities.
 """
 
+import argparse
+import json
 import os
 import sys
-import json
-from pathlib import Path
-from typing import List, Dict, Any
 from dataclasses import dataclass
-import argparse
+from pathlib import Path
+from typing import Any, Dict, List
 
 try:
-    from bs4 import BeautifulSoup
     import requests
-    from PIL import Image
     import yaml
+    from bs4 import BeautifulSoup
+    from PIL import Image
 except ImportError as e:
     print(f"❌ Missing dependency: {e}")
     print("Run 'make python-setup' to install required packages")
@@ -26,6 +26,7 @@ except ImportError as e:
 @dataclass
 class AnalysisResult:
     """Result of HTML file analysis."""
+
     file_path: str
     title: str
     meta_description: str
@@ -48,22 +49,22 @@ class HTMLAnalyzer:
         """Analyze a single HTML file."""
         print(f"🔍 Analyzing {file_path}")
 
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        soup = BeautifulSoup(content, 'html.parser')
+        soup = BeautifulSoup(content, "html.parser")
 
         # Extract basic info
         title = soup.title.string if soup.title else "No title"
         meta_desc = ""
-        meta_description = soup.find('meta', attrs={'name': 'description'})
+        meta_description = soup.find("meta", attrs={"name": "description"})
         if meta_description:
-            meta_desc = meta_description.get('content', '')
+            meta_desc = meta_description.get("content", "")
 
         # Count elements
-        images = soup.find_all('img')
-        links = soup.find_all('a')
-        scripts = soup.find_all('script')
+        images = soup.find_all("img")
+        links = soup.find_all("a")
+        scripts = soup.find_all("script")
 
         # Check for issues
         issues = []
@@ -73,12 +74,14 @@ class HTMLAnalyzer:
         github_pages_compatible = True
 
         # Check for server-side code
-        if '<?php' in content or '<%' in content:
-            issues.append("Contains server-side code (PHP/ASP) - not compatible with GitHub Pages")
+        if "<?php" in content or "<%" in content:
+            issues.append(
+                "Contains server-side code (PHP/ASP) - not compatible with GitHub Pages"
+            )
             github_pages_compatible = False
 
         # Check for missing alt attributes
-        images_without_alt = [img for img in images if not img.get('alt')]
+        images_without_alt = [img for img in images if not img.get("alt")]
         if images_without_alt:
             issues.append(f"{len(images_without_alt)} images missing alt attributes")
             recommendations.append("Add alt attributes to all images for accessibility")
@@ -93,17 +96,17 @@ class HTMLAnalyzer:
 
         # Check for external scripts that might not work on GitHub Pages
         for script in scripts:
-            src = script.get('src', '')
-            if 'localhost' in src:
+            src = script.get("src", "")
+            if "localhost" in src:
                 issues.append("Script references localhost - will break in production")
                 github_pages_compatible = False
 
         # Check for large images (estimate)
         large_images = []
         for img in images:
-            src = img.get('src', '')
-            if src and not src.startswith('http'):
-                img_path = self.docs_dir / src.lstrip('/')
+            src = img.get("src", "")
+            if src and not src.startswith("http"):
+                img_path = self.docs_dir / src.lstrip("/")
                 if img_path.exists():
                     try:
                         with Image.open(img_path) as image:
@@ -131,12 +134,12 @@ class HTMLAnalyzer:
             script_count=len(scripts),
             issues=issues,
             recommendations=recommendations,
-            github_pages_compatible=github_pages_compatible
+            github_pages_compatible=github_pages_compatible,
         )
 
     def analyze_all(self) -> List[AnalysisResult]:
         """Analyze all HTML files in the docs directory."""
-        html_files = list(self.docs_dir.glob('*.html'))
+        html_files = list(self.docs_dir.glob("*.html"))
 
         if not html_files:
             print("❌ No HTML files found in docs directory")
@@ -170,30 +173,40 @@ class HTMLAnalyzer:
             "summary": {
                 "total_files": total_files,
                 "github_pages_compatible": compatible_files,
-                "compatibility_rate": f"{(compatible_files/total_files)*100:.1f}%" if total_files > 0 else "0%",
+                "compatibility_rate": (
+                    f"{(compatible_files/total_files)*100:.1f}%"
+                    if total_files > 0
+                    else "0%"
+                ),
                 "total_issues": total_issues,
-                "total_recommendations": total_recommendations
+                "total_recommendations": total_recommendations,
             },
-            "files": []
+            "files": [],
         }
 
         for result in self.results:
-            report["files"].append({
-                "file": result.file_path,
-                "title": result.title,
-                "meta_description": result.meta_description[:100] + "..." if len(result.meta_description) > 100 else result.meta_description,
-                "elements": {
-                    "images": result.image_count,
-                    "links": result.link_count,
-                    "scripts": result.script_count
-                },
-                "github_pages_compatible": result.github_pages_compatible,
-                "issues": result.issues,
-                "recommendations": result.recommendations
-            })
+            report["files"].append(
+                {
+                    "file": result.file_path,
+                    "title": result.title,
+                    "meta_description": (
+                        result.meta_description[:100] + "..."
+                        if len(result.meta_description) > 100
+                        else result.meta_description
+                    ),
+                    "elements": {
+                        "images": result.image_count,
+                        "links": result.link_count,
+                        "scripts": result.script_count,
+                    },
+                    "github_pages_compatible": result.github_pages_compatible,
+                    "issues": result.issues,
+                    "recommendations": result.recommendations,
+                }
+            )
 
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 json.dump(report, f, indent=2)
             print(f"📄 Report saved to {output_file}")
 
@@ -227,13 +240,19 @@ class HTMLAnalyzer:
                 for rec in result.recommendations[:2]:  # Show first 2 recommendations
                     print(f"    💡 {rec}")
                 if len(result.recommendations) > 2:
-                    print(f"    💡 ... and {len(result.recommendations) - 2} more recommendations")
+                    print(
+                        f"    💡 ... and {len(result.recommendations) - 2} more recommendations"
+                    )
 
 
 def main():
     """Main function."""
-    parser = argparse.ArgumentParser(description="Analyze HTML files for FreshThreads project")
-    parser.add_argument("--docs-dir", default="docs", help="Directory containing HTML files")
+    parser = argparse.ArgumentParser(
+        description="Analyze HTML files for FreshThreads project"
+    )
+    parser.add_argument(
+        "--docs-dir", default="docs", help="Directory containing HTML files"
+    )
     parser.add_argument("--output", help="Output file for JSON report")
     parser.add_argument("--file", help="Analyze specific file instead of all files")
     parser.add_argument("--summary-only", action="store_true", help="Show only summary")

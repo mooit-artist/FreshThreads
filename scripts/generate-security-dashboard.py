@@ -4,8 +4,8 @@ FreshThreads Security Dashboard Generator
 Creates a comprehensive security monitoring dashboard
 """
 
-import json
 import datetime
+import json
 import os
 import subprocess
 from pathlib import Path
@@ -25,7 +25,7 @@ def generate_security_dashboard():
         "ssl_certificates": check_ssl_certificates(),
         "csp_compliance": check_csp_compliance(),
         "pci_compliance": check_pci_compliance(),
-        "vulnerability_scan": get_vulnerability_scan()
+        "vulnerability_scan": get_vulnerability_scan(),
     }
 
     # Generate HTML dashboard
@@ -69,7 +69,7 @@ def generate_security_dashboard():
 """
 
     # Write dashboard file
-    with open('security-dashboard.html', 'w') as f:
+    with open("security-dashboard.html", "w") as f:
         f.write(html_content)
 
     print("✅ Security dashboard generated: security-dashboard.html")
@@ -80,8 +80,11 @@ def generate_status_cards(data):
     cards = []
 
     # SonarQube Status
-    sonar_status = "status-ok" if data['sonarqube_status']['healthy'] else "status-error"
-    cards.append(f"""
+    sonar_status = (
+        "status-ok" if data["sonarqube_status"]["healthy"] else "status-error"
+    )
+    cards.append(
+        f"""
         <div class="status-card {sonar_status}">
             <h3>📊 SonarQube Analysis</h3>
             <div class="metric">
@@ -97,11 +100,15 @@ def generate_status_cards(data):
                 <span class="metric-value">{data['sonarqube_status'].get('vulnerabilities', 'N/A')}</span>
             </div>
         </div>
-    """)
+    """
+    )
 
     # Security Onion Status
-    so_status = "status-ok" if data['security_onion_status']['healthy'] else "status-warning"
-    cards.append(f"""
+    so_status = (
+        "status-ok" if data["security_onion_status"]["healthy"] else "status-warning"
+    )
+    cards.append(
+        f"""
         <div class="status-card {so_status}">
             <h3>🔍 Security Onion Monitoring</h3>
             <div class="metric">
@@ -117,11 +124,13 @@ def generate_status_cards(data):
                 <span class="metric-value">{data['security_onion_status'].get('zeek_scripts', 'N/A')}</span>
             </div>
         </div>
-    """)
+    """
+    )
 
     # SSL Certificate Status
-    ssl_status = "status-ok" if data['ssl_certificates']['valid'] else "status-warning"
-    cards.append(f"""
+    ssl_status = "status-ok" if data["ssl_certificates"]["valid"] else "status-warning"
+    cards.append(
+        f"""
         <div class="status-card {ssl_status}">
             <h3>🔒 SSL Certificates</h3>
             <div class="metric">
@@ -133,11 +142,13 @@ def generate_status_cards(data):
                 <span class="metric-value">{data['ssl_certificates'].get('expiry_date', 'N/A')}</span>
             </div>
         </div>
-    """)
+    """
+    )
 
     # CSP Compliance
-    csp_status = "status-ok" if data['csp_compliance']['compliant'] else "status-error"
-    cards.append(f"""
+    csp_status = "status-ok" if data["csp_compliance"]["compliant"] else "status-error"
+    cards.append(
+        f"""
         <div class="status-card {csp_status}">
             <h3>🛡️ CSP Compliance</h3>
             <div class="metric">
@@ -149,11 +160,13 @@ def generate_status_cards(data):
                 <span class="metric-value">{data['csp_compliance'].get('policies_count', 'N/A')}</span>
             </div>
         </div>
-    """)
+    """
+    )
 
     # PCI Compliance
-    pci_status = "status-ok" if data['pci_compliance']['compliant'] else "status-error"
-    cards.append(f"""
+    pci_status = "status-ok" if data["pci_compliance"]["compliant"] else "status-error"
+    cards.append(
+        f"""
         <div class="status-card {pci_status}">
             <h3>💳 PCI DSS Compliance</h3>
             <div class="metric">
@@ -165,11 +178,15 @@ def generate_status_cards(data):
                 <span class="metric-value">{data['pci_compliance'].get('payment_security', 'N/A')}</span>
             </div>
         </div>
-    """)
+    """
+    )
 
     # Vulnerability Scan
-    vuln_status = "status-ok" if data['vulnerability_scan']['clean'] else "status-warning"
-    cards.append(f"""
+    vuln_status = (
+        "status-ok" if data["vulnerability_scan"]["clean"] else "status-warning"
+    )
+    cards.append(
+        f"""
         <div class="status-card {vuln_status}">
             <h3>🔍 Vulnerability Scan</h3>
             <div class="metric">
@@ -181,9 +198,10 @@ def generate_status_cards(data):
                 <span class="metric-value">{data['vulnerability_scan'].get('last_scan', 'N/A')}</span>
             </div>
         </div>
-    """)
+    """
+    )
 
-    return ''.join(cards)
+    return "".join(cards)
 
 
 def get_sonarqube_status():
@@ -194,7 +212,7 @@ def get_sonarqube_status():
             "healthy": True,
             "security_hotspots": 0,
             "vulnerabilities": 0,
-            "coverage": "85%"
+            "coverage": "85%",
         }
     except Exception:
         return {"healthy": False}
@@ -220,7 +238,7 @@ def get_security_onion_status():
         return {
             "healthy": rules_count > 0 and zeek_scripts > 0,
             "rules_count": rules_count,
-            "zeek_scripts": zeek_scripts
+            "zeek_scripts": zeek_scripts,
         }
     except Exception:
         return {"healthy": False}
@@ -230,10 +248,7 @@ def check_ssl_certificates():
     """Check SSL certificate status"""
     try:
         # This would typically check actual SSL certificates
-        return {
-            "valid": True,
-            "expiry_date": "2025-12-30"
-        }
+        return {"valid": True, "expiry_date": "2025-12-30"}
     except Exception:
         return {"valid": False}
 
@@ -253,7 +268,7 @@ def check_csp_compliance():
         return {
             "compliant": compliant_files == len(html_files),
             "policies_count": compliant_files,
-            "total_files": len(html_files)
+            "total_files": len(html_files),
         }
     except Exception:
         return {"compliant": False}
@@ -263,11 +278,10 @@ def check_pci_compliance():
     """Check PCI DSS compliance"""
     try:
         # Check for payment security configurations
-        payment_script = Path(
-            "security-onion/zeek/scripts/payment-security.zeek")
+        payment_script = Path("security-onion/zeek/scripts/payment-security.zeek")
         return {
             "compliant": payment_script.exists(),
-            "payment_security": "Active" if payment_script.exists() else "Inactive"
+            "payment_security": "Active" if payment_script.exists() else "Inactive",
         }
     except Exception:
         return {"compliant": False}
@@ -278,7 +292,7 @@ def get_vulnerability_scan():
     try:
         return {
             "clean": True,
-            "last_scan": datetime.datetime.now().strftime("%Y-%m-%d")
+            "last_scan": datetime.datetime.now().strftime("%Y-%m-%d"),
         }
     except Exception:
         return {"clean": False}

@@ -10,8 +10,8 @@
 
 ### **Step 1: Enable DKIM in Microsoft 365** ⏱️ 2 minutes
 
-1. **Open:** https://security.microsoft.com
-2. **Sign in:** procurement@freshthreadsllc.com
+1. **Open:** <https://security.microsoft.com>
+2. **Sign in:** <procurement@freshthreadsllc.com>
 3. **Navigate:**
    - Email & Collaboration
    - → Policies & Rules
@@ -24,7 +24,7 @@
 
 ### **Step 2: Add DNS Records to Cloudflare** ⏱️ 3 minutes
 
-1. **Open:** https://dash.cloudflare.com
+1. **Open:** <https://dash.cloudflare.com>
 2. **Select:** freshthreadsllc.com domain
 3. **Go to:** DNS → Records
 4. **Add Record 1:**
@@ -56,8 +56,8 @@ Both should return Microsoft 365 DKIM selector addresses
 
 ### **Online Verification:**
 
-- **MXToolbox:** https://mxtoolbox.com/dkim.aspx
-- **DKIM Validator:** https://dkimvalidator.com/
+- **MXToolbox:** <https://mxtoolbox.com/dkim.aspx>
+- **DKIM Validator:** <https://dkimvalidator.com/>
 
 ---
 
@@ -65,8 +65,8 @@ Both should return Microsoft 365 DKIM selector addresses
 
 ### **Send Test Email:**
 
-From: procurement@freshthreadsllc.com
-To: check-auth@verifier.port25.com
+From: <procurement@freshthreadsllc.com>
+To: <check-auth@verifier.port25.com>
 Subject: DKIM Test
 
 ### **Expected Authentication Report:**
@@ -115,7 +115,7 @@ Subject: DKIM Test
 ### **If Test Email Fails:**
 
 - Check spam/junk folders
-- Verify email sent from procurement@freshthreadsllc.com
+- Verify email sent from <procurement@freshthreadsllc.com>
 - Try different test email service
 
 ---
@@ -166,19 +166,19 @@ Subject: DKIM Test
 ### **Microsoft Support:**
 
 - **Phone:** 1-800-642-7676
-- **Web:** https://admin.microsoft.com → Support → New service request
+- **Web:** <https://admin.microsoft.com> → Support → New service request
 
 ### **Cloudflare Support:**
 
 - **Dashboard:** Support tab in Cloudflare dashboard
-- **Community:** https://community.cloudflare.com/
+- **Community:** <https://community.cloudflare.com/>
 
 ### **Email Authentication Tools:**
 
-- **Headers Analyzer:** https://mxtoolbox.com/EmailHeaders.aspx
-- **DKIM Checker:** https://dkimvalidator.com/
-- **SPF Checker:** https://mxtoolbox.com/spf.aspx
-- **DMARC Checker:** https://mxtoolbox.com/dmarc.aspx
+- **Headers Analyzer:** <https://mxtoolbox.com/EmailHeaders.aspx>
+- **DKIM Checker:** <https://dkimvalidator.com/>
+- **SPF Checker:** <https://mxtoolbox.com/spf.aspx>
+- **DMARC Checker:** <https://mxtoolbox.com/dmarc.aspx>
 
 ---
 

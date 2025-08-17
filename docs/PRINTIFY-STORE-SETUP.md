@@ -107,7 +107,7 @@ await podManager.disconnectStore('your_shop_id');
 
 ## Important API Limitations
 
-### What You CAN Do:
+### What You CAN Do
 
 ✅ Manage existing stores
 ✅ Create and manage products
@@ -116,7 +116,7 @@ await podManager.disconnectStore('your_shop_id');
 ✅ Set up webhooks
 ✅ Access catalog data
 
-### What You CANNOT Do:
+### What You CANNOT Do
 
 ❌ Create new stores
 ❌ Delete stores completely
@@ -125,21 +125,21 @@ await podManager.disconnectStore('your_shop_id');
 
 ## Best Practices
 
-### Security:
+### Security
 
 - Never commit API keys to version control
 - Use environment variables in production
 - Rotate API keys periodically
 - Limit API key scopes to what you need
 
-### Development:
+### Development
 
 - Test with a dedicated development store
 - Use the POD admin interface for debugging
 - Monitor API rate limits (600 requests/minute)
 - Implement proper error handling
 
-### Production:
+### Production
 
 - Use HTTPS for all API calls
 - Implement webhook validation
@@ -205,9 +205,9 @@ Once your store is set up:
 
 ## Support Resources
 
-- **Printify Developer Docs:** https://developers.printify.com
+- **Printify Developer Docs:** <https://developers.printify.com>
 - **API Postman Collection:** Available in the developer docs
-- **Help Center:** https://help.printify.com
+- **Help Center:** <https://help.printify.com>
 - **Community Forum:** Available through Printify dashboard
 
 ---

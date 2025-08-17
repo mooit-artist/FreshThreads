@@ -5,8 +5,10 @@ Creates the "Code Crusade" design using PIL/Pillow
 Based on Ollama-generated specifications
 """
 
-from PIL import Image, ImageDraw, ImageFont
 import os
+
+from PIL import Image, ImageDraw, ImageFont
+
 
 def create_code_crusade_design():
     """Create the Code Crusade T-shirt design"""
@@ -22,7 +24,7 @@ def create_code_crusade_design():
     black = "#000000"
 
     # Create image with transparent background
-    img = Image.new('RGBA', (width, height), (255, 255, 255, 0))
+    img = Image.new("RGBA", (width, height), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
 
     # Try to use system fonts (fallback to default if not available)
@@ -71,12 +73,13 @@ def create_code_crusade_design():
 
     return img
 
+
 def create_simple_logo():
     """Create a simple chest logo version"""
 
     # Smaller size for chest logo (3.5" diameter = ~1050px at 300 DPI)
     size = 1050
-    img = Image.new('RGBA', (size, size), (255, 255, 255, 0))
+    img = Image.new("RGBA", (size, size), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
 
     # Colors
@@ -101,9 +104,10 @@ def create_simple_logo():
     y = (size - text_height) // 2
 
     # Draw text
-    draw.text((x, y), text, fill=navy, font=font, align='center')
+    draw.text((x, y), text, fill=navy, font=font, align="center")
 
     return img
+
 
 def main():
     """Generate and save T-shirt designs"""
@@ -147,6 +151,7 @@ def main():
     print(f"   • Logo version: {logo_path}")
     print(f"   • Print-ready: {black_path}")
     print("\n🎯 Ready for mockup generation and website integration!")
+
 
 if __name__ == "__main__":
     main()

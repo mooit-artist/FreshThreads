@@ -12,7 +12,7 @@
 
 ### **Step 1: Create Main Project Board**
 
-1. **Go to your repository:** https://github.com/mooit-artist/FreshThreads
+1. **Go to your repository:** <https://github.com/mooit-artist/FreshThreads>
 2. **Click "Projects" tab** (next to Issues, Pull Requests)
 3. **Click "Link a project"** → **"Create new project"**
 4. **Project name:** `Fresh Threads Business Launch`

@@ -6,8 +6,8 @@ Automated T-shirt design generation using local LLM
 
 import json
 import os
-import subprocess
 import re
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -22,26 +22,25 @@ class OllamaDesignGenerator:
             "fresh_perspective": {
                 "theme": "Minimalist motivational",
                 "colors": ["#1e3a8a", "#10b981", "#ffffff"],
-                "target": "Young professionals, entrepreneurs"
+                "target": "Young professionals, entrepreneurs",
             },
             "debug_mode": {
                 "theme": "Tech humor",
                 "colors": ["#000000", "#00FF00", "#ffffff"],
-                "target": "Developers, IT professionals"
+                "target": "Developers, IT professionals",
             },
             "thread_count": {
                 "theme": "Meta-humor about clothing/threads",
                 "colors": ["#374151", "#fbbf24", "#ffffff"],
-                "target": "Fashion-conscious, wordplay lovers"
-            }
+                "target": "Fashion-conscious, wordplay lovers",
+            },
         }
 
     def call_ollama(self, prompt, model="llama2"):
         """Call Ollama with the given prompt"""
         try:
             cmd = ["ollama", "run", model, prompt]
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=60)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
 
             if result.returncode == 0:
                 return result.stdout.strip()
@@ -93,14 +92,14 @@ Create a professional, marketable T-shirt design that captures the essence of Fr
             return None
 
         # Look for SVG code blocks
-        svg_pattern = r'```svg\s*(.*?)\s*```'
+        svg_pattern = r"```svg\s*(.*?)\s*```"
         match = re.search(svg_pattern, response, re.DOTALL | re.IGNORECASE)
 
         if match:
             return match.group(1).strip()
 
         # Fallback: look for SVG tags directly
-        svg_tag_pattern = r'<svg.*?</svg>'
+        svg_tag_pattern = r"<svg.*?</svg>"
         match = re.search(svg_tag_pattern, response, re.DOTALL | re.IGNORECASE)
 
         if match:
@@ -114,8 +113,7 @@ Create a professional, marketable T-shirt design that captures the essence of Fr
         print(f"Collection: {collection_name.replace('_', ' ').title()}")
 
         # Create prompt
-        prompt = self.create_design_prompt(
-            collection_name, design_text, style_notes)
+        prompt = self.create_design_prompt(collection_name, design_text, style_notes)
 
         # Call Ollama
         print("🤖 Calling Ollama LLM...")
@@ -139,7 +137,7 @@ Create a professional, marketable T-shirt design that captures the essence of Fr
         filename = f"{collection_name}_{timestamp}.svg"
         filepath = self.output_dir / filename
 
-        with open(filepath, 'w', encoding='utf-8') as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             f.write(svg_code)
 
         # Save metadata
@@ -149,12 +147,11 @@ Create a professional, marketable T-shirt design that captures the essence of Fr
             "design_text": design_text,
             "style_notes": style_notes,
             "svg_file": str(filepath),
-            "full_response": response
+            "full_response": response,
         }
 
-        metadata_file = self.output_dir / \
-            f"{collection_name}_{timestamp}_metadata.json"
-        with open(metadata_file, 'w', encoding='utf-8') as f:
+        metadata_file = self.output_dir / f"{collection_name}_{timestamp}_metadata.json"
+        with open(metadata_file, "w", encoding="utf-8") as f:
             json.dump(metadata, f, indent=2)
 
         print(f"✅ Design saved: {filepath}")
@@ -164,7 +161,7 @@ Create a professional, marketable T-shirt design that captures the essence of Fr
             "svg_file": filepath,
             "metadata_file": metadata_file,
             "svg_code": svg_code,
-            "metadata": metadata
+            "metadata": metadata,
         }
 
     def test_ollama_connection(self):
@@ -189,26 +186,24 @@ Create a professional, marketable T-shirt design that captures the essence of Fr
             {
                 "collection": "fresh_perspective",
                 "text": "Fresh Perspective, Fresh Success",
-                "style": "Clean typography with subtle geometric elements"
+                "style": "Clean typography with subtle geometric elements",
             },
             {
                 "collection": "debug_mode",
                 "text": "Currently Debugging Life...",
-                "style": "Terminal/console interface with monospace font"
+                "style": "Terminal/console interface with monospace font",
             },
             {
                 "collection": "thread_count",
                 "text": "High Thread Count, Higher Standards",
-                "style": "Sophisticated typography with textile-inspired elements"
-            }
+                "style": "Sophisticated typography with textile-inspired elements",
+            },
         ]
 
         results = []
         for design in designs:
             result = self.generate_design(
-                design["collection"],
-                design["text"],
-                design["style"]
+                design["collection"], design["text"], design["style"]
             )
             if result:
                 results.append(result)
@@ -264,9 +259,7 @@ def main():
     elif choice == "3":
         # Quick test with simple design
         result = generator.generate_design(
-            "debug_mode",
-            "Hello, World!",
-            "Simple test design"
+            "debug_mode", "Hello, World!", "Simple test design"
         )
         if result:
             print(f"\n✅ Test design generated: {result['svg_file']}")

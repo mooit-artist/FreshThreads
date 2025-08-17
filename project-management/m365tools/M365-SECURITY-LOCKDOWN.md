@@ -2,7 +2,7 @@
 
 **Business:** Fresh Threads LLC
 **Current Plan:** Microsoft 365 Business Basic
-**Primary Email:** bryan@freshthreadsllc.com
+**Primary Email:** <bryan@freshthreadsllc.com>
 **Security Goal:** Enterprise-grade protection for small business
 
 ---

@@ -120,7 +120,7 @@
 ### **For Manual Setup:**
 
 - Access to Microsoft 365 Admin Center
-- bryan@freshthreadsllc.com admin account
+- <bryan@freshthreadsllc.com> admin account
 
 ### **For All Methods:**
 
@@ -150,7 +150,7 @@
 
 ## 🎯 Business Impact
 
-**Before:** Single email (bryan@freshthreadsllc.com)
+**Before:** Single email (<bryan@freshthreadsllc.com>)
 **After:** Professional multi-department organization
 
 **Result:** Fresh Threads LLC appears as an established, well-organized business ready for:

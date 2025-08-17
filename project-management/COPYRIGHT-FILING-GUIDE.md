@@ -11,7 +11,7 @@
 
 ### **Step 1: Go to Copyright.gov**
 
-**URL:** https://www.copyright.gov/registration/
+**URL:** <https://www.copyright.gov/registration/>
 
 Click **"Register a Work"** → **"Log In to eCO"**
 
@@ -19,7 +19,7 @@ Click **"Register a Work"** → **"Log In to eCO"**
 
 - **Account Type:** Individual or Organization
 - **Organization Name:** Fresh Threads LLC
-- **Email:** procurement@freshthreadsllc.com (your business email)
+- **Email:** <procurement@freshthreadsllc.com> (your business email)
 - **Password:** Use a strong password
 
 ### **Step 3: Start New Registration**
@@ -53,7 +53,7 @@ Click **"Register a Work"** → **"Log In to eCO"**
 
 #### **Rights and Permissions:**
 
-- **Rights and Permissions Contact:** procurement@freshthreadsllc.com
+- **Rights and Permissions Contact:** <procurement@freshthreadsllc.com>
 - **Description:** "Company logo for Fresh Threads LLC apparel business"
 
 ### **Step 5: Upload Your Logo File**
@@ -193,7 +193,7 @@ website header, and product labels for t-shirt and apparel company."
 ### **Copyright Office Support:**
 
 - **Phone:** 1-877-476-0778 (Monday-Friday, 8:30 AM - 5:00 PM ET)
-- **Email:** copinfo@loc.gov
+- **Email:** <copinfo@loc.gov>
 - **Chat:** Available on copyright.gov
 
 ### **Technical Issues:**
@@ -212,7 +212,7 @@ website header, and product labels for t-shirt and apparel company."
 **Protection:** Immediate (upon filing)
 **Certificate:** 3-6 months
 
-**Start here:** https://www.copyright.gov/registration/
+**Start here:** <https://www.copyright.gov/registration/>
 
 Click **"Register a Work"** and follow the steps above!
 

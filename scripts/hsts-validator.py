@@ -4,10 +4,10 @@ HSTS Compliance Reporter for FreshThreads LLC
 Generates comprehensive HSTS implementation reports
 """
 
-import os
-import re
 import glob
 import json
+import os
+import re
 from datetime import datetime
 
 
@@ -36,7 +36,7 @@ class HSTSReporter:
             "include_subdomains": False,
             "preload": False,
             "issues": [],
-            "score": 0
+            "score": 0,
         }
 
         if not match:
@@ -48,7 +48,7 @@ class HSTSReporter:
         analysis["policy"] = policy
 
         # Analyze max-age
-        max_age_pattern = r'max-age=(\d+)'
+        max_age_pattern = r"max-age=(\d+)"
         max_age_match = re.search(max_age_pattern, policy)
         if max_age_match:
             analysis["max_age"] = int(max_age_match.group(1))
@@ -56,24 +56,22 @@ class HSTSReporter:
                 analysis["score"] += 40
             elif analysis["max_age"] >= 15768000:  # 6 months
                 analysis["score"] += 30
-                analysis["issues"].append(
-                    "max-age less than recommended 1 year")
+                analysis["issues"].append("max-age less than recommended 1 year")
             else:
                 analysis["score"] += 10
-                analysis["issues"].append(
-                    "max-age too short (recommended: 31536000)")
+                analysis["issues"].append("max-age too short (recommended: 31536000)")
         else:
             analysis["issues"].append("max-age directive missing")
 
         # Check includeSubDomains
-        if 'includeSubDomains' in policy:
+        if "includeSubDomains" in policy:
             analysis["include_subdomains"] = True
             analysis["score"] += 30
         else:
             analysis["issues"].append("includeSubDomains directive missing")
 
         # Check preload
-        if 'preload' in policy:
+        if "preload" in policy:
             analysis["preload"] = True
             analysis["score"] += 30
         else:
@@ -84,7 +82,7 @@ class HSTSReporter:
     def analyze_file(self, file_path):
         """Analyze HSTS implementation in a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             analysis = self.analyze_hsts_implementation(content)
@@ -92,7 +90,7 @@ class HSTSReporter:
             file_data = {
                 "file": file_path,
                 "timestamp": datetime.now().isoformat(),
-                "analysis": analysis
+                "analysis": analysis,
             }
 
             self.files_data.append(file_data)
@@ -103,7 +101,11 @@ class HSTSReporter:
                 "file": file_path,
                 "timestamp": datetime.now().isoformat(),
                 "error": str(e),
-                "analysis": {"has_hsts": False, "score": 0, "issues": [f"Error reading file: {e}"]}
+                "analysis": {
+                    "has_hsts": False,
+                    "score": 0,
+                    "issues": [f"Error reading file: {e}"],
+                },
             }
             self.files_data.append(error_data)
             return error_data
@@ -111,11 +113,11 @@ class HSTSReporter:
     def generate_summary_stats(self):
         """Generate summary statistics"""
         total_files = len(self.files_data)
-        files_with_hsts = sum(1 for f in self.files_data if f.get(
-            "analysis", {}).get("has_hsts", False))
+        files_with_hsts = sum(
+            1 for f in self.files_data if f.get("analysis", {}).get("has_hsts", False)
+        )
 
-        scores = [f.get("analysis", {}).get("score", 0)
-                  for f in self.files_data]
+        scores = [f.get("analysis", {}).get("score", 0) for f in self.files_data]
         avg_score = sum(scores) / len(scores) if scores else 0
 
         compliance_issues = []
@@ -127,10 +129,12 @@ class HSTSReporter:
             "total_files": total_files,
             "files_with_hsts": files_with_hsts,
             "files_without_hsts": total_files - files_with_hsts,
-            "compliance_rate": (files_with_hsts / total_files * 100) if total_files > 0 else 0,
+            "compliance_rate": (
+                (files_with_hsts / total_files * 100) if total_files > 0 else 0
+            ),
             "average_score": avg_score,
             "total_issues": len(compliance_issues),
-            "common_issues": self.get_common_issues()
+            "common_issues": self.get_common_issues(),
         }
 
     def get_common_issues(self):
@@ -151,13 +155,13 @@ class HSTSReporter:
             "project": "FreshThreads LLC",
             "summary": self.generate_summary_stats(),
             "files": self.files_data,
-            "recommendations": self.generate_recommendations()
+            "recommendations": self.generate_recommendations(),
         }
 
         # Ensure directory exists
         os.makedirs(os.path.dirname(self.report_file), exist_ok=True)
 
-        with open(self.report_file, 'w', encoding='utf-8') as f:
+        with open(self.report_file, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
 
         return report
@@ -203,10 +207,10 @@ class HSTSReporter:
     <h2>📁 File Analysis</h2>
 """
 
-        for file_data in report_data['files']:
-            analysis = file_data.get('analysis', {})
-            score = analysis.get('score', 0)
-            score_class = 'high' if score >= 80 else 'medium' if score >= 50 else 'low'
+        for file_data in report_data["files"]:
+            analysis = file_data.get("analysis", {})
+            score = analysis.get("score", 0)
+            score_class = "high" if score >= 80 else "medium" if score >= 50 else "low"
 
             html_content += f"""
     <div class="file-analysis">
@@ -215,24 +219,26 @@ class HSTSReporter:
         <p><strong>Has HSTS:</strong> {'✅ Yes' if analysis.get('has_hsts') else '❌ No'}</p>
 """
 
-            if analysis.get('policy'):
-                html_content += f"<p><strong>Policy:</strong> <code>{analysis['policy']}</code></p>"
+            if analysis.get("policy"):
+                html_content += (
+                    f"<p><strong>Policy:</strong> <code>{analysis['policy']}</code></p>"
+                )
 
-            if analysis.get('issues'):
+            if analysis.get("issues"):
                 html_content += '<div class="issues"><h4>Issues:</h4><ul>'
-                for issue in analysis['issues']:
-                    html_content += f'<li>{issue}</li>'
-                html_content += '</ul></div>'
+                for issue in analysis["issues"]:
+                    html_content += f"<li>{issue}</li>"
+                html_content += "</ul></div>"
 
-            html_content += '</div>'
+            html_content += "</div>"
 
         html_content += f"""
     <div class="recommendations">
         <h2>💡 Recommendations</h2>
         <ul>
 """
-        for rec in report_data['recommendations']:
-            html_content += f'<li>{rec}</li>'
+        for rec in report_data["recommendations"]:
+            html_content += f"<li>{rec}</li>"
 
         html_content += """
         </ul>
@@ -240,7 +246,7 @@ class HSTSReporter:
 </body>
 </html>"""
 
-        with open(self.html_report_file, 'w', encoding='utf-8') as f:
+        with open(self.html_report_file, "w", encoding="utf-8") as f:
             f.write(html_content)
 
     def generate_recommendations(self):
@@ -248,26 +254,31 @@ class HSTSReporter:
         recommendations = []
         summary = self.generate_summary_stats()
 
-        if summary['files_without_hsts'] > 0:
+        if summary["files_without_hsts"] > 0:
             recommendations.append(
-                f"Add HSTS headers to {summary['files_without_hsts']} files missing them")
+                f"Add HSTS headers to {summary['files_without_hsts']} files missing them"
+            )
 
-        common_issues = summary['common_issues']
+        common_issues = summary["common_issues"]
         if common_issues:
             top_issue = common_issues[0]
             recommendations.append(
-                f"Address most common issue: {top_issue[0]} (affects {top_issue[1]} files)")
+                f"Address most common issue: {top_issue[0]} (affects {top_issue[1]} files)"
+            )
 
-        if summary['average_score'] < 100:
+        if summary["average_score"] < 100:
             recommendations.append(
-                "Improve HSTS policies to achieve maximum security score")
+                "Improve HSTS policies to achieve maximum security score"
+            )
 
-        recommendations.extend([
-            "Submit domain to HSTS preload list at hstspreload.org",
-            "Implement HSTS at web server level for production",
-            "Test HSTS implementation with online security tools",
-            "Monitor HSTS compliance regularly"
-        ])
+        recommendations.extend(
+            [
+                "Submit domain to HSTS preload list at hstspreload.org",
+                "Implement HSTS at web server level for production",
+                "Test HSTS implementation with online security tools",
+                "Monitor HSTS compliance regularly",
+            ]
+        )
 
         return recommendations
 
@@ -289,8 +300,8 @@ class HSTSReporter:
 
         for file_path in html_files:
             file_data = self.analyze_file(file_path)
-            analysis = file_data.get('analysis', {})
-            score = analysis.get('score', 0)
+            analysis = file_data.get("analysis", {})
+            score = analysis.get("score", 0)
             print(f"  📄 {file_path}: {score}/100 points")
 
         # Generate reports
@@ -299,7 +310,7 @@ class HSTSReporter:
         self.generate_html_report(report_data)
 
         # Summary
-        summary = report_data['summary']
+        summary = report_data["summary"]
         print(f"\n📋 HSTS Compliance Summary:")
         print(f"  📁 Total files: {summary['total_files']}")
         print(f"  ✅ Files with HSTS: {summary['files_with_hsts']}")

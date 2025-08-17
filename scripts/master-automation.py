@@ -3,10 +3,11 @@ Master Business Automation Controller
 Central hub for all FreshThreads business automation tasks
 """
 
+import os
 import subprocess
 import sys
-import os
 from datetime import datetime
+
 
 class MasterAutomation:
     def __init__(self):
@@ -19,10 +20,12 @@ class MasterAutomation:
         """Run a Python script and handle errors"""
         self.log(f"Starting: {description}")
         try:
-            result = subprocess.run([sys.executable, script_name],
-                                  cwd=self.scripts_dir,
-                                  capture_output=True,
-                                  text=True)
+            result = subprocess.run(
+                [sys.executable, script_name],
+                cwd=self.scripts_dir,
+                capture_output=True,
+                text=True,
+            )
 
             if result.returncode == 0:
                 self.log(f"✅ Completed: {description}")
@@ -54,7 +57,9 @@ class MasterAutomation:
             if self.run_script(script, description):
                 completed += 1
 
-        self.log(f"=== Business Setup Complete: {completed}/{len(tasks)} tasks successful ===")
+        self.log(
+            f"=== Business Setup Complete: {completed}/{len(tasks)} tasks successful ==="
+        )
 
         if completed == len(tasks):
             self.log("🎉 All automation tasks completed successfully!")
@@ -71,6 +76,7 @@ class MasterAutomation:
         self.log("=== Payment Processing Setup ===")
         self.run_script("paypal-automation.py", "PayPal setup")
         self.run_script("stripe-automation.py", "Stripe setup")
+
 
 def main():
     automation = MasterAutomation()
@@ -93,6 +99,7 @@ def main():
         automation.run_script("business-docs-automation.py", "Documentation update")
     else:
         print("Invalid option")
+
 
 if __name__ == "__main__":
     main()

@@ -53,7 +53,7 @@ ideas@freshthreadsllc.com
 
 **Tech Stack:**
 
-- **Email Service:** Microsoft 365 (ideas@freshthreadsllc.com)
+- **Email Service:** Microsoft 365 (<ideas@freshthreadsllc.com>)
 - **Automation:** Power Automate or Zapier
 - **AI Design:** OpenAI DALL-E API or Midjourney
 - **Mockups:** Printful API or PlaceIt API
@@ -150,7 +150,7 @@ Target: Developer audience
 
 ### **Microsoft Power Automate Flow:**
 
-**Trigger:** New email in ideas@freshthreadsllc.com
+**Trigger:** New email in <ideas@freshthreadsllc.com>
 **Steps:**
 
 1. **Parse Email Content**
@@ -289,7 +289,7 @@ Cost per design: $0.50
 
 ### **Phase 1: Basic Email Processing (Week 1)**
 
-- [ ] Set up ideas@freshthreadsllc.com
+- [ ] Set up <ideas@freshthreadsllc.com>
 - [ ] Create Power Automate flow
 - [ ] Implement text-to-design templates
 - [ ] Test with simple designs
@@ -371,7 +371,7 @@ Cost per design: $0.50
 
 ### **MVP Version (This Week):**
 
-1. **Set up email address** - ideas@freshthreadsllc.com
+1. **Set up email address** - <ideas@freshthreadsllc.com>
 2. **Simple automation** - Forward emails to design tools
 3. **Manual processing** - You process and respond
 4. **Gradual automation** - Add AI features incrementally

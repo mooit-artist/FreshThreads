@@ -31,8 +31,8 @@ TTL: 3600
 
 ### **2. Configure Email Security** ⏱️ 20 minutes
 
-1. **Go to:** https://security.microsoft.com
-2. **Sign in** with bryan@freshthreadsllc.com
+1. **Go to:** <https://security.microsoft.com>
+2. **Sign in** with <bryan@freshthreadsllc.com>
 
 **Enable Anti-Spam:**
 
@@ -54,20 +54,20 @@ TTL: 3600
 
 ### **3. Enable Audit Logging** ⏱️ 5 minutes
 
-1. **Go to:** https://compliance.microsoft.com
-2. **Sign in** with bryan@freshthreadsllc.com
+1. **Go to:** <https://compliance.microsoft.com>
+2. **Sign in** with <bryan@freshthreadsllc.com>
 3. Audit → Start recording user and admin activity
 4. Click "Start recording"
 
 ### **4. Set Up Security Alerts** ⏱️ 5 minutes
 
-1. **In Security Center:** https://security.microsoft.com
+1. **In Security Center:** <https://security.microsoft.com>
 2. Incidents & alerts → Alert policies
 3. Create new alert policy:
    - Name: "Fresh Threads - Suspicious Email Rules"
    - Category: Data governance
    - Activity: "New inbox rule created"
-   - Send alerts to: bryan@freshthreadsllc.com
+   - Send alerts to: <bryan@freshthreadsllc.com>
    - Save
 
 ---
@@ -84,13 +84,13 @@ nslookup -type=TXT _dmarc.freshthreadsllc.com
 
 ### **Verify Security Settings:**
 
-1. **Security Score:** Go to https://security.microsoft.com → Secure Score
+1. **Security Score:** Go to <https://security.microsoft.com> → Secure Score
 2. **Should see improvements** in email security
 3. **Target score:** 60%+ initially (will improve over time)
 
 ### **Test Email Security:**
 
-1. Send test email from personal account to bryan@freshthreadsllc.com
+1. Send test email from personal account to <bryan@freshthreadsllc.com>
 2. Check it arrives normally
 3. Check spam folder for any false positives
 
@@ -156,7 +156,7 @@ nslookup -type=TXT _dmarc.freshthreadsllc.com
 ### **Business Continuity:**
 
 - **Backup admin:** Consider creating IT manager account
-- **Recovery email:** Set up admin@freshthreadsllc.com
+- **Recovery email:** Set up <admin@freshthreadsllc.com>
 - **Phone backup:** Configure SMS backup for MFA
 
 ---

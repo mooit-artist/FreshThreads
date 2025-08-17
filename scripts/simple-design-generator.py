@@ -5,8 +5,9 @@ Creates the "Code Crusade" design using PIL/Pillow
 Based on Ollama-generated specifications
 """
 
-from PIL import Image, ImageDraw, ImageFont
 import os
+
+from PIL import Image, ImageDraw, ImageFont
 
 
 def create_simple_design():
@@ -21,7 +22,7 @@ def create_simple_design():
     neon_green = "#66CC69"
 
     # Create image with white background
-    img = Image.new('RGB', (width, height), (255, 255, 255))
+    img = Image.new("RGB", (width, height), (255, 255, 255))
     draw = ImageDraw.Draw(img)
 
     # Use default font (cross-platform compatible)

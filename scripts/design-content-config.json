@@ -1,0 +1,62 @@
+{
+  "sources": {
+    "freepik": {
+      "enabled": true,
+      "api_key": null,
+      "base_url": "https://api.freepik.com/v1",
+      "free_content_categories": [
+        "t-shirt-design",
+        "vector-graphics",
+        "minimalist",
+        "vintage",
+        "geometric",
+        "nature",
+        "abstract"
+      ],
+      "rate_limit_delay": 2
+    },
+    "tshirtdesigns": {
+      "enabled": true,
+      "base_url": "https://www.tshirtdesigns.com",
+      "free_section_path": "/free-t-shirt-designs",
+      "rate_limit_delay": 1
+    }
+  },
+  "content_preferences": {
+    "file_types": ["SVG", "PNG", "AI", "EPS"],
+    "max_file_size_mb": 10,
+    "preferred_dimensions": {
+      "min_width": 300,
+      "min_height": 300
+    },
+    "categories": [
+      "minimalist",
+      "vintage",
+      "geometric",
+      "nature",
+      "abstract",
+      "typography",
+      "retro",
+      "modern",
+      "urban",
+      "outdoor"
+    ]
+  },
+  "licensing": {
+    "acceptable_licenses": [
+      "Free for commercial use",
+      "CC0 Public Domain",
+      "Creative Commons CC0",
+      "Royalty Free"
+    ],
+    "require_attribution_tracking": true,
+    "auto_generate_attribution_file": true
+  },
+  "download_settings": {
+    "max_downloads_per_query": 10,
+    "max_downloads_per_session": 50,
+    "create_backup": true,
+    "organize_by_date": false,
+    "organize_by_category": true
+  }
+}

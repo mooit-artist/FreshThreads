@@ -1,9 +1,0 @@
-<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-  <text x="150" y="200" text-anchor="middle" font-size="16" fill="#374151">High Thread Count</text>
-  <text x="270" y="200" text-anchor="middle" font-size="16" fill="#fbbf24">Higher Standards</text>
-  <path d="M150,150Q220,150,300,200Q400,300,400,200Z" fill="#ffffff" stroke="#374151" stroke-width="2"/>
-  <linearGradient id="color_grad" x1="0" y1="0" x2="400" y2="0">
-    <stop stop-color="#374151" stop-opacity="1" offset="0"/>
-    <stop stop-color="#fbbf24" stop-opacity="1" offset="1"/>
-  </linearGradient>
-</svg>

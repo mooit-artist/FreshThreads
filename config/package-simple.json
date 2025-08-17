@@ -1,0 +1,13 @@
+{
+  "name": "freshthreads-simple",
+  "version": "1.0.0",
+  "description": "Simple package.json for FreshThreads development",
+  "scripts": {
+    "start": "http-server docs -p 5500",
+    "lint": "make lint",
+    "format": "make format-all"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

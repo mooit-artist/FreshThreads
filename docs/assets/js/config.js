@@ -2,18 +2,18 @@
 // Replace the placeholder values with your actual API keys
 
 window.podConfig = {
-    // PRINTIFY CONFIGURATION
-    // Get these from: https://printify.com/app/account/api
-    printifyApiKey: 'YOUR_PRINTIFY_API_KEY_HERE', // Will be replaced by GitHub Actions
-    printifyShopId: '23745844', // FreshThreadsLLC store ID
+  // PRINTIFY CONFIGURATION
+  // Get these from: https://printify.com/app/account/api
+  printifyApiKey: 'YOUR_PRINTIFY_API_KEY_HERE', // Will be replaced by GitHub Actions
+  printifyShopId: '23745844', // FreshThreadsLLC store ID
 
-    // PRINTFUL CONFIGURATION
-    // Get this from: https://www.printful.com/dashboard/settings/api
-    printfulApiKey: 'YOUR_PRINTFUL_API_KEY_HERE',
+  // PRINTFUL CONFIGURATION
+  // Get this from: https://www.printful.com/dashboard/settings/api
+  printfulApiKey: 'YOUR_PRINTFUL_API_KEY_HERE',
 
-    // DEVELOPMENT SETTINGS
-    debug: true,
-    testMode: false // Set to true for testing
+  // DEVELOPMENT SETTINGS
+  debug: true,
+  testMode: false, // Set to true for testing
 };
 
 // Instructions for getting your API keys:

@@ -94,7 +94,7 @@ https://tmsearch.uspto.gov/
    - Include on business cards, marketing materials
 
 3. **File Copyright Registration ($45):**
-   - https://www.copyright.gov/registration/
+   - <https://www.copyright.gov/registration/>
    - Upload your logo file
    - Quick baseline protection
 
@@ -171,8 +171,8 @@ https://tmsearch.uspto.gov/
 
 ### **DIY Resources:**
 
-- **USPTO Website:** https://www.uspto.gov/
-- **Copyright Office:** https://www.copyright.gov/
+- **USPTO Website:** <https://www.uspto.gov/>
+- **Copyright Office:** <https://www.copyright.gov/>
 - **Legal Zoom:** Affordable trademark services
 - **Nolo.com:** Legal guides and forms
 

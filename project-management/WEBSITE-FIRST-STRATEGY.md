@@ -9,7 +9,7 @@
 
 ### **Existing Assets:**
 
-- ✅ **Professional Website** - https://mooit-artist.github.io/FreshThreads/
+- ✅ **Professional Website** - <https://mooit-artist.github.io/FreshThreads/>
 - ✅ **Custom Domain Ready** - freshthreadsllc.com available
 - ✅ **Brand Control** - 100% Fresh Threads experience
 - ✅ **No Platform Fees** - Keep more profit

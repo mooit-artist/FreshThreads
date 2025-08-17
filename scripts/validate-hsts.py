@@ -4,9 +4,9 @@ HSTS Validation Script for FreshThreads LLC
 Validates HTTP Strict Transport Security header implementation
 """
 
+import glob
 import os
 import re
-import glob
 from datetime import datetime
 
 
@@ -36,7 +36,7 @@ class HSTSValidator:
         issues = []
 
         # Check max-age
-        max_age_pattern = r'max-age=(\d+)'
+        max_age_pattern = r"max-age=(\d+)"
         max_age_match = re.search(max_age_pattern, policy)
         if not max_age_match:
             issues.append("Missing max-age directive")
@@ -44,14 +44,15 @@ class HSTSValidator:
             max_age = int(max_age_match.group(1))
             if max_age < 31536000:  # Less than 1 year
                 issues.append(
-                    f"max-age too short: {max_age} seconds (recommended: 31536000)")
+                    f"max-age too short: {max_age} seconds (recommended: 31536000)"
+                )
 
         # Check includeSubDomains
-        if 'includeSubDomains' not in policy:
+        if "includeSubDomains" not in policy:
             issues.append("Missing includeSubDomains directive")
 
         # Check preload
-        if 'preload' not in policy:
+        if "preload" not in policy:
             issues.append("Missing preload directive (recommended)")
 
         if issues:
@@ -62,7 +63,7 @@ class HSTSValidator:
     def validate_file(self, file_path):
         """Validate HSTS implementation in a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             is_valid, message = self.validate_hsts_policy(content)
@@ -94,12 +95,14 @@ class HSTSValidator:
             recommendations.append("Fix HSTS policy issues in flagged files")
 
         if not self.errors and not self.missing_files and not self.invalid_files:
-            recommendations.extend([
-                "Submit domain to HSTS preload list",
-                "Test HSTS with online security tools",
-                "Monitor HSTS compliance regularly",
-                "Consider implementing HSTS at server level"
-            ])
+            recommendations.extend(
+                [
+                    "Submit domain to HSTS preload list",
+                    "Test HSTS with online security tools",
+                    "Monitor HSTS compliance regularly",
+                    "Consider implementing HSTS at server level",
+                ]
+            )
 
         return recommendations
 
@@ -136,8 +139,7 @@ class HSTSValidator:
         print(f"  🚨 Errors: {error_count}")
 
         # Show compliance percentage
-        compliance_rate = (valid_count / total_files) * \
-            100 if total_files > 0 else 0
+        compliance_rate = (valid_count / total_files) * 100 if total_files > 0 else 0
         print(f"  📈 Compliance Rate: {compliance_rate:.1f}%")
 
         # Recommendations

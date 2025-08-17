@@ -1,0 +1,32 @@
+{
+  "filename": "abstract_artistic_20250808_152128_1_printify_tshirt_4500x5400_300dpi.png",
+  "original_filename": "FreshThreads_design_00032_.png",
+  "theme": "abstract_artistic",
+  "prompt_data": {
+    "main_prompt": "professional T-shirt design, , abstract artistic expression with creative elements, abstract, artistic, creative, expressive, fluid, high quality, detailed, print-ready, commercial design",
+    "negative_prompt": "low quality, blurry, pixelated, text, watermark, signature, frame, border, bad anatomy, deformed, ugly, poor composition",
+    "steps": 6,
+    "cfg_scale": 1.5,
+    "sampler": "euler_ancestral",
+    "width": 768,
+    "height": 768,
+    "controlnet_strength": 0.8,
+    "preprocessing": "depth_midas"
+  },
+  "generated_at": "2025-08-08T15:21:38.625115",
+  "comfyui_workflow": "dreamshaper_xl_turbo_controlnet",
+  "models_used": {
+    "checkpoint": "dreamshaper_xl_turbo.safetensors",
+    "lora": "LCM_LoRA_Weights_SD15.safetensors",
+    "controlnet": "control_v11f1p_sd15_depth.pth"
+  },
+  "print_settings": {
+    "platform": "printify",
+    "productType": "tshirt",
+    "width": 4500,
+    "height": 5400,
+    "format": "png",
+    "dpi": 300
+  },
+  "optimized_for_print": true
+}

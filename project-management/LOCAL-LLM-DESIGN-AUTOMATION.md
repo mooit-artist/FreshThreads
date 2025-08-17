@@ -232,7 +232,7 @@ def create_ollama_prompt(email_content):
 
 ### **Weekend Setup Checklist:**
 
-- [ ] **Set up email monitoring** - Python script to check ideas@freshthreadsllc.com
+- [ ] **Set up email monitoring** - Python script to check <ideas@freshthreadsllc.com>
 - [ ] **Create Ollama prompts** - Design generation templates
 - [ ] **Build SVG parser** - Validate and clean generated code
 - [ ] **Basic mockup system** - Apply designs to T-shirt templates

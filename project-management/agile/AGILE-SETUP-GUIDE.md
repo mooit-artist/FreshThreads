@@ -30,7 +30,7 @@
 
 ### **Step 1: Create Agile Project Board**
 
-1. **Go to:** https://github.com/mooit-artist/FreshThreads
+1. **Go to:** <https://github.com/mooit-artist/FreshThreads>
 2. **Projects** → **"Create new project"**
 3. **Name:** `Fresh Threads Agile Sprints`
 4. **Description:** `Agile sprint management for t-shirt business launch`
@@ -68,10 +68,10 @@
 
 **Acceptance Criteria:**
 
-- [ ] bryan@freshthreadsllc.com working
-- [ ] support@freshthreadsllc.com alias created
-- [ ] procurement@freshthreadsllc.com alias created
-- [ ] info@freshthreadsllc.com alias created
+- [ ] <bryan@freshthreadsllc.com> working
+- [ ] <support@freshthreadsllc.com> alias created
+- [ ] <procurement@freshthreadsllc.com> alias created
+- [ ] <info@freshthreadsllc.com> alias created
 - [ ] Professional signatures configured
 - [ ] Email tested with external contacts
 

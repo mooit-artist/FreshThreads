@@ -30,6 +30,41 @@
       }
     },
     {
+      "label": "Start Backend Server",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "comfyui_web_interface.py"
+      ],
+      "group": {
+        "kind": "build"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "Start Dev Servers",
+      "dependsOn": [
+        "Start Backend Server",
+        "Start HTTP Server"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Validate HTML",
       "type": "shell",
       "command": "html-validate",
@@ -37,6 +72,22 @@
         "docs/*.html"
       ],
       "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Fix CSP Formatting",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "scripts/fix-csp-formatting.py"
+      ],
+      "group": "build",
       "presentation": {
         "echo": true,
         "reveal": "always",
