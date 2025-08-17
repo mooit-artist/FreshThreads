@@ -936,21 +936,21 @@
             <section class="categories-section">
                 <div class="container">
                     <div class="categories-grid">
-                    <div class="category-card active" data-category="all" onclick="selectCategory('all')">
+                    <button class="category-card active" data-category="all" onclick="selectCategory('all')">
                         <div class="category-icon"></div>
                         <div class="category-name">All T-Shirts</div>
                         <div class="category-count" id="allCount">6 items</div>
-                    </div>
-                    <div class="category-card" data-category="t-shirts" onclick="selectCategory('t-shirts')">
+                    </button>
+                    <button class="category-card" data-category="t-shirts" onclick="selectCategory('t-shirts')">
                         <div class="category-icon"></div>
                         <div class="category-name">Short Sleeve T-Shirts</div>
                         <div class="category-count" id="tshirtsCount">3 items</div>
-                    </div>
-                    <div class="category-card" data-category="long-sleeve" onclick="selectCategory('long-sleeve')">
+                    </button>
+                    <button class="category-card" data-category="long-sleeve" onclick="selectCategory('long-sleeve')">
                         <div class="category-icon"></div>
                         <div class="category-name">Long Sleeve T-Shirts</div>
                         <div class="category-count" id="longsleeveCount">3 items</div>
-                    </div>
+                    </button>
                 </div>
             </section>
 
@@ -1032,13 +1032,6 @@
             'use strict';
 
             (function () {
-                // Customer-facing configuration
-                const STORE_CONFIG = {
-                    currency: 'USD',
-                    shippingThreshold: 50, // Free shipping over $50
-                    taxRate: 0.08 // 8% tax rate
-                };
-
                 // Shopping cart
                 let cart = JSON.parse(localStorage.getItem('freshthreads_cart') || '[]');
                 let selectedCategory = 'all';
@@ -1046,45 +1039,6 @@
 
                 // Printify integration
                 let podManager;
-                let printifyProducts = [];
-
-                async function loadPrintifyProducts() {
-                    try {
-                        if (!window.podConfig || !window.podConfig.printifyApiKey || !window.podConfig.printifyShopId || window.podConfig.printifyApiKey.includes('YOUR_PRINTIFY_API_KEY')) {
-                            throw new Error('Printify API key or Shop ID not set.');
-                        }
-                        podManager = new PrintOnDemandManager(window.podConfig);
-                        printifyProducts = await podManager.getPrintifyProducts();
-                        if (!Array.isArray(printifyProducts) || printifyProducts.length === 0) {
-                            throw new Error('No Printify products found.');
-                        }
-                        renderProducts(printifyProducts, true);
-                        document.getElementById('loadingMessage').style.display = 'none';
-                        document.getElementById('errorMessage').style.display = 'none';
-                    } catch (error) {
-                        console.warn('Falling back to local products:', error);
-                        document.getElementById('errorMessage').textContent = 'Could not load live products. Showing local catalog.';
-                        document.getElementById('errorMessage').style.display = 'block';
-                        loadLocalProducts();
-                    }
-                }
-
-                async function loadLocalProducts() {
-                    try {
-                        const response = await fetch('products-config.json');
-                        let productsConfig = {};
-                        if (response.ok) {
-                            productsConfig = await response.json();
-                        }
-                        const localProducts = (productsConfig.products && productsConfig.products.length) ? productsConfig.products : getFallbackProducts();
-                        renderProducts(localProducts, false);
-                        document.getElementById('loadingMessage').style.display = 'none';
-                    } catch (error) {
-                        console.error('Error loading local products:', error);
-                        renderProducts(getFallbackProducts(), false);
-                        document.getElementById('loadingMessage').style.display = 'none';
-                    }
-                }
 
                 async function loadProductsConfig() {
                     console.log('loadProductsConfig: Starting to load products...');
@@ -1272,10 +1226,6 @@
                 let products = [];
                 let filteredProducts = [];
 
-                // Initialize Print-on-Demand Manager
-                let podManager;
-                let podTemplates;
-
                 // Initialize the page
                 async function initializePage() {
                     console.log('initializePage: Starting initialization...');
@@ -1292,7 +1242,6 @@
                         if (window.podConfig && window.PODProductTemplates && window.PrintOnDemandManager) {
                             console.log('POD configuration found, initializing...');
                             podManager = new PrintOnDemandManager(window.podConfig);
-                            podTemplates = new PODProductTemplates();
                             console.log('POD integration initialized successfully');
                         } else {
                             console.log('POD not configured - running in local mode');
@@ -1357,57 +1306,6 @@
 
                     } catch (error) {
                         console.error('Error syncing with POD providers:', error);
-                    }
-                }
-
-                // Sync local products to POD providers (admin function)
-                async function syncLocalProductsToPOD() {
-                    if (!podManager) return;
-
-                    for (const product of products) {
-                        try {
-                            const syncResults = await podManager.syncProductWithProviders(product);
-                            console.log(`Sync results for ${product.name}:`, syncResults);
-                        } catch (error) {
-                            console.error(`Error syncing product ${product.name}:`, error);
-                        }
-                    }
-                }
-
-                // Enhanced add to cart function with POD integration
-                async function addToCartWithPOD(productId, selectedSize, selectedColor) {
-                    const product = products.find(p => p.id === productId);
-                    if (!product) return;
-
-                    // Add product to local cart
-                    const cartItem = {
-                        id: productId,
-                        name: product.name,
-                        price: product.price,
-                        size: selectedSize,
-                        color: selectedColor,
-                        quantity: 1,
-                        podProvider: product.podProvider || null, // Track which POD provider
-                        podProductId: product.podProductId || null // Track POD product ID
-                    };
-
-                    // Add to cart
-                    cart.push(cartItem);
-                    localStorage.setItem('freshthreads_cart', JSON.stringify(cart));
-                    updateCartCount();
-
-                    showNotification(`Added ${product.name} to cart!`, 'success');
-                }
-
-                // Show POD provider status (for debugging)
-                function showPODStatus() {
-                    if (podManager) {
-                        const status = podManager.getProviderStatus();
-                        console.log('POD Provider Status:', status);
-
-                        // You could show this in the UI if needed
-                        const statusMessage = `Printify: ${status.printify.configured ? '✅' : '❌'} | Printful: ${status.printful.configured ? '✅' : '❌'}`;
-                        console.log(statusMessage);
                     }
                 }
 
@@ -1515,76 +1413,6 @@
                     renderProducts();
                     updateResultsCount();
                 };
-
-                // Render products
-                function renderProducts() {
-                    const grid = document.getElementById('productsGrid');
-
-                    if (filteredProducts.length === 0) {
-                        grid.innerHTML = `
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; opacity: 0.7;">
-                            <h3>No products found</h3>
-                            <p>Try adjusting your filters or search terms</p>
-                        </div>
-                    `;
-                        return;
-                    }
-
-                    grid.innerHTML = filteredProducts.map(product => {
-                        const discountPercent = product.originalPrice
-                            ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-                            : 0;
-
-                        return `
-                        <div class="product-card product-card product-card" data-id="${product.id}">
-                            <div class="product-image">
-                                ${product.image}
-                                ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'sale' && discountPercent > 0 ? `-${discountPercent}%` : product.badge.toUpperCase()}</div>` : ''}
-                            </div>
-                            <div class="product-info">
-                                <h3>${product.name}</h3>
-                                <div class="product-description">${product.description}</div>
-                                <div class="product-rating">
-                                    <div class="stars">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '☆' : ''}</div>
-                                    <span class="rating-count">(${product.reviewCount})</span>
-                                </div>
-                                <div class="product-price">
-                                    ${(() => {
-                                const basePrice = product.price;
-                                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1; // 30% off
-                                const finalPrice = (basePrice * earlyAccessDiscount).toFixed(2);
-
-                                if (window.earlyAccessActive && basePrice !== finalPrice) {
-                                    return `<span class="early-access-price">$${finalPrice}</span><span class="original-price">$${basePrice}</span><span class="early-access-badge">EARLY ACCESS</span>`;
-                                } else {
-                                    return `$${basePrice}${product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : ''}`;
-                                }
-                            })()}
-                                </div>
-                                <div class="size-options">
-                                    ${product.sizes.slice(0, 4).map(size => `<div class="size-btn" onclick="selectSize('${product.id}', '${size}')">${size}</div>`).join('')}
-                                    ${product.sizes.length > 4 ? '<div class="size-btn">+more</div>' : ''}
-                                </div>
-                                <div class="product-actions">
-                                    <button class="btn btn-primary add-to-cart-btn"
-                                            data-product-id="${product.id}"
-                                            data-product-name="${product.name}"
-                                            data-product-price="${(() => {
-                                                const basePrice = product.price;
-                                                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1;
-                                                return (basePrice * earlyAccessDiscount).toFixed(2);
-                                            })()}"
-                                            data-product-image="${product.image ? product.image.match(/src="([^"]+)"/)?.[1] || 'assets/Fresh_ThreadsLLCLogo.png' : 'assets/Fresh_ThreadsLLCLogo.png'}"
-                                            onclick="addToCartFromProduct('${product.id}')">
-                                        🛒 Add to Cart
-                                    </button>
-                                    <button class="btn btn-primary wishlist-btn" onclick="toggleWishlist('${product.id}')">♡</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    }).join('');
-                }
 
                 function updateResultsCount() {
                     const count = filteredProducts.length;
