@@ -69,12 +69,15 @@
 
             .header {
                 background: var(--bg-primary, #0a0a0a);
-                padding: 1rem 2rem;
+                border-bottom: 2px solid var(--border-color, #1f1f1f);
+                box-shadow: none;
+            }
+
+            .nav {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 2px solid var(--border-color, #1f1f1f);
-                box-shadow: none;
+                padding: 1rem 0;
             }
 
             .logo {
@@ -140,6 +143,11 @@
             .container {
                 max-width: 1200px;
                 margin: 0 auto;
+                padding: 0 2rem;
+            }
+
+            .page-header .container,
+            .main .container {
                 padding: 2rem;
             }
 
@@ -809,13 +817,18 @@
             }
 
             @media (max-width: 768px) {
-                .header {
-                    padding: 1rem;
+                .nav {
                     flex-direction: column;
                     gap: 1rem;
+                    padding: 1rem 0;
                 }
 
                 .container {
+                    padding: 0 1rem;
+                }
+
+                .page-header .container,
+                .main .container {
                     padding: 1rem;
                 }
 
@@ -848,45 +861,47 @@
     <body class="dark-theme">
         <!-- Header -->
         <header class="header">
-            <nav class="nav container">
-                <div class="nav-brand">
-                    <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
-                    <span class="brand-text">Fresh Threads</span>
-                </div>
+            <div class="container">
+                <nav class="nav">
+                    <div class="nav-brand">
+                        <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
+                        <span class="brand-text">Fresh Threads</span>
+                    </div>
 
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="products.html" class="nav-link active">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="about.html" class="nav-link">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="contact.html" class="nav-link">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="account.html" class="nav-link">Account</a>
-                    </li>
-                </ul>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="products.html" class="nav-link active">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="about.html" class="nav-link">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact.html" class="nav-link">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="account.html" class="nav-link">Account</a>
+                        </li>
+                    </ul>
 
-                <div class="nav-actions">
-                    <button class="btn btn-ghost cart-icon" onclick="showCartModal()">
-                        🛒
-                        <span class="cart-count" id="cartCount">0</span>
+                    <div class="nav-actions">
+                        <button class="btn btn-ghost cart-icon" onclick="showCartModal()">
+                            🛒
+                            <span class="cart-count" id="cartCount">0</span>
+                        </button>
+                        <button class="btn btn-primary">Shop Now</button>
+                    </div>
+
+                    <!-- Mobile menu toggle -->
+                    <button class="nav-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </button>
-                    <button class="btn btn-primary">Shop Now</button>
-                </div>
-
-                <!-- Mobile menu toggle -->
-                <button class="nav-toggle" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </nav>
+                </nav>
+            </div>
         </header>
 
         <!-- Main Content -->
