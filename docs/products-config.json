@@ -1,0 +1,216 @@
+{
+  "products": [
+    {
+      "id": "fresh-logo-tee",
+      "name": "Fresh Threads Logo T-Shirt",
+      "description": "Premium cotton t-shirt featuring the iconic Fresh Threads logo. Comfortable, durable, and perfect for everyday wear.",
+      "price": 24.99,
+      "currency": "USD",
+      "category": "t-shirts",
+      "subcategory": "short-sleeve",
+      "images": [
+        "assets/products/fresh-logo-tee-main.jpg",
+        "assets/products/fresh-logo-tee-back.jpg"
+      ],
+      "thumbnail": "assets/products/fresh-logo-tee-thumb.jpg",
+      "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#000000",
+          "image": "assets/products/fresh-logo-tee-black.jpg"
+        },
+        {
+          "name": "White",
+          "hex": "#FFFFFF",
+          "image": "assets/products/fresh-logo-tee-white.jpg"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1a365d",
+          "image": "assets/products/fresh-logo-tee-navy.jpg"
+        }
+      ],
+      "material": "100% Premium Cotton",
+      "care": "Machine wash cold, tumble dry low",
+      "features": [
+        "Soft, comfortable fabric",
+        "Durable construction",
+        "Classic fit",
+        "Screen-printed logo"
+      ],
+      "tags": ["logo", "casual", "cotton", "unisex"],
+      "inStock": true,
+      "featured": true,
+      "printfulProductId": null,
+      "printifyProductId": null,
+      "createdAt": "2025-08-16T00:00:00.000Z",
+      "updatedAt": "2025-08-16T00:00:00.000Z"
+    },
+    {
+      "id": "american-eagle-vintage",
+      "name": "American Eagle Vintage Tee",
+      "description": "Vintage-inspired American eagle design with distressed graphics. Show your patriotic spirit with this classic design.",
+      "price": 26.99,
+      "currency": "USD",
+      "category": "t-shirts",
+      "subcategory": "short-sleeve",
+      "images": [
+        "assets/products/american-eagle-main.jpg",
+        "assets/products/american-eagle-detail.jpg"
+      ],
+      "thumbnail": "assets/products/american-eagle-thumb.jpg",
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "colors": [
+        {
+          "name": "Heather Gray",
+          "hex": "#9CA3AF",
+          "image": "assets/products/american-eagle-gray.jpg"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1a365d",
+          "image": "assets/products/american-eagle-navy.jpg"
+        }
+      ],
+      "material": "50% Cotton, 50% Polyester Blend",
+      "care": "Machine wash cold, tumble dry low",
+      "features": [
+        "Vintage-inspired design",
+        "Soft blend fabric",
+        "Patriotic graphics",
+        "Comfortable fit"
+      ],
+      "tags": ["vintage", "patriotic", "american", "eagle"],
+      "inStock": true,
+      "featured": true,
+      "printfulProductId": null,
+      "printifyProductId": null,
+      "createdAt": "2025-08-16T00:00:00.000Z",
+      "updatedAt": "2025-08-16T00:00:00.000Z"
+    },
+    {
+      "id": "made-in-usa-vintage",
+      "name": "Made in USA Vintage T-Shirt",
+      "description": "Proud to be Made in USA vintage design. Quality craftsmanship with an authentic American feel.",
+      "price": 25.99,
+      "currency": "USD",
+      "category": "t-shirts",
+      "subcategory": "short-sleeve",
+      "images": [
+        "assets/products/made-usa-main.jpg"
+      ],
+      "thumbnail": "VintageMadeinUsa.png",
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": [
+        {
+          "name": "Red",
+          "hex": "#DC2626",
+          "image": "assets/products/made-usa-red.jpg"
+        },
+        {
+          "name": "White",
+          "hex": "#FFFFFF",
+          "image": "assets/products/made-usa-white.jpg"
+        },
+        {
+          "name": "Blue",
+          "hex": "#1D4ED8",
+          "image": "assets/products/made-usa-blue.jpg"
+        }
+      ],
+      "material": "100% Cotton",
+      "care": "Machine wash cold, tumble dry low",
+      "features": [
+        "Vintage aesthetic",
+        "100% cotton comfort",
+        "Patriotic design",
+        "Made in USA theme"
+      ],
+      "tags": ["vintage", "usa", "patriotic", "american"],
+      "inStock": true,
+      "featured": false,
+      "printfulProductId": null,
+      "printifyProductId": null,
+      "createdAt": "2025-08-16T00:00:00.000Z",
+      "updatedAt": "2025-08-16T00:00:00.000Z"
+    },
+    {
+      "id": "super-mom-blonde",
+      "name": "Super Mom T-Shirt",
+      "description": "Celebrate the superhero in every mom with this empowering design. Perfect gift for Mother's Day or any day.",
+      "price": 23.99,
+      "currency": "USD",
+      "category": "t-shirts",
+      "subcategory": "short-sleeve",
+      "images": [
+        "assets/products/super-mom-main.jpg"
+      ],
+      "thumbnail": "SuperMomBlonde.png",
+      "sizes": ["XS", "S", "M", "L", "XL"],
+      "colors": [
+        {
+          "name": "Pink",
+          "hex": "#EC4899",
+          "image": "assets/products/super-mom-pink.jpg"
+        },
+        {
+          "name": "White",
+          "hex": "#FFFFFF",
+          "image": "assets/products/super-mom-white.jpg"
+        },
+        {
+          "name": "Black",
+          "hex": "#000000",
+          "image": "assets/products/super-mom-black.jpg"
+        }
+      ],
+      "material": "100% Cotton",
+      "care": "Machine wash cold, tumble dry low",
+      "features": [
+        "Empowering message",
+        "Soft cotton fabric",
+        "Perfect for moms",
+        "Comfortable fit"
+      ],
+      "tags": ["mom", "mother", "superhero", "empowering"],
+      "inStock": true,
+      "featured": true,
+      "printfulProductId": null,
+      "printifyProductId": null,
+      "createdAt": "2025-08-16T00:00:00.000Z",
+      "updatedAt": "2025-08-16T00:00:00.000Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "t-shirts",
+      "name": "T-Shirts",
+      "description": "Premium quality t-shirts for every occasion",
+      "subcategories": [
+        {
+          "id": "short-sleeve",
+          "name": "Short Sleeve",
+          "description": "Classic short sleeve t-shirts"
+        },
+        {
+          "id": "long-sleeve",
+          "name": "Long Sleeve",
+          "description": "Comfortable long sleeve options"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "currency": "USD",
+    "taxRate": 0.08,
+    "shippingCost": 4.99,
+    "freeShippingThreshold": 50.00,
+    "defaultImagePlaceholder": "assets/product-placeholder.jpg"
+  },
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-08-16T00:00:00.000Z",
+    "totalProducts": 4
+  }
+}

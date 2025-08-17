@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products Test</title>
+</head>
+<body>
+    <h1>Products Test</h1>
+    <div id="loadingMessage">Loading products...</div>
+    <div id="productsContainer"></div>
+
+    <script>
+        // Simple test to load products-config.json
+        async function testLoadProducts() {
+            console.log('Starting product load test...');
+            try {
+                const response = await fetch('./products-config.json');
+                console.log('Response received:', response.status, response.ok);
+
+                if (response.ok) {
+                    const config = await response.json();
+                    console.log('Config loaded:', config);
+
+                    const products = config.products || [];
+                    console.log('Products found:', products.length);
+
+                    // Display products
+                    const container = document.getElementById('productsContainer');
+                    container.innerHTML = products.map(product =>
+                        `<div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+                            <h3>${product.name}</h3>
+                            <p>$${product.price}</p>
+                            <p>${product.description}</p>
+                        </div>`
+                    ).join('');
+
+                    document.getElementById('loadingMessage').style.display = 'none';
+                } else {
+                    console.error('Failed to load config:', response.status);
+                    document.getElementById('loadingMessage').innerHTML = 'Failed to load products: ' + response.status;
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('loadingMessage').innerHTML = 'Error: ' + error.message;
+            }
+        }
+
+        // Run test when page loads
+        window.addEventListener('DOMContentLoaded', testLoadProducts);
+    </script>
+</body>
+</html>
