@@ -565,14 +565,28 @@
     </main>
 
     <!-- Promotional Circle -->
-    <div class="promo-circle" onclick="openSignupModal()">
+    <button
+        class="promo-circle"
+        onclick="openSignupModal()"
+        onkeydown="handlePromoKeydown(event)"
+        aria-label="Get 20% off your first order - click to sign up"
+        tabindex="0">
         <div class="promo-text">GET 20%<br>OFF!</div>
-    </div>
+    </button>
 
     <script>
         // Modal functionality for promotional circle
         function openSignupModal() {
             alert('Sign up for 20% off your first order!\n\nEmail: hello@freshthreadsllc.com');
+        }
+
+        // Keyboard handler for promotional circle
+        function handlePromoKeydown(event) {
+            // Allow Enter and Space to trigger the modal
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openSignupModal();
+            }
         }
 
         // Handle all button interactions

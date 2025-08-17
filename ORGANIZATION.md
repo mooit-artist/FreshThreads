@@ -51,7 +51,11 @@ FreshThreads/
 │   ├── comfyui/          # ComfyUI related tools
 │   │   ├── comfyui*.py   # ComfyUI scripts
 │   │   └── comfyui*.html # ComfyUI interfaces
-│   └── m365tools/        # Microsoft 365 tools
+│   └── m365tools/        # Microsoft 365 automation tools
+       ├── PowerShell scripts for Azure App Registration
+       ├── Python O365 integration handlers
+       ├── Configuration templates
+       └── SMTP and Graph API utilities
 │
 ├── build/                 # Build outputs and generated files
 │   ├── design-output/    # Generated designs
@@ -78,10 +82,15 @@ FreshThreads/
 │       └── madeinusa.txt # Asset metadata
 │
 ├── logs/                # Runtime logs
-├── issues/              # Issue tracking
+├── issues/              # Issue tracking and project planning
+│   ├── m365-tools-extraction-planning.md # M365 tools repository extraction plan
+│   ├── n8n-notion-project-management-migration.md # N8N workflow for Notion migration
+│   └── business-template-extraction-productization.md # Business template productization opportunity
 ├── private-docs/        # Private documentation
 ├── production-ready/    # Production deployment files
 ├── project-management/  # Project management files
+│   ├── M365-TOOLS-ORGANIZATION.md # M365 tools strategy and status
+│   └── other project docs
 └── ComfyUI/            # ComfyUI installation (consider moving to tools/)
 ```
 

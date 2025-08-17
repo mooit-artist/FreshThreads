@@ -803,6 +803,73 @@ p {
   border-color: var(--accent-primary);
 }
 
+/* Form Status Messages */
+.form-status {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.success-message {
+  background: #f0f9f0;
+  border: 1px solid #4caf50;
+  color: #2e7d32;
+}
+
+.success-message i {
+  color: #4caf50;
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}
+
+.success-message h3 {
+  color: #2e7d32;
+  margin-bottom: var(--space-sm);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.success-message p {
+  color: #2e7d32;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.error-message {
+  background: #fff5f5;
+  border: 1px solid #f44336;
+  color: #c62828;
+}
+
+.error-message i {
+  color: #f44336;
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}
+
+.error-message h3 {
+  color: #c62828;
+  margin-bottom: var(--space-sm);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.error-message p {
+  color: #c62828;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.error-message a {
+  color: #c62828;
+  text-decoration: underline;
+}
+
+.error-message a:hover {
+  color: #d32f2f;
+}
+
 /* Footer */
 .footer {
   background: var(--bg-tertiary);

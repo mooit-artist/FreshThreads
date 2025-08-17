@@ -23,7 +23,13 @@
   - [x] Create email automation scripts (22 aliases ready) ✅
   - [x] Provide business address & contact info ✅
   - [x] Apply online: [Amex Business Checking](https://www.americanexpress.com/en-us/banking/business-checking/) ✅
-  - [ ] **PENDING:** Application processing (2-5 business days)
+  - [x] Respond to Amex additional information request ✅
+  - [ ] **PENDING:** Amex additional verification review (Aug 17, 2025)
+
+- [ ] **Alternative Banking Option - FNBO**
+  - [x] Apply for FNBO Business Checking account ✅
+  - [x] Respond to FNBO additional information request ✅
+  - [ ] **PENDING:** FNBO verification review (Aug 17, 2025)
 
 - [ ] **Business Credit Cards**
   - [ ] Apply for **Blue Business Cash** (2% cashback, no annual fee)
@@ -142,7 +148,8 @@
 - Agile project management methodology implemented
 - Complete automation scripts created for email setup
 - Repository organized and focused on core business
-- American Express Business Checking application submitted
+- American Express Business Checking application submitted + additional info provided
+- FNBO Business Checking application submitted + additional info provided
 - Startup expense tracking system established
 
 **IMMEDIATE NEXT STEPS:**
@@ -150,7 +157,8 @@
 1. ✅ **Test your new email system** - COMPLETE! System working perfectly
 2. ✅ **Set up GitHub Projects** with Agile methodology - COMPLETE!
 3. **🚀 BEGIN SPRINT 1** - Focus on Issues #24, #25, #26 (T-shirt design, website, suppliers)
-4. **Apply for Blue Business Cash card** after banking approval
+4. **⏳ Wait for banking approval** from Amex or FNBO (additional verification in progress)
+5. **Apply for Blue Business Cash card** after banking approval
 
 **THIS WEEK PRIORITIES - SPRINT 1:** ✅ **COMPLETE!**
 

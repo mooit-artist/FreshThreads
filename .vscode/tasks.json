@@ -34,7 +34,7 @@
       "type": "shell",
       "command": "python3",
       "args": [
-        "comfyui_web_interface.py"
+        "contact_api.py"
       ],
       "group": {
         "kind": "build"
@@ -70,6 +70,66 @@
       "command": "html-validate",
       "args": [
         "docs/*.html"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start O365 Contact API",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "contact_api.py"
+      ],
+      "group": {
+        "kind": "build"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "FLASK_ENV": "development",
+          "PORT": "5001"
+        }
+      }
+    },
+    {
+      "label": "Test O365 Email Configuration",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "scripts/o365_email_handler.py",
+        "test"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Send Test Email",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "scripts/o365_email_handler.py",
+        "send"
       ],
       "group": "test",
       "presentation": {
