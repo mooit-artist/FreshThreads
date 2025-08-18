@@ -42,7 +42,7 @@
     "jest-fetch-mock": "^3.0.3",
   "prettier": "^3.0.0",
     "puppeteer": "^23.7.0",
-  "sharp": "^0.33.5"
+  "sharp": "^0.34.3"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
