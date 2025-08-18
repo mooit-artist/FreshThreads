@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^5.1.0",
     "node-fetch": "^3.3.2",
     "open": "^10.1.0"
   },
