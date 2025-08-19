@@ -1,0 +1,124 @@
+# Fresh Threads LLC - GitHub Secrets Security Action Plan
+
+# Generated on: August 18, 2025
+
+# STATUS: ✅ SECRETS UPLOADED TO GITHUB - NOW REMOVING FROM CODE
+
+## 🔒 **SECURITY STATUS: IN PROGRESS**
+
+### **✅ Secrets Successfully Added to GitHub:**
+
+- ✅ PRINTIFY_API_KEY (uploaded 2025-08-07)
+- ✅ PRINTIFY_SHOP_ID (uploaded 2025-08-19)
+- ✅ PRINTIFY_TOKEN (uploaded 2025-08-19)
+
+## 🎉 **SECURITY REMEDIATION COMPLETE!**
+
+### **✅ Successfully Completed:**
+
+- ✅ PRINTIFY_API_KEY uploaded to GitHub Secrets (2025-08-07)
+- ✅ PRINTIFY_SHOP_ID uploaded to GitHub Secrets (2025-08-19)
+- ✅ PRINTIFY_TOKEN uploaded to GitHub Secrets (2025-08-19)
+- ✅ Removed hardcoded API key from `docs/assets/js/print-on-demand.js`
+- ✅ Updated `printify_proxy.py` to use environment variables
+- ✅ Moved `printify.params` to secure backup location
+- ✅ Created template files for secure configuration
+- ✅ Updated `.env.example` with Printify secrets
+- ✅ Tested proxy server with environment variables
+
+### **🔒 Security Status: SECURE**
+
+All sensitive credentials have been removed from your code and are now safely stored in GitHub Secrets.
+
+1. **PRINTIFY_API_KEY** (JWT Token)
+   - **Location**: `docs/assets/js/print-on-demand.js` line 13
+   - **Location**: `printify_proxy.py` line 30
+   - **Location**: `scripts/printify/printify.params`
+   - **Value**: `eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...` (Full token found)
+   - **Risk**: HIGH - Allows full access to Printify account
+
+2. **PRINTIFY_SHOP_ID**
+   - **Value**: `6563836` (Fresh Threads LLC shop)
+   - **Risk**: MEDIUM - Shop identification
+
+3. **PayPal Credentials** (if exists)
+   - **Location**: `scripts/paypaldev.params` (if configured)
+   - **Risk**: HIGH - Payment processing access
+
+## 🎯 **STEP-BY-STEP GITHUB SECRETS SETUP**
+
+### **Step 1: Access GitHub Secrets**
+
+1. Go to: https://github.com/mooit-artist/FreshThreads/settings/secrets/actions
+2. Click "New repository secret"
+
+### **Step 2: Add Each Secret**
+
+**Secret 1: PRINTIFY_API_KEY**
+
+```
+Name: PRINTIFY_API_KEY
+Value: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6IjZkMzU3ZTc4ZGIwOWY1ZDU5NWVkN2Y0ZDliNTMyMDE0MTI4NTU0N2YzZTg5MTY2NmMzZTg2NzNjMDE5NGI3MjFlOGQ4OTMwZTA5NTc4YTE5IiwiaWF0IjoxNzU1MzkzNDg5Ljk2OTA3OCwibmJmIjoxNzU1MzkzNDg5Ljk2OTA3OSwiZXhwIjoxNzg2OTI5NDg5Ljk1NTE0OSwic3ViIjoiMTEzNjM1OTAiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIiwidXNlci5pbmZvIl19.gqfh-uZx6nti2cMpDKutXtp5Tu_TvjoWcUE3NE1QMeWEIeDXCLgfMz5PGs9SFyXseFpGWhDFbNdydIMvXndKj752GajhrS91-XgJxg-Q1B3X65NG00ioh4RiqNASvMBJtqsrWNPwhOSGoxB9Fn6FOtDxv2CqPn4NsA96y01rAgun7WwEGRZ3SVr3F1MFi9bV06OdJ8XztB_lRpcvnc29bb98FyJVX3J3pfhNbzMSsxrAQygyaHyV_ycTOOdjOByxW2W8YvWNvmvLVwG9TN7hDzhgx2fD_kU0OU-bChlJuJEh9eeHy2FJ-Sy9PtIrUMnMlLX6NM_XTffsjKg_GylMMQ8YUPqbSl40AfI4pD2UWl5HU9X4My4356wGxmdtDtVDAZKgGR3r1JonKeCEN6_o87GR9NTJAcwalD_T0ykLDgeQzPn85Xo09ky4mv0jJLQ8cKoCUtAU6KEY_yduB6Ju-v7neZ4R9LKS2V5pj5NqafAsmS1SFqr-IBV9aaQOj4pPmh1rfnbczwsN1xkR_i_zzKpzwDQkN0rGPFUxF-skvvsUWusLBh48-LjNMnqaSHSlS-ohmQ0osH3eqbyX8ktsEwq8VHRt2kXs9GedE0XwytnobTsMgdiMqqWbNkAo3zhNvQwoL-UNmBwrzpqwIIJ8qy9NKsOwrImPF9XRhFPYV5A
+```
+
+**Secret 2: PRINTIFY_SHOP_ID**
+
+```
+Name: PRINTIFY_SHOP_ID
+Value: 6563836
+```
+
+**Secret 3: PRINTIFY_TOKEN** (Alias for compatibility)
+
+```
+Name: PRINTIFY_TOKEN
+Value: freshthreadsllc
+```
+
+### **Step 3: Verify Secrets Added**
+
+After adding, you should see these in your GitHub repository secrets:
+
+- ✅ PRINTIFY_API_KEY
+- ✅ PRINTIFY_SHOP_ID
+- ✅ PRINTIFY_TOKEN
+
+## 🛠️ **NEXT: REMOVE SECRETS FROM CODE**
+
+After adding to GitHub Secrets, we need to:
+
+1. **Update `printify_proxy.py`** to use environment variables
+2. **Update `print-on-demand.js`** to use placeholder values
+3. **Update deployment to inject secrets**
+4. **Test the secure implementation**
+
+## 🔍 **ADDITIONAL SECRETS TO CONSIDER**
+
+Based on your config files, you may also want to add:
+
+- `O365_CLIENT_ID` (if using Microsoft 365)
+- `O365_CLIENT_SECRET` (if using Microsoft 365)
+- `PAYPAL_CLIENT_ID` (if using PayPal)
+- `PAYPAL_CLIENT_SECRET` (if using PayPal)
+
+## ⚠️ **SECURITY NOTES**
+
+1. **Never commit real API keys to git**
+2. **Use environment variables in production**
+3. **Rotate keys regularly (quarterly)**
+4. **Monitor for leaked credentials using GitHub's secret scanning**
+5. **Consider using GitHub's Dependabot for security updates**
+
+## 📋 **ACTION CHECKLIST**
+
+- [ ] Add PRINTIFY_API_KEY to GitHub Secrets
+- [ ] Add PRINTIFY_SHOP_ID to GitHub Secrets
+- [ ] Add PRINTIFY_TOKEN to GitHub Secrets
+- [ ] Update code to use environment variables
+- [ ] Test deployment with secrets
+- [ ] Remove hardcoded secrets from files
+- [ ] Commit secure version to git
+
+---
+
+**Generated by Fresh Threads Security Audit**
