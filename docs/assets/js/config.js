@@ -4,16 +4,26 @@
 window.podConfig = {
   // PRINTIFY CONFIGURATION
   // Get these from: https://printify.com/app/account/api
-  printifyApiKey: 'YOUR_PRINTIFY_API_KEY_HERE', // Will be replaced by GitHub Actions
+  printifyApiKey: 'PRINTIFY_API_KEY_PLACEHOLDER', // Will be replaced by GitHub Actions
   printifyShopId: '23745844', // FreshThreadsLLC store ID
 
   // PRINTFUL CONFIGURATION
   // Get this from: https://www.printful.com/dashboard/settings/api
-  printfulApiKey: 'YOUR_PRINTFUL_API_KEY_HERE',
+  printfulApiKey: 'PRINTFUL_API_KEY_PLACEHOLDER',
 
   // DEVELOPMENT SETTINGS
   debug: true,
   testMode: false, // Set to true for testing
+};
+
+// PAYMENT CONFIGURATION
+window.paymentConfig = {
+  stripe: {
+    publishableKey: 'STRIPE_PUBLISHABLE_KEY_PLACEHOLDER'
+  },
+  paypal: {
+    clientId: 'PAYPAL_CLIENT_ID_PLACEHOLDER'
+  }
 };
 
 // Instructions for getting your API keys:
