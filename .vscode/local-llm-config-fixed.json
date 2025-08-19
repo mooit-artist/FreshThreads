@@ -1,5 +1,5 @@
 {
-  "name": "local-llm-config-fixed",
-  "description": "Local LLM configuration placeholder",
-  "version": "1.0.0"
+    "name": "local-llm-config-fixed",
+    "description": "Local LLM configuration placeholder",
+    "version": "1.0.0"
 }

@@ -1,17 +1,17 @@
 {
-  "productCategories": [
-    "T-Shirts",
-    "Hoodies",
-    "Mugs",
-    "Stickers",
-    "Phone Cases"
-  ],
-  "defaultProductConfig": {
-    "currency": "USD",
-    "tax_rate": 0.08,
-    "shipping": {
-      "domestic": 5.99,
-      "international": 15.99
+    "productCategories": [
+        "T-Shirts",
+        "Hoodies",
+        "Mugs",
+        "Stickers",
+        "Phone Cases"
+    ],
+    "defaultProductConfig": {
+        "currency": "USD",
+        "tax_rate": 0.08,
+        "shipping": {
+            "domestic": 5.99,
+            "international": 15.99
+        }
     }
-  }
 }

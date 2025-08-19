@@ -27,10 +27,10 @@ class PODProductTemplates {
             variant_ids: [1],
             placeholders: [
               {
-                position: 'front',
+                position: "front",
                 images: [
                   {
-                    id: 'image_id', // This will be replaced with actual image ID
+                    id: "image_id", // This will be replaced with actual image ID
                     x: 0.5,
                     y: 0.5,
                     scale: 1,
@@ -58,10 +58,10 @@ class PODProductTemplates {
             variant_ids: [1],
             placeholders: [
               {
-                position: 'front',
+                position: "front",
                 images: [
                   {
-                    id: 'image_id',
+                    id: "image_id",
                     x: 0.5,
                     y: 0.5,
                     scale: 1,
@@ -80,18 +80,18 @@ class PODProductTemplates {
     return {
       tshirt_basic: {
         sync_product: {
-          name: '', // Will be filled dynamically
-          thumbnail: '', // Will be filled dynamically
+          name: "", // Will be filled dynamically
+          thumbnail: "", // Will be filled dynamically
           is_ignored: false,
         },
         sync_variants: [
           {
-            retail_price: '24.99',
+            retail_price: "24.99",
             variant_id: 4011, // Bella + Canvas 3001 Unisex Short Sleeve - S / Black
             files: [
               {
-                type: 'front',
-                url: '', // Will be filled dynamically
+                type: "front",
+                url: "", // Will be filled dynamically
               },
             ],
           },
@@ -100,18 +100,18 @@ class PODProductTemplates {
 
       tshirt_longsleeve: {
         sync_product: {
-          name: '',
-          thumbnail: '',
+          name: "",
+          thumbnail: "",
           is_ignored: false,
         },
         sync_variants: [
           {
-            retail_price: '34.99',
+            retail_price: "34.99",
             variant_id: 4016, // Example long sleeve variant ID
             files: [
               {
-                type: 'front',
-                url: '',
+                type: "front",
+                url: "",
               },
             ],
           },
@@ -129,8 +129,8 @@ class PODProductTemplates {
 
     // Map categories to template keys
     const categoryMap = {
-      't-shirts': 'tshirt_basic',
-      'long-sleeve': 'tshirt_longsleeve',
+      "t-shirts": "tshirt_basic",
+      "long-sleeve": "tshirt_longsleeve",
     };
 
     const templateKey = categoryMap[category];
@@ -145,9 +145,9 @@ class PODProductTemplates {
   createProductData(localProduct, provider, designImageUrl = null) {
     const template = this.getTemplate(provider, localProduct.category);
 
-    if (provider === 'printify') {
+    if (provider === "printify") {
       return this.fillPrintifyTemplate(template, localProduct, designImageUrl);
-    } else if (provider === 'printful') {
+    } else if (provider === "printful") {
       return this.fillPrintfulTemplate(template, localProduct, designImageUrl);
     }
 
@@ -166,15 +166,15 @@ class PODProductTemplates {
       })),
       print_areas: designImageUrl
         ? template.print_areas.map((area) => ({
-          ...area,
-          placeholders: area.placeholders.map((placeholder) => ({
-            ...placeholder,
-            images: placeholder.images.map((image) => ({
-              ...image,
-              id: designImageUrl, // This would need to be uploaded first
+            ...area,
+            placeholders: area.placeholders.map((placeholder) => ({
+              ...placeholder,
+              images: placeholder.images.map((image) => ({
+                ...image,
+                id: designImageUrl, // This would need to be uploaded first
+              })),
             })),
-          })),
-        }))
+          }))
         : template.print_areas,
     };
   }
@@ -191,9 +191,9 @@ class PODProductTemplates {
         retail_price: localProduct.basePrice.toString(),
         files: designImageUrl
           ? variant.files.map((file) => ({
-            ...file,
-            url: designImageUrl,
-          }))
+              ...file,
+              url: designImageUrl,
+            }))
           : variant.files,
       })),
     };
@@ -204,25 +204,25 @@ class PODProductTemplates {
     return {
       printify: {
         blueprints: {
-          5: 'Unisex T-shirt',
-          6: 'Unisex Long Sleeve T-shirt',
+          5: "Unisex T-shirt",
+          6: "Unisex Long Sleeve T-shirt",
           7: "Women's T-shirt",
           8: "Men's T-shirt",
         },
         providers: {
-          1: 'Printify Express',
-          2: 'Printify Express US',
-          3: 'Printify Express EU',
-          5: 'Gooten',
-          8: 'Monster Digital',
-          25: 'Awkward Styles',
+          1: "Printify Express",
+          2: "Printify Express US",
+          3: "Printify Express EU",
+          5: "Gooten",
+          8: "Monster Digital",
+          25: "Awkward Styles",
         },
       },
       printful: {
         products: {
-          71: 'Bella + Canvas 3001 Unisex Short Sleeve T-Shirt',
-          17: 'Gildan 18000 Unisex Heavy Blend Sweatshirt',
-          146: 'Bella + Canvas 3501 Unisex Long Sleeve T-Shirt',
+          71: "Bella + Canvas 3001 Unisex Short Sleeve T-Shirt",
+          17: "Gildan 18000 Unisex Heavy Blend Sweatshirt",
+          146: "Bella + Canvas 3501 Unisex Long Sleeve T-Shirt",
           181: "Bella + Canvas 6004 Women's The Favorite Tee",
         },
       },
@@ -233,32 +233,32 @@ class PODProductTemplates {
   validateProductForProvider(localProduct, provider) {
     const errors = [];
 
-    if (!localProduct.name || localProduct.name.trim() === '') {
-      errors.push('Product name is required');
+    if (!localProduct.name || localProduct.name.trim() === "") {
+      errors.push("Product name is required");
     }
 
-    if (!localProduct.description || localProduct.description.trim() === '') {
-      errors.push('Product description is required');
+    if (!localProduct.description || localProduct.description.trim() === "") {
+      errors.push("Product description is required");
     }
 
     if (!localProduct.basePrice || localProduct.basePrice <= 0) {
-      errors.push('Valid base price is required');
+      errors.push("Valid base price is required");
     }
 
-    if (!['t-shirts', 'long-sleeve'].includes(localProduct.category)) {
+    if (!["t-shirts", "long-sleeve"].includes(localProduct.category)) {
       errors.push(
         `Category '${localProduct.category}' is not supported for ${provider}`,
       );
     }
 
     // Provider-specific validations
-    if (provider === 'printify') {
+    if (provider === "printify") {
       if (localProduct.name.length > 100) {
-        errors.push('Printify product name cannot exceed 100 characters');
+        errors.push("Printify product name cannot exceed 100 characters");
       }
-    } else if (provider === 'printful') {
+    } else if (provider === "printful") {
       if (localProduct.name.length > 70) {
-        errors.push('Printful product name cannot exceed 70 characters');
+        errors.push("Printful product name cannot exceed 70 characters");
       }
     }
 
@@ -273,35 +273,35 @@ class PODProductTemplates {
 class PODVariantMappings {
   static getPrintifyColors() {
     return {
-      Black: '#000000',
-      White: '#FFFFFF',
-      Navy: '#1B2951',
-      'Heather Gray': '#9B9B9B',
-      Red: '#FF0000',
-      'Royal Blue': '#4169E1',
+      Black: "#000000",
+      White: "#FFFFFF",
+      Navy: "#1B2951",
+      "Heather Gray": "#9B9B9B",
+      Red: "#FF0000",
+      "Royal Blue": "#4169E1",
     };
   }
 
   static getPrintfulColors() {
     return {
-      Black: '#000000',
-      White: '#FFFFFF',
-      Navy: '#1B2951',
-      'Heather Grey': '#9B9B9B',
-      Red: '#FF0000',
-      Royal: '#4169E1',
+      Black: "#000000",
+      White: "#FFFFFF",
+      Navy: "#1B2951",
+      "Heather Grey": "#9B9B9B",
+      Red: "#FF0000",
+      Royal: "#4169E1",
     };
   }
 
   static getSizeMappings() {
     return {
-      XS: 'XS',
-      S: 'S',
-      M: 'M',
-      L: 'L',
-      XL: 'XL',
-      XXL: '2XL',
-      XXXL: '3XL',
+      XS: "XS",
+      S: "S",
+      M: "M",
+      L: "L",
+      XL: "XL",
+      XXL: "2XL",
+      XXXL: "3XL",
     };
   }
 
@@ -309,7 +309,7 @@ class PODVariantMappings {
   static mapVariants(localProduct, provider) {
     const variants = [];
     const colors =
-      provider === 'printify'
+      provider === "printify"
         ? this.getPrintifyColors()
         : this.getPrintfulColors();
 
@@ -338,7 +338,7 @@ class PODVariantMappings {
 }
 
 // Export classes
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = { PODProductTemplates, PODVariantMappings };
 } else {
   window.PODProductTemplates = PODProductTemplates;

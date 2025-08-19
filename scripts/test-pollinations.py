@@ -3,9 +3,10 @@
 Quick test of Pollinations AI integration for Enhanced FreshVision
 """
 
-import requests
 import time
 from pathlib import Path
+
+import requests
 
 
 def test_pollinations_generation():
@@ -13,18 +14,20 @@ def test_pollinations_generation():
     print("🌸 Testing Pollinations AI image generation...")
 
     # Test prompt for t-shirt design
-    prompt = "minimalist t-shirt design, geometric shapes, black and white, clean typography"
+    prompt = (
+        "minimalist t-shirt design, geometric shapes, black and white, clean typography"
+    )
 
     # Build URL
     base_url = "https://image.pollinations.ai/prompt"
     url = f"{base_url}/{requests.utils.quote(prompt)}"
 
     params = {
-        'width': 512,
-        'height': 512,
-        'model': 'flux',
-        'enhance': 'true',
-        'nologo': 'true'
+        "width": 512,
+        "height": 512,
+        "model": "flux",
+        "enhance": "true",
+        "nologo": "true",
     }
 
     print(f"📡 Sending request to Pollinations AI...")
@@ -45,7 +48,7 @@ def test_pollinations_generation():
             filename = f"pollinations_test_{timestamp}.png"
             filepath = output_dir / filename
 
-            with open(filepath, 'wb') as f:
+            with open(filepath, "wb") as f:
                 f.write(response.content)
 
             generation_time = time.time() - start_time

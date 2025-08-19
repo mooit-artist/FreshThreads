@@ -17,6 +17,9 @@ config.js.backup
 .env.test.local
 .env.production.local
 
+# Development scripts with keys
+scripts/setup-dev-environment.sh
+
 # API Keys and Secrets
 config/secrets.js
 config/api-keys.json

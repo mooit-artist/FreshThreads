@@ -2,3 +2,4 @@
 Connect-MicrosoftTeams
 Get-CsOnlineUser | Select-Object DisplayName, UserPrincipalName | Format-Table -AutoSize
 Disconnect-MicrosoftTeams
+

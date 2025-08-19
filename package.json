@@ -11,16 +11,7 @@
     "test:coverage": "jest --coverage",
     "test:unit": "jest tests/javascript/unit",
     "test:integration": "jest tests/javascript/integration",
-    "test:e2e": "jest tests/javascript/e2e",
-    "render:etsy-banner": "node scripts/render_banner.js 'docs/assets/Etsy Logos/etsyorderbanner.html' 'docs/assets/Etsy Logos/etsyorderbanner.png' '.banner' 760 100 3",
-    "convert:etsy-banner-jpg": "node scripts/convert_to_jpeg.js 'docs/assets/Etsy Logos/etsyorderbanner.png' 'docs/assets/Etsy Logos/etsyorderbanner.jpg' 95",
-    "etsy:auth": "node scripts/etsy/oauth_server.js",
-    "etsy:refresh": "node scripts/etsy/refresh_token.js",
-    "etsy:test": "node scripts/etsy/test_connection.js",
-    "printful:test": "node scripts/printful/test_integration.js",
-    "printful:products": "node scripts/printful/list_products.js",
-    "printful:create-product": "node scripts/printful/create_product.js",
-    "printful:test-order": "node scripts/printful/test_order.js"
+    "test:e2e": "jest tests/javascript/e2e"
   },
   "repository": {
     "type": "git",
@@ -40,15 +31,7 @@
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
     "jest-fetch-mock": "^3.0.3",
-  "prettier": "^3.0.0",
-    "puppeteer": "^23.7.0",
-  "sharp": "^0.33.5"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "node-fetch": "^3.3.2",
-    "open": "^10.1.0"
+    "prettier": "^3.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

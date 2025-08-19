@@ -45,6 +45,9 @@
         <!-- Logo Styles -->
         <link rel="stylesheet" href="logo.css">
 
+        <!-- Shopping Cart Styles -->
+        <link rel="stylesheet" href="styles/cart.css">
+
         <!-- Print-on-Demand Integration -->
         <script src="assets/js/config.js"></script>
         <script src="assets/js/print-on-demand.js"></script>
@@ -65,87 +68,84 @@
             }
 
             .header {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                z-index: 1000;
-                background: #0a0a0a !important;
-                border-bottom: 2px solid #1f1f1f;
-                box-shadow: none;
-            }
-
-            .nav {
+                background: var(--bg-primary, #0a0a0a);
+                padding: 1rem 2rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 1rem 0;
+                border-bottom: 2px solid var(--border-color, #1f1f1f);
+                box-shadow: none;
             }
 
-            .nav-brand {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                color: #ffffff !important;
-            }
-
-            .brand-text {
+            .logo {
                 font-size: 1.8rem;
                 font-weight: 900;
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff);
                 text-decoration: none;
                 text-transform: uppercase;
                 letter-spacing: 2px;
                 font-family: 'Impact', Arial, sans-serif;
             }
 
-            .logo {
-                height: 32px;
-                width: auto;
-            }
-
             .nav-menu {
                 display: flex;
                 align-items: center;
                 gap: 2rem;
-                list-style: none;
-                margin: 0;
-                padding: 0;
             }
 
             .nav-link {
-                color: #ffffff !important;
+                color: white;
                 text-decoration: none;
                 padding: 0.5rem 1rem;
                 border-radius: 5px;
                 transition: all 0.3s ease;
-                font-weight: 500;
             }
 
             .nav-link:hover {
                 background: rgba(255, 255, 255, 0.2);
-                color: #ffffff !important;
             }
 
-            .nav-link.active {
-                background: rgba(255, 255, 255, 0.1);
-                color: #ffffff !important;
+            .cart-icon {
+                position: relative;
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                border: none;
+                padding: 0.5rem;
+                border-radius: 50%;
+                cursor: pointer;
+                font-size: 1.2rem;
+                transition: all 0.3s ease;
+            }
+
+            .cart-icon:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            .cart-count {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background: #ffffff;
+                color: #000000;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.8rem;
+                font-weight: bold;
             }
 
             .container {
                 max-width: 1200px;
                 margin: 0 auto;
-                padding: 0 2rem;
-            }
-
-            .page-header .container,
-            .main .container {
                 padding: 2rem;
             }
 
             .page-header {
                 text-align: center;
-                padding: 90px 0 2rem 0; /* Reduced top padding to 90px */
+                padding: 2rem 0;
                 background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
                 color: var(--text-primary, #ffffff);
                 margin-bottom: 2rem;
@@ -809,18 +809,13 @@
             }
 
             @media (max-width: 768px) {
-                .nav {
+                .header {
+                    padding: 1rem;
                     flex-direction: column;
                     gap: 1rem;
-                    padding: 1rem 0;
                 }
 
                 .container {
-                    padding: 0 1rem;
-                }
-
-                .page-header .container,
-                .main .container {
                     padding: 1rem;
                 }
 
@@ -853,49 +848,51 @@
     <body class="dark-theme">
         <!-- Header -->
         <header class="header">
-            <div class="container">
-                <nav class="nav">
-                    <div class="nav-brand">
-                        <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
-                        <span class="brand-text">Fresh Threads</span>
-                    </div>
+            <nav class="nav container">
+                <div class="nav-brand">
+                    <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
+                    <span class="brand-text">Fresh Threads</span>
+                </div>
 
-                    <ul class="nav-menu">
-                        <li class="nav-item">
-                            <a href="index.html" class="nav-link">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="products.html" class="nav-link active">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="about.html" class="nav-link">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="contact.html" class="nav-link">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="account.html" class="nav-link">Account</a>
-                        </li>
-                    </ul>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="products.html" class="nav-link active">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="account.html" class="nav-link">Account</a>
+                    </li>
+                </ul>
 
-                    <div class="nav-actions">
-                        <button class="btn btn-primary" onclick="window.freshThreadsCart && window.freshThreadsCart.toggleCart()">View Cart</button>
-                    </div>
-
-                    <!-- Mobile menu toggle -->
-                    <button class="nav-toggle" aria-label="Toggle menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                <div class="nav-actions">
+                    <button class="btn btn-ghost cart-icon" onclick="showCartModal()">
+                        🛒
+                        <span class="cart-count" id="cartCount">0</span>
                     </button>
-                </nav>
-            </div>
+                    <button class="btn btn-primary">Shop Now</button>
+                </div>
+
+                <!-- Mobile menu toggle -->
+                <button class="nav-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
         </header>
 
         <!-- Main Content -->
         <main>
             <!-- Page Header -->
-            <section class="page-header">
+            <section class="page-header" style="padding: calc(80px + var(--space-xl)) 0 var(--space-lg);">
                 <div class="container">
                     <h1 class="page-title">Shop Fresh Threads</h1>
                     <p class="page-description">Discover our collection of premium apparel. From trendy graphic tees to cozy hoodies, find the
@@ -939,21 +936,21 @@
             <section class="categories-section">
                 <div class="container">
                     <div class="categories-grid">
-                    <button class="category-card active" data-category="all" onclick="selectCategory('all')">
+                    <div class="category-card active" data-category="all" onclick="selectCategory('all')">
                         <div class="category-icon"></div>
                         <div class="category-name">All T-Shirts</div>
                         <div class="category-count" id="allCount">6 items</div>
-                    </button>
-                    <button class="category-card" data-category="t-shirts" onclick="selectCategory('t-shirts')">
+                    </div>
+                    <div class="category-card" data-category="t-shirts" onclick="selectCategory('t-shirts')">
                         <div class="category-icon"></div>
                         <div class="category-name">Short Sleeve T-Shirts</div>
                         <div class="category-count" id="tshirtsCount">3 items</div>
-                    </button>
-                    <button class="category-card" data-category="long-sleeve" onclick="selectCategory('long-sleeve')">
+                    </div>
+                    <div class="category-card" data-category="long-sleeve" onclick="selectCategory('long-sleeve')">
                         <div class="category-icon"></div>
                         <div class="category-name">Long Sleeve T-Shirts</div>
                         <div class="category-count" id="longsleeveCount">3 items</div>
-                    </button>
+                    </div>
                 </div>
             </section>
 
@@ -1006,12 +1003,42 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Cart Preview Modal -->
+            <div id="cartModal" class="cart-modal" style="display: none;">
+                <div class="cart-modal-content">
+                    <div class="cart-header">
+                        <h3>Shopping Cart</h3>
+                        <button class="btn btn-primary close-cart" onclick="closeCartModal()">&times;</button>
+                    </div>
+                    <div id="cartItems" class="cart-items">
+                        <!-- Cart items will be populated here -->
+                    </div>
+                    <div class="cart-footer">
+                        <div class="cart-total">
+                            <div id="earlyAccessSavings" class="early-access-savings" style="display: none;">
+                                <span class="savings-text">🎉 Early Access Savings: -$<span
+                                          id="savingsAmount">0.00</span></span>
+                            </div>
+                            <div class="total-price">Total: $<span id="cartTotal">0.00</span></div>
+                        </div>
+                        <button class="btn btn-primary checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <script>
             'use strict';
 
             (function () {
+                // Customer-facing configuration
+                const STORE_CONFIG = {
+                    currency: 'USD',
+                    shippingThreshold: 50, // Free shipping over $50
+                    taxRate: 0.08 // 8% tax rate
+                };
+
                 // Shopping cart
                 let cart = JSON.parse(localStorage.getItem('freshthreads_cart') || '[]');
                 let selectedCategory = 'all';
@@ -1019,28 +1046,43 @@
 
                 // Printify integration
                 let podManager;
+                let printifyProducts = [];
 
-                async function loadProductsConfig() {
-                    console.log('loadProductsConfig: Starting to load products...');
-                    document.getElementById('loadingMessage').innerHTML = 'Fetching products configuration...';
+                async function loadPrintifyProducts() {
                     try {
-                        const response = await fetch('/products-config.json');
-                        console.log('loadProductsConfig: Response received:', response.status, response.ok);
-                        document.getElementById('loadingMessage').innerHTML = `Fetch response: ${response.status} ${response.ok ? 'OK' : 'ERROR'}`;
-                        if (response.ok) {
-                            const config = await response.json();
-                            console.log('loadProductsConfig: Config loaded:', config);
-                            document.getElementById('loadingMessage').innerHTML = `Found ${config.products?.length || 0} products`;
-                            return config.products || getFallbackProducts();
-                        } else {
-                            console.warn('products-config.json not found, using fallback products');
-                            document.getElementById('loadingMessage').innerHTML = 'Config not found, using fallback products';
-                            return getFallbackProducts();
+                        if (!window.podConfig || !window.podConfig.printifyApiKey || !window.podConfig.printifyShopId || window.podConfig.printifyApiKey.includes('YOUR_PRINTIFY_API_KEY')) {
+                            throw new Error('Printify API key or Shop ID not set.');
                         }
+                        podManager = new PrintOnDemandManager(window.podConfig);
+                        printifyProducts = await podManager.getPrintifyProducts();
+                        if (!Array.isArray(printifyProducts) || printifyProducts.length === 0) {
+                            throw new Error('No Printify products found.');
+                        }
+                        renderProducts(printifyProducts, true);
+                        document.getElementById('loadingMessage').style.display = 'none';
+                        document.getElementById('errorMessage').style.display = 'none';
                     } catch (error) {
-                        console.error('Error loading products config:', error);
-                        document.getElementById('loadingMessage').innerHTML = `Error: ${error.message}`;
-                        return getFallbackProducts();
+                        console.warn('Falling back to local products:', error);
+                        document.getElementById('errorMessage').textContent = 'Could not load live products. Showing local catalog.';
+                        document.getElementById('errorMessage').style.display = 'block';
+                        loadLocalProducts();
+                    }
+                }
+
+                async function loadLocalProducts() {
+                    try {
+                        const response = await fetch('products-config.json');
+                        let productsConfig = {};
+                        if (response.ok) {
+                            productsConfig = await response.json();
+                        }
+                        const localProducts = (productsConfig.products && productsConfig.products.length) ? productsConfig.products : getFallbackProducts();
+                        renderProducts(localProducts, false);
+                        document.getElementById('loadingMessage').style.display = 'none';
+                    } catch (error) {
+                        console.error('Error loading local products:', error);
+                        renderProducts(getFallbackProducts(), false);
+                        document.getElementById('loadingMessage').style.display = 'none';
                     }
                 }
 
@@ -1194,39 +1236,63 @@
                     });
                 }
 
-                // On page load, initialize the page properly
+                // On page load, try Printify first, fallback to local
                 window.addEventListener('DOMContentLoaded', () => {
-                    console.log('DOMContentLoaded: Event fired, starting initialization...');
                     document.getElementById('loadingMessage').style.display = 'block';
-                    document.getElementById('loadingMessage').innerHTML = 'DOMContentLoaded fired, starting initialization...';
-                    console.log('DOMContentLoaded: Loading message shown, calling initializePage...');
-                    initializePage();
+                    loadPrintifyProducts();
                 });
+
+                // ...existing code...
+                            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+                            colors: ['Black', 'White', 'Gray'],
+                            featured: true,
+                            gender: 'unisex',
+                            isNew: false,
+                            isSubscription: false
+                        },
+                        {
+                            id: 'ft011',
+                            name: 'Women\'s Long Sleeve Tee',
+                            description: 'Stylish long sleeve t-shirt with feminine cut',
+                            price: 29.99,
+                            originalPrice: null,
+                            category: 'long-sleeve',
+                            image: '',
+                            badge: null,
+                            rating: 4.8,
+                            reviewCount: 112,
+                            sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                            colors: ['Black', 'White', 'Navy'],
+                            featured: true,
+                            gender: 'womens',
+                            isNew: false,
+                            isSubscription: false
+                        }
+                    ];
+                }
 
                 let products = [];
                 let filteredProducts = [];
 
+                // Initialize Print-on-Demand Manager
+                let podManager;
+                let podTemplates;
+
                 // Initialize the page
                 async function initializePage() {
-                    console.log('initializePage: Starting initialization...');
                     try {
-                        // Check early access
-                        console.log('initializePage: Checking early access...');
-                        checkEarlyAccess();
-
                         // Initialize POD services if configured
                         if (window.podConfig && window.PODProductTemplates && window.PrintOnDemandManager) {
                             console.log('POD configuration found, initializing...');
                             podManager = new PrintOnDemandManager(window.podConfig);
+                            podTemplates = new PODProductTemplates();
                             console.log('POD integration initialized successfully');
                         } else {
                             console.log('POD not configured - running in local mode');
                         }
 
                         // Load local products
-                        console.log('initializePage: Loading products config...');
                         products = await loadProductsConfig();
-                        console.log('initializePage: Products loaded:', products.length);
 
                         // Try to sync with POD providers (in background)
                         syncWithPODProviders().catch(console.error);
@@ -1243,22 +1309,15 @@
                         });
 
                         filteredProducts = [...products];
-                        console.log('initializePage: Rendering products...');
-                        renderProducts(filteredProducts);
+                        renderProducts();
                         updateResultsCount();
-                        updateCategoryCounts();
-                        console.log('initializePage: Hiding loading message...');
-                        document.getElementById('loadingMessage').style.display = 'none';
-                        console.log('initializePage: Initialization complete!');
                     } catch (error) {
                         console.error('Failed to initialize page:', error);
                         // Use fallback products if initialization fails
                         products = getFallbackProducts();
                         filteredProducts = [...products];
-                        renderProducts(filteredProducts);
+                        renderProducts();
                         updateResultsCount();
-                        updateCategoryCounts();
-                        document.getElementById('loadingMessage').style.display = 'none';
                     }
                 }
 
@@ -1285,7 +1344,63 @@
                     }
                 }
 
+                // Sync local products to POD providers (admin function)
+                async function syncLocalProductsToPOD() {
+                    if (!podManager) return;
+
+                    for (const product of products) {
+                        try {
+                            const syncResults = await podManager.syncProductWithProviders(product);
+                            console.log(`Sync results for ${product.name}:`, syncResults);
+                        } catch (error) {
+                            console.error(`Error syncing product ${product.name}:`, error);
+                        }
+                    }
+                }
+
+                // Enhanced add to cart function with POD integration
+                async function addToCartWithPOD(productId, selectedSize, selectedColor) {
+                    const product = products.find(p => p.id === productId);
+                    if (!product) return;
+
+                    // Add product to local cart
+                    const cartItem = {
+                        id: productId,
+                        name: product.name,
+                        price: product.price,
+                        size: selectedSize,
+                        color: selectedColor,
+                        quantity: 1,
+                        podProvider: product.podProvider || null, // Track which POD provider
+                        podProductId: product.podProductId || null // Track POD product ID
+                    };
+
+                    // Add to cart
+                    cart.push(cartItem);
+                    localStorage.setItem('freshthreads_cart', JSON.stringify(cart));
+                    updateCartCount();
+
+                    showNotification(`Added ${product.name} to cart!`, 'success');
+                }
+
+                // Show POD provider status (for debugging)
+                function showPODStatus() {
+                    if (podManager) {
+                        const status = podManager.getProviderStatus();
+                        console.log('POD Provider Status:', status);
+
+                        // You could show this in the UI if needed
+                        const statusMessage = `Printify: ${status.printify.configured ? '✅' : '❌'} | Printful: ${status.printful.configured ? '✅' : '❌'}`;
+                        console.log(statusMessage);
+                    }
+                }
+
                 // Utility functions
+                function updateCartCount() {
+                    const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                    document.getElementById('cartCount').textContent = cartCount;
+                }
+
                 function showNotification(message, type = 'success') {
                     // Simple notification (you could enhance this with a toast library)
                     const notification = document.createElement('div');
@@ -1385,6 +1500,76 @@
                     updateResultsCount();
                 };
 
+                // Render products
+                function renderProducts() {
+                    const grid = document.getElementById('productsGrid');
+
+                    if (filteredProducts.length === 0) {
+                        grid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; opacity: 0.7;">
+                            <h3>No products found</h3>
+                            <p>Try adjusting your filters or search terms</p>
+                        </div>
+                    `;
+                        return;
+                    }
+
+                    grid.innerHTML = filteredProducts.map(product => {
+                        const discountPercent = product.originalPrice
+                            ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+                            : 0;
+
+                        return `
+                        <div class="product-card product-card product-card" data-id="${product.id}">
+                            <div class="product-image">
+                                ${product.image}
+                                ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'sale' && discountPercent > 0 ? `-${discountPercent}%` : product.badge.toUpperCase()}</div>` : ''}
+                            </div>
+                            <div class="product-info">
+                                <h3>${product.name}</h3>
+                                <div class="product-description">${product.description}</div>
+                                <div class="product-rating">
+                                    <div class="stars">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '☆' : ''}</div>
+                                    <span class="rating-count">(${product.reviewCount})</span>
+                                </div>
+                                <div class="product-price">
+                                    ${(() => {
+                                const basePrice = product.price;
+                                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1; // 30% off
+                                const finalPrice = (basePrice * earlyAccessDiscount).toFixed(2);
+
+                                if (window.earlyAccessActive && basePrice !== finalPrice) {
+                                    return `<span class="early-access-price">$${finalPrice}</span><span class="original-price">$${basePrice}</span><span class="early-access-badge">EARLY ACCESS</span>`;
+                                } else {
+                                    return `$${basePrice}${product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : ''}`;
+                                }
+                            })()}
+                                </div>
+                                <div class="size-options">
+                                    ${product.sizes.slice(0, 4).map(size => `<div class="size-btn" onclick="selectSize('${product.id}', '${size}')">${size}</div>`).join('')}
+                                    ${product.sizes.length > 4 ? '<div class="size-btn">+more</div>' : ''}
+                                </div>
+                                <div class="product-actions">
+                                    <button class="btn btn-primary add-to-cart-btn"
+                                            data-product-id="${product.id}"
+                                            data-product-name="${product.name}"
+                                            data-product-price="${(() => {
+                                                const basePrice = product.price;
+                                                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1;
+                                                return (basePrice * earlyAccessDiscount).toFixed(2);
+                                            })()}"
+                                            data-product-image="${product.image ? product.image.match(/src="([^"]+)"/)?.[1] || 'assets/Fresh_ThreadsLLCLogo.png' : 'assets/Fresh_ThreadsLLCLogo.png'}"
+                                            onclick="addToCartFromProduct('${product.id}')">
+                                        🛒 Add to Cart
+                                    </button>
+                                    <button class="btn btn-primary wishlist-btn" onclick="toggleWishlist('${product.id}')">♡</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    }).join('');
+                }
+
                 function updateResultsCount() {
                     const count = filteredProducts.length;
                     let total;
@@ -1446,6 +1631,7 @@
                     }
 
                     localStorage.setItem('freshthreads_cart', JSON.stringify(cart));
+                    updateCartCount();
                     showNotification(`${product.name} added to cart!`);
                 };
 
@@ -1487,8 +1673,13 @@
                 };
 
                 // Initialize
-                // Note: This initialization is now handled in the main DOMContentLoaded listener
-                // that calls initializePage() which properly loads products first
+                document.addEventListener('DOMContentLoaded', function () {
+                    checkEarlyAccess();
+                    document.getElementById('loadingMessage').style.display = 'none';
+                    updateCartCount();
+                    updateCategoryCounts();
+                    applyFilters(); // This will render initial products
+                });
 
                 // Check if user has early access
                 function checkEarlyAccess() {
@@ -1591,6 +1782,7 @@
                     }
 
                     updateCartModal();
+                    updateCartCount();
                     localStorage.setItem('freshThreadsCart', JSON.stringify(cart));
                 };
 
@@ -1605,6 +1797,9 @@
                     localStorage.setItem('freshthreads_cart', JSON.stringify(cart));
                     window.location.href = 'checkout.html';
                 };
+
+                // Initialize page when DOM is loaded
+                document.addEventListener('DOMContentLoaded', initializePage);
 
                 // Search functionality
                 // Search products function

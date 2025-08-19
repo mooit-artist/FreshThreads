@@ -2,16 +2,16 @@
 # Complete PayPal integration for e-commerce and B2B operations
 
 param(
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [string]$Action = "setup",
 
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [string]$Environment = "sandbox",  # sandbox or live
 
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [string]$BusinessEmail = "bryan@freshthreadsllc.com",
 
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [string]$WebsiteUrl = "https://freshthreadsllc.com"
 )
 
@@ -42,7 +42,8 @@ function Install-PayPalPrerequisites {
         if ($LASTEXITCODE -ne 0) {
             Write-Log "Installing Python..." "WARNING"
             winget install Python.Python.3.12
-        } else {
+        }
+        else {
             Write-Log "Python found: $pythonVersion" "SUCCESS"
         }
 
@@ -51,7 +52,8 @@ function Install-PayPalPrerequisites {
         if ($LASTEXITCODE -ne 0) {
             Write-Log "Installing Node.js..." "WARNING"
             winget install OpenJS.NodeJS
-        } else {
+        }
+        else {
             Write-Log "Node.js found: $nodeVersion" "SUCCESS"
         }
 
@@ -66,7 +68,8 @@ function Install-PayPalPrerequisites {
         Write-Log "✅ PayPal prerequisites installed successfully" "SUCCESS"
         return $true
 
-    } catch {
+    }
+    catch {
         Write-Log "❌ Error installing prerequisites: $($_.Exception.Message)" "ERROR"
         return $false
     }
@@ -130,7 +133,8 @@ ADMIN_NOTIFICATION_EMAIL=admin@freshthreadsllc.com
 
         return $configPath
 
-    } catch {
+    }
+    catch {
         Write-Log "❌ Error creating PayPal config: $($_.Exception.Message)" "ERROR"
         return $null
     }
@@ -388,7 +392,8 @@ if __name__ == "__main__":
 
         return $scriptPath
 
-    } catch {
+    }
+    catch {
         Write-Log "❌ Error creating PayPal Express Checkout: $($_.Exception.Message)" "ERROR"
         return $null
     }
@@ -639,7 +644,8 @@ if __name__ == "__main__":
 
         return $webhookPath
 
-    } catch {
+    }
+    catch {
         Write-Log "❌ Error creating PayPal webhook: $($_.Exception.Message)" "ERROR"
         return $null
     }
@@ -946,7 +952,8 @@ function New-PayPalWebIntegration {
 
         return $webPath
 
-    } catch {
+    }
+    catch {
         Write-Log "❌ Error creating PayPal web integration: $($_.Exception.Message)" "ERROR"
         return $null
     }
@@ -1112,7 +1119,8 @@ python scripts/paypal-webhook-handler.py
 
         return $reportPath
 
-    } catch {
+    }
+    catch {
         Write-Log "❌ Error generating PayPal report: $($_.Exception.Message)" "ERROR"
         return $null
     }
@@ -1156,7 +1164,8 @@ try {
             Write-Log "Testing PayPal integration..." "INFO"
             if (Test-Path "scripts/paypal-express-checkout.py") {
                 python scripts/paypal-express-checkout.py
-            } else {
+            }
+            else {
                 Write-Log "❌ PayPal scripts not found. Run with -Action setup first." "ERROR"
             }
         }
@@ -1165,7 +1174,8 @@ try {
             Write-Log "Starting PayPal webhook server..." "INFO"
             if (Test-Path "scripts/paypal-webhook-handler.py") {
                 python scripts/paypal-webhook-handler.py
-            } else {
+            }
+            else {
                 Write-Log "❌ Webhook handler not found. Run with -Action setup first." "ERROR"
             }
         }
@@ -1176,9 +1186,11 @@ try {
         }
     }
 
-} catch {
+}
+catch {
     Write-Log "❌ Script execution failed: $($_.Exception.Message)" "ERROR"
     exit 1
 }
 
 Write-Log "=== PayPal Business Automation Complete ===" "SUCCESS"
+

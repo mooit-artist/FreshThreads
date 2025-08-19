@@ -150,14 +150,45 @@ jobs:
           pip install requests python-dotenv
           python scripts/create_config_from_secrets.py
 
-      - name: Update PayPal integration in HTML
+      - name: Configure Stripe for Production
+        env:
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          NODE_ENV: 'production'
+        run: |
+          echo "💳 Configuring Stripe for deployment..."
+
+          # Replace Stripe placeholders in config.js
+          if [ -f "docs/assets/js/config.js" ] && [ -n "$STRIPE_PUBLISHABLE_KEY" ]; then
+            sed -i "s/STRIPE_PUBLISHABLE_KEY_PLACEHOLDER/$STRIPE_PUBLISHABLE_KEY/g" docs/assets/js/config.js
+            echo "✅ Stripe publishable key updated in config.js"
+          else
+            echo "⚠️ Stripe publishable key not found or config.js missing"
+          fi
+
+          # Replace environment placeholder
+          if [ -f "docs/assets/js/config.js" ]; then
+            sed -i "s/ENVIRONMENT_PLACEHOLDER/$NODE_ENV/g" docs/assets/js/config.js
+            echo "✅ Environment updated to $NODE_ENV"
+          fi
+
+      - name: Update Payment Integration in HTML
         env:
           PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID_SANDBOX }}
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
         run: |
-          echo "🌐 Updating PayPal Client ID in web files..."
+          echo "🌐 Updating payment integration in web files..."
+
+          # Update PayPal Client ID
           if [ -f "docs/paypal-checkout.html" ]; then
             sed -i "s/YOUR_PAYPAL_CLIENT_ID/$PAYPAL_CLIENT_ID/g" docs/paypal-checkout.html
             echo "✅ PayPal Client ID updated in checkout page"
+          fi
+
+          # Update PayPal Client ID in checkout.html
+          if [ -f "docs/checkout.html" ]; then
+            sed -i "s/PAYPAL_CLIENT_ID_PLACEHOLDER/$PAYPAL_CLIENT_ID/g" docs/checkout.html
+            echo "✅ PayPal Client ID updated in checkout.html"
           fi
 
       - name: Configure Printify API for Production
@@ -166,7 +197,7 @@ jobs:
         run: |
           echo "🛍️ Configuring Printify API for deployment..."
           if [ -f "docs/assets/js/config.js" ] && [ -n "$PRINTIFY_API_KEY" ]; then
-            sed -i "s/YOUR_PRINTIFY_API_KEY_HERE/$PRINTIFY_API_KEY/g" docs/assets/js/config.js
+            sed -i "s/PRINTIFY_API_KEY_PLACEHOLDER/$PRINTIFY_API_KEY/g" docs/assets/js/config.js
             echo "✅ Printify API key updated in config.js"
           else
             echo "⚠️ Printify API key not found or config.js missing"
@@ -198,7 +229,7 @@ jobs:
           echo "🔍 Running security checks..."
 
           # Check for exposed secrets in code
-          if grep -r "PAYPAL_CLIENT_ID\|PAYPAL_CLIENT_SECRET\|PRINTIFY_API_KEY" --include="*.py" --include="*.js" --include="*.html" . | grep -v "YOUR_PAYPAL_CLIENT_ID\|YOUR_PRINTIFY_API_KEY" | grep -v "secrets\." | grep -v "#"; then
+          if grep -r "PAYPAL_CLIENT_ID\|PAYPAL_CLIENT_SECRET\|PRINTIFY_API_KEY\|STRIPE_SECRET_KEY\|sk_live_\|pk_live_" --include="*.py" --include="*.js" --include="*.html" . | grep -v "PLACEHOLDER\|YOUR_PAYPAL_CLIENT_ID\|YOUR_PRINTIFY_API_KEY\|pk_test_placeholder\|sk_test_placeholder" | grep -v "secrets\." | grep -v "#"; then
             echo "❌ Potential exposed secrets found!"
             exit 1
           else
@@ -224,7 +255,8 @@ jobs:
           if [ "${{ needs.deploy.result }}" == "success" ]; then
             echo "🎉 FreshThreads deployed successfully!"
             echo "🌐 Site URL: https://mooit-artist.github.io/FreshThreads/"
-            echo "💳 PayPal integration: Active"
+            echo "💳 Payment integration: Stripe & PayPal Active"
+            echo "🛍️ Printify integration: Active"
           else
             echo "❌ Deployment failed"
           fi
