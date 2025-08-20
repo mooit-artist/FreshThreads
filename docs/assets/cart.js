@@ -15,7 +15,8 @@ class FreshThreadsCart {
     this.createCartHTML();
     this.bindEvents();
     this.updateCartDisplay();
-    this.loadPayPalSDK();
+    // PayPal removed per cleanup request
+    // this.loadPayPalSDK();
   }
 
   createCartHTML() {
@@ -429,6 +430,8 @@ class FreshThreadsCart {
       });
   }
 
+  // PayPal functionality removed per cleanup request
+  /*
   loadPayPalSDK() {
     if (window.paypal || this.paypalLoaded) return;
 
@@ -449,6 +452,7 @@ class FreshThreadsCart {
     };
     document.head.appendChild(script);
   }
+  */
 
   updatePayPalButton() {
     if (!window.paypal || this.items.length === 0) {

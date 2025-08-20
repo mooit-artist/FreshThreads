@@ -1,17 +1,15 @@
 // Print-on-Demand API Configuration
-// This file handles integration with Printify and Printful APIs
+// This file handles integration with Printify API
 
 class PrintOnDemandManager {
   constructor(config = {}) {
     this.printifyApiUrl = 'https://api.printify.com/v1';
-    this.printfulApiUrl = 'https://api.printful.com';
 
     // Configuration can be passed in or set via window.podConfig
     const podConfig = config || window.podConfig || {};
 
     // Printify API Configuration - Fresh Threads LLC
     this.printifyApiKey = podConfig.printifyApiKey || 'PRINTIFY_API_KEY_PLACEHOLDER';
-    this.printfulApiKey = podConfig.printfulApiKey || 'YOUR_PRINTFUL_API_KEY';
 
     // Fresh Threads LLC Store ID from Printify
     this.printifyShopId = podConfig.printifyShopId || '6563836';
@@ -20,9 +18,8 @@ class PrintOnDemandManager {
   }
 
   initializeAPIs() {
-    console.log('Initializing Print-on-Demand APIs...');
+    console.log('Initializing Printify API...');
     this.setupPrintifyHeaders();
-    this.setupPrintfulHeaders();
   }
 
   setupPrintifyHeaders() {
@@ -30,14 +27,6 @@ class PrintOnDemandManager {
       Authorization: `Bearer ${this.printifyApiKey}`,
       'Content-Type': 'application/json',
       'User-Agent': 'FreshThreads/1.0',
-    };
-  }
-
-  setupPrintfulHeaders() {
-    this.printfulHeaders = {
-      Authorization: `Bearer ${this.printfulApiKey}`,
-      'Content-Type': 'application/json',
-      'X-PF-Store-Id': this.printfulShopId,
     };
   }
 
@@ -51,7 +40,7 @@ class PrintOnDemandManager {
 
       try {
         // Try proxy server first
-        const proxyResponse = await fetch('http://127.0.0.1:8000/api/printify/test');
+        const proxyResponse = await fetch('http://127.0.0.1:18080/api/printify/test');
         if (proxyResponse.ok) {
           const result = await proxyResponse.json();
           console.log('✅ Proxy server working:', result);
@@ -141,22 +130,30 @@ class PrintOnDemandManager {
   // PRINTIFY METHODS
   async getPrintifyProducts() {
     try {
-      const response = await fetch(
-        `${this.printifyApiUrl}/shops/${this.printifyShopId}/products.json`,
-        {
-          method: 'GET',
-          headers: this.printifyHeaders,
-        },
-      );
+      // Use environment-aware backend URL
+      const backendUrl = window.apiConfig?.getBackendUrl() || 'http://127.0.0.1:18080';
+      const proxyUrl = `${backendUrl}/api/printify/shops/${this.printifyShopId}/products.json`;
+      console.log('Fetching Printify products via proxy:', proxyUrl);
+
+      const response = await fetch(proxyUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (!response.ok) {
-        throw new Error(`Printify API Error: ${response.status}`);
+        throw new Error(`Printify Proxy API Error: ${response.status} - ${response.statusText}`);
       }
 
       const data = await response.json();
-      return data.data || [];
+      console.log('Received Printify products:', data);
+      return data.data || data || [];
     } catch (error) {
-      console.error('Error fetching Printify products:', error);
+      console.error('Error fetching Printify products via proxy:', error);
+
+      // Fallback - return empty array but log the issue
+      console.log('Backend not available. Make sure the backend service is running.');
       return [];
     }
   }
@@ -164,17 +161,19 @@ class PrintOnDemandManager {
   // CATALOG METHODS
   async getCatalogBlueprints() {
     try {
-      console.log('Fetching Printify catalog blueprints...');
-      const response = await fetch(
-        `${this.printifyApiUrl}/catalog/blueprints.json`,
-        {
-          method: 'GET',
-          headers: this.printifyHeaders,
-        },
-      );
+      console.log('Fetching Printify catalog blueprints via proxy...');
+      const backendUrl = window.apiConfig?.getBackendUrl() || 'http://127.0.0.1:18080';
+      const proxyUrl = `${backendUrl}/api/printify/catalog/blueprints.json`;
+
+      const response = await fetch(proxyUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (!response.ok) {
-        throw new Error(`Printify Catalog API Error: ${response.status}`);
+        throw new Error(`Printify Catalog Proxy API Error: ${response.status} - ${response.statusText}`);
       }
 
       const blueprints = await response.json();
@@ -715,110 +714,37 @@ class PrintOnDemandManager {
     }
   }
 
-  // PRINTFUL METHODS
-  async getPrintfulProducts() {
-    try {
-      const response = await fetch(`${this.printfulApiUrl}/products`, {
-        method: 'GET',
-        headers: this.printfulHeaders,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Printful API Error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data.result || [];
-    } catch (error) {
-      console.error('Error fetching Printful products:', error);
-      return [];
-    }
-  }
-
-  async createPrintfulProduct(productData) {
-    try {
-      const response = await fetch(`${this.printfulApiUrl}/products`, {
-        method: 'POST',
-        headers: this.printfulHeaders,
-        body: JSON.stringify(productData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Printful API Error: ${response.status}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error creating Printful product:', error);
-      throw error;
-    }
-  }
-
-  // UNIFIED METHODS
+  // UNIFIED METHODS - Printify Only
   async getAllProducts() {
     try {
-      const [printifyProducts, printfulProducts] = await Promise.all([
-        this.getPrintifyProducts(),
-        this.getPrintfulProducts(),
-      ]);
+      const printifyProducts = await this.getPrintifyProducts();
 
       return {
         printify: printifyProducts,
-        printful: printfulProducts,
-        combined: this.combineProductCatalogs(
-          printifyProducts,
-          printfulProducts,
-        ),
+        combined: printifyProducts.map(product => ({
+          ...product,
+          provider: 'printify',
+          providerId: product.id,
+          id: `printify_${product.id}`,
+        }))
       };
     } catch (error) {
-      console.error('Error fetching all products:', error);
-      return { printify: [], printful: [], combined: [] };
+      console.error('Error fetching products:', error);
+      return { printify: [], combined: [] };
     }
   }
 
-  combineProductCatalogs(printifyProducts, printfulProducts) {
-    const combined = [];
-
-    // Add Printify products
-    printifyProducts.forEach((product) => {
-      combined.push({
-        ...product,
-        provider: 'printify',
-        providerId: product.id,
-        id: `printify_${product.id}`,
-      });
-    });
-
-    // Add Printful products
-    printfulProducts.forEach((product) => {
-      combined.push({
-        ...product,
-        provider: 'printful',
-        providerId: product.id,
-        id: `printful_${product.id}`,
-      });
-    });
-
-    return combined;
-  }
-
-  // PRODUCT SYNCHRONIZATION
+  // PRODUCT SYNCHRONIZATION - Printify Only
   async syncProductWithProviders(localProduct) {
     const results = {
       printify: null,
-      printful: null,
       errors: [],
     };
 
     try {
-      // Sync with Printify
+      // Sync with Printify only
       if (this.shouldSyncWithPrintify(localProduct)) {
         results.printify = await this.syncWithPrintify(localProduct);
-      }
-
-      // Sync with Printful
-      if (this.shouldSyncWithPrintful(localProduct)) {
-        results.printful = await this.syncWithPrintful(localProduct);
       }
     } catch (error) {
       results.errors.push(error.message);
@@ -834,23 +760,9 @@ class PrintOnDemandManager {
     );
   }
 
-  shouldSyncWithPrintful(product) {
-    // Printful supports different categories than Printify
-    return (
-      product.category === 't-shirts' ||
-      product.category === 'long-sleeve' ||
-      product.category === 'hoodies'
-    );
-  }
-
   async syncWithPrintify(localProduct) {
     const printifyProductData = this.convertToPrintifyFormat(localProduct);
     return await this.createPrintifyProduct(printifyProductData);
-  }
-
-  async syncWithPrintful(localProduct) {
-    const printfulProductData = this.convertToPrintfulFormat(localProduct);
-    return await this.createPrintfulProduct(printfulProductData);
   }
 
   convertToPrintifyFormat(localProduct) {
@@ -864,35 +776,12 @@ class PrintOnDemandManager {
     };
   }
 
-  convertToPrintfulFormat(localProduct) {
-    // Convert your local product format to Printful format
-    return {
-      name: localProduct.name,
-      description: localProduct.description,
-      category_id: this.mapCategoryToPrintful(localProduct.category),
-      // Add more Printful-specific fields as needed
-    };
-  }
-
-  mapCategoryToPrintful(category) {
-    const categoryMap = {
-      't-shirts': 24, // Printful category ID for t-shirts
-      'long-sleeve': 25, // Example ID for long sleeve
-      // Add more mappings as needed
-    };
-    return categoryMap[category] || 24;
-  }
-
-  // ORDER MANAGEMENT
-  async createOrder(orderData, provider = 'printify') {
+  // ORDER MANAGEMENT - Printify Only
+  async createOrder(orderData) {
     try {
-      if (provider === 'printify') {
-        return await this.createPrintifyOrder(orderData);
-      } else if (provider === 'printful') {
-        return await this.createPrintfulOrder(orderData);
-      }
+      return await this.createPrintifyOrder(orderData);
     } catch (error) {
-      console.error(`Error creating ${provider} order:`, error);
+      console.error('Error creating Printify order:', error);
       throw error;
     }
   }
@@ -914,26 +803,11 @@ class PrintOnDemandManager {
     return await response.json();
   }
 
-  async createPrintfulOrder(orderData) {
-    const response = await fetch(`${this.printfulApiUrl}/orders`, {
-      method: 'POST',
-      headers: this.printfulHeaders,
-      body: JSON.stringify(orderData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Printful Order API Error: ${response.status}`);
-    }
-
-    return await response.json();
-  }
-
   // UTILITY METHODS
   isApiConfigured() {
     return (
-      (this.printifyApiKey &&
-        this.printifyApiKey !== 'YOUR_PRINTIFY_API_KEY') ||
-      (this.printfulApiKey && this.printfulApiKey !== 'YOUR_PRINTFUL_API_KEY')
+      this.printifyApiKey &&
+      this.printifyApiKey !== 'PRINTIFY_API_KEY_PLACEHOLDER'
     );
   }
 
@@ -942,82 +816,42 @@ class PrintOnDemandManager {
       printify: {
         configured:
           this.printifyApiKey &&
-          this.printifyApiKey !== 'YOUR_PRINTIFY_API_KEY_HERE',
+          this.printifyApiKey !== 'PRINTIFY_API_KEY_PLACEHOLDER',
         shopIdConfigured:
-          this.printifyShopId && this.printifyShopId !== 'YOUR_SHOP_ID_HERE',
+          this.printifyShopId && this.printifyShopId !== '6563836',
         connected: false,
         storeExists: false,
         storeName: null,
         error: null,
       },
-      printful: {
-        configured:
-          this.printfulApiKey &&
-          this.printfulApiKey !== 'YOUR_PRINTFUL_API_KEY_HERE',
-        connected: false,
-        error: null,
-      },
-      overall: {
-        ready: false,
-        errors: [],
-      },
     };
 
     // Test Printify connection
-    if (
-      validation.printify.configured &&
-      validation.printify.shopIdConfigured
-    ) {
+    if (validation.printify.configured) {
       try {
-        const stores = await this.getStores();
-        validation.printify.connected = true;
-
-        const currentStore = stores.find(
-          (store) => store.id.toString() === this.printifyShopId.toString(),
+        const response = await fetch(
+          `${this.printifyApiUrl}/shops/${this.printifyShopId}.json`,
+          {
+            method: 'GET',
+            headers: this.printifyHeaders,
+          },
         );
-        if (currentStore) {
-          validation.printify.storeExists = true;
-          validation.printify.storeName = currentStore.title;
+
+        if (response.ok) {
+          const data = await response.json();
+          validation.printify.connected = true;
+          validation.printify.storeExists = !!data;
+          validation.printify.storeName = data.title || 'Unknown Store';
         } else {
-          validation.printify.error = 'Shop ID not found in your account';
+          validation.printify.error = `HTTP ${response.status}`;
         }
       } catch (error) {
         validation.printify.error = error.message;
       }
     }
 
-    // Test Printful connection (if configured)
-    if (validation.printful.configured) {
-      try {
-        await this.getPrintfulProducts();
-        validation.printful.connected = true;
-      } catch (error) {
-        validation.printful.error = error.message;
-      }
-    }
-
-    // Determine overall readiness
-    validation.overall.ready =
-      validation.printify.configured &&
-      validation.printify.shopIdConfigured &&
-      validation.printify.connected &&
-      validation.printify.storeExists;
-
-    if (!validation.overall.ready) {
-      if (!validation.printify.configured)
-        validation.overall.errors.push('Printify API key not configured');
-      if (!validation.printify.shopIdConfigured)
-        validation.overall.errors.push('Printify Shop ID not configured');
-      if (!validation.printify.connected)
-        validation.overall.errors.push('Cannot connect to Printify API');
-      if (!validation.printify.storeExists)
-        validation.overall.errors.push('Printify store not found');
-    }
-
     return validation;
-  }
-
-  getProviderStatus() {
+  }  getProviderStatus() {
     return {
       printify: {
         configured:

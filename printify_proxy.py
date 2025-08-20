@@ -11,14 +11,22 @@ import os
 import logging
 from datetime import datetime
 
-# Configure logging
+# Configure logging with fallback for permission issues
+handlers = [logging.StreamHandler()]  # Always use console output
+
+# Try to add file logging if possible
+try:
+    # Create logs directory if it doesn't exist
+    os.makedirs('logs', exist_ok=True)
+    handlers.append(logging.FileHandler('logs/printify_proxy.log'))
+except (PermissionError, OSError) as e:
+    print(
+        f"Warning: Could not create log file: {e}. Using console logging only.")
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/printify_proxy.log'),
-        logging.StreamHandler()
-    ]
+    handlers=handlers
 )
 logger = logging.getLogger(__name__)
 
@@ -144,12 +152,34 @@ def test_printify_connection():
 
 
 if __name__ == '__main__':
+    import sys
+
     # Ensure logs directory exists
     os.makedirs('logs', exist_ok=True)
 
-    logger.info("Starting Fresh Threads Printify Proxy Server...")
-    logger.info(f"Printify API URL: {PRINTIFY_API_URL}")
-    logger.info("Server will run on http://127.0.0.1:8000")
+    # Check for SSL flag
+    use_ssl = '--ssl' in sys.argv
 
-    # Run the Flask app
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    if use_ssl:
+        # HTTPS configuration
+        logger.info(
+            "Starting Fresh Threads Printify Proxy Server with HTTPS...")
+        logger.info(f"Printify API URL: {PRINTIFY_API_URL}")
+        logger.info("Server will run on https://0.0.0.0:8443")
+
+        # SSL context
+        import ssl
+        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+        context.load_cert_chain(
+            '/app/ssl/certs/backend.crt', '/app/ssl/private/backend.key')
+
+        # Run with HTTPS
+        app.run(host='0.0.0.0', port=8443, debug=False, ssl_context=context)
+    else:
+        # HTTP configuration (default)
+        logger.info("Starting Fresh Threads Printify Proxy Server...")
+        logger.info(f"Printify API URL: {PRINTIFY_API_URL}")
+        logger.info("Server will run on http://0.0.0.0:8000")
+
+        # Run the Flask app on all interfaces for Docker
+        app.run(host='0.0.0.0', port=8000, debug=True)

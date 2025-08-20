@@ -25,6 +25,10 @@
   --accent-primary: #000000;
   --accent-secondary: #ffffff;
 
+  /* Text Colors for Dark Theme */
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+
   /* Typography */
   --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-secondary: "Space Grotesk", sans-serif;

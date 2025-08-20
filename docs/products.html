@@ -27,13 +27,13 @@
         <meta name="twitter:image" content="https://freshthreadsllc.com/assets/products-twitter-image.jpg">
 
         <!-- Security Headers -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://freshthreadsllc.com:18444 http://freshthreadsllc.com:18080 https://192.168.0.68:18444 http://192.168.0.68:18080 https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
         <meta http-equiv="X-Content-Type-Options" content="nosniff">
-        <meta http-equiv="X-Frame-Options" content="DENY">
+        <!-- X-Frame-Options removed - should be set by server headers, not meta tags -->
         <meta http-equiv="X-XSS-Protection" content="1; mode=block">
         <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
         <meta http-equiv="Permissions-Policy"
-              content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">
+              content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">>
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" href="assets/Fresh_ThreadsLLCLogo.png">
@@ -42,8 +42,15 @@
         <meta name="theme-color" content="#000000">
   <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
-        <!-- Logo Styles -->
-        <link rel="stylesheet" href="logo.css">
+        <!-- Preconnect for performance -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Main Theme (Load First) -->
+        <link rel="stylesheet" href="styles/minimalistic.css">
 
         <!-- Shopping Cart Styles -->
         <link rel="stylesheet" href="styles/cart.css">
@@ -54,68 +61,19 @@
         <script src="assets/js/pod-templates.js"></script>
 
         <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
+            /* Override CSS variables for dark theme */
+            :root {
+                --text-primary: #ffffff;
+                --text-secondary: #cccccc;
+                --bg-primary: #0a0a0a;
+                --bg-secondary: #1a1a1a;
+                --border-color: #333333;
+                --accent-color: #666666;
             }
 
-            body {
-                font-family: 'Impact', 'Arial Black', Arial, sans-serif;
-                background: var(--bg-primary, #0a0a0a);
-                min-height: 100vh;
-                color: var(--text-primary, #ffffff);
-            }
+            /* Products page specific styles only - let minimalistic.css handle the theme */
 
-            .header {
-                background: var(--bg-primary, #0a0a0a);
-                padding: 1rem 2rem;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 2px solid var(--border-color, #1f1f1f);
-                box-shadow: none;
-            }
-
-            .logo {
-                font-size: 1.8rem;
-                font-weight: 900;
-                color: var(--text-primary, #ffffff);
-                text-decoration: none;
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                font-family: 'Impact', Arial, sans-serif;
-            }
-
-            .nav-menu {
-                display: flex;
-                align-items: center;
-                gap: 2rem;
-            }
-
-            .nav-link {
-                color: white;
-                text-decoration: none;
-                padding: 0.5rem 1rem;
-                border-radius: 5px;
-                transition: all 0.3s ease;
-            }
-
-            .nav-link:hover {
-                background: rgba(255, 255, 255, 0.2);
-            }
-
-            .cart-icon {
-                position: relative;
-                background: rgba(255, 255, 255, 0.2);
-                color: white;
-                border: none;
-                padding: 0.5rem;
-                border-radius: 50%;
-                cursor: pointer;
-                font-size: 1.2rem;
-                transition: all 0.3s ease;
-            }
+            /* Product-specific styles that don't conflict with theme */
 
             .cart-icon:hover {
                 background: rgba(255, 255, 255, 0.3);
@@ -842,7 +800,6 @@
                 }
             }
         </style>
-        <link rel="stylesheet" href="styles/minimalistic.css">
 </head>
 
     <body class="dark-theme">
@@ -1050,7 +1007,10 @@
 
                 async function loadPrintifyProducts() {
                     try {
-                        if (!window.podConfig || !window.podConfig.printifyApiKey || !window.podConfig.printifyShopId || window.podConfig.printifyApiKey.includes('YOUR_PRINTIFY_API_KEY')) {
+                        if (!window.podConfig || !window.podConfig.printifyApiKey || !window.podConfig.printifyShopId ||
+                            window.podConfig.printifyApiKey.includes('YOUR_PRINTIFY_API_KEY') ||
+                            window.podConfig.printifyApiKey.includes('WILL_BE_REPLACED_BY_GITHUB_ACTIONS') ||
+                            window.podConfig.printifyApiKey.includes('PRINTIFY_API_KEY_PLACEHOLDER')) {
                             throw new Error('Printify API key or Shop ID not set.');
                         }
                         podManager = new PrintOnDemandManager(window.podConfig);
@@ -1241,8 +1201,24 @@
                     document.getElementById('loadingMessage').style.display = 'block';
                     loadPrintifyProducts();
                 });
+            </script>
 
-                // ...existing code...
+            <!-- Local Products Fallback -->
+            <script>
+                // Fallback products data - this is used when Printify API fails
+                function getFallbackProducts() {
+                    return [
+                        {
+                            id: 'ft010',
+                            name: 'Classic Unisex T-Shirt',
+                            description: 'Comfortable classic t-shirt for everyday wear',
+                            price: 24.99,
+                            originalPrice: null,
+                            category: 't-shirts',
+                            image: '',
+                            badge: null,
+                            rating: 4.7,
+                            reviewCount: 256,
                             sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
                             colors: ['Black', 'White', 'Gray'],
                             featured: true,
@@ -1274,9 +1250,7 @@
                 let products = [];
                 let filteredProducts = [];
 
-                // Initialize Print-on-Demand Manager
-                let podManager;
-                let podTemplates;
+                // POD variables already declared above - no need to redeclare
 
                 // Initialize the page
                 async function initializePage() {
@@ -1922,6 +1896,50 @@
             window.addToCart = function(productId) {
                 window.addToCartFromProduct(productId);
             };
+
+            // Debug API connectivity
+            window.debugAPI = async function() {
+                console.log('=== API DEBUG ===');
+                console.log('Window location:', window.location.href);
+                console.log('Is Docker:', window.apiConfig.isDocker);
+                console.log('Backend URL:', window.apiConfig.getBackendUrl());
+
+                const backendUrl = window.apiConfig.getBackendUrl();
+                const healthUrl = `${backendUrl}/health`;
+                console.log('Testing health endpoint:', healthUrl);
+
+                try {
+                    const response = await fetch(healthUrl);
+                    console.log('Health response status:', response.status);
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Health data:', data);
+
+                        // Test products endpoint
+                        const productsUrl = `${backendUrl}/api/printify/shops/6563836/products.json`;
+                        console.log('Testing products endpoint:', productsUrl);
+
+                        const prodResponse = await fetch(productsUrl);
+                        console.log('Products response status:', prodResponse.status);
+                        if (prodResponse.ok) {
+                            const prodData = await prodResponse.json();
+                            console.log('Products data:', prodData);
+                            console.log('Products count:', prodData.data ? prodData.data.length : 'No data');
+                        } else {
+                            console.error('Products endpoint failed:', await prodResponse.text());
+                        }
+                    } else {
+                        console.error('Health endpoint failed:', await response.text());
+                    }
+                } catch (error) {
+                    console.error('API test failed:', error);
+                }
+            };
+
+            // Auto-run debug on page load
+            window.addEventListener('load', () => {
+                setTimeout(window.debugAPI, 1000);
+            });
         </script>
     </body>
 

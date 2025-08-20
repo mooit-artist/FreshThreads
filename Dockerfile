@@ -101,19 +101,16 @@ RUN apk add --no-cache \
 COPY docs/ /usr/share/nginx/html/
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
-COPY docker/open-appsec.conf /etc/cp/conf/custom.conf
-COPY docker/start-openappsec.sh /usr/local/bin/start-openappsec.sh
+COPY docker/start-nginx.sh /usr/local/bin/start-nginx.sh
 
 # Set proper permissions and create directories
 RUN chown -R freshthreads:nginx /usr/share/nginx/html && \
   chown -R freshthreads:nginx /var/cache/nginx && \
   chown -R freshthreads:nginx /var/log/nginx && \
   chown -R freshthreads:nginx /etc/nginx/conf.d && \
-  chown -R freshthreads:nginx /var/log/nano_agent && \
-  chown -R freshthreads:nginx /etc/cp && \
-  chmod +x /usr/local/bin/start-openappsec.sh && \
-  mkdir -p /var/run/nginx && \
-  chown -R freshthreads:nginx /var/run/nginx
+  chmod +x /usr/local/bin/start-nginx.sh && \
+  mkdir -p /tmp/client_temp /tmp/proxy_temp_path /tmp/fastcgi_temp /tmp/uwsgi_temp /tmp/scgi_temp && \
+  chown -R freshthreads:nginx /tmp/client_temp /tmp/proxy_temp_path /tmp/fastcgi_temp /tmp/uwsgi_temp /tmp/scgi_temp
 
 # Switch to non-root user
 USER freshthreads
@@ -125,5 +122,5 @@ EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost/ || exit 1
 
-# Start nginx with OpenAppSec
-CMD ["/usr/local/bin/start-openappsec.sh"]
+# Start nginx
+CMD ["/usr/local/bin/start-nginx.sh"]
