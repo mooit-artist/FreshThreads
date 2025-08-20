@@ -1,7 +1,7 @@
 # FreshThreads Backend API
 # Python Flask service for Printify proxy and payment processing
 
-FROM python:3.9-alpine
+FROM python:3.13-alpine
 
 LABEL maintainer="FreshThreads LLC"
 LABEL description="Backend API service for FreshThreads - Handles Printify proxy and payments"

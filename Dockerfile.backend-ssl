@@ -1,5 +1,5 @@
 # Fresh Threads LLC - HTTPS Backend
-FROM python:3.9-alpine
+FROM python:3.13-alpine
 
 LABEL maintainer="Fresh Threads LLC <admin@freshthreadsllc.com>"
 LABEL description="HTTPS-enabled backend API server for Fresh Threads"
