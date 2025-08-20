@@ -6,15 +6,12 @@ Analyze HTML files for GitHub Pages compatibility and optimization opportunities
 
 import argparse
 import json
-import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List
 
 try:
-    import requests
-    import yaml
     from bs4 import BeautifulSoup
     from PIL import Image
 except ImportError as e:
@@ -112,8 +109,10 @@ class HTMLAnalyzer:
                         with Image.open(img_path) as image:
                             if image.size[0] > 2000 or image.size[1] > 2000:
                                 large_images.append(src)
-                    except Exception:
-                        pass
+                    except (OSError, IOError) as e:
+                        # Image file couldn't be loaded or analyzed
+                        print(f"Warning: Could not analyze image {src}: {e}")
+                        continue
 
         if large_images:
             recommendations.append(f"Optimize {len(large_images)} large images for web")
@@ -277,11 +276,11 @@ def main():
     if args.summary_only:
         analyzer.print_summary()
     else:
-        report = analyzer.generate_report(args.output)
+        analyzer.generate_report(args.output)
         analyzer.print_summary()
 
         if not args.output:
-            print(f"\n💡 Use --output report.json to save detailed report")
+            print("\n💡 Use --output report.json to save detailed report")
 
 
 if __name__ == "__main__":

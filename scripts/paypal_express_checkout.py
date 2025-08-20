@@ -4,7 +4,6 @@ PayPal Express Checkout Integration - FreshThreads LLC
 Handles PayPal payment processing for e-commerce orders
 """
 
-import json
 import os
 from datetime import datetime
 from pathlib import Path

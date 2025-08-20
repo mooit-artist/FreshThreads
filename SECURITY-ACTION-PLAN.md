@@ -49,7 +49,7 @@ All sensitive credentials have been removed from your code and are now safely st
 
 ### **Step 1: Access GitHub Secrets**
 
-1. Go to: https://github.com/mooit-artist/FreshThreads/settings/secrets/actions
+1. Go to: <https://github.com/mooit-artist/FreshThreads/settings/secrets/actions>
 2. Click "New repository secret"
 
 ### **Step 2: Add Each Secret**

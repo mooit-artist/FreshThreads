@@ -11,6 +11,7 @@ This guide will help you deploy FreshThreads to your QNAP NAS using Container St
    ```
 
 2. **Deploy to QNAP:**
+
    ```bash
    # Upload project to QNAP and run:
    ./deploy-qnap.sh

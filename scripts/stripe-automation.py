@@ -3,7 +3,6 @@ Stripe Payment Processing Automation
 Handles Stripe API setup, webhook configuration, and payment processing
 """
 
-import json
 import os
 from datetime import datetime
 
@@ -35,9 +34,10 @@ class StripeAutomation:
         }
 
         try:
-            response = requests.get(f"{self.base_url}/account", headers=headers)
+            response = requests.get(
+                f"{self.base_url}/account", headers=headers, timeout=30
+            )
             response.raise_for_status()
-
             account_info = response.json()
             self.log(
                 f"✅ Stripe connection successful. Account: {account_info.get('display_name', 'Unknown')}"
@@ -64,7 +64,10 @@ class StripeAutomation:
 
         try:
             response = requests.post(
-                f"{self.base_url}/products", headers=headers, data=product_data
+                f"{self.base_url}/products",
+                headers=headers,
+                data=product_data,
+                timeout=30,
             )
             response.raise_for_status()
             product = response.json()
@@ -77,7 +80,7 @@ class StripeAutomation:
             }
 
             response = requests.post(
-                f"{self.base_url}/prices", headers=headers, data=price_data
+                f"{self.base_url}/prices", headers=headers, data=price_data, timeout=30
             )
             response.raise_for_status()
             price = response.json()
@@ -113,7 +116,10 @@ class StripeAutomation:
 
         try:
             response = requests.post(
-                f"{self.base_url}/webhook_endpoints", headers=headers, data=webhook_data
+                f"{self.base_url}/webhook_endpoints",
+                headers=headers,
+                data=webhook_data,
+                timeout=30,
             )
             response.raise_for_status()
 

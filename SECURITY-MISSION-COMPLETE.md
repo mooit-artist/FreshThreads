@@ -17,7 +17,7 @@ Your sensitive credentials are now safely stored in GitHub Secrets:
 - ✅ **PRINTIFY_SHOP_ID** → Shop ID: 6563836
 - ✅ **PRINTIFY_TOKEN** → Shop token: freshthreadsllc
 
-**View your secrets:** https://github.com/mooit-artist/FreshThreads/settings/secrets/actions
+**View your secrets:** <https://github.com/mooit-artist/FreshThreads/settings/secrets/actions>
 
 ### **2. Code Security (✅ COMPLETE)**
 

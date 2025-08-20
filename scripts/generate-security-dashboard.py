@@ -5,9 +5,6 @@ Creates a comprehensive security monitoring dashboard
 """
 
 import datetime
-import json
-import os
-import subprocess
 from pathlib import Path
 
 

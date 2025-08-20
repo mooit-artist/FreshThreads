@@ -285,9 +285,9 @@
 ## 📞 **Contact & Escalation**
 
 **Project Owner:** @bryan
-**Email:** bryan@freshthreadsllc.com
+**Email:** <bryan@freshthreadsllc.com>
 **Review Frequency:** Weekly (Fridays)
-**Emergency Contact:** bryan@freshthreadsllc.com
+**Emergency Contact:** <bryan@freshthreadsllc.com>
 
 ---
 

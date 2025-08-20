@@ -232,7 +232,7 @@ class HSTSReporter:
 
             html_content += "</div>"
 
-        html_content += f"""
+        html_content += """
     <div class="recommendations">
         <h2>💡 Recommendations</h2>
         <ul>
@@ -311,20 +311,20 @@ class HSTSReporter:
 
         # Summary
         summary = report_data["summary"]
-        print(f"\n📋 HSTS Compliance Summary:")
+        print("\n📋 HSTS Compliance Summary:")
         print(f"  📁 Total files: {summary['total_files']}")
         print(f"  ✅ Files with HSTS: {summary['files_with_hsts']}")
         print(f"  📊 Compliance rate: {summary['compliance_rate']:.1f}%")
         print(f"  ⭐ Average score: {summary['average_score']:.1f}/100")
 
-        print(f"\n📄 Reports generated:")
+        print("\n📄 Reports generated:")
         print(f"  📊 JSON Report: {self.report_file}")
         print(f"  🌐 HTML Report: {self.html_report_file}")
 
-        print(f"\n💡 Next Steps:")
-        print(f"  • Review detailed reports for specific issues")
-        print(f"  • Run 'make hsts-add' to add missing HSTS headers")
-        print(f"  • Test implementation with online HSTS tools")
+        print("\n💡 Next Steps:")
+        print("  • Review detailed reports for specific issues")
+        print("  • Run 'make hsts-add' to add missing HSTS headers")
+        print("  • Test implementation with online HSTS tools")
 
 
 if __name__ == "__main__":

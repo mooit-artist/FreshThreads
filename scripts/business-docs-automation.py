@@ -4,8 +4,7 @@ Generates and updates business documents, reports, and status files
 """
 
 import json
-import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 
@@ -148,11 +147,11 @@ Overall Progress: {status['completion_percentage']}%
             )
             report += f"- {emoji} **{category.title()}**: {info['status']} - {info['notes']}\n"
 
-        report += f"\n## Next Actions\n"
+        report += "\n## Next Actions\n"
         for action in status["next_actions"]:
             report += f"- [ ] {action}\n"
 
-        report += f"\n## Quick Wins Available\n"
+        report += "\n## Quick Wins Available\n"
         report += "- Set up PayPal Business account\n"
         report += "- Configure Stripe payment processing\n"
         report += "- Test website payment integration\n"

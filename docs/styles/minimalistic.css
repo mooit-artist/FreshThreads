@@ -6,11 +6,11 @@
    ========================================== */
 :root {
   /* Primary Colors */
-  --black: #000000;
-  --white: #ffffff;
+  --black: #000;
+  --white: #fff;
 
   /* Gray Scale */
-  --gray-900: #111111;
+  --gray-900: #111;
   --gray-800: #1f1f1f;
   --gray-700: #2d2d2d;
   --gray-600: #404040;
@@ -22,15 +22,15 @@
   --gray-50: #f9fafb;
 
   /* Accent Colors (inspired by logo) */
-  --accent-primary: #000000;
-  --accent-secondary: #ffffff;
+  --accent-primary: #000;
+  --accent-secondary: #fff;
 
   /* Text Colors for Dark Theme */
-  --text-primary: #ffffff;
-  --text-secondary: #cccccc;
+  --text-primary: #fff;
+  --text-secondary: #ccc;
 
   /* Typography */
-  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-primary: "Inter", -apple-system, blinkmacsystemfont, sans-serif;
   --font-secondary: "Space Grotesk", sans-serif;
 
   /* Spacing Scale */

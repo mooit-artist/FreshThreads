@@ -6,11 +6,9 @@ Processes PayPal webhook notifications for real-time order updates
 
 import json
 import os
-import smtplib
 from datetime import datetime
-from email.mime.multipart import MimeMultipart
-from email.mime.text import MimeText
 from pathlib import Path
+from typing import Dict, Optional
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
@@ -21,13 +19,15 @@ load_dotenv(env_file)
 
 
 class PayPalWebhookHandler:
+    """Handles PayPal webhook notifications"""
+
     def __init__(self):
-        self.business_email = os.getenv("ORDER_NOTIFICATION_EMAIL")
-        self.admin_email = os.getenv("ADMIN_NOTIFICATION_EMAIL")
+        self.business_email: Optional[str] = os.getenv("ORDER_NOTIFICATION_EMAIL")
+        self.admin_email: Optional[str] = os.getenv("ADMIN_NOTIFICATION_EMAIL")
         self.logs_dir = Path(__file__).parent.parent / "logs" / "paypal"
         self.logs_dir.mkdir(parents=True, exist_ok=True)
 
-    def handle_webhook(self, webhook_data: dict) -> dict:
+    def handle_webhook(self, webhook_data: Dict) -> Dict:
         """Process incoming PayPal webhook"""
 
         try:
@@ -52,7 +52,7 @@ class PayPalWebhookHandler:
             print(f"❌ Error handling webhook: {str(e)}")
             return {"status": "error", "error": str(e)}
 
-    def handle_payment_completed(self, payment_data: dict) -> dict:
+    def handle_payment_completed(self, payment_data: Dict) -> Dict:
         """Handle completed payment"""
 
         try:
@@ -64,9 +64,10 @@ class PayPalWebhookHandler:
             print(f"✅ Payment completed: {payment_id} - {currency} {total}")
 
             # Send notification email
-            self.send_notification_email(
-                subject=f"FreshThreads - Payment Received: {currency} {total}",
-                message=f"""
+            if self.business_email:
+                self.send_notification_email(
+                    subject=f"FreshThreads - Payment Received: {currency} {total}",
+                    message=f"""
                 New payment received for FreshThreads LLC:
 
                 Payment ID: {payment_id}
@@ -76,8 +77,8 @@ class PayPalWebhookHandler:
 
                 Please process this order promptly.
                 """,
-                to_email=self.business_email,
-            )
+                    to_email=self.business_email,
+                )
 
             # Log to file
             self.log_transaction("payment_completed", payment_data)
@@ -92,7 +93,7 @@ class PayPalWebhookHandler:
             print(f"❌ Error processing payment completion: {str(e)}")
             return {"status": "error", "error": str(e)}
 
-    def handle_payment_denied(self, payment_data: dict) -> dict:
+    def handle_payment_denied(self, payment_data: Dict) -> Dict:
         """Handle denied payment"""
 
         try:
@@ -100,9 +101,10 @@ class PayPalWebhookHandler:
             print(f"❌ Payment denied: {payment_id}")
 
             # Send alert email
-            self.send_notification_email(
-                subject="FreshThreads - Payment Denied Alert",
-                message=f"""
+            if self.admin_email:
+                self.send_notification_email(
+                    subject="FreshThreads - Payment Denied Alert",
+                    message=f"""
                 Payment denied for FreshThreads LLC:
 
                 Payment ID: {payment_id}
@@ -111,8 +113,8 @@ class PayPalWebhookHandler:
 
                 Please review and follow up if necessary.
                 """,
-                to_email=self.admin_email,
-            )
+                    to_email=self.admin_email,
+                )
 
             return {"status": "processed", "payment_id": payment_id}
 
@@ -120,7 +122,73 @@ class PayPalWebhookHandler:
             print(f"❌ Error processing payment denial: {str(e)}")
             return {"status": "error", "error": str(e)}
 
-    def send_notification_email(self, subject: str, message: str, to_email: str):
+    def handle_invoice_paid(self, invoice_data: Dict) -> Dict:
+        """Handle paid invoice"""
+
+        try:
+            invoice_id = invoice_data.get("id")
+            print(f"✅ Invoice paid: {invoice_id}")
+
+            # Send notification email
+            if self.business_email:
+                self.send_notification_email(
+                    subject=f"FreshThreads - Invoice Paid: {invoice_id}",
+                    message=f"""
+                Invoice paid for FreshThreads LLC:
+
+                Invoice ID: {invoice_id}
+                Status: Paid
+                Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+                Please process this order promptly.
+                """,
+                    to_email=self.business_email,
+                )
+
+            # Log to file
+            self.log_transaction("invoice_paid", invoice_data)
+
+            return {"status": "processed", "invoice_id": invoice_id}
+
+        except Exception as e:
+            print(f"❌ Error processing invoice payment: {str(e)}")
+            return {"status": "error", "error": str(e)}
+
+    def handle_invoice_cancelled(self, invoice_data: Dict) -> Dict:
+        """Handle cancelled invoice"""
+
+        try:
+            invoice_id = invoice_data.get("id")
+            print(f"❌ Invoice cancelled: {invoice_id}")
+
+            # Send alert email
+            if self.admin_email:
+                self.send_notification_email(
+                    subject="FreshThreads - Invoice Cancelled",
+                    message=f"""
+                Invoice cancelled for FreshThreads LLC:
+
+                Invoice ID: {invoice_id}
+                Status: Cancelled
+                Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+                Please review and follow up if necessary.
+                """,
+                    to_email=self.admin_email,
+                )
+
+            # Log to file
+            self.log_transaction("invoice_cancelled", invoice_data)
+
+            return {"status": "processed", "invoice_id": invoice_id}
+
+        except Exception as e:
+            print(f"❌ Error processing invoice cancellation: {str(e)}")
+            return {"status": "error", "error": str(e)}
+
+    def send_notification_email(
+        self, subject: str, message: str, to_email: str
+    ) -> None:
         """Send email notification (logging for now)"""
 
         try:
@@ -134,7 +202,7 @@ class PayPalWebhookHandler:
         except Exception as e:
             print(f"❌ Error sending email: {str(e)}")
 
-    def log_transaction(self, event_type: str, data: dict):
+    def log_transaction(self, event_type: str, data: Dict) -> None:
         """Log transaction to file"""
 
         try:
@@ -148,13 +216,13 @@ class PayPalWebhookHandler:
                 "data": data,
             }
 
-            with open(log_file, "a") as f:
+            with open(log_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(log_entry) + "\n")
 
-        except Exception as e:
+        except OSError as e:
             print(f"❌ Error logging transaction: {str(e)}")
 
-    def log_email(self, subject: str, message: str, to_email: str):
+    def log_email(self, subject: str, message: str, to_email: str) -> None:
         """Log email notification"""
 
         try:
@@ -169,10 +237,10 @@ class PayPalWebhookHandler:
                 "message": message,
             }
 
-            with open(log_file, "a") as f:
+            with open(log_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(log_entry) + "\n")
 
-        except Exception as e:
+        except OSError as e:
             print(f"❌ Error logging email: {str(e)}")
 
 
@@ -183,10 +251,16 @@ webhook_handler = PayPalWebhookHandler()
 
 @app.route("/api/paypal/webhook", methods=["POST"])
 def paypal_webhook():
+    """Handle PayPal webhook endpoint"""
     try:
         webhook_data = request.get_json()
+        if not webhook_data:
+            return jsonify({"error": "No JSON data provided"}), 400
+
         result = webhook_handler.handle_webhook(webhook_data)
         return jsonify(result)
+    except ValueError as e:
+        return jsonify({"error": f"Invalid JSON: {str(e)}"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -199,4 +273,5 @@ def health_check():
 if __name__ == "__main__":
     print("🚀 Starting PayPal webhook server...")
     print("📍 Webhook endpoint: http://localhost:5000/api/paypal/webhook")
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    # Only bind to localhost for security
+    app.run(host="127.0.0.1", port=5000, debug=False)

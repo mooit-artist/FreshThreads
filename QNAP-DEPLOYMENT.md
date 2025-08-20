@@ -18,6 +18,7 @@
 
 1. Enable SSH on your QNAP (Control Panel > Telnet/SSH)
 2. Upload this project to your QNAP shared folder:
+
    ```bash
    # From your local machine
    scp -r . admin@YOUR_QNAP_IP:/share/Container/FreshThreads/
@@ -33,6 +34,7 @@
    ```
 
 2. Copy and configure environment file:
+
    ```bash
    cp .env.example .env
    nano .env  # Edit with your actual values
@@ -57,6 +59,7 @@
    ```
 
 2. Build and start containers:
+
    ```bash
    docker-compose up -d
    ```

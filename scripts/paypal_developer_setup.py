@@ -5,7 +5,6 @@ Interactive setup for real PayPal Business Developer credentials
 """
 
 import getpass
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -187,7 +186,7 @@ PAYPAL_LOG_LEVEL=INFO
                 with open(web_file, "w") as f:
                     f.write(updated_content)
 
-                print(f"✅ Updated web integration with Client ID")
+                print("✅ Updated web integration with Client ID")
 
         except Exception as e:
             print(f"⚠️ Could not update web integration: {str(e)}")

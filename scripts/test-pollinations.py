@@ -30,7 +30,7 @@ def test_pollinations_generation():
         "nologo": "true",
     }
 
-    print(f"📡 Sending request to Pollinations AI...")
+    print("📡 Sending request to Pollinations AI...")
     print(f"🎯 Prompt: {prompt}")
     print(f"📏 Size: {params['width']}x{params['height']}")
 
@@ -54,7 +54,7 @@ def test_pollinations_generation():
             generation_time = time.time() - start_time
             file_size = len(response.content) / 1024  # KB
 
-            print(f"✅ SUCCESS!")
+            print("✅ SUCCESS!")
             print(f"⏱️  Generation time: {generation_time:.2f} seconds")
             print(f"💾 File size: {file_size:.1f} KB")
             print(f"📁 Saved to: {filepath}")

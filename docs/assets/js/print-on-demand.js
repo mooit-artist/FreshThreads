@@ -3,76 +3,87 @@
 
 class PrintOnDemandManager {
   constructor(config = {}) {
-    this.printifyApiUrl = 'https://api.printify.com/v1';
+    this.printifyApiUrl = "https://api.printify.com/v1";
 
     // Configuration can be passed in or set via window.podConfig
     const podConfig = config || window.podConfig || {};
 
     // Printify API Configuration - Fresh Threads LLC
-    this.printifyApiKey = podConfig.printifyApiKey || 'PRINTIFY_API_KEY_PLACEHOLDER';
+    this.printifyApiKey =
+      podConfig.printifyApiKey || "PRINTIFY_API_KEY_PLACEHOLDER";
 
     // Fresh Threads LLC Store ID from Printify
-    this.printifyShopId = podConfig.printifyShopId || '6563836';
+    this.printifyShopId = podConfig.printifyShopId || "6563836";
 
     this.initializeAPIs();
   }
 
   initializeAPIs() {
-    console.log('Initializing Printify API...');
+    console.log("Initializing Printify API...");
     this.setupPrintifyHeaders();
   }
 
   setupPrintifyHeaders() {
     this.printifyHeaders = {
       Authorization: `Bearer ${this.printifyApiKey}`,
-      'Content-Type': 'application/json',
-      'User-Agent': 'FreshThreads/1.0',
+      "Content-Type": "application/json",
+      "User-Agent": "FreshThreads/1.0",
     };
   }
 
   // STORE MANAGEMENT METHODS
   async testConnection() {
     try {
-      console.log('Testing Printify connection...');
+      console.log("Testing Printify connection...");
 
       // Since direct API calls have CORS issues, let's use a different approach
       // First try to use the proxy server if available, fallback to showing instructions
 
       try {
         // Try proxy server first
-        const proxyResponse = await fetch('http://127.0.0.1:18080/api/printify/test');
+        const proxyResponse = await fetch(
+          "http://127.0.0.1:18080/api/printify/test",
+        );
         if (proxyResponse.ok) {
           const result = await proxyResponse.json();
-          console.log('✅ Proxy server working:', result);
+          console.log("✅ Proxy server working:", result);
           return result.shops || [];
         }
       } catch (proxyError) {
-        console.log('Proxy server not available, this is expected for CORS issues');
+        console.log(
+          "Proxy server not available, this is expected for CORS issues",
+        );
       }
 
       // If proxy doesn't work, return success message indicating direct API would work from backend
       return {
-        status: 'cors_limitation',
-        message: 'Direct browser API calls blocked by CORS. API key is valid (confirmed via curl).',
-        shops: [{
-          id: 6563836,
-          title: 'Fresh Threads llc',
-          sales_channel: 'etsy'
-        }],
-        note: 'This would work in production with proper backend proxy'
+        status: "cors_limitation",
+        message:
+          "Direct browser API calls blocked by CORS. API key is valid (confirmed via curl).",
+        shops: [
+          {
+            id: 6563836,
+            title: "Fresh Threads llc",
+            sales_channel: "etsy",
+          },
+        ],
+        note: "This would work in production with proper backend proxy",
       };
-
     } catch (error) {
-      console.error('❌ Connection test failed:', error);
-      return { error: error.name, message: error.message, details: error.toString() };
+      console.error("❌ Connection test failed:", error);
+      return {
+        error: error.name,
+        message: error.message,
+        details: error.toString(),
+      };
     }
   }
 
   async getStores() {
     try {
-      console.log('Fetching Printify stores...');
+      console.log("Fetching Printify stores...");
       const response = await fetch(`${this.printifyApiUrl}/shops.json`, {
-        method: 'GET',
+        method: "GET",
         headers: this.printifyHeaders,
       });
 
@@ -83,10 +94,10 @@ class PrintOnDemandManager {
       }
 
       const stores = await response.json();
-      console.log('Retrieved Printify stores:', stores);
+      console.log("Retrieved Printify stores:", stores);
       return stores || [];
     } catch (error) {
-      console.error('Error fetching Printify stores:', error);
+      console.error("Error fetching Printify stores:", error);
       return [];
     }
   }
@@ -99,7 +110,7 @@ class PrintOnDemandManager {
         null
       );
     } catch (error) {
-      console.error('Error getting store details:', error);
+      console.error("Error getting store details:", error);
       return null;
     }
   }
@@ -110,7 +121,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${shopId}/connection.json`,
         {
-          method: 'DELETE',
+          method: "DELETE",
           headers: this.printifyHeaders,
         },
       );
@@ -122,7 +133,7 @@ class PrintOnDemandManager {
       console.log(`Store ${shopId} disconnected successfully`);
       return true;
     } catch (error) {
-      console.error('Error disconnecting store:', error);
+      console.error("Error disconnecting store:", error);
       return false;
     }
   }
@@ -131,29 +142,34 @@ class PrintOnDemandManager {
   async getPrintifyProducts() {
     try {
       // Use environment-aware backend URL
-      const backendUrl = window.apiConfig?.getBackendUrl() || 'http://127.0.0.1:18080';
+      const backendUrl =
+        window.apiConfig?.getBackendUrl() || "http://127.0.0.1:18080";
       const proxyUrl = `${backendUrl}/api/printify/shops/${this.printifyShopId}/products.json`;
-      console.log('Fetching Printify products via proxy:', proxyUrl);
+      console.log("Fetching Printify products via proxy:", proxyUrl);
 
       const response = await fetch(proxyUrl, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) {
-        throw new Error(`Printify Proxy API Error: ${response.status} - ${response.statusText}`);
+        throw new Error(
+          `Printify Proxy API Error: ${response.status} - ${response.statusText}`,
+        );
       }
 
       const data = await response.json();
-      console.log('Received Printify products:', data);
+      console.log("Received Printify products:", data);
       return data.data || data || [];
     } catch (error) {
-      console.error('Error fetching Printify products via proxy:', error);
+      console.error("Error fetching Printify products via proxy:", error);
 
       // Fallback - return empty array but log the issue
-      console.log('Backend not available. Make sure the backend service is running.');
+      console.log(
+        "Backend not available. Make sure the backend service is running.",
+      );
       return [];
     }
   }
@@ -161,26 +177,29 @@ class PrintOnDemandManager {
   // CATALOG METHODS
   async getCatalogBlueprints() {
     try {
-      console.log('Fetching Printify catalog blueprints via proxy...');
-      const backendUrl = window.apiConfig?.getBackendUrl() || 'http://127.0.0.1:18080';
+      console.log("Fetching Printify catalog blueprints via proxy...");
+      const backendUrl =
+        window.apiConfig?.getBackendUrl() || "http://127.0.0.1:18080";
       const proxyUrl = `${backendUrl}/api/printify/catalog/blueprints.json`;
 
       const response = await fetch(proxyUrl, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) {
-        throw new Error(`Printify Catalog Proxy API Error: ${response.status} - ${response.statusText}`);
+        throw new Error(
+          `Printify Catalog Proxy API Error: ${response.status} - ${response.statusText}`,
+        );
       }
 
       const blueprints = await response.json();
-      console.log('Retrieved blueprints:', blueprints.length);
+      console.log("Retrieved blueprints:", blueprints.length);
       return blueprints || [];
     } catch (error) {
-      console.error('Error fetching catalog blueprints:', error);
+      console.error("Error fetching catalog blueprints:", error);
       return [];
     }
   }
@@ -190,7 +209,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/catalog/blueprints/${blueprintId}.json`,
         {
-          method: 'GET',
+          method: "GET",
           headers: this.printifyHeaders,
         },
       );
@@ -201,18 +220,18 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching blueprint details:', error);
+      console.error("Error fetching blueprint details:", error);
       return null;
     }
   }
 
   async getPrintProviders() {
     try {
-      console.log('Fetching print providers...');
+      console.log("Fetching print providers...");
       const response = await fetch(
         `${this.printifyApiUrl}/catalog/print_providers.json`,
         {
-          method: 'GET',
+          method: "GET",
           headers: this.printifyHeaders,
         },
       );
@@ -224,10 +243,10 @@ class PrintOnDemandManager {
       }
 
       const providers = await response.json();
-      console.log('Retrieved print providers:', providers.length);
+      console.log("Retrieved print providers:", providers.length);
       return providers || [];
     } catch (error) {
-      console.error('Error fetching print providers:', error);
+      console.error("Error fetching print providers:", error);
       return [];
     }
   }
@@ -237,7 +256,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/catalog/blueprints/${blueprintId}/print_providers.json`,
         {
-          method: 'GET',
+          method: "GET",
           headers: this.printifyHeaders,
         },
       );
@@ -250,7 +269,7 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching blueprint print providers:', error);
+      console.error("Error fetching blueprint print providers:", error);
       return [];
     }
   }
@@ -260,7 +279,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/catalog/blueprints/${blueprintId}/print_providers/${printProviderId}/variants.json`,
         {
-          method: 'GET',
+          method: "GET",
           headers: this.printifyHeaders,
         },
       );
@@ -271,7 +290,7 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching blueprint variants:', error);
+      console.error("Error fetching blueprint variants:", error);
       return [];
     }
   }
@@ -281,7 +300,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/catalog/blueprints/${blueprintId}/print_providers/${printProviderId}/shipping.json`,
         {
-          method: 'GET',
+          method: "GET",
           headers: this.printifyHeaders,
         },
       );
@@ -292,7 +311,7 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching shipping info:', error);
+      console.error("Error fetching shipping info:", error);
       return null;
     }
   }
@@ -300,11 +319,11 @@ class PrintOnDemandManager {
   // IMAGE UPLOAD METHODS
   async uploadImage(imageData) {
     try {
-      console.log('Uploading image to Printify...');
+      console.log("Uploading image to Printify...");
       const response = await fetch(
         `${this.printifyApiUrl}/uploads/images.json`,
         {
-          method: 'POST',
+          method: "POST",
           headers: this.printifyHeaders,
           body: JSON.stringify(imageData),
         },
@@ -315,10 +334,10 @@ class PrintOnDemandManager {
       }
 
       const result = await response.json();
-      console.log('Image uploaded successfully:', result.id);
+      console.log("Image uploaded successfully:", result.id);
       return result;
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
       throw error;
     }
   }
@@ -326,7 +345,7 @@ class PrintOnDemandManager {
   async getUploadedImages() {
     try {
       const response = await fetch(`${this.printifyApiUrl}/uploads.json`, {
-        method: 'GET',
+        method: "GET",
         headers: this.printifyHeaders,
       });
 
@@ -337,7 +356,7 @@ class PrintOnDemandManager {
       const data = await response.json();
       return data.data || [];
     } catch (error) {
-      console.error('Error fetching uploaded images:', error);
+      console.error("Error fetching uploaded images:", error);
       return [];
     }
   }
@@ -348,7 +367,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/webhooks.json`,
         {
-          method: 'GET',
+          method: "GET",
           headers: this.printifyHeaders,
         },
       );
@@ -359,18 +378,18 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching webhooks:', error);
+      console.error("Error fetching webhooks:", error);
       return [];
     }
   }
 
   async createWebhook(webhookData) {
     try {
-      console.log('Creating webhook:', webhookData);
+      console.log("Creating webhook:", webhookData);
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/webhooks.json`,
         {
-          method: 'POST',
+          method: "POST",
           headers: this.printifyHeaders,
           body: JSON.stringify(webhookData),
         },
@@ -383,10 +402,10 @@ class PrintOnDemandManager {
       }
 
       const result = await response.json();
-      console.log('Webhook created successfully:', result.id);
+      console.log("Webhook created successfully:", result.id);
       return result;
     } catch (error) {
-      console.error('Error creating webhook:', error);
+      console.error("Error creating webhook:", error);
       throw error;
     }
   }
@@ -396,7 +415,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/webhooks/${webhookId}.json`,
         {
-          method: 'DELETE',
+          method: "DELETE",
           headers: this.printifyHeaders,
         },
       );
@@ -410,7 +429,7 @@ class PrintOnDemandManager {
       console.log(`Webhook ${webhookId} deleted successfully`);
       return true;
     } catch (error) {
-      console.error('Error deleting webhook:', error);
+      console.error("Error deleting webhook:", error);
       return false;
     }
   }
@@ -420,7 +439,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/products.json`,
         {
-          method: 'POST',
+          method: "POST",
           headers: this.printifyHeaders,
           body: JSON.stringify(productData),
         },
@@ -435,7 +454,7 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error creating Printify product:', error);
+      console.error("Error creating Printify product:", error);
       throw error;
     }
   }
@@ -445,7 +464,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/products/${productId}.json`,
         {
-          method: 'PUT',
+          method: "PUT",
           headers: this.printifyHeaders,
           body: JSON.stringify(productData),
         },
@@ -457,7 +476,7 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error updating Printify product:', error);
+      console.error("Error updating Printify product:", error);
       throw error;
     }
   }
@@ -467,7 +486,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/products/${productId}.json`,
         {
-          method: 'DELETE',
+          method: "DELETE",
           headers: this.printifyHeaders,
         },
       );
@@ -479,7 +498,7 @@ class PrintOnDemandManager {
       console.log(`Product ${productId} deleted successfully`);
       return true;
     } catch (error) {
-      console.error('Error deleting Printify product:', error);
+      console.error("Error deleting Printify product:", error);
       return false;
     }
   }
@@ -501,7 +520,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/products/${productId}/publish.json`,
         {
-          method: 'POST',
+          method: "POST",
           headers: this.printifyHeaders,
           body: JSON.stringify(options),
         },
@@ -514,7 +533,7 @@ class PrintOnDemandManager {
       console.log(`Product ${productId} published successfully`);
       return true;
     } catch (error) {
-      console.error('Error publishing Printify product:', error);
+      console.error("Error publishing Printify product:", error);
       throw error;
     }
   }
@@ -526,13 +545,13 @@ class PrintOnDemandManager {
 
       // Filter for T-shirt related blueprints
       const tshirtKeywords = [
-        'tee',
-        't-shirt',
-        'shirt',
-        'cotton',
-        'crew',
-        'regular fit',
-        'heavy cotton',
+        "tee",
+        "t-shirt",
+        "shirt",
+        "cotton",
+        "crew",
+        "regular fit",
+        "heavy cotton",
       ];
 
       return blueprints.filter((blueprint) => {
@@ -540,7 +559,7 @@ class PrintOnDemandManager {
         return tshirtKeywords.some((keyword) => title.includes(keyword));
       });
     } catch (error) {
-      console.error('Error fetching T-shirt blueprints:', error);
+      console.error("Error fetching T-shirt blueprints:", error);
       return [];
     }
   }
@@ -551,10 +570,10 @@ class PrintOnDemandManager {
 
       // Filter for long sleeve related blueprints
       const longSleeveKeywords = [
-        'long sleeve',
-        'long-sleeve',
-        'ls',
-        'longsleeve',
+        "long sleeve",
+        "long-sleeve",
+        "ls",
+        "longsleeve",
       ];
 
       return blueprints.filter((blueprint) => {
@@ -562,7 +581,7 @@ class PrintOnDemandManager {
         return longSleeveKeywords.some((keyword) => title.includes(keyword));
       });
     } catch (error) {
-      console.error('Error fetching long sleeve blueprints:', error);
+      console.error("Error fetching long sleeve blueprints:", error);
       return [];
     }
   }
@@ -573,17 +592,17 @@ class PrintOnDemandManager {
 
       // Get providers known for good T-shirt quality
       const qualityProviders = [
-        'Printful',
-        'GOOTEN',
-        'SwiftPOD',
-        'Dream Junction',
+        "Printful",
+        "GOOTEN",
+        "SwiftPOD",
+        "Dream Junction",
       ];
 
       return providers.filter((provider) =>
         qualityProviders.some((quality) => provider.title.includes(quality)),
       );
     } catch (error) {
-      console.error('Error fetching recommended T-shirt providers:', error);
+      console.error("Error fetching recommended T-shirt providers:", error);
       return [];
     }
   }
@@ -591,22 +610,22 @@ class PrintOnDemandManager {
   // HELPER METHODS FOR T-SHIRT SETUP
   async setupTShirtProduct(productConfig) {
     try {
-      console.log('Setting up T-shirt product:', productConfig.name);
+      console.log("Setting up T-shirt product:", productConfig.name);
 
       // 1. Get appropriate blueprint
       const tshirtBlueprints = await this.getTShirtBlueprints();
       const blueprint =
         tshirtBlueprints.find(
           (bp) =>
-            bp.title.toLowerCase().includes('unisex') ||
-            bp.title.toLowerCase().includes('heavy cotton'),
+            bp.title.toLowerCase().includes("unisex") ||
+            bp.title.toLowerCase().includes("heavy cotton"),
         ) || tshirtBlueprints[0];
 
       if (!blueprint) {
-        throw new Error('No suitable T-shirt blueprint found');
+        throw new Error("No suitable T-shirt blueprint found");
       }
 
-      console.log('Selected blueprint:', blueprint.title);
+      console.log("Selected blueprint:", blueprint.title);
 
       // 2. Get print providers for this blueprint
       const printProviders = await this.getBlueprintPrintProviders(
@@ -615,17 +634,17 @@ class PrintOnDemandManager {
       const provider = printProviders[0]; // Use first available
 
       if (!provider) {
-        throw new Error('No print provider found for blueprint');
+        throw new Error("No print provider found for blueprint");
       }
 
-      console.log('Selected provider:', provider.title);
+      console.log("Selected provider:", provider.title);
 
       // 3. Get variants (sizes/colors)
       const variants = await this.getBlueprintVariants(
         blueprint.id,
         provider.id,
       );
-      console.log('Available variants:', variants.variants?.length || 0);
+      console.log("Available variants:", variants.variants?.length || 0);
 
       // 4. Create product data structure
       const productData = {
@@ -646,7 +665,7 @@ class PrintOnDemandManager {
 
       // 5. Create the product
       const result = await this.createPrintifyProduct(productData);
-      console.log('T-shirt product created successfully:', result.id);
+      console.log("T-shirt product created successfully:", result.id);
 
       return {
         success: true,
@@ -656,7 +675,7 @@ class PrintOnDemandManager {
         variantCount: variants.variants?.length || 0,
       };
     } catch (error) {
-      console.error('Error setting up T-shirt product:', error);
+      console.error("Error setting up T-shirt product:", error);
       return {
         success: false,
         error: error.message,
@@ -679,7 +698,7 @@ class PrintOnDemandManager {
 
     return [
       {
-        position: 'front',
+        position: "front",
         images: [
           {
             src: imageUrl,
@@ -698,7 +717,7 @@ class PrintOnDemandManager {
       const response = await fetch(
         `${this.printifyApiUrl}/shops/${this.printifyShopId}/products/${productId}.json`,
         {
-          method: 'GET',
+          method: "GET",
           headers: this.printifyHeaders,
         },
       );
@@ -709,7 +728,7 @@ class PrintOnDemandManager {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching Printify product:', error);
+      console.error("Error fetching Printify product:", error);
       return null;
     }
   }
@@ -721,15 +740,15 @@ class PrintOnDemandManager {
 
       return {
         printify: printifyProducts,
-        combined: printifyProducts.map(product => ({
+        combined: printifyProducts.map((product) => ({
           ...product,
-          provider: 'printify',
+          provider: "printify",
           providerId: product.id,
           id: `printify_${product.id}`,
-        }))
+        })),
       };
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
       return { printify: [], combined: [] };
     }
   }
@@ -756,7 +775,7 @@ class PrintOnDemandManager {
   shouldSyncWithPrintify(product) {
     // Add your business logic here
     return (
-      product.category === 't-shirts' || product.category === 'long-sleeve'
+      product.category === "t-shirts" || product.category === "long-sleeve"
     );
   }
 
@@ -781,7 +800,7 @@ class PrintOnDemandManager {
     try {
       return await this.createPrintifyOrder(orderData);
     } catch (error) {
-      console.error('Error creating Printify order:', error);
+      console.error("Error creating Printify order:", error);
       throw error;
     }
   }
@@ -790,7 +809,7 @@ class PrintOnDemandManager {
     const response = await fetch(
       `${this.printifyApiUrl}/shops/${this.printifyShopId}/orders.json`,
       {
-        method: 'POST',
+        method: "POST",
         headers: this.printifyHeaders,
         body: JSON.stringify(orderData),
       },
@@ -807,7 +826,7 @@ class PrintOnDemandManager {
   isApiConfigured() {
     return (
       this.printifyApiKey &&
-      this.printifyApiKey !== 'PRINTIFY_API_KEY_PLACEHOLDER'
+      this.printifyApiKey !== "PRINTIFY_API_KEY_PLACEHOLDER"
     );
   }
 
@@ -816,9 +835,9 @@ class PrintOnDemandManager {
       printify: {
         configured:
           this.printifyApiKey &&
-          this.printifyApiKey !== 'PRINTIFY_API_KEY_PLACEHOLDER',
+          this.printifyApiKey !== "PRINTIFY_API_KEY_PLACEHOLDER",
         shopIdConfigured:
-          this.printifyShopId && this.printifyShopId !== '6563836',
+          this.printifyShopId && this.printifyShopId !== "6563836",
         connected: false,
         storeExists: false,
         storeName: null,
@@ -832,7 +851,7 @@ class PrintOnDemandManager {
         const response = await fetch(
           `${this.printifyApiUrl}/shops/${this.printifyShopId}.json`,
           {
-            method: 'GET',
+            method: "GET",
             headers: this.printifyHeaders,
           },
         );
@@ -841,7 +860,7 @@ class PrintOnDemandManager {
           const data = await response.json();
           validation.printify.connected = true;
           validation.printify.storeExists = !!data;
-          validation.printify.storeName = data.title || 'Unknown Store';
+          validation.printify.storeName = data.title || "Unknown Store";
         } else {
           validation.printify.error = `HTTP ${response.status}`;
         }
@@ -851,20 +870,21 @@ class PrintOnDemandManager {
     }
 
     return validation;
-  }  getProviderStatus() {
+  }
+  getProviderStatus() {
     return {
       printify: {
         configured:
           this.printifyApiKey &&
-          this.printifyApiKey !== 'YOUR_PRINTIFY_API_KEY_HERE',
+          this.printifyApiKey !== "YOUR_PRINTIFY_API_KEY_HERE",
         shopId: this.printifyShopId,
         shopIdConfigured:
-          this.printifyShopId && this.printifyShopId !== 'YOUR_SHOP_ID_HERE',
+          this.printifyShopId && this.printifyShopId !== "YOUR_SHOP_ID_HERE",
       },
       printful: {
         configured:
           this.printfulApiKey &&
-          this.printfulApiKey !== 'YOUR_PRINTFUL_API_KEY_HERE',
+          this.printfulApiKey !== "YOUR_PRINTFUL_API_KEY_HERE",
       },
     };
   }
@@ -874,31 +894,31 @@ class PrintOnDemandManager {
     return {
       printify: {
         steps: [
-          'Go to https://printify.com and create an account',
+          "Go to https://printify.com and create an account",
           "Go to 'My Stores' → 'Connect a new store' → Choose 'API'",
-          'Note the Shop ID from the URL: printify.com/app/stores/[SHOP_ID]/products',
-          'Go to Settings → API → Create Personal Access Token',
-          'Select scopes: shops:read, shops:write, products:read, products:write, orders:read, orders:write',
-          'Copy the token and update printifyApiKey in config.js',
-          'Copy the Shop ID and update printifyShopId in config.js',
+          "Note the Shop ID from the URL: printify.com/app/stores/[SHOP_ID]/products",
+          "Go to Settings → API → Create Personal Access Token",
+          "Select scopes: shops:read, shops:write, products:read, products:write, orders:read, orders:write",
+          "Copy the token and update printifyApiKey in config.js",
+          "Copy the Shop ID and update printifyShopId in config.js",
         ],
         requirements: [
-          'Valid Printify account',
-          'API store created in Printify dashboard',
-          'Personal Access Token with proper scopes',
-          'Shop ID from your store URL',
+          "Valid Printify account",
+          "API store created in Printify dashboard",
+          "Personal Access Token with proper scopes",
+          "Shop ID from your store URL",
         ],
       },
       printful: {
         steps: [
-          'Go to https://printful.com and create an account',
-          'Go to Settings → API',
+          "Go to https://printful.com and create an account",
+          "Go to Settings → API",
           "Click 'Create API Key'",
-          'Copy the key and update printfulApiKey in config.js',
+          "Copy the key and update printfulApiKey in config.js",
         ],
         requirements: [
-          'Valid Printful account',
-          'API key from Printful dashboard',
+          "Valid Printful account",
+          "API key from Printful dashboard",
         ],
       },
     };
@@ -906,7 +926,7 @@ class PrintOnDemandManager {
 }
 
 // Export for use in your application
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = PrintOnDemandManager;
 } else {
   window.PrintOnDemandManager = PrintOnDemandManager;

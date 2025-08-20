@@ -139,6 +139,7 @@ Migrate from the current manual project management system to an automated workfl
    ```
 
 2. **Sprint Planning Automation**
+
    ```
    Weekly Sprint Trigger
    ↓
@@ -172,6 +173,7 @@ Migrate from the current manual project management system to an automated workfl
    ```
 
 4. **Customer Interaction Tracking**
+
    ```
    Customer Contact Form Submission
    ↓
@@ -189,6 +191,7 @@ Migrate from the current manual project management system to an automated workfl
 #### **Day 6-7: Advanced Automations**
 
 5. **Project Health Monitoring**
+
    ```
    Weekly Health Check Trigger
    ↓
@@ -228,6 +231,7 @@ Migrate from the current manual project management system to an automated workfl
    - Monitor customer satisfaction metrics
 
 4. **Order Management Integration**
+
    ```
    Order Placed (Stripe/PayPal)
    ↓

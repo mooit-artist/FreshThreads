@@ -118,9 +118,9 @@ This will:
 
 Access your deployed application:
 
-- **Frontend**: https://192.168.0.68:8080
-- **Backend API**: https://192.168.0.68:8000
-- **QTS Management**: https://192.168.0.68
+- **Frontend**: <https://192.168.0.68:8080>
+- **Backend API**: <https://192.168.0.68:8000>
+- **QTS Management**: <https://192.168.0.68>
 
 ## 🛠️ API Integration Features
 
@@ -162,7 +162,7 @@ echo "QNAP_PASSWORD=your_password" >> .env.qnap
 # Solution: Install via QTS Web Interface
 ```
 
-1. Login to https://192.168.0.68
+1. Login to <https://192.168.0.68>
 2. Go to App Center
 3. Install "Container Station"
 

@@ -15,22 +15,23 @@ param(
     [string]$WebsiteUrl = "https://freshthreadsllc.com"
 )
 
-Write-Host "=== PayPal Business Automation - FreshThreads LLC ===" -ForegroundColor Green
-Write-Host "Action: $Action" -ForegroundColor Yellow
-Write-Host "Environment: $Environment" -ForegroundColor Yellow
-Write-Host "Business Email: $BusinessEmail" -ForegroundColor Yellow
-Write-Host "Date: $(Get-Date)" -ForegroundColor Yellow
+Write-Information "=== PayPal Business Automation - FreshThreads LLC ===" -InformationAction Continue
+Write-Information "Action: $Action" -InformationAction Continue
+Write-Information "Environment: $Environment" -InformationAction Continue
+Write-Information "Business Email: $BusinessEmail" -InformationAction Continue
+Write-Information "Date: $(Get-Date)" -InformationAction Continue
 
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $color = switch ($Level) {
-        "ERROR" { "Red" }
-        "WARNING" { "Yellow" }
-        "SUCCESS" { "Green" }
-        default { "White" }
+    $formattedMessage = "[$timestamp] $Message"
+
+    switch ($Level) {
+        "ERROR" { Write-Error $formattedMessage }
+        "WARNING" { Write-Warning $formattedMessage }
+        "SUCCESS" { Write-Information $formattedMessage -InformationAction Continue }
+        default { Write-Information $formattedMessage -InformationAction Continue }
     }
-    Write-Host "[$timestamp] $Message" -ForegroundColor $color
 }
 
 function Install-PayPalPrerequisites {
@@ -1115,7 +1116,7 @@ python scripts/paypal-webhook-handler.py
         $report | Out-File -FilePath $reportPath -Encoding UTF8
 
         Write-Log "✅ PayPal business report generated: $reportPath" "SUCCESS"
-        Write-Host $report
+        Write-Output $report
 
         return $reportPath
 
@@ -1193,4 +1194,3 @@ catch {
 }
 
 Write-Log "=== PayPal Business Automation Complete ===" "SUCCESS"
-

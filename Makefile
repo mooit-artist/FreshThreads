@@ -189,29 +189,36 @@ fix-js:
 		eslint --fix "docs/**/*.js" || echo "⚠️ Some JS issues couldn't be auto-fixed"; \
 	else \
 		echo "⚠️ ESLint not found, skipping JS fixes"; \
-	fi	fifix-css:
+	fi
+
+fix-css:
 	@echo "🔧 Auto-fixing CSS files..."
-	@if command -v prettier >/dev/null 2>&1; then
-		prettier --write "docs/**/*.css" || echo "⚠️ Some CSS issues couldn't be auto-fixed";
-	else
-		echo "⚠️ Prettier not found, skipping CSS fixes";
+	@if command -v stylelint >/dev/null 2>&1; then \
+		echo "Running Stylelint auto-fix..."; \
+		stylelint --config config/.stylelintrc.json --fix "docs/**/*.css" || echo "⚠️ Some CSS stylelint issues couldn't be auto-fixed"; \
+	fi
+	@if command -v prettier >/dev/null 2>&1; then \
+		echo "Running Prettier for CSS..."; \
+		prettier --write "docs/**/*.css" || echo "⚠️ Some CSS formatting issues couldn't be auto-fixed"; \
+	else \
+		echo "⚠️ Prettier not found, skipping CSS fixes"; \
 	fi
 
 fix-python:
 	@echo "🔧 Auto-fixing Python files..."
-	@if command -v black >/dev/null 2>&1; then
-		black scripts/ || echo "⚠️ Some Python formatting issues couldn't be auto-fixed";
-	elif [ -f "$(HOME)/Library/Python/3.9/bin/black" ]; then
-		$(HOME)/Library/Python/3.9/bin/black scripts/ || echo "⚠️ Some Python formatting issues couldn't be auto-fixed";
-	else
-		echo "⚠️ Black not found, skipping Python fixes";
+	@if command -v black >/dev/null 2>&1; then \
+		black scripts/ || echo "⚠️ Some Python formatting issues couldn't be auto-fixed"; \
+	elif [ -f "$(HOME)/Library/Python/3.9/bin/black" ]; then \
+		$(HOME)/Library/Python/3.9/bin/black scripts/ || echo "⚠️ Some Python formatting issues couldn't be auto-fixed"; \
+	else \
+		echo "⚠️ Black not found, skipping Python fixes"; \
 	fi
-	@if command -v isort >/dev/null 2>&1; then
-		isort scripts/ || echo "⚠️ Some import sorting issues couldn't be auto-fixed";
-	elif [ -f "$(HOME)/Library/Python/3.9/bin/isort" ]; then
-		$(HOME)/Library/Python/3.9/bin/isort scripts/ || echo "⚠️ Some import sorting issues couldn't be auto-fixed";
-	else
-		echo "⚠️ isort not found, skipping import fixes";
+	@if command -v isort >/dev/null 2>&1; then \
+		isort scripts/ || echo "⚠️ Some import sorting issues couldn't be auto-fixed"; \
+	elif [ -f "$(HOME)/Library/Python/3.9/bin/isort" ]; then \
+		$(HOME)/Library/Python/3.9/bin/isort scripts/ || echo "⚠️ Some import sorting issues couldn't be auto-fixed"; \
+	else \
+		echo "⚠️ isort not found, skipping import fixes"; \
 	fi
 
 fix-powershell:
@@ -236,10 +243,10 @@ fix-powershell:
 
 fix-markdown:
 	@echo "🔧 Auto-fixing Markdown files..."
-	@if command -v markdownlint >/dev/null 2>&1; then
-		markdownlint --fix . || echo "⚠️ Some Markdown issues couldn't be auto-fixed";
-	else
-		echo "⚠️ markdownlint not found, skipping Markdown fixes";
+	@if command -v markdownlint >/dev/null 2>&1; then \
+		markdownlint --fix . || echo "⚠️ Some Markdown issues couldn't be auto-fixed"; \
+	else \
+		echo "⚠️ markdownlint not found, skipping Markdown fixes"; \
 	fi
 
 install-all-tools: install-python-tools install-security-tools install-plagiarism-tools install-git-hooks ## Install all development and security tools
@@ -460,7 +467,7 @@ lint-css: ## Lint CSS files
 	@if [ -n "$(CSS_FILES)" ]; then \
 		if command -v stylelint >/dev/null 2>&1; then \
 			echo -e "${CYAN}Running Stylelint...${NC}"; \
-			stylelint $(CSS_FILES) || echo -e "${YELLOW}⚠️ Stylelint found issues${NC}"; \
+			stylelint --config config/.stylelintrc.json $(CSS_FILES) || echo -e "${YELLOW}⚠️ Stylelint found issues${NC}"; \
 		else \
 			echo -e "${YELLOW}⚠️ Stylelint not installed, skipping...${NC}"; \
 		fi; \

@@ -27,7 +27,7 @@
         <meta name="twitter:image" content="https://freshthreadsllc.com/assets/products-twitter-image.jpg">
 
         <!-- Security Headers -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://freshthreadsllc.com:18444 http://freshthreadsllc.com:18080 https://192.168.0.68:18444 http://192.168.0.68:18080 https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://freshthreadsllc.com:18444 https://192.168.0.68:18444 https://localhost:18444 https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
         <meta http-equiv="X-Content-Type-Options" content="nosniff">
         <!-- X-Frame-Options removed - should be set by server headers, not meta tags -->
         <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -830,7 +830,7 @@
                 </ul>
 
                 <div class="nav-actions">
-                    <button class="btn btn-ghost cart-icon" onclick="showCartModal()">
+                    <button class="btn btn-ghost cart-icon" onclick="if(window.freshThreadsCart) window.freshThreadsCart.openCart()">
                         🛒
                         <span class="cart-count" id="cartCount">0</span>
                     </button>
@@ -966,7 +966,7 @@
                 <div class="cart-modal-content">
                     <div class="cart-header">
                         <h3>Shopping Cart</h3>
-                        <button class="btn btn-primary close-cart" onclick="closeCartModal()">&times;</button>
+                        <button class="btn btn-primary close-cart" onclick="if(window.freshThreadsCart) window.freshThreadsCart.closeCart()">&times;</button>
                     </div>
                     <div id="cartItems" class="cart-items">
                         <!-- Cart items will be populated here -->
@@ -1693,7 +1693,10 @@
                     const earlyAccessSavings = document.getElementById('earlyAccessSavings');
                     const savingsAmount = document.getElementById('savingsAmount');
 
-                    if (cart.length === 0) {
+                    // Get cart from localStorage to ensure we have the latest data
+                    const currentCart = JSON.parse(localStorage.getItem('freshthreads_cart') || '[]');
+
+                    if (currentCart.length === 0) {
                         cartItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
                         cartTotal.textContent = '0.00';
                         earlyAccessSavings.style.display = 'none';
@@ -1726,9 +1729,9 @@
                                 </div>
                             </div>
                             <div class="cart-item-quantity">
-                                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                                <button class="btn btn-primary" onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})">-</button>
                                 <span>${item.quantity}</span>
-                                <buttoncclass="btn btn-primary"lass="btn btn-primary btn btn-primary" onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                                <button class="btn btn-primary" onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})">+</button>
                             </div>
                         </div>
                     `;

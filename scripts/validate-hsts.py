@@ -7,7 +7,6 @@ Validates HTTP Strict Transport Security header implementation
 import glob
 import os
 import re
-from datetime import datetime
 
 
 class HSTSValidator:
@@ -132,7 +131,7 @@ class HSTSValidator:
         missing_count = len(self.missing_files)
         error_count = len(self.errors)
 
-        print(f"\n📊 HSTS Validation Summary:")
+        print("\n📊 HSTS Validation Summary:")
         print(f"  ✅ Valid HSTS: {valid_count}/{total_files}")
         print(f"  ⚠️  Invalid HSTS: {invalid_count}/{total_files}")
         print(f"  ❌ Missing HSTS: {missing_count}/{total_files}")
@@ -145,17 +144,17 @@ class HSTSValidator:
         # Recommendations
         recommendations = self.generate_recommendations()
         if recommendations:
-            print(f"\n💡 Recommendations:")
+            print("\n💡 Recommendations:")
             for rec in recommendations:
                 print(f"  • {rec}")
 
         # HSTS Best Practices
-        print(f"\n🔐 HSTS Best Practices:")
-        print(f"  • Use max-age of at least 31536000 seconds (1 year)")
-        print(f"  • Include 'includeSubDomains' directive")
-        print(f"  • Add 'preload' directive for browser preloading")
-        print(f"  • Test with: https://hstspreload.org/")
-        print(f"  • Implement at server level for production")
+        print("\n🔐 HSTS Best Practices:")
+        print("  • Use max-age of at least 31536000 seconds (1 year)")
+        print("  • Include 'includeSubDomains' directive")
+        print("  • Add 'preload' directive for browser preloading")
+        print("  • Test with: https://hstspreload.org/")
+        print("  • Implement at server level for production")
 
 
 if __name__ == "__main__":

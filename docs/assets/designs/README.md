@@ -12,15 +12,19 @@ This system helps you collect free-to-use design content from Freepik and Tshirt
 ## 🚀 Quick Start
 
 ### 1. Set Up Environment
+
 ```bash
 make design-content-setup
 ```
+
 This will:
+
 - Install required Python packages (requests, beautifulsoup4, lxml)
 - Create necessary directories
 - Set up collection scripts
 
 ### 2. Collect Free Design Content
+
 ```bash
 # Collect with default search terms
 make design-content-collect
@@ -30,11 +34,13 @@ make design-content-collect-custom QUERIES="skateboard music vintage retro"
 ```
 
 ### 3. Generate Report
+
 ```bash
 make design-content-report
 ```
 
 ### 4. Check Status
+
 ```bash
 make design-content-status
 ```
@@ -53,12 +59,14 @@ docs/assets/designs/
 ## 🎨 Content Sources
 
 ### Freepik
+
 - **Focus**: Vector graphics, illustrations
 - **License**: Free for commercial use with attribution
 - **File Types**: SVG, AI, EPS, PNG
 - **Rate Limiting**: 2 seconds between requests
 
 ### TshirtDesigns.com
+
 - **Focus**: T-shirt specific designs
 - **License**: Various (free section only)
 - **File Types**: PNG, JPG, SVG
@@ -67,6 +75,7 @@ docs/assets/designs/
 ## 🔍 Default Search Categories
 
 The system searches for these categories by default:
+
 - `minimalist` - Clean, simple designs
 - `vintage` - Retro and classic styles
 - `geometric` - Abstract geometric patterns
@@ -92,11 +101,13 @@ The system searches for these categories by default:
 ## ⚖️ License Compliance
 
 ### Automatic Tracking
+
 - All collected content includes license information
 - Attribution requirements are tracked
 - `ATTRIBUTIONS.md` file is automatically generated
 
 ### License Types Supported
+
 - ✅ Free for commercial use
 - ✅ CC0 Public Domain
 - ✅ Creative Commons CC0
@@ -104,6 +115,7 @@ The system searches for these categories by default:
 - ❌ Premium/Paid content (filtered out)
 
 ### Your Responsibilities
+
 1. **Verify License**: Always double-check license terms before use
 2. **Provide Attribution**: When required, include proper attribution
 3. **Keep Records**: Maintain the `ATTRIBUTIONS.md` file
@@ -130,12 +142,14 @@ Edit `scripts/design-content-config.json` to customize:
 ## 📊 Reports and Analytics
 
 ### Content Report (`FREE-CONTENT-REPORT.md`)
+
 - Total content found by source
 - Individual design details
 - License information
 - Usage notes and compliance tips
 
 ### Search Results (`search-results.json`)
+
 - Raw API/scraping results
 - Metadata for each design
 - Timestamp and search parameters
@@ -143,6 +157,7 @@ Edit `scripts/design-content-config.json` to customize:
 ## 🔄 Workflow Integration
 
 ### Daily Workflow
+
 ```bash
 # Morning: Check for new content
 make design-content-collect
@@ -155,6 +170,7 @@ make design-content-status
 ```
 
 ### Project Workflow
+
 ```bash
 # Before starting a new design project
 make design-content-collect-custom QUERIES="project-theme specific-style"
@@ -169,16 +185,19 @@ cat docs/assets/designs/ATTRIBUTIONS.md
 ## ⚠️ Important Notes
 
 ### Rate Limiting
+
 - Respectful delays between requests are built-in
 - Don't modify rate limiting settings without good reason
 - Be mindful of each platform's terms of service
 
 ### Content Quality
+
 - All content is marked as "free for commercial use" by the source
 - No guarantee of design quality or suitability
 - Manual review recommended before using in products
 
 ### Legal Disclaimer
+
 - This tool helps find content marked as free by the sources
 - Always verify license terms independently
 - You are responsible for compliance with licensing terms
@@ -187,12 +206,14 @@ cat docs/assets/designs/ATTRIBUTIONS.md
 ## 🤝 Contributing
 
 ### Adding New Sources
+
 1. Create a new client class in `scripts/collect-free-designs.py`
 2. Implement the search method following existing patterns
 3. Add configuration in `design-content-config.json`
 4. Update this README
 
 ### Reporting Issues
+
 - Check license compliance before reporting
 - Include search terms and error messages
 - Verify internet connection and source availability

@@ -72,7 +72,7 @@ class HSTSHeaderManager:
 
             # Check if HSTS header already exists
             if self.has_hsts_header(content):
-                print(f"  ⚠️  HSTS header already exists, skipping")
+                print("  ⚠️  HSTS header already exists, skipping")
                 self.skipped_files.append(file_path)
                 return
 
@@ -83,7 +83,7 @@ class HSTSHeaderManager:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
 
-            print(f"  ✅ HSTS header added successfully")
+            print("  ✅ HSTS header added successfully")
             self.processed_files.append(file_path)
 
         except Exception as e:

@@ -30,6 +30,7 @@
    - Apply settings
 
 3. **Test SSH Connection:**
+
    ```bash
    ssh admin@192.168.0.68
    # You'll be prompted for password
@@ -47,6 +48,7 @@
    - Wait for installation to complete
 
 3. **Verify Installation:**
+
    ```bash
    # After SSH is enabled
    ssh admin@192.168.0.68 "docker --version"
@@ -145,10 +147,10 @@ docker-compose logs -f
 
 ## 📊 Access URLs After Deployment
 
-- **Frontend Website:** http://192.168.0.68:8080
-- **Backend API:** http://192.168.0.68:8000
-- **API Health Check:** http://192.168.0.68:8000/health
-- **Printify Products:** http://192.168.0.68:8000/api/printify/shops/6563836/products.json
+- **Frontend Website:** <http://192.168.0.68:8080>
+- **Backend API:** <http://192.168.0.68:8000>
+- **API Health Check:** <http://192.168.0.68:8000/health>
+- **Printify Products:** <http://192.168.0.68:8000/api/printify/shops/6563836/products.json>
 
 ## 🔍 Monitoring Commands
 
@@ -197,7 +199,7 @@ ssh admin@192.168.0.68 "cd /share/Container/FreshThreads && docker-compose down"
 1. Complete the setup steps above
 2. Run `./test-qnap-access.sh` to verify
 3. Deploy with `./deploy-to-qnap.sh`
-4. Access your site at http://192.168.0.68:8080
+4. Access your site at <http://192.168.0.68:8080>
 
 ## 🔐 Security Notes
 

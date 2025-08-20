@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '18'
-  PYTHON_VERSION: '3.9'
+  NODE_VERSION: "18"
+  PYTHON_VERSION: "3.9"
 
 jobs:
   test:
@@ -47,7 +47,7 @@ jobs:
           PAYPAL_BUSINESS_EMAIL: ${{ secrets.PAYPAL_BUSINESS_EMAIL }}
           BUSINESS_WEBSITE: ${{ secrets.BUSINESS_WEBSITE }}
           PAYPAL_WEBHOOK_URL: ${{ secrets.PAYPAL_WEBHOOK_URL }}
-          VALIDATE_CONFIG: 'false' # Skip validation in test environment
+          VALIDATE_CONFIG: "false" # Skip validation in test environment
         run: |
           echo "🔧 Creating PayPal configuration from GitHub Secrets..."
           python scripts/create_config_from_secrets.py
@@ -76,7 +76,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install Node.js dependencies
         run: |
@@ -144,7 +144,7 @@ jobs:
           PAYPAL_BUSINESS_EMAIL: ${{ secrets.PAYPAL_BUSINESS_EMAIL }}
           BUSINESS_WEBSITE: ${{ secrets.BUSINESS_WEBSITE }}
           PAYPAL_WEBHOOK_URL: ${{ secrets.PAYPAL_WEBHOOK_URL }}
-          VALIDATE_CONFIG: 'false'
+          VALIDATE_CONFIG: "false"
         run: |
           echo "🔧 Configuring PayPal for deployment..."
           pip install requests python-dotenv
@@ -154,7 +154,7 @@ jobs:
         env:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          NODE_ENV: 'production'
+          NODE_ENV: "production"
         run: |
           echo "💳 Configuring Stripe for deployment..."
 

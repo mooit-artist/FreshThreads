@@ -14,12 +14,11 @@ PayPal Developer Docs: https://developer.paypal.com/api/rest/
 """
 
 import base64
-import json
 import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 import requests
 from dotenv import load_dotenv
@@ -540,7 +539,7 @@ def main():
 
             order = paypal.create_order(test_items)
             if order:
-                print(f"\n✅ Order created successfully!")
+                print("\n✅ Order created successfully!")
                 print(f"Order ID: {order['order_id']}")
                 print(f"Total: ${order['total']} {order['currency']}")
                 print(f"Approval URL: {order['approval_url']}")
@@ -558,7 +557,7 @@ def main():
 
             result = paypal.capture_order(args.order_id)
             if result:
-                print(f"\n✅ Order captured successfully!")
+                print("\n✅ Order captured successfully!")
                 print(f"Capture ID: {result['capture_id']}")
             else:
                 print("\n❌ Failed to capture order")
@@ -575,7 +574,7 @@ def main():
 
             webhook = paypal.create_webhook(webhook_url)
             if webhook:
-                print(f"\n✅ Webhook created successfully!")
+                print("\n✅ Webhook created successfully!")
                 print(f"Webhook ID: {webhook.get('id')}")
                 print(f"URL: {webhook.get('url')}")
             else:

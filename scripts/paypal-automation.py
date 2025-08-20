@@ -3,7 +3,6 @@ PayPal Business Account Integration Automation
 Handles PayPal API setup, webhook configuration, and payment processing
 """
 
-import json
 import os
 from datetime import datetime
 
@@ -47,9 +46,9 @@ class PayPalAutomation:
                 headers=headers,
                 data=data,
                 auth=(self.client_id, self.client_secret),
+                timeout=30,
             )
             response.raise_for_status()
-
             token_data = response.json()
             self.access_token = token_data["access_token"]
             self.log("✅ PayPal access token obtained")
@@ -84,9 +83,10 @@ class PayPalAutomation:
 
         try:
             url = f"{self.base_url}/v1/notifications/webhooks"
-            response = requests.post(url, headers=headers, json=webhook_data)
+            response = requests.post(
+                url, headers=headers, json=webhook_data, timeout=30
+            )
             response.raise_for_status()
-
             webhook_info = response.json()
             self.log(f"✅ PayPal webhook created: {webhook_info['id']}")
 

@@ -21,20 +21,21 @@ param(
     [string]$Department = "Executive"
 )
 
-Write-Host "=== Create Business User with Mailbox and Teams ===" -ForegroundColor Green
-Write-Host "User: $UserEmail" -ForegroundColor Yellow
-Write-Host "Date: $(Get-Date)" -ForegroundColor Yellow
+Write-Information "=== Create Business User with Mailbox and Teams ===" -InformationAction Continue
+Write-Information "User: $UserEmail" -InformationAction Continue
+Write-Information "Date: $(Get-Date)" -InformationAction Continue
 
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $color = switch ($Level) {
-        "ERROR" { "Red" }
-        "WARNING" { "Yellow" }
-        "SUCCESS" { "Green" }
-        default { "White" }
+    $formattedMessage = "[$timestamp] $Message"
+
+    switch ($Level) {
+        "ERROR" { Write-Error $formattedMessage }
+        "WARNING" { Write-Warning $formattedMessage }
+        "SUCCESS" { Write-Information $formattedMessage -InformationAction Continue }
+        default { Write-Information $formattedMessage -InformationAction Continue }
     }
-    Write-Host "[$timestamp] $Message" -ForegroundColor $color
 }
 
 function Connect-Services {
@@ -117,9 +118,14 @@ function New-BusinessUser {
     Write-Log "Creating new business user: $Email" "INFO"
 
     try {
-        # Generate a secure temporary password
-        $tempPassword = -join ((65..90) + (97..122) + (48..57) | Get-Random -Count 12 | % { [char]$_ }) + "!1"
+        # Generate a secure temporary password using cryptographically secure random
+        $bytes = New-Object byte[] 16
+        [System.Security.Cryptography.RNGCryptoServiceProvider]::Create().GetBytes($bytes)
+        $tempPassword = [System.Convert]::ToBase64String($bytes) + "!1A"
         $securePassword = ConvertTo-SecureString $tempPassword -AsPlainText -Force
+
+        # Clear the plaintext password from memory
+        $tempPassword = $null
 
         Write-Log "Creating user in Azure AD..." "INFO"
 
@@ -382,7 +388,7 @@ function Generate-UserReport {
         $report | Out-File -FilePath $reportPath -Encoding UTF8
 
         Write-Log "✅ User report generated: $reportPath" "SUCCESS"
-        Write-Host $report
+        Write-Output $report
 
         return $reportPath
 
@@ -452,9 +458,9 @@ finally {
         Write-Log "Disconnected from Microsoft 365 services" "INFO"
     }
     catch {
-        # Ignore cleanup errors
+        # Ignore cleanup errors, but log them for debugging
+        Write-Log "Warning: Error during cleanup: $($_.Exception.Message)" "WARNING"
     }
 }
 
 Write-Log "=== Business User Creation Complete ===" "SUCCESS"
-

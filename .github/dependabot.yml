@@ -6,28 +6,28 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
-    directory: "/"  # Python dependencies
+    directory: "/" # Python dependencies
     schedule:
       interval: "weekly"
     reviewers:
       - "mooit-artist"
 
   - package-ecosystem: "github-actions"
-    directory: "/"  # GitHub workflows
+    directory: "/" # GitHub workflows
     schedule:
       interval: "weekly"
     reviewers:
       - "mooit-artist"
 
   - package-ecosystem: "docker"
-    directory: "/"  # Dockerfiles
+    directory: "/" # Dockerfiles
     schedule:
       interval: "weekly"
     reviewers:
       - "mooit-artist"
 
   - package-ecosystem: "npm"
-    directory: "/"  # Node-based tools or front-end packages
+    directory: "/" # Node-based tools or front-end packages
     schedule:
       interval: "weekly"
     reviewers:

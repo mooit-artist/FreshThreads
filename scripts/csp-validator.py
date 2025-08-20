@@ -199,18 +199,18 @@ def generate_report():
             all_recommendations.extend(file_data["recommendations"])
 
     if all_issues:
-        print(f"\n⚠️  Common Issues Found:")
+        print("\n⚠️  Common Issues Found:")
         unique_issues = list(set(all_issues))
         for issue in unique_issues[:5]:
             print(f"   • {issue}")
 
     if all_recommendations:
-        print(f"\n💡 Common Recommendations:")
+        print("\n💡 Common Recommendations:")
         unique_recs = list(set(all_recommendations))
         for rec in unique_recs[:3]:
             print(f"   • {rec}")
 
-    print(f"\n📄 Detailed report saved to: csp-report.json")
+    print("\n📄 Detailed report saved to: csp-report.json")
 
     # Save detailed report
     with open("csp-report.json", "w") as f:

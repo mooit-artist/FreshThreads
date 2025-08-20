@@ -14,17 +14,12 @@ Reference: https://github.com/paypal/paypal-rest-api-specifications
 """
 
 import argparse
-import base64
-import json
 import os
 import subprocess
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-
-import requests
-from dotenv import load_dotenv
+from typing import Optional
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -383,8 +378,8 @@ if __name__ == "__main__":
             with open(script_path, "w") as f:
                 f.write(checkout_script)
 
-            # Make executable
-            os.chmod(script_path, 0o755)
+            # Make executable with more restrictive permissions
+            os.chmod(script_path, 0o744)
 
             self.log(
                 f"✅ PayPal Express Checkout script created: {script_path}", "SUCCESS"
@@ -600,8 +595,8 @@ if __name__ == "__main__":
             with open(webhook_path, "w") as f:
                 f.write(webhook_script)
 
-            # Make executable
-            os.chmod(webhook_path, 0o755)
+            # Make executable with more restrictive permissions
+            os.chmod(webhook_path, 0o744)
 
             self.log(f"✅ PayPal webhook handler created: {webhook_path}", "SUCCESS")
             return webhook_path

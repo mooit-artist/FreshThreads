@@ -7,13 +7,13 @@ on:
     branches: [main]
   schedule:
     # Run security scans daily at 2 AM UTC
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
   workflow_dispatch:
     inputs:
       security_level:
-        description: 'Security scan level'
+        description: "Security scan level"
         required: true
-        default: 'standard'
+        default: "standard"
         type: choice
         options:
           - standard
@@ -21,8 +21,8 @@ on:
           - minimal
 
 env:
-  NODE_VERSION: '18'
-  PYTHON_VERSION: '3.11'
+  NODE_VERSION: "18"
+  PYTHON_VERSION: "3.11"
 
 jobs:
   security-matrix:
@@ -56,7 +56,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: 📦 Setup Python
         uses: actions/setup-python@v5
@@ -122,7 +122,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: 🔧 Install Dependencies
         run: npm ci
