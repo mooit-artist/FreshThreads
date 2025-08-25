@@ -11,7 +11,11 @@
     "test:coverage": "jest --coverage",
     "test:unit": "jest tests/javascript/unit",
     "test:integration": "jest tests/javascript/integration",
-    "test:e2e": "jest tests/javascript/e2e"
+    "test:e2e": "jest tests/javascript/e2e",
+    "lighthouse": "bash scripts/lighthouse-simple.sh",
+    "lighthouse:ci": "bash scripts/lighthouse-ci.sh",
+    "performance": "npm run lighthouse",
+    "server:test": "http-server docs/ -p 5500 -c-1 --silent"
   },
   "repository": {
     "type": "git",

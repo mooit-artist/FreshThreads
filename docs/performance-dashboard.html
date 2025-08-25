@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshThreads Performance Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0070f3, #00d4ff);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .score-good { color: #0cce6b; }
+        .score-average { color: #ffa400; }
+        .score-poor { color: #ff4e42; }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .status {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+
+        .history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .timestamp {
+            color: #666;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 FreshThreads Performance Dashboard</h1>
+        <p>Real-time Lighthouse monitoring and performance insights</p>
+    </div>
+
+    <div class="container">
+        <div class="actions">
+            <button class="btn" onclick="runLighthouseTest()">Run Lighthouse Test</button>
+            <button class="btn" onclick="loadLatestReport()">Load Latest Report</button>
+            <button class="btn" onclick="clearHistory()">Clear History</button>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div id="performance-score" class="metric-value score-good">--</div>
+                <div class="metric-label">Performance Score</div>
+            </div>
+            <div class="metric-card">
+                <div id="accessibility-score" class="metric-value score-good">--</div>
+                <div class="metric-label">Accessibility Score</div>
+            </div>
+            <div class="metric-card">
+                <div id="best-practices-score" class="metric-value score-good">--</div>
+                <div class="metric-label">Best Practices Score</div>
+            </div>
+            <div class="metric-card">
+                <div id="seo-score" class="metric-value score-good">--</div>
+                <div class="metric-label">SEO Score</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Core Web Vitals</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div id="fcp-value" class="metric-value">--</div>
+                    <div class="metric-label">First Contentful Paint</div>
+                </div>
+                <div class="metric-card">
+                    <div id="lcp-value" class="metric-value">--</div>
+                    <div class="metric-label">Largest Contentful Paint</div>
+                </div>
+                <div class="metric-card">
+                    <div id="tbt-value" class="metric-value">--</div>
+                    <div class="metric-label">Total Blocking Time</div>
+                </div>
+                <div class="metric-card">
+                    <div id="cls-value" class="metric-value">--</div>
+                    <div class="metric-label">Cumulative Layout Shift</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Performance History</h3>
+            <div id="history" class="history">
+                <p>No performance data available. Run a Lighthouse test to get started.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let performanceHistory = JSON.parse(localStorage.getItem('lighthouseHistory') || '[]');
+
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+
+            if (type !== 'error') {
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function getScoreClass(score) {
+            if (score >= 90) return 'score-good';
+            if (score >= 50) return 'score-average';
+            return 'score-poor';
+        }
+
+        function updateMetrics(data) {
+            // Update main scores
+            document.getElementById('performance-score').textContent = data.performance || '--';
+            document.getElementById('performance-score').className = `metric-value ${getScoreClass(data.performance)}`;
+
+            document.getElementById('accessibility-score').textContent = data.accessibility || '--';
+            document.getElementById('accessibility-score').className = `metric-value ${getScoreClass(data.accessibility)}`;
+
+            document.getElementById('best-practices-score').textContent = data.bestPractices || '--';
+            document.getElementById('best-practices-score').className = `metric-value ${getScoreClass(data.bestPractices)}`;
+
+            document.getElementById('seo-score').textContent = data.seo || '--';
+            document.getElementById('seo-score').className = `metric-value ${getScoreClass(data.seo)}`;
+
+            // Update Core Web Vitals
+            document.getElementById('fcp-value').textContent = data.fcp || '--';
+            document.getElementById('lcp-value').textContent = data.lcp || '--';
+            document.getElementById('tbt-value').textContent = data.tbt || '--';
+            document.getElementById('cls-value').textContent = data.cls || '--';
+        }
+
+        function updateHistory() {
+            const historyContainer = document.getElementById('history');
+
+            if (performanceHistory.length === 0) {
+                historyContainer.innerHTML = '<p>No performance data available. Run a Lighthouse test to get started.</p>';
+                return;
+            }
+
+            historyContainer.innerHTML = performanceHistory
+                .slice(-10) // Show last 10 entries
+                .reverse()
+                .map(entry => `
+                    <div class="history-item">
+                        <div>
+                            <strong>${entry.name}</strong> -
+                            Performance: <span class="${getScoreClass(entry.performance)}">${entry.performance}/100</span>
+                        </div>
+                        <div class="timestamp">${new Date(entry.timestamp).toLocaleString()}</div>
+                    </div>
+                `).join('');
+        }
+
+        async function runLighthouseTest() {
+            showStatus('Running Lighthouse test... This may take a few minutes.', 'info');
+
+            try {
+                // Simulate lighthouse test (in real implementation, this would call your API)
+                const response = await fetch('/api/lighthouse/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: window.location.origin + '/products.html' })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Lighthouse test failed');
+                }
+
+                const result = await response.json();
+                updateMetrics(result);
+
+                // Add to history
+                const historyEntry = {
+                    ...result,
+                    timestamp: new Date().toISOString(),
+                    name: 'Products Page'
+                };
+
+                performanceHistory.push(historyEntry);
+                localStorage.setItem('lighthouseHistory', JSON.stringify(performanceHistory));
+                updateHistory();
+
+                showStatus('Lighthouse test completed successfully!', 'success');
+
+            } catch (error) {
+                showStatus(`Error running Lighthouse test: ${error.message}`, 'error');
+
+                // For demo purposes, show sample data
+                const sampleData = {
+                    performance: 92,
+                    accessibility: 95,
+                    bestPractices: 94,
+                    seo: 96,
+                    fcp: '1.2s',
+                    lcp: '2.1s',
+                    tbt: '120ms',
+                    cls: '0.05'
+                };
+
+                updateMetrics(sampleData);
+                showStatus('Showing demo data - Lighthouse integration in progress', 'info');
+            }
+        }
+
+        function loadLatestReport() {
+            if (performanceHistory.length > 0) {
+                const latest = performanceHistory[performanceHistory.length - 1];
+                updateMetrics(latest);
+                showStatus('Loaded latest performance report', 'success');
+            } else {
+                showStatus('No performance history available', 'error');
+            }
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all performance history?')) {
+                performanceHistory = [];
+                localStorage.removeItem('lighthouseHistory');
+                updateHistory();
+                showStatus('Performance history cleared', 'success');
+            }
+        }
+
+        // Initialize dashboard
+        updateHistory();
+        loadLatestReport();
+    </script>
+</body>
+</html>

@@ -115,6 +115,42 @@
       }
     },
     {
+      "label": "Run Lighthouse Performance Test",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "lighthouse"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": [],
+      "dependsOn": "Start HTTP Server"
+    },
+    {
+      "label": "Run Lighthouse CI",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "lighthouse:ci"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": [],
+      "dependsOn": "Start HTTP Server"
+    },
+    {
       "label": "Deploy to GitHub Pages",
       "type": "shell",
       "command": "git",

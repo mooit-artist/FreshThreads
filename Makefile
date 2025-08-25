@@ -34,7 +34,7 @@ YAML_FILES := $(shell find $(WORKFLOWS_DIR) -name "*.yml" -o -name "*.yaml")
 JSON_FILES := $(shell find . -name "*.json" -not -path "*/node_modules/*" -not -path "*/ComfyUI/*" -not -path "*/design-output/*" -not -path "*/advanced-design-pipeline/*")
 MD_FILES := $(shell find . -name "*.md" -not -path "*/node_modules/*" -not -path "*/ComfyUI/*")
 
-.PHONY: help install-tools install-python-tools install-security-tools install-plagiarism-tools install-git-hooks install-all-tools lint lint-all lint-js lint-html lint-css lint-python lint-powershell lint-yaml lint-json lint-markdown fix-all format-all clean test security-check docker-security plagiarism-check dolos-check hookejs-check copyright-detect-check plagiarism-clean secrets-scan secrets-gitleaks secrets-trufflehog secrets-gitguardian secrets-history secrets-clean test-all test-js test-python test-java test-unit test-integration test-e2e test-coverage design-content-setup design-content-collect design-content-collect-enhanced design-content-download design-content-download-more design-content-report design-content-clean fresh-vision-enhanced fresh-vision-original fresh-vision-test
+.PHONY: help install-tools install-python-tools install-security-tools install-plagiarism-tools install-git-hooks install-all-tools lint lint-all lint-js lint-html lint-css lint-python lint-powershell lint-yaml lint-json lint-markdown fix-all format-all clean test security-check docker-security plagiarism-check dolos-check hookejs-check copyright-detect-check plagiarism-clean secrets-scan secrets-gitleaks secrets-trufflehog secrets-gitguardian secrets-history secrets-clean test-all test-js test-python test-java test-unit test-integration test-e2e test-coverage lighthouse lighthouse-ci lighthouse-full lighthouse-install lighthouse-setup lighthouse-clean lighthouse-server-start lighthouse-server-stop design-content-setup design-content-collect design-content-collect-enhanced design-content-download design-content-download-more design-content-report design-content-clean fresh-vision-enhanced fresh-vision-original fresh-vision-test
 
 # Help target
 help: ## Show this help message
@@ -68,7 +68,9 @@ install-node-tools: ## Install Node.js linting tools
 		html-validate \
 		jsonlint \
 		markdownlint-cli \
-		yaml-lint
+		yaml-lint \
+		lighthouse \
+		http-server
 	@echo -e "${GREEN}✅ Node.js tools installed${NC}"
 
 install-python-tools: ## Install Python linting tools
@@ -746,7 +748,7 @@ secrets-clean: ## Clean up secret scan reports
 	@echo -e "${GREEN}✅ Secret scan reports cleaned${NC}"
 
 # Test and validation
-test: lint-all test-all ## Run all tests and validation
+test: lint-all test-all lighthouse-ci ## Run all tests, validation, and performance checks
 	@echo -e "${PURPLE}🧪 Running all tests and validation...${NC}"
 	@$(MAKE) security-check
 	@$(MAKE) secrets-scan
@@ -830,6 +832,72 @@ test-coverage: ## Generate test coverage reports for all frameworks
 		mvn jacoco:report || echo -e "${YELLOW}⚠️ Java coverage generation failed${NC}"; \
 	fi
 	@echo -e "${GREEN}✅ Coverage reports generated in coverage-reports/${NC}"
+
+# Lighthouse Performance Testing
+# ==============================
+
+lighthouse-install: ## Install Lighthouse CLI globally
+	@echo -e "${BLUE}📦 Installing Lighthouse CLI...${NC}"
+	@command -v npm >/dev/null 2>&1 || { echo -e "${RED}❌ npm is required but not installed${NC}"; exit 1; }
+	npm install -g lighthouse@latest
+	@echo -e "${GREEN}✅ Lighthouse CLI installed${NC}"
+
+lighthouse-setup: lighthouse-install ## Setup Lighthouse testing environment
+	@echo -e "${BLUE}🔧 Setting up Lighthouse testing environment...${NC}"
+	@chmod +x scripts/lighthouse-simple.sh scripts/lighthouse-ci.sh
+	@mkdir -p lighthouse-reports
+	@echo -e "${GREEN}✅ Lighthouse environment ready${NC}"
+
+lighthouse-server-start: ## Start HTTP server for Lighthouse testing
+	@echo -e "${BLUE}🚀 Starting HTTP server for testing...${NC}"
+	@if ! curl -s -f http://localhost:5500 > /dev/null 2>&1; then \
+		echo -e "${CYAN}Starting server in background...${NC}"; \
+		cd docs && npx http-server . -p 5500 -c-1 -s > /dev/null 2>&1 & \
+		echo $$! > ../.lighthouse-server.pid; \
+		sleep 3; \
+		if curl -s -f http://localhost:5500 > /dev/null 2>&1; then \
+			echo -e "${GREEN}✅ Server started on http://localhost:5500${NC}"; \
+		else \
+			echo -e "${RED}❌ Failed to start server${NC}"; \
+			exit 1; \
+		fi; \
+	else \
+		echo -e "${GREEN}✅ Server already running on http://localhost:5500${NC}"; \
+	fi
+
+lighthouse-server-stop: ## Stop HTTP server
+	@echo -e "${BLUE}🛑 Stopping HTTP server...${NC}"
+	@if [ -f .lighthouse-server.pid ]; then \
+		kill `cat .lighthouse-server.pid` 2>/dev/null || true; \
+		rm -f .lighthouse-server.pid; \
+		echo -e "${GREEN}✅ Server stopped${NC}"; \
+	else \
+		echo -e "${YELLOW}⚠️ No server PID file found${NC}"; \
+	fi
+
+lighthouse: lighthouse-setup lighthouse-server-start ## Run comprehensive Lighthouse tests
+	@echo -e "${BLUE}🚀 Running Lighthouse performance tests...${NC}"
+	@bash scripts/lighthouse-simple.sh
+	@echo -e "${GREEN}✅ Lighthouse tests completed${NC}"
+	@echo -e "${CYAN}📊 Reports available in lighthouse-reports/ directory${NC}"
+	@echo -e "${CYAN}📊 View dashboard: open docs/performance-dashboard.html${NC}"
+
+lighthouse-ci: lighthouse-setup lighthouse-server-start ## Run CI-focused Lighthouse tests
+	@echo -e "${BLUE}🔍 Running Lighthouse CI tests...${NC}"
+	@bash scripts/lighthouse-ci.sh
+	@echo -e "${GREEN}✅ Lighthouse CI tests completed${NC}"
+
+lighthouse-full: lighthouse lighthouse-ci ## Run full Lighthouse test suite
+	@echo -e "${BLUE}🏃‍♂️ Running full Lighthouse test suite...${NC}"
+	@echo -e "${CYAN}This includes comprehensive reports and CI validation${NC}"
+	@$(MAKE) lighthouse-server-stop
+	@echo -e "${GREEN}✅ Full Lighthouse testing completed${NC}"
+
+lighthouse-clean: ## Clean Lighthouse reports and temporary files
+	@echo -e "${BLUE}🧹 Cleaning Lighthouse files...${NC}"
+	@rm -rf lighthouse-reports/
+	@rm -f .lighthouse-server.pid
+	@echo -e "${GREEN}✅ Lighthouse files cleaned${NC}"
 
 # Utility targets
 clean: ## Clean temporary files and caches

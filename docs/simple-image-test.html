@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Printify Image Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            border: 2px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .product-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .product-image img {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Simple Printify Image Test</h1>
+
+    <div class="test-section">
+        <h2>Step 1: API Test</h2>
+        <div id="apiTest" class="status info">Testing API connection...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 2: Direct Image Test</h2>
+        <div class="product-card">
+            <h3>Hardcoded Printify Image</h3>
+            <div class="product-image">
+                <img id="directImage"
+                     src="https://images.printify.com/mockup/63ee8ae7dac2d239e9084277/18542/92547/unisex-jersey-short-sleeve-tee.jpg?camera_label=front"
+                     alt="Direct Test Image"
+                     onload="document.getElementById('directImageStatus').innerHTML = '✅ Direct image loaded successfully'"
+                     onerror="document.getElementById('directImageStatus').innerHTML = '❌ Direct image failed to load'">
+            </div>
+            <div id="directImageStatus" class="status info">Loading direct image...</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 3: Dynamic API Images</h2>
+        <div id="dynamicImages">Loading...</div>
+    </div>
+
+    <script>
+        async function runTests() {
+            // Step 1: Test API
+            try {
+                console.log('🧪 Testing API connection...');
+                const response = await fetch('http://127.0.0.1:8000/api/printify/shops/6563836/products.json');
+
+                if (!response.ok) {
+                    throw new Error(`API returned ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log('📦 API Response:', data);
+
+                if (!data.data || !Array.isArray(data.data)) {
+                    throw new Error('Invalid API response structure');
+                }
+
+                document.getElementById('apiTest').innerHTML = `✅ API Success: Found ${data.data.length} products`;
+                document.getElementById('apiTest').className = 'status success';
+
+                // Step 3: Test dynamic images
+                await testDynamicImages(data.data.slice(0, 3));
+
+            } catch (error) {
+                console.error('❌ API Error:', error);
+                document.getElementById('apiTest').innerHTML = `❌ API Error: ${error.message}`;
+                document.getElementById('apiTest').className = 'status error';
+            }
+        }
+
+        async function testDynamicImages(products) {
+            const container = document.getElementById('dynamicImages');
+            container.innerHTML = '';
+
+            products.forEach((product, index) => {
+                const imageUrl = product.images && product.images[0] ? product.images[0].src : '';
+
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product-card';
+                productDiv.innerHTML = `
+                    <h3>Product ${index + 1}: ${product.title || 'Unknown'}</h3>
+                    <p><strong>Image URL:</strong> <code>${imageUrl}</code></p>
+                    <div class="product-image">
+                        ${imageUrl ? `
+                            <img src="${imageUrl}"
+                                 alt="${product.title || 'Product'}"
+                                 onload="this.nextElementSibling.innerHTML = '✅ Image loaded successfully'; this.nextElementSibling.className = 'status success';"
+                                 onerror="this.nextElementSibling.innerHTML = '❌ Image failed to load'; this.nextElementSibling.className = 'status error';">
+                            <div class="status info">Loading image...</div>
+                        ` : `
+                            <div class="status warning">⚠️ No image URL provided</div>
+                        `}
+                    </div>
+                `;
+
+                container.appendChild(productDiv);
+
+                console.log(`🖼️ Product ${index + 1}: ${product.title}`);
+                console.log(`📷 Image URL: ${imageUrl}`);
+            });
+        }
+
+        // Run tests when page loads
+        window.addEventListener('load', () => {
+            console.log('🚀 Starting Printify image tests...');
+            setTimeout(runTests, 500);
+        });
+    </script>
+</body>
+</html>

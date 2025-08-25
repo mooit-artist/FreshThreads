@@ -20,11 +20,13 @@ class FreshThreadsCart {
   }
 
   createCartHTML() {
-    // Create cart icon in header
+    // Create cart icon in navigation actions area
+    const navActions = document.querySelector(".nav-actions");
     const header =
       document.querySelector("header") ||
       document.querySelector("nav") ||
       document.body;
+
     const cartContainer = document.createElement("div");
     cartContainer.className = "cart-container";
     cartContainer.innerHTML = `
@@ -33,7 +35,13 @@ class FreshThreadsCart {
                 <span class="cart-badge" style="display: none;">0</span>
             </button>
         `;
-    header.appendChild(cartContainer);
+
+    // Try to add to nav-actions first, fallback to header
+    if (navActions) {
+      navActions.insertBefore(cartContainer, navActions.firstChild);
+    } else {
+      header.appendChild(cartContainer);
+    }
 
     // Create cart sidebar
     const cartSidebar = document.createElement("div");

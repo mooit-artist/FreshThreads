@@ -182,4 +182,4 @@ if __name__ == '__main__':
         logger.info("Server will run on http://0.0.0.0:8000")
 
         # Run the Flask app on all interfaces for Docker
-        app.run(host='0.0.0.0', port=8000, debug=True)
+        app.run(host='0.0.0.0', port=8000, debug=False)

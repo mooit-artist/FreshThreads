@@ -27,7 +27,7 @@
         <meta name="twitter:image" content="https://freshthreadsllc.com/assets/products-twitter-image.jpg">
 
         <!-- Security Headers -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://freshthreadsllc.com:18444 https://192.168.0.68:18444 https://localhost:18444 https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://freshthreadsllc.com:18444 http://freshthreadsllc.com:18080 https://192.168.0.68:18444 http://192.168.0.68:18080 https://api.printify.com https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
         <meta http-equiv="X-Content-Type-Options" content="nosniff">
         <!-- X-Frame-Options removed - should be set by server headers, not meta tags -->
         <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -36,31 +36,85 @@
               content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()">>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/png" href="assets/Fresh_ThreadsLLCLogo.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="assets/Fresh_ThreadsLLCLogo.png">
-        <link rel="apple-touch-icon" href="assets/Fresh_ThreadsLLCLogo.png">
+        <link rel="icon" type="image/png" href="../assets/Fresh_ThreadsLLCLogo.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../assets/Fresh_ThreadsLLCLogo.png">
+        <link rel="apple-touch-icon" href="../assets/Fresh_ThreadsLLCLogo.png">
         <meta name="theme-color" content="#000000">
   <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
 
         <!-- Preconnect for performance -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://images.printify.com">
+        <link rel="preconnect" href="https://pfy-prod-automaton-cache.s3.us-east-2.amazonaws.com">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Preload critical resources -->
+        <link rel="preload" href="../styles/minimalistic.css" as="style">
+        <link rel="preload" href="../assets/js/config.js" as="script">
+        <link rel="preload" href="../assets/js/error-monitor.js" as="script">
+        <link rel="preload" href="../assets/Fresh_ThreadsLLCLogo.png" as="image">
 
-        <!-- Main Theme (Load First) -->
-        <link rel="stylesheet" href="styles/minimalistic.css">
+        <!-- Critical CSS inline (to be added) -->
+        <!-- Fonts - load asynchronously -->
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"></noscript>
 
-        <!-- Shopping Cart Styles -->
-        <link rel="stylesheet" href="styles/cart.css">
+        <!-- Main Theme (Critical CSS - load immediately) -->
+        <link rel="stylesheet" href="../styles/minimalistic.css">
 
-        <!-- Print-on-Demand Integration -->
-        <script src="assets/js/config.js"></script>
-        <script src="assets/js/print-on-demand.js"></script>
-        <script src="assets/js/pod-templates.js"></script>
+        <!-- Shopping Cart Styles (Non-critical - load asynchronously) -->
+        <link rel="preload" href="../styles/cart.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="../styles/cart.css"></noscript>
+
+        <!-- Print-on-Demand Integration - Critical scripts load first -->
+        <script src="../assets/js/config.js"></script>
+        <script src="../assets/js/error-monitor.js"></script>
+        <!-- Non-critical scripts load asynchronously -->
+        <script src="../assets/js/print-on-demand.js" defer></script>
+        <script src="../assets/js/pod-templates.js" defer></script>
 
         <style>
+            /* Critical CSS - Above the fold optimization */
+            body {
+                margin: 0;
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background-color: #0a0a0a;
+                color: #ffffff;
+                line-height: 1.6;
+            }
+
+            .header {
+                background: rgba(26, 26, 26, 0.95);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                padding: 1rem 0;
+            }
+
+            .nav-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .logo {
+                height: 40px;
+                width: auto;
+            }
+
+            .main-content {
+                margin-top: 80px;
+                min-height: 100vh;
+                padding: 2rem 0;
+            }
+
             /* Override CSS variables for dark theme */
             :root {
                 --text-primary: #ffffff;
@@ -69,6 +123,12 @@
                 --bg-secondary: #1a1a1a;
                 --border-color: #333333;
                 --accent-color: #666666;
+            }
+
+            /* Brand text styling */
+            .brand-text {
+                color: #ffffff !important;
+                font-weight: 600;
             }
 
             /* Products page specific styles only - let minimalistic.css handle the theme */
@@ -188,50 +248,6 @@
                 font-size: 1.1rem;
                 opacity: 0.9;
                 margin-bottom: 1rem;
-            }
-
-            .early-access-banner {
-                background: #ffffff;
-                color: #000000;
-                padding: 12px 20px;
-                border-radius: 12px;
-                margin: 1rem auto 0;
-                max-width: 600px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                animation: glow 2s ease-in-out infinite alternate;
-                border: 2px solid #000000;
-            }
-
-            .banner-content {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 12px;
-                flex-wrap: wrap;
-            }
-
-            .early-access-banner .badge {
-                background: rgba(255, 255, 255, 0.2);
-                padding: 4px 12px;
-                border-radius: 20px;
-                font-size: 0.9rem;
-                font-weight: bold;
-                backdrop-filter: blur(10px);
-            }
-
-            .early-access-banner .message {
-                font-size: 1rem;
-                font-weight: 500;
-            }
-
-            @keyframes glow {
-                from {
-                    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-                }
-
-                to {
-                    box-shadow: 0 6px 25px rgba(255, 107, 107, 0.5);
-                }
             }
 
             /* Cart Modal Styles */
@@ -380,15 +396,6 @@
                 margin-bottom: 1rem;
             }
 
-            .early-access-savings {
-                color: #e74c3c;
-                font-weight: bold;
-                margin-bottom: 0.5rem;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
             .total-price {
                 font-size: 1.2rem;
                 font-weight: bold;
@@ -410,54 +417,6 @@
 
             .checkout-btn:hover {
                 background: #5a6fd8;
-            }
-
-            .categories-section {
-                margin-bottom: 3rem;
-            }
-
-            .categories-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 1.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .category-card {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                border-radius: 15px;
-                padding: 2rem 1rem;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                text-align: center;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-
-            .category-card:hover {
-                transform: translateY(-5px);
-                background: rgba(255, 255, 255, 0.15);
-            }
-
-            .category-card.active {
-                background: rgba(255, 215, 0, 0.2);
-                border-color: #ffd700;
-            }
-
-            .category-icon {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-            }
-
-            .category-name {
-                font-size: 1.1rem;
-                font-weight: bold;
-                margin-bottom: 0.5rem;
-            }
-
-            .category-count {
-                opacity: 0.7;
-                font-size: 0.9rem;
             }
 
             .filters-section {
@@ -500,19 +459,6 @@
             .filter-select option {
                 background: #333;
                 color: white;
-            }
-
-            .search-box {
-                background: rgba(255, 255, 255, 0.1);
-                color: white;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                padding: 0.5rem 1rem;
-                border-radius: 25px;
-                min-width: 200px;
-            }
-
-            .search-box::placeholder {
-                color: rgba(255, 255, 255, 0.6);
             }
 
             .products-section {
@@ -609,22 +555,6 @@
                 align-items: center;
                 gap: 0.5rem;
                 flex-wrap: wrap;
-            }
-
-            .early-access-price {
-                color: #e74c3c;
-                font-size: 1.4rem;
-                font-weight: bold;
-            }
-
-            .early-access-badge {
-                background: #e74c3c;
-                color: white;
-                font-size: 0.7rem;
-                padding: 2px 6px;
-                border-radius: 10px;
-                font-weight: bold;
-                text-transform: uppercase;
             }
 
             .original-price {
@@ -803,46 +733,56 @@
 </head>
 
     <body class="dark-theme">
+        <!--
+        =================================================================================
+        DEVELOPER NOTES - KNOWN ISSUES (August 25, 2025)
+        =================================================================================
+
+        🐛 T-SHIRT IMAGES NOT DISPLAYING CORRECTLY:
+        - Printify API images are not rendering properly in product cards
+        - Image URLs from Printify may have CORS issues or incorrect formatting
+        - Fallback to Fresh Threads logo is working, but product images missing
+        - Need to investigate Printify image CDN and implement proper image handling
+
+        🛒 SHOPPING CART CLOSE BUT NOT READY:
+        - Cart functionality is partially implemented with FreshThreadsCart
+        - Add to cart buttons exist but may not be fully functional
+        - Cart modal/sidebar integration needs final testing and refinement
+        - Price calculations and cart persistence need verification
+        - Checkout flow requires final integration testing
+
+        ✅ WORKING FEATURES:
+        - Product filtering by price range (FIXED)
+        - Product sorting by price/popularity (FIXED)
+        - Search functionality
+        - Responsive design
+        - Navigation and basic UI
+
+        📋 TODO:
+        - Fix Printify image display issues
+        - Complete cart functionality testing
+        - Verify checkout integration
+        - Test with real Printify products
+        =================================================================================
+        -->
+
         <!-- Header -->
         <header class="header">
             <nav class="nav container">
                 <div class="nav-brand">
-                    <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
-                    <span class="brand-text">Fresh Threads</span>
+                    <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+                        <img src="../assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo" width="150" height="50" loading="eager" decoding="async">
+                        <span class="brand-text">Fresh Threads</span>
+                    </a>
                 </div>
 
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="products.html" class="nav-link active">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="about.html" class="nav-link">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="contact.html" class="nav-link">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="account.html" class="nav-link">Account</a>
-                    </li>
-                </ul>
-
                 <div class="nav-actions">
-                    <button class="btn btn-ghost cart-icon" onclick="if(window.freshThreadsCart) window.freshThreadsCart.openCart()">
+                    <button class="btn btn-ghost cart-icon" onclick="showCartModal()">
                         🛒
                         <span class="cart-count" id="cartCount">0</span>
                     </button>
                     <button class="btn btn-primary">Shop Now</button>
                 </div>
-
-                <!-- Mobile menu toggle -->
-                <button class="nav-toggle" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
             </nav>
         </header>
 
@@ -854,12 +794,6 @@
                     <h1 class="page-title">Shop Fresh Threads</h1>
                     <p class="page-description">Discover our collection of premium apparel. From trendy graphic tees to cozy hoodies, find the
                         perfect style to express yourself.</p>
-                    <div id="earlyAccessBanner" class="early-access-banner" style="display: none;">
-                        <div class="banner-content">
-                            <span class="badge">🎉 EARLY ACCESS</span>
-                            <span class="message">You have exclusive early access! Enjoy 30% off and free shipping.</span>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -872,7 +806,7 @@
                                    id="productSearch"
                                    placeholder="Search products..."
                                    class="search-input">
-                            <button class="search-button" onclick="searchProducts()">
+                            <button class="search-button" onclick="applyFilters()">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                                     <path d="M21 21L16.5 16.5M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
                                           stroke="currentColor"
@@ -885,28 +819,6 @@
                         <div class="search-results-count" id="searchResultsCount" style="display: none;">
                             <span id="resultCount">0</span> products found
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Categories Section -->
-            <section class="categories-section">
-                <div class="container">
-                    <div class="categories-grid">
-                    <div class="category-card active" data-category="all" onclick="selectCategory('all')">
-                        <div class="category-icon"></div>
-                        <div class="category-name">All T-Shirts</div>
-                        <div class="category-count" id="allCount">6 items</div>
-                    </div>
-                    <div class="category-card" data-category="t-shirts" onclick="selectCategory('t-shirts')">
-                        <div class="category-icon"></div>
-                        <div class="category-name">Short Sleeve T-Shirts</div>
-                        <div class="category-count" id="tshirtsCount">3 items</div>
-                    </div>
-                    <div class="category-card" data-category="long-sleeve" onclick="selectCategory('long-sleeve')">
-                        <div class="category-icon"></div>
-                        <div class="category-name">Long Sleeve T-Shirts</div>
-                        <div class="category-count" id="longsleeveCount">3 items</div>
                     </div>
                 </div>
             </section>
@@ -934,11 +846,6 @@
                             <option value="40-60">$40 - $60</option>
                             <option value="60+">$60+</option>
                         </select>
-                    </div>
-                    <div class="filter-group">
-                        <div class="filter-label">Search</div>
-                        <input type="text" class="search-box" placeholder="Search products..." id="searchInput"
-                               oninput="applyFilters()">
                     </div>
                 </div>
                 </div>
@@ -973,10 +880,6 @@
                     </div>
                     <div class="cart-footer">
                         <div class="cart-total">
-                            <div id="earlyAccessSavings" class="early-access-savings" style="display: none;">
-                                <span class="savings-text">🎉 Early Access Savings: -$<span
-                                          id="savingsAmount">0.00</span></span>
-                            </div>
                             <div class="total-price">Total: $<span id="cartTotal">0.00</span></div>
                         </div>
                         <button class="btn btn-primary checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
@@ -996,9 +899,7 @@
                     taxRate: 0.08 // 8% tax rate
                 };
 
-                // Shopping cart
-                let cart = JSON.parse(localStorage.getItem('freshthreads_cart') || '[]');
-                let selectedCategory = 'all';
+                // Remove legacy cart - using FreshThreadsCart instead
                 let userTier = localStorage.getItem('userTier') || 'retail';
 
                 // Printify integration
@@ -1011,14 +912,80 @@
                             window.podConfig.printifyApiKey.includes('YOUR_PRINTIFY_API_KEY') ||
                             window.podConfig.printifyApiKey.includes('WILL_BE_REPLACED_BY_GITHUB_ACTIONS') ||
                             window.podConfig.printifyApiKey.includes('PRINTIFY_API_KEY_PLACEHOLDER')) {
-                            throw new Error('Printify API key or Shop ID not set.');
+                            console.log('🔧 POD config not found, trying direct API call...');
+
+                            // Try direct API call
+                            const apiUrl = 'http://127.0.0.1:8000/api/printify/shops/6563836/products.json';
+                            console.log('📡 Fetching from:', apiUrl);
+
+                            const response = await fetch(apiUrl);
+                            if (!response.ok) {
+                                throw new Error(`API responded with status: ${response.status}`);
+                            }
+
+                            const data = await response.json();
+                            console.log('📦 API Response:', data);
+
+                            if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
+                                throw new Error('No products found in API response.');
+                            }
+
+                            printifyProducts = data.data;
+                            console.log(`✅ Found ${printifyProducts.length} Printify products`);
+                            console.log('🖼️ First product images:', printifyProducts[0].images);
+
+                            // Normalize Printify products to match our product structure for filtering
+                            products = printifyProducts.map(product => ({
+                                id: `printify_${product.id}`,
+                                name: product.title || 'Untitled Product',
+                                description: product.description || '',
+                                price: product.variants && product.variants[0] ? Math.round(product.variants[0].price / 100 * 100) / 100 : 25.99,
+                                originalPrice: null,
+                                category: 'print-on-demand',
+                                // 🐛 KNOWN ISSUE: Printify images not displaying correctly - may be CORS or URL format issue
+                                image: product.images && product.images[0] ? product.images[0].src : '',
+                                badge: null,
+                                featured: false,
+                                reviewCount: 0,
+                                podProvider: 'printify',
+                                podProductId: product.id,
+                                variants: product.variants || []
+                            }));
+
+                            filteredProducts = [...products];
+                            renderProducts();
+                            updateResultsCount();
+                            document.getElementById('loadingMessage').style.display = 'none';
+                            document.getElementById('errorMessage').style.display = 'none';
+                            return;
                         }
+
                         podManager = new PrintOnDemandManager(window.podConfig);
                         printifyProducts = await podManager.getPrintifyProducts();
                         if (!Array.isArray(printifyProducts) || printifyProducts.length === 0) {
                             throw new Error('No Printify products found.');
                         }
-                        renderProducts(printifyProducts, true);
+
+                        // Normalize Printify products to match our product structure for filtering
+                        products = printifyProducts.map(product => ({
+                            id: `printify_${product.id}`,
+                            name: product.title || 'Untitled Product',
+                            description: product.description || '',
+                            price: product.variants && product.variants[0] ? Math.round(product.variants[0].price / 100 * 100) / 100 : 25.99,
+                            originalPrice: null,
+                            category: 'print-on-demand',
+                            image: product.images && product.images[0] ? product.images[0].src : '',
+                            badge: null,
+                            featured: false,
+                            reviewCount: 0,
+                            podProvider: 'printify',
+                            podProductId: product.id,
+                            variants: product.variants || []
+                        }));
+
+                        filteredProducts = [...products];
+                        renderProducts();
+                        updateResultsCount();
                         document.getElementById('loadingMessage').style.display = 'none';
                         document.getElementById('errorMessage').style.display = 'none';
                     } catch (error) {
@@ -1037,11 +1004,17 @@
                             productsConfig = await response.json();
                         }
                         const localProducts = (productsConfig.products && productsConfig.products.length) ? productsConfig.products : getFallbackProducts();
-                        renderProducts(localProducts, false);
+                        products = localProducts;
+                        filteredProducts = [...products];
+                        renderProducts();
+                        updateResultsCount();
                         document.getElementById('loadingMessage').style.display = 'none';
                     } catch (error) {
                         console.error('Error loading local products:', error);
-                        renderProducts(getFallbackProducts(), false);
+                        products = getFallbackProducts();
+                        filteredProducts = [...products];
+                        renderProducts();
+                        updateResultsCount();
                         document.getElementById('loadingMessage').style.display = 'none';
                     }
                 }
@@ -1167,88 +1140,74 @@
                         grid.innerHTML = '<div class="error">No products found.</div>';
                         return;
                     }
-                    products.forEach(product => {
+
+                    console.log(`🎨 Rendering ${products.length} products, isPrintify: ${isPrintify}`);
+
+                    products.forEach((product, index) => {
                         let imageUrl = '';
                         let title = '';
                         let price = '';
                         let description = '';
+
                         if (isPrintify) {
                             title = product.title || 'Untitled';
                             price = product.variants && product.variants[0] ? `$${(product.variants[0].price / 100).toFixed(2)}` : '';
                             description = product.description || '';
+                            // Handle Printify image structure properly
                             imageUrl = product.images && product.images[0] ? product.images[0].src : '';
+                            console.log(`📦 Product ${index + 1}: ${title}`);
+                            console.log(`🖼️ Image URL: ${imageUrl}`);
                         } else {
                             title = product.name;
                             price = product.price ? `$${product.price.toFixed(2)}` : '';
                             description = product.description || '';
                             imageUrl = product.image || '';
                         }
-                        grid.innerHTML += `
-                            <div class="product-card">
-                                <div class="product-image">${imageUrl ? `<img src="${imageUrl}" alt="${title}" style="width:100%;height:200px;object-fit:cover;border-radius:10px;">` : '<span>🛍️</span>'}</div>
-                                <div class="product-info">
-                                    <h3>${title}</h3>
-                                    <div class="product-description">${description}</div>
-                                    <div class="product-price">${price}</div>
-                                </div>
+
+                        // Create image element with comprehensive error handling
+                        const fallbackDiv = `<div style="display:flex;width:100%;height:200px;background:#f0f0f0;border-radius:10px;align-items:center;justify-content:center;color:#666;font-size:48px;">🛍️</div>`;
+
+                        const imageElement = imageUrl ?
+                            `<img src="${imageUrl}"
+                                  alt="${title}"
+                                  width="300"
+                                  height="200"
+                                  loading="lazy"
+                                  decoding="async"
+                                  style="width:100%;height:200px;object-fit:cover;border-radius:10px;"
+                                  onload="console.log('✅ Image loaded successfully:', this.src); this.nextElementSibling.style.display='none';"
+                                  onerror="console.error('❌ Image failed to load:', this.src, event); this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             ${fallbackDiv}` :
+                            fallbackDiv;
+
+                        const productCard = document.createElement('div');
+                        productCard.className = 'product-card';
+                        productCard.innerHTML = `
+                            <div class="product-image">${imageElement}</div>
+                            <div class="product-info">
+                                <h3>${title}</h3>
+                                <div class="product-description">${description}</div>
+                                <div class="product-price">${price}</div>
                             </div>
                         `;
-                    });
-                }
 
-                // On page load, try Printify first, fallback to local
+                        grid.appendChild(productCard);
+                    });
+
+                    console.log(`✅ Rendered ${products.length} product cards`);
+                }                // On page load, try Printify first, fallback to local
                 window.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('loadingMessage').style.display = 'block';
                     loadPrintifyProducts();
                 });
+            })();
             </script>
 
             <!-- Local Products Fallback -->
             <script>
-                // Fallback products data - this is used when Printify API fails
-                function getFallbackProducts() {
-                    return [
-                        {
-                            id: 'ft010',
-                            name: 'Classic Unisex T-Shirt',
-                            description: 'Comfortable classic t-shirt for everyday wear',
-                            price: 24.99,
-                            originalPrice: null,
-                            category: 't-shirts',
-                            image: '',
-                            badge: null,
-                            rating: 4.7,
-                            reviewCount: 256,
-                            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-                            colors: ['Black', 'White', 'Gray'],
-                            featured: true,
-                            gender: 'unisex',
-                            isNew: false,
-                            isSubscription: false
-                        },
-                        {
-                            id: 'ft011',
-                            name: 'Women\'s Long Sleeve Tee',
-                            description: 'Stylish long sleeve t-shirt with feminine cut',
-                            price: 29.99,
-                            originalPrice: null,
-                            category: 'long-sleeve',
-                            image: '',
-                            badge: null,
-                            rating: 4.8,
-                            reviewCount: 112,
-                            sizes: ['XS', 'S', 'M', 'L', 'XL'],
-                            colors: ['Black', 'White', 'Navy'],
-                            featured: true,
-                            gender: 'womens',
-                            isNew: false,
-                            isSubscription: false
-                        }
-                    ];
-                }
-
                 let products = [];
                 let filteredProducts = [];
+                let userTier = localStorage.getItem('userTier') || 'retail';
 
                 // POD variables already declared above - no need to redeclare
 
@@ -1266,7 +1225,17 @@
                         }
 
                         // Load local products
-                        products = await loadProductsConfig();
+                        try {
+                            const response = await fetch('products-config.json');
+                            let productsConfig = {};
+                            if (response.ok) {
+                                productsConfig = await response.json();
+                            }
+                            products = (productsConfig.products && productsConfig.products.length) ? productsConfig.products : getFallbackProducts();
+                        } catch (error) {
+                            console.error('Error loading products config:', error);
+                            products = getFallbackProducts();
+                        }
 
                         // Try to sync with POD providers (in background)
                         syncWithPODProviders().catch(console.error);
@@ -1337,24 +1306,22 @@
                     const product = products.find(p => p.id === productId);
                     if (!product) return;
 
-                    // Add product to local cart
-                    const cartItem = {
-                        id: productId,
-                        name: product.name,
-                        price: product.price,
-                        size: selectedSize,
-                        color: selectedColor,
-                        quantity: 1,
-                        podProvider: product.podProvider || null, // Track which POD provider
-                        podProductId: product.podProductId || null // Track POD product ID
-                    };
+                    // Use FreshThreadsCart instead of legacy cart
+                    if (window.freshThreadsCart) {
+                        const cartItem = {
+                            id: productId,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image || '../assets/Fresh_ThreadsLLCLogo.png',
+                            size: selectedSize || 'M',
+                            color: selectedColor || 'Black',
+                            podProvider: product.podProvider || null,
+                            podProductId: product.podProductId || null
+                        };
 
-                    // Add to cart
-                    cart.push(cartItem);
-                    localStorage.setItem('freshthreads_cart', JSON.stringify(cart));
-                    updateCartCount();
-
-                    showNotification(`Added ${product.name} to cart!`, 'success');
+                        window.freshThreadsCart.addToCart(cartItem);
+                        window.freshThreadsCart.showAddToCartNotification(cartItem);
+                    }
                 }
 
                 // Show POD provider status (for debugging)
@@ -1371,8 +1338,9 @@
 
                 // Utility functions
                 function updateCartCount() {
-                    const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-                    document.getElementById('cartCount').textContent = cartCount;
+                    // Legacy function - now handled by FreshThreadsCart
+                    // This function is kept for compatibility but does nothing
+                    console.log('updateCartCount called - now handled by FreshThreadsCart');
                 }
 
                 function showNotification(message, type = 'success') {
@@ -1398,36 +1366,16 @@
                     }, 3000);
                 }
 
-                // Category selection
-                window.selectCategory = function (category) {
-                    selectedCategory = category;
-
-                    // Update active category
-                    document.querySelectorAll('.category-card').forEach(card => {
-                        card.classList.remove('active');
-                    });
-                    document.querySelector(`[data-category="${category}"]`).classList.add('active');
-
-                    applyFilters();
-                };
-
                 // Filter and search functionality
                 window.applyFilters = function () {
                     const sortFilter = document.getElementById('sortFilter').value;
                     const priceFilter = document.getElementById('priceFilter').value;
-                    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+                    const searchInput = document.getElementById('productSearch').value.toLowerCase();
+                    const searchResultsCount = document.getElementById('searchResultsCount');
+                    const resultCount = document.getElementById('resultCount');
 
-                    // Start with selected category
-                    if (selectedCategory === 'all') {
-                        filteredProducts = [...products];
-                    } else if (selectedCategory === 't-shirts') {
-                        filteredProducts = products.filter(p => p.category === 't-shirts');
-                    } else if (selectedCategory === 'long-sleeve') {
-                        filteredProducts = products.filter(p => p.category === 'long-sleeve');
-                    } else {
-                        // Fallback for any other categories
-                        filteredProducts = [...products];
-                    }
+                    // Show all products since categories are removed
+                    filteredProducts = [...products];
 
                     // Apply search filter
                     if (searchInput) {
@@ -1435,6 +1383,14 @@
                             p.name.toLowerCase().includes(searchInput) ||
                             p.description.toLowerCase().includes(searchInput)
                         );
+                    }
+
+                    // Update search results count display
+                    if (searchInput && searchInput.trim() !== '') {
+                        resultCount.textContent = filteredProducts.length;
+                        searchResultsCount.style.display = 'block';
+                    } else {
+                        searchResultsCount.style.display = 'none';
                     }
 
                     // Apply price filter
@@ -1478,6 +1434,18 @@
                 function renderProducts() {
                     const grid = document.getElementById('productsGrid');
 
+                    // Safety check: ensure filteredProducts is defined and is an array
+                    if (!Array.isArray(filteredProducts)) {
+                        console.error('filteredProducts is not an array:', filteredProducts);
+                        grid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; opacity: 0.7;">
+                            <h3>Error loading products</h3>
+                            <p>Please refresh the page or try again later</p>
+                        </div>
+                    `;
+                        return;
+                    }
+
                     if (filteredProducts.length === 0) {
                         grid.innerHTML = `
                         <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; opacity: 0.7;">
@@ -1500,39 +1468,25 @@
                                 ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'sale' && discountPercent > 0 ? `-${discountPercent}%` : product.badge.toUpperCase()}</div>` : ''}
                             </div>
                             <div class="product-info">
-                                <h3>${product.name}</h3>
-                                <div class="product-description">${product.description}</div>
+                                <h3>${product.name || 'Untitled Product'}</h3>
+                                <div class="product-description">${product.description || ''}</div>
                                 <div class="product-rating">
-                                    <div class="stars">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '☆' : ''}</div>
-                                    <span class="rating-count">(${product.reviewCount})</span>
+                                    <div class="stars">${product.rating ? '★'.repeat(Math.floor(product.rating)) + (product.rating % 1 ? '☆' : '') : '☆☆☆☆☆'}</div>
+                                    <span class="rating-count">(${product.reviewCount || 0})</span>
                                 </div>
                                 <div class="product-price">
-                                    ${(() => {
-                                const basePrice = product.price;
-                                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1; // 30% off
-                                const finalPrice = (basePrice * earlyAccessDiscount).toFixed(2);
-
-                                if (window.earlyAccessActive && basePrice !== finalPrice) {
-                                    return `<span class="early-access-price">$${finalPrice}</span><span class="original-price">$${basePrice}</span><span class="early-access-badge">EARLY ACCESS</span>`;
-                                } else {
-                                    return `$${basePrice}${product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : ''}`;
-                                }
-                            })()}
+                                    $${product.price}${product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : ''}
                                 </div>
                                 <div class="size-options">
-                                    ${product.sizes.slice(0, 4).map(size => `<div class="size-btn" onclick="selectSize('${product.id}', '${size}')">${size}</div>`).join('')}
-                                    ${product.sizes.length > 4 ? '<div class="size-btn">+more</div>' : ''}
+                                    ${product.sizes && Array.isArray(product.sizes) ? product.sizes.slice(0, 4).map(size => `<div class="size-btn" onclick="selectSize('${product.id}', '${size}')">${size}</div>`).join('') : '<div class="size-btn">One Size</div>'}
+                                    ${product.sizes && product.sizes.length > 4 ? '<div class="size-btn">+more</div>' : ''}
                                 </div>
                                 <div class="product-actions">
                                     <button class="btn btn-primary add-to-cart-btn"
                                             data-product-id="${product.id}"
                                             data-product-name="${product.name}"
-                                            data-product-price="${(() => {
-                                                const basePrice = product.price;
-                                                const earlyAccessDiscount = window.earlyAccessActive ? 0.7 : 1;
-                                                return (basePrice * earlyAccessDiscount).toFixed(2);
-                                            })()}"
-                                            data-product-image="${product.image ? product.image.match(/src="([^"]+)"/)?.[1] || 'assets/Fresh_ThreadsLLCLogo.png' : 'assets/Fresh_ThreadsLLCLogo.png'}"
+                                            data-product-price="${product.price}"
+                                            data-product-image="${product.image ? product.image.match(/src="([^"]+)"/)?.[1] || '../assets/Fresh_ThreadsLLCLogo.png' : '../assets/Fresh_ThreadsLLCLogo.png'}"
                                             onclick="addToCartFromProduct('${product.id}')">
                                         🛒 Add to Cart
                                     </button>
@@ -1546,38 +1500,13 @@
 
                 function updateResultsCount() {
                     const count = filteredProducts.length;
-                    let total;
-                    if (selectedCategory === 'all') {
-                        total = products.length;
-                    } else if (selectedCategory === 'new-items') {
-                        total = products.filter(p => p.isNew).length;
-                    } else if (selectedCategory === 'mens') {
-                        total = products.filter(p => p.gender === 'mens' || p.gender === 'unisex').length;
-                    } else if (selectedCategory === 'womens') {
-                        total = products.filter(p => p.gender === 'womens' || p.gender === 'unisex').length;
-                    } else if (selectedCategory === 'subscriptions') {
-                        total = products.filter(p => p.isSubscription).length;
-                    } else {
-                        total = products.length;
-                    }
+                    const total = products.length;
                     document.getElementById('resultsCount').textContent =
                         `Showing ${count} of ${total} products`;
                 }
 
-                // Update category counts
-                function updateCategoryCounts() {
-                    const counts = {
-                        all: products.length,
-                        tshirts: products.filter(p => p.category === 't-shirts').length,
-                        longsleeve: products.filter(p => p.category === 'long-sleeve').length
-                    };
-
-                    document.getElementById('allCount').textContent = `${counts.all} items`;
-                    document.getElementById('tshirtsCount').textContent = `${counts.tshirts} items`;
-                    document.getElementById('longsleeveCount').textContent = `${counts.longsleeve} items`;
-                }
-
-                // Shopping cart functions
+                // Shopping cart functions - DISABLED (using FreshThreadsCart instead)
+                /*
                 window.addToCart = function (productId) {
                     const product = products.find(p => p.id === productId);
                     if (!product) return;
@@ -1648,34 +1577,10 @@
 
                 // Initialize
                 document.addEventListener('DOMContentLoaded', function () {
-                    checkEarlyAccess();
                     document.getElementById('loadingMessage').style.display = 'none';
                     updateCartCount();
-                    updateCategoryCounts();
                     applyFilters(); // This will render initial products
                 });
-
-                // Check if user has early access
-                function checkEarlyAccess() {
-                    const userData = localStorage.getItem('freshThreadsUser');
-                    const earlyAccessList = localStorage.getItem('freshThreadsEarlyAccess');
-                    const earlyAccessData = localStorage.getItem('freshthreads_early_access');
-                    const authSession = localStorage.getItem('freshthreads_auth');
-
-                    if (userData || earlyAccessList || earlyAccessData || authSession) {
-                        const banner = document.getElementById('earlyAccessBanner');
-                        if (banner) {
-                            banner.style.display = 'block';
-                        }
-
-                        // Apply early access benefits to products
-                        applyEarlyAccessBenefits();
-                    }
-                }            // Apply early access benefits (30% off, free shipping)
-                function applyEarlyAccessBenefits() {
-                    window.earlyAccessActive = true;
-                    // This will be used in the product rendering to show discounted prices
-                }
 
                 // Cart modal functions
                 window.showCartModal = function () {
@@ -1690,8 +1595,6 @@
                 function updateCartModal() {
                     const cartItems = document.getElementById('cartItems');
                     const cartTotal = document.getElementById('cartTotal');
-                    const earlyAccessSavings = document.getElementById('earlyAccessSavings');
-                    const savingsAmount = document.getElementById('savingsAmount');
 
                     // Get cart from localStorage to ensure we have the latest data
                     const currentCart = JSON.parse(localStorage.getItem('freshthreads_cart') || '[]');
@@ -1699,34 +1602,22 @@
                     if (currentCart.length === 0) {
                         cartItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
                         cartTotal.textContent = '0.00';
-                        earlyAccessSavings.style.display = 'none';
                         return;
                     }
 
                     let total = 0;
-                    let totalSavings = 0;
 
                     cartItems.innerHTML = cart.map(item => {
                         const itemTotal = item.price * item.quantity;
                         total += itemTotal;
 
-                        if (item.earlyAccess && item.originalPrice) {
-                            totalSavings += (item.originalPrice - item.price) * item.quantity;
-                        }
-
                         return `
                         <div class="cart-item">
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" width="80" height="80" loading="lazy" decoding="async">
                             <div class="cart-item-details">
                                 <h4>${item.name}</h4>
                                 <p>Size: ${item.size} | Color: ${item.color}</p>
-                                <div class="cart-item-price">
-                                    ${item.earlyAccess && item.originalPrice ?
-                                `<span class="discounted-price">$${item.price}</span>
-                                         <span class="original-price">$${item.originalPrice}</span>`
-                                : `$${item.price}`
-                            }
-                                </div>
+                                <div class="cart-item-price">$${item.price}</div>
                             </div>
                             <div class="cart-item-quantity">
                                 <button class="btn btn-primary" onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})">-</button>
@@ -1738,13 +1629,6 @@
                     }).join('');
 
                     cartTotal.textContent = total.toFixed(2);
-
-                    if (totalSavings > 0) {
-                        savingsAmount.textContent = totalSavings.toFixed(2);
-                        earlyAccessSavings.style.display = 'block';
-                    } else {
-                        earlyAccessSavings.style.display = 'none';
-                    }
                 }
 
                 window.updateCartQuantity = function (productId, newQuantity) {
@@ -1773,6 +1657,22 @@
                     // Save cart to localStorage and redirect to checkout
                     localStorage.setItem('freshthreads_cart', JSON.stringify(cart));
                     window.location.href = 'checkout.html';
+                };
+                */ // End of disabled legacy cart functions
+
+                // Replacement cart functions that use FreshThreadsCart
+                window.addToCart = function (productId) {
+                    if (window.addToCartFromProduct) {
+                        window.addToCartFromProduct(productId);
+                    }
+                };
+
+                window.proceedToCheckout = function () {
+                    if (window.freshThreadsCart && window.freshThreadsCart.getItemCount() > 0) {
+                        window.location.href = 'checkout.html';
+                    } else {
+                        alert('Your cart is empty! Add some items before checking out.');
+                    }
                 };
 
                 // Initialize page when DOM is loaded
@@ -1811,27 +1711,53 @@
                     const searchInput = document.getElementById('productSearch');
                     if (searchInput) {
                         searchInput.addEventListener('input', function() {
-                            window.searchProducts();
+                            window.applyFilters();
                         });
 
                         // Handle Enter key press
                         searchInput.addEventListener('keypress', function(e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
-                                window.searchProducts();
+                                window.applyFilters();
                             }
                         });
                     }
                 });
 
-            })();
         </script>
 
         <!-- Shopping Cart JavaScript -->
-        <script src="assets/cart.js"></script>
+        <script src="../assets/cart.js" defer></script>
 
         <script>
-            // Product-specific cart functions
+            // Register Service Worker for Performance
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(function(registration) {
+                            console.log('[SW] Service Worker registered successfully:', registration.scope);
+                        })
+                        .catch(function(error) {
+                            console.log('[SW] Service Worker registration failed:', error);
+                        });
+                });
+            }
+
+            // Debug cart initialization
+            console.log('Cart JavaScript loaded');
+
+            // Wait for cart to initialize from cart.js
+            document.addEventListener('DOMContentLoaded', function() {
+                // Wait a bit for cart.js to initialize
+                setTimeout(() => {
+                    if (window.freshThreadsCart) {
+                        console.log('✅ Cart is working and ready!');
+                    } else {
+                        console.error('❌ Cart failed to initialize');
+                    }
+                }, 500); // Give cart.js time to initialize
+            });            // Product-specific cart functions
+            // 🛒 KNOWN ISSUE: Shopping cart close but not ready - needs final testing and integration
             window.addToCartFromProduct = function(productId) {
                 const product = products.find(p => p.id === productId);
                 if (!product) return;
@@ -1846,7 +1772,7 @@
                 const finalPrice = (basePrice * earlyAccessDiscount).toFixed(2);
 
                 // Extract image URL from HTML string
-                let imageUrl = 'assets/Fresh_ThreadsLLCLogo.png';
+                let imageUrl = '../assets/Fresh_ThreadsLLCLogo.png';
                 if (product.image) {
                     const imgMatch = product.image.match(/src="([^"]+)"/);
                     if (imgMatch) {

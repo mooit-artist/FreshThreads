@@ -95,40 +95,6 @@
 
     <!-- Promotional Circle Styles -->
     <style>
-        .promo-circle {
-            position: fixed;
-            top: 50%;
-            right: 30px;
-            transform: translateY(-50%);
-            width: 120px;
-            height: 120px;
-            background: #000000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            border: 2px solid #ffffff;
-        }
-
-        .promo-circle:hover {
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .promo-text {
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 14px;
-            text-align: center;
-            line-height: 1.2;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         /* Modal Styles */
         .modal-overlay {
             position: fixed;
@@ -260,16 +226,6 @@
         }
 
         @media (max-width: 768px) {
-            .promo-circle {
-                width: 100px;
-                height: 100px;
-                right: 20px;
-            }
-
-            .promo-text {
-                font-size: 12px;
-            }
-
             .modal-content {
                 padding: 30px 20px;
             }
@@ -495,42 +451,15 @@
     <header class="header">
         <nav class="nav container">
             <div class="nav-brand">
-                <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
-                <span class="brand-text">Fresh Threads</span>
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+                    <img src="assets/Fresh_ThreadsLLCLogo.png" alt="Fresh Threads Logo" class="logo">
+                    <span class="brand-text">Fresh Threads</span>
+                </a>
             </div>
-
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link active">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="products.html" class="nav-link">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a href="freshvision.html" class="nav-link">🎨 AI Designer</a>
-                </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a href="account.html" class="nav-link">Account</a>
-                </li>
-            </ul>
 
             <div class="nav-actions">
-                <button class="btn btn-ghost">Sign In</button>
-                <button class="btn btn-primary">Shop Now</button>
+                <button class="btn btn-primary" onclick="window.location.href='products.html'">Shop Now</button>
             </div>
-
-            <!-- Mobile menu toggle -->
-            <button class="nav-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </nav>
     </header>
 
@@ -541,7 +470,9 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-image">
-                        <img src="assets/Fresh_ThreadsLLCLogo.png" alt="FreshThreads LLC - Premium Apparel" class="hero-logo">
+                        <a href="index.html">
+                            <img src="assets/Fresh_ThreadsLLCLogo.png" alt="FreshThreads LLC - Premium Apparel" class="hero-logo">
+                        </a>
                     </div>
 
                     <div class="hero-text">
@@ -557,9 +488,6 @@
                             <button class="btn btn-primary btn-large">
                                 Shop Collection
                             </button>
-                            <button class="btn btn-outline btn-large">
-                                Join Early Access
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -568,17 +496,7 @@
         </section>
     </main>
 
-    <!-- Promotional Circle -->
-    <div class="promo-circle" onclick="openSignupModal()">
-        <div class="promo-text">GET 20%<br>OFF!</div>
-    </div>
-
     <script>
-        // Modal functionality for promotional circle
-        function openSignupModal() {
-            alert('Sign up for 20% off your first order!\n\nEmail: hello@freshthreadsllc.com');
-        }
-
         // Handle all button interactions
         document.addEventListener('DOMContentLoaded', function() {
             // Add click handlers to all buttons
@@ -591,12 +509,6 @@
                         case 'Shop Now':
                         case 'Shop Collection':
                             window.location.href = 'products.html';
-                            break;
-                        case 'Learn More':
-                            window.location.href = 'about.html';
-                            break;
-                        case 'Join Early Access':
-                            window.location.href = 'register.html';
                             break;
                         case 'View Details':
                             alert('Product details coming soon!');

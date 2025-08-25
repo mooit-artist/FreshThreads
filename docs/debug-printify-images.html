@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Printify Image Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .image-test {
+            border: 2px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .image-test img {
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .error { color: red; }
+        .success { color: green; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Printify Image Loading Debug</h1>
+
+    <div class="debug-section">
+        <h2>API Connection Test</h2>
+        <div id="apiStatus">Testing API connection...</div>
+        <button onclick="testAPI()">Retry API Test</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>Direct Image Test</h2>
+        <div class="image-test">
+            <h3>Test Image 1 (Direct Printify URL)</h3>
+            <img id="testImg1"
+                 src="https://images.printify.com/mockup/63ee8ae7dac2d239e9084277/18542/92547/unisex-jersey-short-sleeve-tee.jpg?camera_label=front"
+                 alt="Test Image 1"
+                 onload="console.log('Direct image loaded successfully'); document.getElementById('img1Status').innerHTML = '✅ Image loaded successfully';"
+                 onerror="console.error('Direct image failed to load'); document.getElementById('img1Status').innerHTML = '❌ Image failed to load';">
+            <div id="img1Status">Loading...</div>
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>Product Images from API</h2>
+        <div id="productImages">Loading products...</div>
+        <button onclick="loadProducts()">Reload Products</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>Console Logs</h2>
+        <div id="consoleLogs" style="background: #f0f0f0; padding: 10px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logDiv = document.getElementById('consoleLogs');
+
+        function addToLog(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? 'red' : type === 'warn' ? 'orange' : 'black';
+            logDiv.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        console.log = function(message) {
+            originalLog.apply(console, arguments);
+            addToLog(message, 'log');
+        };
+
+        console.error = function(message) {
+            originalError.apply(console, arguments);
+            addToLog(message, 'error');
+        };
+
+        // Test API connection
+        async function testAPI() {
+            const statusDiv = document.getElementById('apiStatus');
+            statusDiv.innerHTML = 'Testing API...';
+
+            try {
+                // Test health endpoint
+                const healthResponse = await fetch('http://127.0.0.1:8000/health');
+                if (!healthResponse.ok) {
+                    throw new Error(`Health check failed: ${healthResponse.status}`);
+                }
+
+                console.log('✅ Backend health check passed');
+
+                // Test products endpoint
+                const productsResponse = await fetch('http://127.0.0.1:8000/api/printify/shops/6563836/products.json');
+                if (!productsResponse.ok) {
+                    throw new Error(`Products API failed: ${productsResponse.status}`);
+                }
+
+                const productsData = await productsResponse.json();
+                console.log('✅ Products API response received');
+                console.log(`Found ${productsData.data ? productsData.data.length : 0} products`);
+
+                statusDiv.innerHTML = `<span class="success">✅ API Connected - Found ${productsData.data ? productsData.data.length : 0} products</span>`;
+
+                return productsData;
+
+            } catch (error) {
+                console.error('❌ API test failed:', error);
+                statusDiv.innerHTML = `<span class="error">❌ API Error: ${error.message}</span>`;
+                return null;
+            }
+        }
+
+        // Load and display products
+        async function loadProducts() {
+            const container = document.getElementById('productImages');
+            container.innerHTML = 'Loading products...';
+
+            const productsData = await testAPI();
+            if (!productsData || !productsData.data) {
+                container.innerHTML = '<span class="error">❌ No product data available</span>';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            productsData.data.slice(0, 3).forEach((product, index) => {
+                const imageUrl = product.images && product.images[0] ? product.images[0].src : '';
+                const productDiv = document.createElement('div');
+                productDiv.className = 'image-test';
+                productDiv.innerHTML = `
+                    <h3>Product ${index + 1}: ${product.title}</h3>
+                    <p><strong>Image URL:</strong> ${imageUrl}</p>
+                    ${imageUrl ? `
+                        <img src="${imageUrl}"
+                             alt="${product.title}"
+                             onload="console.log('Product image ${index + 1} loaded:', this.src); this.nextElementSibling.innerHTML = '✅ Image loaded';"
+                             onerror="console.error('Product image ${index + 1} failed:', this.src); this.nextElementSibling.innerHTML = '❌ Image failed';">
+                        <div>Loading...</div>
+                    ` : '<div class="error">❌ No image URL</div>'}
+                `;
+                container.appendChild(productDiv);
+            });
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            console.log('🚀 Starting Printify image debug tests...');
+            setTimeout(() => {
+                testAPI().then(() => {
+                    setTimeout(loadProducts, 1000);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

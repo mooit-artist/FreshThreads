@@ -570,6 +570,11 @@ p {
   border-radius: 8px;
 }
 
+.brand-text {
+  color: var(--white) !important;
+  font-weight: 600;
+}
+
 .nav-menu {
   display: flex;
   list-style: none;
