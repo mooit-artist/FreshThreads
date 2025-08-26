@@ -25,8 +25,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
-          cache: "npm"
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
@@ -47,7 +47,7 @@ jobs:
         run: |
           # Use our existing replacement script which has been tested and works
           echo "🔧 Replacing configuration placeholders with GitHub Secrets..."
-          node scripts/replace-config-placeholders.js
+          node testing/scripts/replace-config-placeholders.js
 
           # Verify the replacement worked
           if grep -q "STRIPE_PUBLISHABLE_KEY_PLACEHOLDER" docs/assets/js/config.js; then

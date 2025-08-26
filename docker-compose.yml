@@ -5,7 +5,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile.backend
+      dockerfile: deployment/docker/Dockerfile.backend
     container_name: freshthreads-backend
     ports:
       - '${BACKEND_PORT:-8000}:8000'
@@ -20,13 +20,13 @@ services:
     volumes:
       - logs:/app/logs
       - type: bind
-        source: ./printify_proxy.py
+        source: ./api/printify_proxy.py
         target: /app/printify_proxy.py
       - type: bind
-        source: ./payment_api.py
+        source: ./api/payment_api.py
         target: /app/payment_api.py
       - type: bind
-        source: ./contact_api.py
+        source: ./api/contact_api.py
         target: /app/contact_api.py
     networks:
       - freshthreads-network
@@ -42,7 +42,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: deployment/docker/Dockerfile
       target: production
     container_name: freshthreads-frontend
     ports:
@@ -68,7 +68,7 @@ services:
   frontend-dev:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: deployment/docker/Dockerfile
       target: development
     container_name: freshthreads-frontend-dev
     ports:

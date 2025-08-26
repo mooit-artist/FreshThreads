@@ -85,7 +85,7 @@
       "type": "shell",
       "command": "python3",
       "args": [
-        "scripts/fix-csp-formatting.py"
+        "testing/scripts/fix-csp-formatting.py"
       ],
       "group": "build",
       "presentation": {

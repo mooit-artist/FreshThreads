@@ -1,0 +1,77 @@
+# QNAP Production-like Environment with HTTPS
+# Docker Compose for internal testing that simulates GitHub Pages + AWS
+
+version: '3.8'
+
+services:
+  # Reverse Proxy - Handles HTTPS and routing
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: freshthreads-proxy
+    ports:
+      - '8443:8443' # Frontend HTTPS (avoiding QNAP's 443)
+      - '9443:9443' # Backend HTTPS (avoiding QNAP's 443)
+      - '8080:8080' # Frontend HTTP redirect
+      - '9080:9080' # Backend HTTP redirect
+    volumes:
+      - ./deployment/qnap/nginx.conf:/etc/nginx/nginx.conf
+      - ./deployment/qnap/ssl:/etc/nginx/ssl
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - freshthreads-network
+    restart: unless-stopped
+
+  # Frontend - Simulates GitHub Pages
+  frontend:
+    build:
+      context: .
+      dockerfile: deployment/qnap/Dockerfile.frontend
+    container_name: freshthreads-frontend
+    volumes:
+      - ./docs:/usr/share/nginx/html:ro
+    networks:
+      - freshthreads-network
+    restart: unless-stopped
+
+  # Backend - Simulates AWS App Runner
+  backend:
+    build:
+      context: .
+      dockerfile: deployment/qnap/Dockerfile.backend
+    container_name: freshthreads-backend
+    environment:
+      - FLASK_ENV=production
+      - PORT=8000
+      - PRINTIFY_API_KEY=${PRINTIFY_API_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - freshthreads-network
+    restart: unless-stopped
+
+  # Optional: Database for testing (simulates AWS RDS)
+  database:
+    image: postgres:15-alpine
+    container_name: freshthreads-db
+    environment:
+      POSTGRES_DB: freshthreads
+      POSTGRES_USER: freshthreads
+      POSTGRES_PASSWORD: dev_password_123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - freshthreads-network
+    restart: unless-stopped
+
+networks:
+  freshthreads-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

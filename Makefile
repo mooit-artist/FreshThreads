@@ -19,7 +19,7 @@ NC := \033[0m # No Color
 
 # Directories
 DOCS_DIR := docs
-SCRIPTS_DIR := scripts
+SCRIPTS_DIR := testing/scripts
 WORKFLOWS_DIR := .github/workflows
 ASSETS_JS_DIR := docs/assets/js
 STYLES_DIR := docs/styles
@@ -28,7 +28,7 @@ STYLES_DIR := docs/styles
 HTML_FILES := $(shell find $(DOCS_DIR) -name "*.html" -not -path "*/node_modules/*")
 CSS_FILES := $(shell find $(DOCS_DIR) -name "*.css" -not -path "*/node_modules/*")
 JS_FILES := $(shell find $(DOCS_DIR) $(SCRIPTS_DIR) -name "*.js" -not -path "*/node_modules/*")
-PY_FILES := $(shell find $(SCRIPTS_DIR) -name "*.py")
+PY_FILES := $(shell find $(SCRIPTS_DIR) api -name "*.py")
 PS1_FILES := $(shell find . -name "*.ps1" -not -path "*/ComfyUI/*" -not -path "*/node_modules/*")
 YAML_FILES := $(shell find $(WORKFLOWS_DIR) -name "*.yml" -o -name "*.yaml")
 JSON_FILES := $(shell find . -name "*.json" -not -path "*/node_modules/*" -not -path "*/ComfyUI/*" -not -path "*/design-output/*" -not -path "*/advanced-design-pipeline/*")
@@ -209,16 +209,16 @@ fix-css:
 fix-python:
 	@echo "🔧 Auto-fixing Python files..."
 	@if command -v black >/dev/null 2>&1; then \
-		black scripts/ || echo "⚠️ Some Python formatting issues couldn't be auto-fixed"; \
+		black $(SCRIPTS_DIR) api || echo "⚠️ Some Python formatting issues couldn't be auto-fixed"; \
 	elif [ -f "$(HOME)/Library/Python/3.9/bin/black" ]; then \
-		$(HOME)/Library/Python/3.9/bin/black scripts/ || echo "⚠️ Some Python formatting issues couldn't be auto-fixed"; \
+		$(HOME)/Library/Python/3.9/bin/black $(SCRIPTS_DIR) api || echo "⚠️ Some Python formatting issues couldn't be auto-fixed"; \
 	else \
 		echo "⚠️ Black not found, skipping Python fixes"; \
 	fi
 	@if command -v isort >/dev/null 2>&1; then \
-		isort scripts/ || echo "⚠️ Some import sorting issues couldn't be auto-fixed"; \
+		isort $(SCRIPTS_DIR) api || echo "⚠️ Some import sorting issues couldn't be auto-fixed"; \
 	elif [ -f "$(HOME)/Library/Python/3.9/bin/isort" ]; then \
-		$(HOME)/Library/Python/3.9/bin/isort scripts/ || echo "⚠️ Some import sorting issues couldn't be auto-fixed"; \
+		$(HOME)/Library/Python/3.9/bin/isort $(SCRIPTS_DIR) api || echo "⚠️ Some import sorting issues couldn't be auto-fixed"; \
 	else \
 		echo "⚠️ isort not found, skipping import fixes"; \
 	fi
@@ -301,9 +301,9 @@ security-check: ## Run comprehensive security checks
 # Docker security checks
 docker-security: ## Run Dockerfile security checks with Hadolint
 	@echo -e "${BLUE}🐳 Running Docker security checks...${NC}"
-	@if [ -f "Dockerfile" ] || [ -f "docker-compose.yml" ]; then \
+	@if [ -f "deployment/docker/Dockerfile" ] || [ -f "docker-compose.yml" ]; then \
 		if command -v hadolint >/dev/null 2>&1; then \
-			find . -name "Dockerfile*" -exec hadolint {} \; || echo -e "${YELLOW}⚠️ Hadolint found issues${NC}"; \
+			find deployment/docker -name "Dockerfile*" -exec hadolint {} \; || echo -e "${YELLOW}⚠️ Hadolint found issues${NC}"; \
 		else \
 			echo -e "${YELLOW}⚠️ Hadolint not installed${NC}"; \
 			echo -e "${CYAN}💡 Install: brew install hadolint${NC}"; \
@@ -337,7 +337,7 @@ dolos-check: ## Run Dolos code similarity detection
 		fi; \
 		echo -e "${CYAN}Analyzing Python files...${NC}"; \
 		if [ -n "$(PY_FILES)" ]; then \
-			dolos -f web -o dolos-results/python $(SCRIPTS_DIR)/*.py 2>&1 | tee -a plagiarism-report.log || echo -e "${YELLOW}⚠️ Dolos Python analysis completed with warnings${NC}"; \
+			dolos -f web -o dolos-results/python $(SCRIPTS_DIR)/*.py api/*.py 2>&1 | tee -a plagiarism-report.log || echo -e "${YELLOW}⚠️ Dolos Python analysis completed with warnings${NC}"; \
 		fi; \
 		echo -e "${CYAN}📊 Dolos results saved to dolos-results/${NC}"; \
 	else \

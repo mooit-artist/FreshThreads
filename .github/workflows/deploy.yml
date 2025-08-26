@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: "18"
-  PYTHON_VERSION: "3.9"
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.9'
 
 jobs:
   test:
@@ -47,21 +47,21 @@ jobs:
           PAYPAL_BUSINESS_EMAIL: ${{ secrets.PAYPAL_BUSINESS_EMAIL }}
           BUSINESS_WEBSITE: ${{ secrets.BUSINESS_WEBSITE }}
           PAYPAL_WEBHOOK_URL: ${{ secrets.PAYPAL_WEBHOOK_URL }}
-          VALIDATE_CONFIG: "false" # Skip validation in test environment
+          VALIDATE_CONFIG: 'false' # Skip validation in test environment
         run: |
           echo "🔧 Creating PayPal configuration from GitHub Secrets..."
-          python scripts/create_config_from_secrets.py
+          python testing/scripts/create_config_from_secrets.py
 
       - name: Test PayPal API v2 Integration
         run: |
           echo "🧪 Testing PayPal API v2 connection..."
-          python scripts/paypal_v2_api_integration.py --action test
+          python testing/scripts/paypal_v2_api_integration.py --action test
 
       - name: Test PayPal Order Creation
         if: github.event_name != 'pull_request' # Only test orders on main branch
         run: |
           echo "🛍️ Testing PayPal order creation..."
-          python scripts/paypal_v2_api_integration.py --action create-order
+          python testing/scripts/paypal_v2_api_integration.py --action create-order
 
   build:
     name: Build and Validate
@@ -76,7 +76,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install Node.js dependencies
         run: |
@@ -144,17 +144,17 @@ jobs:
           PAYPAL_BUSINESS_EMAIL: ${{ secrets.PAYPAL_BUSINESS_EMAIL }}
           BUSINESS_WEBSITE: ${{ secrets.BUSINESS_WEBSITE }}
           PAYPAL_WEBHOOK_URL: ${{ secrets.PAYPAL_WEBHOOK_URL }}
-          VALIDATE_CONFIG: "false"
+          VALIDATE_CONFIG: 'false'
         run: |
           echo "🔧 Configuring PayPal for deployment..."
           pip install requests python-dotenv
-          python scripts/create_config_from_secrets.py
+          python testing/scripts/create_config_from_secrets.py
 
       - name: Configure Stripe for Production
         env:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          NODE_ENV: "production"
+          NODE_ENV: 'production'
         run: |
           echo "💳 Configuring Stripe for deployment..."
 

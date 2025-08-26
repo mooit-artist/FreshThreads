@@ -42,7 +42,7 @@ class PrintOnDemandManager {
       try {
         // Try proxy server first
         const proxyResponse = await fetch(
-          "http://127.0.0.1:18080/api/printify/test",
+          "http://127.0.0.1:8000/api/printify/test",
         );
         if (proxyResponse.ok) {
           const result = await proxyResponse.json();
@@ -143,7 +143,7 @@ class PrintOnDemandManager {
     try {
       // Use environment-aware backend URL
       const backendUrl =
-        window.apiConfig?.getBackendUrl() || "http://127.0.0.1:18080";
+        window.apiConfig?.getBackendUrl() || "http://127.0.0.1:8000";
       const proxyUrl = `${backendUrl}/api/printify/shops/${this.printifyShopId}/products.json`;
       console.log("Fetching Printify products via proxy:", proxyUrl);
 
@@ -179,7 +179,7 @@ class PrintOnDemandManager {
     try {
       console.log("Fetching Printify catalog blueprints via proxy...");
       const backendUrl =
-        window.apiConfig?.getBackendUrl() || "http://127.0.0.1:18080";
+        window.apiConfig?.getBackendUrl() || "http://127.0.0.1:8000";
       const proxyUrl = `${backendUrl}/api/printify/catalog/blueprints.json`;
 
       const response = await fetch(proxyUrl, {

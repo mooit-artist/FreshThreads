@@ -1,0 +1,92 @@
+# XEN VM Docker Compose - Clean Production Simulation
+version: '3.8'
+
+services:
+  # Frontend - Simulates GitHub Pages with Nginx
+  frontend:
+    image: nginx:alpine
+    container_name: freshthreads-frontend
+    ports:
+      - '3000:80'
+    volumes:
+      - ../../docs:/usr/share/nginx/html:ro
+      - ./frontend-nginx.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+    networks:
+      - freshthreads
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend - Simulates AWS App Runner
+  backend:
+    build:
+      context: ../..
+      dockerfile: deployment/xen/Dockerfile.backend
+    container_name: freshthreads-backend
+    ports:
+      - '8000:8000'
+    environment:
+      - FLASK_ENV=production
+      - PORT=8000
+      - PYTHONPATH=/app
+    env_file:
+      - ../../.env
+    volumes:
+      - ../../logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - freshthreads
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8000/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - database
+
+  # Database - Simulates AWS RDS PostgreSQL
+  database:
+    image: postgres:15-alpine
+    container_name: freshthreads-db
+    environment:
+      POSTGRES_DB: freshthreads
+      POSTGRES_USER: freshthreads
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dev_password_123}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    restart: unless-stopped
+    networks:
+      - freshthreads
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U freshthreads']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis - For session storage (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: freshthreads-redis
+    restart: unless-stopped
+    networks:
+      - freshthreads
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  freshthreads:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  postgres_data:
+    driver: local

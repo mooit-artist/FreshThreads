@@ -1,5 +1,5 @@
-# Fresh Threads LLC - QNAP HTTPS-only Deployment
-# Docker Compose configuration for QNAP with HTTPS-only support
+# Fresh Threads LLC - HTTPS Production Deployment
+# Docker Compose configuration with SSL/TLS support
 
 version: '3.8'
 
@@ -7,11 +7,12 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile.ssl
-    container_name: freshthreads-frontend-qnap
+      dockerfile: ../docker/Dockerfile.ssl
+    container_name: freshthreads-frontend-https
     restart: unless-stopped
     ports:
-      - '18080:443' # HTTPS only - no HTTP port exposed
+      - '18080:80' # HTTP (redirects to HTTPS)
+      - '18443:443' # HTTPS
     networks:
       - freshthreads-network
     depends_on:
@@ -30,8 +31,8 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile.backend-ssl
-    container_name: freshthreads-backend-qnap
+      dockerfile: ../docker/Dockerfile.backend-ssl
+    container_name: freshthreads-backend-https
     restart: unless-stopped
     ports:
       - '18444:8443' # HTTPS Backend API
@@ -53,7 +54,7 @@ services:
 networks:
   freshthreads-network:
     driver: bridge
-    name: freshthreads-qnap-network
+    name: freshthreads-https-network
 
 volumes:
   nginx_logs:

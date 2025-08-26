@@ -1,0 +1,20 @@
+version: 1.0
+runtime: python3
+build:
+  commands:
+    build:
+      - echo "Installing Python dependencies..."
+      - pip install --upgrade pip
+      - pip install -r requirements.txt
+run:
+  runtime-version: 3.9
+  command: gunicorn --bind 0.0.0.0:8000 --workers 2 --timeout 60 api.printify_proxy:app
+  network:
+    port: 8000
+  env-vars:
+    - name: FLASK_ENV
+      value: production
+    - name: FLASK_DEBUG
+      value: "0"
+    - name: PRINTIFY_SHOP_ID
+      value: "6563836"

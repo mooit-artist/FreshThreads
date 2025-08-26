@@ -44,8 +44,8 @@ jobs:
 
       - name: Run ${{ matrix.test-type }} tests
         run: |
-          chmod +x scripts/docker-test.sh
-          ./scripts/docker-test.sh ${{ matrix.test-type }}
+          chmod +x testing/scripts/docker-test.sh
+          ./testing/scripts/docker-test.sh ${{ matrix.test-type }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v3
@@ -116,13 +116,13 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          format: "sarif"
-          output: "trivy-results.sarif"
+          format: 'sarif'
+          output: 'trivy-results.sarif'
 
       - name: Upload Trivy scan results
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: "trivy-results.sarif"
+          sarif_file: 'trivy-results.sarif'
 
   sonarqube-analysis:
     needs: test
