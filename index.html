@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshThreads LLC — Thread With Purpose</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Premium print-on-demand apparel. Custom t-shirts, hoodies and accessories for those who wear their purpose.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://freshthreadsllc.com">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FreshThreads LLC — Thread With Purpose">
+  <meta property="og:description" content="Premium print-on-demand apparel for those who wear their purpose.">
+  <meta property="og:image" content="https://freshthreadsllc.com/assets/logos/Fresh_ThreadsLLCLogo.png">
+  <meta property="og:url" content="https://freshthreadsllc.com">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FreshThreads LLC">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@freshthreadsllc">
+  <meta name="twitter:title" content="FreshThreads LLC — Thread With Purpose">
+  <meta name="twitter:description" content="Premium print-on-demand apparel for those who wear their purpose.">
+  <meta name="twitter:image" content="https://freshthreadsllc.com/assets/logos/Fresh_ThreadsLLCLogo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/logos/Fresh_ThreadsLLCLogo.png">
+  <meta name="theme-color" content="#0c0c0b">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FreshThreads LLC",
+    "url": "https://freshthreadsllc.com",
+    "logo": "https://freshthreadsllc.com/assets/logos/Fresh_ThreadsLLCLogo.png",
+    "description": "Premium print-on-demand apparel. Custom t-shirts, hoodies and accessories.",
+    "email": "hello@freshthreadsllc.com",
+    "sameAs": [
+      "https://www.instagram.com/freshthreadsllc",
+      "https://www.facebook.com/freshthreadsllc",
+      "https://www.tiktok.com/@freshthreadsllc",
+      "https://www.pinterest.com/freshthreadsllc",
+      "https://www.youtube.com/@freshthreadsllc"
+    ]
+  }
+  </script>
+
+  <style>
+    /* ─── Reset ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0c0c0b;
+      --surface:  #131311;
+      --border:   #1e1e1c;
+      --text:     #efece7;
+      --muted:    #7a7a74;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── Nav ─────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      transition: background 0.35s, border-color 0.35s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(12, 12, 11, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-color: var(--border);
+    }
+    .nav-logo img {
+      height: 34px;
+      width: auto;
+      filter: invert(1);
+    }
+    .nav-shop {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.5rem;
+      border: 1px solid rgba(239,236,231,0.5);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .nav-shop:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    /* ─── Hero ────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 2rem 5rem;
+    }
+    .hero-logo {
+      width: clamp(160px, 28vw, 260px);
+      margin: 0 auto 2.75rem;
+      filter: invert(1);
+      opacity: 0.92;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.75rem, 7vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    .hero p {
+      font-size: clamp(0.9375rem, 1.8vw, 1.0625rem);
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 2.75rem;
+      line-height: 1.8;
+    }
+    .btn {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 1rem 2.75rem;
+      transition: opacity 0.2s;
+    }
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .btn-primary:hover { opacity: 0.82; }
+    .btn-outline {
+      border: 1px solid var(--text);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .hero-scroll {
+      margin-top: 4rem;
+      font-size: 0.6875rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: var(--muted);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* ─── Marquee ─────────────────────────────────────────── */
+    .marquee-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 40s linear infinite;
+      font-size: 0.6875rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ─── Section wrapper ─────────────────────────────────── */
+    .section {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-eyebrow {
+      font-size: 0.6875rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.875rem;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 3.5vw, 2.875rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── Design grid ─────────────────────────────────────── */
+    .designs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+    .design-card {
+      background: var(--surface);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .design-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .design-card:hover img { transform: scale(1.05); }
+    .design-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(12,12,11,0.5) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+    .design-card:hover .design-card-overlay { opacity: 1; }
+    .design-card-overlay span {
+      font-size: 0.6875rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .grid-cta {
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    /* ─── Values ──────────────────────────────────────────── */
+    .values-section {
+      border-top: 1px solid var(--border);
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4rem;
+    }
+    .value-item {
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .value-num {
+      font-size: 0.6875rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .value-item h3 {
+      font-family: var(--font-serif);
+      font-size: 1.1875rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+    .value-item p {
+      font-size: 0.9375rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ─── CTA ─────────────────────────────────────────────── */
+    .cta-section {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.25rem, 5vw, 4.25rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .cta-section p {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 2.75rem;
+    }
+
+    /* ─── Social ──────────────────────────────────────────── */
+    .social-section {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .social-eyebrow {
+      font-size: 0.6875rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+    }
+    .social-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .social-links a:hover { color: var(--text); }
+
+    /* ─── Footer ──────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    footer span, footer a {
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+    footer a:hover { color: var(--text); }
+
+    /* ─── Responsive ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .designs-grid { grid-template-columns: repeat(2, 1fr); }
+      .values-grid  { grid-template-columns: 1fr; gap: 0; }
+      .value-item   { padding: 2rem 0; border-top: 1px solid var(--border); border-bottom: none; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .designs-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ───────────────────────────────────────────────── -->
+  <nav id="nav">
+    <a href="/" class="nav-logo" aria-label="FreshThreads LLC">
+      <img src="assets/logos/Fresh_ThreadsLLCLogo.png" alt="FreshThreads LLC">
+    </a>
+    <a href="https://shop.freshthreadsllc.com" class="nav-shop">Shop Now</a>
+  </nav>
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <section class="hero">
+    <img
+      src="assets/logos/Fresh_ThreadsLLCLogoTrans.png"
+      alt="FreshThreads LLC — Thread With Purpose"
+      class="hero-logo"
+    >
+    <h1>Thread With<br>Purpose</h1>
+    <p>
+      Premium print-on-demand apparel for those who wear their identity.
+      Every design made to order — no waste, no compromise.
+    </p>
+    <a href="https://shop.freshthreadsllc.com" class="btn btn-primary">Shop the Collection</a>
+    <div class="hero-scroll" aria-hidden="true">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ── Marquee ────────────────────────────────────────────── -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-inner">
+      Premium Apparel &nbsp;·&nbsp; Print on Demand &nbsp;·&nbsp; Made to Order &nbsp;·&nbsp; Ships Fast &nbsp;·&nbsp; Thread With Purpose &nbsp;·&nbsp; American Made Values &nbsp;·&nbsp; Premium Apparel &nbsp;·&nbsp; Print on Demand &nbsp;·&nbsp; Made to Order &nbsp;·&nbsp; Ships Fast &nbsp;·&nbsp; Thread With Purpose &nbsp;·&nbsp; American Made Values &nbsp;·&nbsp;
+    </div>
+  </div>
+
+  <!-- ── Designs ────────────────────────────────────────────── -->
+  <div class="section">
+    <p class="section-eyebrow">The Collection</p>
+    <h2 class="section-title">Designs That Mean Something</h2>
+    <div class="designs-grid">
+      <div class="design-card">
+        <img src="assets/images/DeerHunter.png" alt="Deer Hunter" loading="lazy">
+        <div class="design-card-overlay"><span>Deer Hunter</span></div>
+      </div>
+      <div class="design-card">
+        <img src="assets/images/Fishing.png" alt="Fishing" loading="lazy">
+        <div class="design-card-overlay"><span>Fishing</span></div>
+      </div>
+      <div class="design-card">
+        <img src="assets/images/viking.png" alt="Viking" loading="lazy">
+        <div class="design-card-overlay"><span>Viking</span></div>
+      </div>
+      <div class="design-card">
+        <img src="assets/images/SuperMomBlonde.png" alt="Super Mom" loading="lazy">
+        <div class="design-card-overlay"><span>Super Mom</span></div>
+      </div>
+      <div class="design-card">
+        <img src="assets/images/MadeinUSA.png" alt="Made in USA" loading="lazy">
+        <div class="design-card-overlay"><span>Made in USA</span></div>
+      </div>
+      <div class="design-card">
+        <img src="assets/images/BaseBall.png" alt="Baseball" loading="lazy">
+        <div class="design-card-overlay"><span>Baseball</span></div>
+      </div>
+    </div>
+    <div class="grid-cta">
+      <a href="https://shop.freshthreadsllc.com" class="btn btn-outline">View All Designs</a>
+    </div>
+  </div>
+
+  <!-- ── Values ─────────────────────────────────────────────── -->
+  <div class="values-section">
+    <div class="section">
+      <div class="values-grid">
+        <div class="value-item">
+          <span class="value-num">01</span>
+          <h3>Made to Order</h3>
+          <p>Every item is printed when you buy it. No dead stock, no waste — just fresh threads made specifically for you.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-num">02</span>
+          <h3>Premium Quality</h3>
+          <p>Top-tier blanks and high-resolution printing ensure your design looks as sharp in person as it does on screen.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-num">03</span>
+          <h3>Wear Your Identity</h3>
+          <p>From hunting and fishing to family pride and American-made values — our designs speak to who you really are.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ────────────────────────────────────────────────── -->
+  <div class="cta-section">
+    <div class="section">
+      <h2>Ready to Wear<br>Your Purpose?</h2>
+      <p>Browse the full collection and find your fit.</p>
+      <a href="https://shop.freshthreadsllc.com" class="btn btn-primary">Shop All Designs</a>
+    </div>
+  </div>
+
+  <!-- ── Social ─────────────────────────────────────────────── -->
+  <div class="social-section">
+    <div class="section">
+      <p class="social-eyebrow">Follow Along</p>
+      <nav class="social-links" aria-label="Social media">
+        <a href="https://instagram.com/freshthreadsllc" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://facebook.com/freshthreadsllc" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://tiktok.com/@freshthreadsllc" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a href="https://pinterest.com/freshthreadsllc" target="_blank" rel="noopener noreferrer">Pinterest</a>
+        <a href="https://youtube.com/@freshthreadsllc" target="_blank" rel="noopener noreferrer">YouTube</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer>
+    <span>&copy; 2026 FreshThreads LLC. All rights reserved.</span>
+    <a href="mailto:hello@freshthreadsllc.com">hello@freshthreadsllc.com</a>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
