@@ -1,6 +1,0 @@
-# Printify Configuration Template
-# Copy this file to printify.params and fill in your actual values
-# DO NOT COMMIT printify.params to git!
-
-Token = your_shop_token_here
-Api Key = your_jwt_api_key_here
