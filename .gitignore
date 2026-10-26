@@ -1,0 +1,10 @@
+# Build output staged by the deploy workflow
+_site/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+
+# Local env files (never commit API keys)
+.env
+.env.*

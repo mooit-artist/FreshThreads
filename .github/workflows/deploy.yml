@@ -24,13 +24,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Stage site files
+        # Only the files the site needs are published. archive/, scripts/,
+        # workflows and docs stay out of the deployed artifact.
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          for f in index.html 404.html .nojekyll robots.txt sitemap.xml CNAME; do
+            if [ -f "$f" ]; then cp "$f" _site/; fi
+          done
+          for d in assets data; do
+            if [ -d "$d" ]; then cp -R "$d" "_site/$d"; fi
+          done
+          echo "Staged files:"
+          find _site -type f | sort
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
