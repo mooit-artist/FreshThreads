@@ -1,0 +1,58 @@
+name: Sync Etsy listings
+
+on:
+  schedule:
+    # Daily at 11:17 UTC (off the hour to avoid the top-of-hour rush)
+    - cron: '17 11 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # commit data/products.json
+  actions: write    # kick off the Pages deploy after a push made with GITHUB_TOKEN
+
+concurrency:
+  group: sync-etsy
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch listings from Etsy
+        env:
+          ETSY_API_KEY: ${{ secrets.ETSY_API_KEY }}
+          ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
+          ETSY_SHOP_NAME: ${{ vars.ETSY_SHOP_NAME }}
+        run: node scripts/sync-etsy.mjs
+
+      - name: Commit if changed
+        id: commit
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/products.json; then
+            echo "No changes to data/products.json"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/products.json
+          git commit -m "chore: sync Etsy listings"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Pushes made with GITHUB_TOKEN do not trigger other workflows on their own,
+      # so start the deploy explicitly when the catalog changed.
+      - name: Trigger Pages deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
