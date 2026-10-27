@@ -14,7 +14,7 @@ Printify  ──(prints & ships)──▶  Etsy shop  ──(API, daily)──�
 ```
 
 - **Printify** is connected to Etsy inside the Printify dashboard (**My Stores → Connect Etsy**). It prints and ships every Etsy order on its own. **The website needs no Printify setup and never holds a Printify token.**
-- **Etsy** is the storefront: `https://www.etsy.com/shop/freshthreads`.
+- **Etsy** is the storefront: `https://www.etsy.com/shop/FreshThreadsOmaha`.
 - **This repo** only reads public listing data from Etsy and shows it.
 
 ## Repo layout
@@ -39,7 +39,7 @@ The sync needs an Etsy app key. This takes about five minutes.
 2. Open the app and copy the **Keystring** and the **Shared secret**.
 3. In this GitHub repo, go to **Settings → Secrets and variables → Actions**.
    - Under **Secrets**, add `ETSY_API_KEY` (the keystring) and `ETSY_SHARED_SECRET`.
-   - Under **Variables**, add `ETSY_SHOP_NAME` set to your shop name as it appears in your shop URL, for example `freshthreads`.
+   - Under **Variables**, add `ETSY_SHOP_NAME` set to your shop name as it appears in your shop URL, for example `FreshThreadsOmaha`.
 4. Go to **Actions → Sync Etsy listings → Run workflow** and run it once. The log shows the shop ID it found and how many listings it pulled.
 5. If listings changed, the workflow commits `data/products.json` and kicks off the Pages deploy. The site updates within a minute or two.
 
@@ -60,7 +60,7 @@ Removing or deactivating a listing on Etsy removes it from the site the same way
 ## Running the sync locally
 
 ```bash
-ETSY_API_KEY=xxx ETSY_SHARED_SECRET=yyy ETSY_SHOP_NAME=freshthreads node scripts/sync-etsy.mjs
+ETSY_API_KEY=xxx ETSY_SHARED_SECRET=yyy ETSY_SHOP_NAME=FreshThreadsOmaha node scripts/sync-etsy.mjs
 ```
 
 The script exits non-zero on any API error and leaves the existing `data/products.json` untouched, so a bad run never blanks the site. A shop with zero active listings writes `[]`, which is a normal result.

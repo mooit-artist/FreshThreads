@@ -9,7 +9,7 @@
  * Env:
  *   ETSY_API_KEY        keystring from https://www.etsy.com/developers/your-apps  (required)
  *   ETSY_SHARED_SECRET  shared secret from the same page                          (recommended)
- *   ETSY_SHOP_NAME      your Etsy shop name, e.g. "freshthreads"                  (required)
+ *   ETSY_SHOP_NAME      your Etsy shop name, e.g. "FreshThreadsOmaha"             (required)
  *
  * Behaviour:
  *   - Any API failure exits non-zero and leaves the existing products.json alone.
