@@ -6,7 +6,7 @@
   <title>FreshThreads LLC — Thread With Purpose</title>
 
   <!-- SEO -->
-  <meta name="description" content="Premium print-on-demand apparel. Custom t-shirts, hoodies and accessories for those who wear their purpose.">
+  <meta name="description" content="Premium print-on-demand apparel. Custom t-shirts, hoodies and accessories for those who wear their purpose. Printed in the USA, made to order.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://freshthreadsllc.com">
 
@@ -20,7 +20,6 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@freshthreadsllc">
   <meta name="twitter:title" content="FreshThreads LLC — Thread With Purpose">
   <meta name="twitter:description" content="Premium print-on-demand apparel for those who wear their purpose.">
   <meta name="twitter:image" content="https://freshthreadsllc.com/assets/logos/Fresh_ThreadsLLCLogo.png">
@@ -46,11 +45,7 @@
     "description": "Premium print-on-demand apparel. Custom t-shirts, hoodies and accessories.",
     "email": "hello@freshthreadsllc.com",
     "sameAs": [
-      "https://www.instagram.com/freshthreadsllc",
-      "https://www.facebook.com/freshthreadsllc",
-      "https://www.tiktok.com/@freshthreadsllc",
-      "https://www.pinterest.com/freshthreadsllc",
-      "https://www.youtube.com/@freshthreadsllc"
+      "https://www.etsy.com/shop/freshthreads"
     ]
   }
   </script>
@@ -69,7 +64,7 @@
       --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
 
     body {
       background: var(--bg);
@@ -78,10 +73,11 @@
       font-weight: 300;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
     }
 
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    img { display: block; max-width: 100%; height: auto; }
 
     /* ─── Nav ─────────────────────────────────────────────── */
     nav {
@@ -114,6 +110,7 @@
       padding: 0.6rem 1.5rem;
       border: 1px solid rgba(239,236,231,0.5);
       transition: background 0.2s, color 0.2s, border-color 0.2s;
+      white-space: nowrap;
     }
     .nav-shop:hover {
       background: var(--text);
@@ -160,6 +157,7 @@
       text-transform: uppercase;
       padding: 1rem 2.75rem;
       transition: opacity 0.2s;
+      text-align: center;
     }
     .btn-primary {
       background: var(--text);
@@ -237,6 +235,99 @@
       line-height: 1.2;
       margin-bottom: 3rem;
     }
+
+    /* ─── Shop (Etsy products) ────────────────────────────── */
+    .shop-section { border-top: 1px solid var(--border); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .product-card {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card a.product-image {
+      display: block;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .product-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .product-card:hover img { transform: scale(1.04); }
+    .product-body {
+      padding: 1.25rem 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+    }
+    .product-title {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem;
+      font-weight: 400;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .product-price {
+      font-size: 0.875rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .product-buy {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid rgba(239,236,231,0.4);
+      padding: 0.75rem 1rem;
+      text-align: center;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .product-buy:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+    .shop-empty {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .shop-empty h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+    .shop-empty p {
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+    .shop-loading {
+      color: var(--muted);
+      font-size: 0.8125rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 3rem 0;
+    }
+    [hidden] { display: none !important; }
 
     /* ─── Design grid ─────────────────────────────────────── */
     .designs-grid {
@@ -355,8 +446,12 @@
       text-transform: uppercase;
       color: var(--muted);
       transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
     }
     .social-links a:hover { color: var(--text); }
+    .social-links svg { width: 18px; height: 18px; fill: currentColor; }
 
     /* ─── Footer ──────────────────────────────────────────── */
     footer {
@@ -382,8 +477,16 @@
     }
     @media (max-width: 600px) {
       nav { padding: 1rem 1.25rem; }
+      .section { padding: 4rem 1.25rem; }
       .designs-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-body { padding: 1rem; }
+      .product-title { font-size: 0.9375rem; }
+      .product-buy { padding: 0.65rem 0.5rem; font-size: 0.625rem; }
       footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 380px) {
+      .products-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -392,24 +495,32 @@
   <!-- ── Nav ───────────────────────────────────────────────── -->
   <nav id="nav">
     <a href="/" class="nav-logo" aria-label="FreshThreads LLC">
-      <img src="assets/logos/Fresh_ThreadsLLCLogo.png" alt="FreshThreads LLC">
+      <picture>
+        <source srcset="assets/logos/Fresh_ThreadsLLCLogo.webp" type="image/webp">
+        <img src="assets/logos/Fresh_ThreadsLLCLogo.png" alt="FreshThreads LLC" width="600" height="600">
+      </picture>
     </a>
-    <a href="https://shop.freshthreadsllc.com" class="nav-shop">Shop Now</a>
+    <a href="https://www.etsy.com/shop/freshthreads" class="nav-shop" target="_blank" rel="noopener">Shop on Etsy</a>
   </nav>
 
   <!-- ── Hero ──────────────────────────────────────────────── -->
   <section class="hero">
-    <img
-      src="assets/logos/Fresh_ThreadsLLCLogoTrans.png"
-      alt="FreshThreads LLC — Thread With Purpose"
-      class="hero-logo"
-    >
+    <picture>
+      <source srcset="assets/logos/Fresh_ThreadsLLCLogoTrans.webp" type="image/webp">
+      <img
+        src="assets/logos/Fresh_ThreadsLLCLogoTrans.png"
+        alt="FreshThreads LLC — Thread With Purpose"
+        class="hero-logo"
+        width="600" height="600"
+        fetchpriority="high"
+      >
+    </picture>
     <h1>Thread With<br>Purpose</h1>
     <p>
       Premium print-on-demand apparel for those who wear their identity.
       Every design made to order — no waste, no compromise.
     </p>
-    <a href="https://shop.freshthreadsllc.com" class="btn btn-primary">Shop the Collection</a>
+    <a href="#shop" class="btn btn-primary">Shop the Collection</a>
     <div class="hero-scroll" aria-hidden="true">
       <div class="scroll-line"></div>
       <span>Scroll</span>
@@ -419,42 +530,86 @@
   <!-- ── Marquee ────────────────────────────────────────────── -->
   <div class="marquee-strip" aria-hidden="true">
     <div class="marquee-inner">
-      Premium Apparel &nbsp;·&nbsp; Print on Demand &nbsp;·&nbsp; Made to Order &nbsp;·&nbsp; Ships Fast &nbsp;·&nbsp; Thread With Purpose &nbsp;·&nbsp; American Made Values &nbsp;·&nbsp; Premium Apparel &nbsp;·&nbsp; Print on Demand &nbsp;·&nbsp; Made to Order &nbsp;·&nbsp; Ships Fast &nbsp;·&nbsp; Thread With Purpose &nbsp;·&nbsp; American Made Values &nbsp;·&nbsp;
+      Premium Apparel &nbsp;·&nbsp; Print on Demand &nbsp;·&nbsp; Made to Order &nbsp;·&nbsp; Ships Fast &nbsp;·&nbsp; Thread With Purpose &nbsp;·&nbsp; Printed in the USA &nbsp;·&nbsp; Premium Apparel &nbsp;·&nbsp; Print on Demand &nbsp;·&nbsp; Made to Order &nbsp;·&nbsp; Ships Fast &nbsp;·&nbsp; Thread With Purpose &nbsp;·&nbsp; Printed in the USA &nbsp;·&nbsp;
     </div>
   </div>
 
+  <!-- ── Shop (live from Etsy) ──────────────────────────────── -->
+  <section class="shop-section" id="shop" aria-labelledby="shop-title">
+    <div class="section">
+      <p class="section-eyebrow">Now on Etsy</p>
+      <h2 class="section-title" id="shop-title">Shop the Collection</h2>
+
+      <div id="products" class="products-grid" hidden></div>
+
+      <p id="products-loading" class="shop-loading">Loading designs…</p>
+
+      <div id="products-empty" class="shop-empty" hidden>
+        <h3>New designs dropping soon</h3>
+        <p>We're stitching up the first collection right now. Follow the shop on Etsy and you'll be the first to know when it lands.</p>
+        <a href="https://www.etsy.com/shop/freshthreads" class="btn btn-outline" target="_blank" rel="noopener">Visit our Etsy shop</a>
+      </div>
+
+      <noscript>
+        <div class="shop-empty">
+          <h3>See what's in the shop</h3>
+          <p>Our live catalog needs JavaScript. You can browse everything directly on Etsy.</p>
+          <a href="https://www.etsy.com/shop/freshthreads" class="btn btn-outline" target="_blank" rel="noopener">Visit our Etsy shop</a>
+        </div>
+      </noscript>
+    </div>
+  </section>
+
   <!-- ── Designs ────────────────────────────────────────────── -->
   <div class="section">
-    <p class="section-eyebrow">The Collection</p>
+    <p class="section-eyebrow">The Artwork</p>
     <h2 class="section-title">Designs That Mean Something</h2>
     <div class="designs-grid">
       <div class="design-card">
-        <img src="assets/images/DeerHunter.png" alt="Deer Hunter" loading="lazy">
+        <picture>
+          <source srcset="assets/images/DeerHunter.webp" type="image/webp">
+          <img src="assets/images/DeerHunter.png" alt="Deer Hunter" loading="lazy" width="800" height="1200">
+        </picture>
         <div class="design-card-overlay"><span>Deer Hunter</span></div>
       </div>
       <div class="design-card">
-        <img src="assets/images/Fishing.png" alt="Fishing" loading="lazy">
+        <picture>
+          <source srcset="assets/images/Fishing.webp" type="image/webp">
+          <img src="assets/images/Fishing.png" alt="Fishing" loading="lazy" width="1024" height="1024">
+        </picture>
         <div class="design-card-overlay"><span>Fishing</span></div>
       </div>
       <div class="design-card">
-        <img src="assets/images/viking.png" alt="Viking" loading="lazy">
+        <picture>
+          <source srcset="assets/images/viking.webp" type="image/webp">
+          <img src="assets/images/viking.png" alt="Viking" loading="lazy" width="1024" height="1024">
+        </picture>
         <div class="design-card-overlay"><span>Viking</span></div>
       </div>
       <div class="design-card">
-        <img src="assets/images/SuperMomBlonde.png" alt="Super Mom" loading="lazy">
+        <picture>
+          <source srcset="assets/images/SuperMomBlonde.webp" type="image/webp">
+          <img src="assets/images/SuperMomBlonde.png" alt="Super Mom" loading="lazy" width="800" height="1200">
+        </picture>
         <div class="design-card-overlay"><span>Super Mom</span></div>
       </div>
       <div class="design-card">
-        <img src="assets/images/MadeinUSA.png" alt="Made in USA" loading="lazy">
-        <div class="design-card-overlay"><span>Made in USA</span></div>
+        <picture>
+          <source srcset="assets/images/MadeinUSA.webp" type="image/webp">
+          <img src="assets/images/MadeinUSA.png" alt="Stars and stripes shield design" loading="lazy" width="1024" height="1024">
+        </picture>
+        <div class="design-card-overlay"><span>Printed in the USA</span></div>
       </div>
       <div class="design-card">
-        <img src="assets/images/BaseBall.png" alt="Baseball" loading="lazy">
+        <picture>
+          <source srcset="assets/images/BaseBall.webp" type="image/webp">
+          <img src="assets/images/BaseBall.png" alt="Baseball" loading="lazy" width="1024" height="1024">
+        </picture>
         <div class="design-card-overlay"><span>Baseball</span></div>
       </div>
     </div>
     <div class="grid-cta">
-      <a href="https://shop.freshthreadsllc.com" class="btn btn-outline">View All Designs</a>
+      <a href="https://www.etsy.com/shop/freshthreads" class="btn btn-outline" target="_blank" rel="noopener">View All on Etsy</a>
     </div>
   </div>
 
@@ -474,8 +629,8 @@
         </div>
         <div class="value-item">
           <span class="value-num">03</span>
-          <h3>Wear Your Identity</h3>
-          <p>From hunting and fishing to family pride and American-made values — our designs speak to who you really are.</p>
+          <h3>Printed in the USA</h3>
+          <p>From hunting and fishing to family pride and the flag — our designs are printed and shipped from U.S. facilities and speak to who you really are.</p>
         </div>
       </div>
     </div>
@@ -486,20 +641,19 @@
     <div class="section">
       <h2>Ready to Wear<br>Your Purpose?</h2>
       <p>Browse the full collection and find your fit.</p>
-      <a href="https://shop.freshthreadsllc.com" class="btn btn-primary">Shop All Designs</a>
+      <a href="https://www.etsy.com/shop/freshthreads" class="btn btn-primary" target="_blank" rel="noopener">Shop on Etsy</a>
     </div>
   </div>
 
   <!-- ── Social ─────────────────────────────────────────────── -->
   <div class="social-section">
     <div class="section">
-      <p class="social-eyebrow">Follow Along</p>
-      <nav class="social-links" aria-label="Social media">
-        <a href="https://instagram.com/freshthreadsllc" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://facebook.com/freshthreadsllc" target="_blank" rel="noopener noreferrer">Facebook</a>
-        <a href="https://tiktok.com/@freshthreadsllc" target="_blank" rel="noopener noreferrer">TikTok</a>
-        <a href="https://pinterest.com/freshthreadsllc" target="_blank" rel="noopener noreferrer">Pinterest</a>
-        <a href="https://youtube.com/@freshthreadsllc" target="_blank" rel="noopener noreferrer">YouTube</a>
+      <p class="social-eyebrow">Find Us On</p>
+      <nav class="social-links" aria-label="Storefront">
+        <a href="https://www.etsy.com/shop/freshthreads" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 3.9c0-.5.1-.7.9-.7h6.2c1.2 0 1.9.9 2.3 2.7l.3 1.2h.9c.2-3.6.3-5.1.3-5.1s-2.4.3-3.8.3H8.1L4.3 2.2v1l1.3.2c.9.2 1.1.4 1.2 1.2 0 0 .1 2.6.1 7s-.1 7-.1 7c0 .7-.3 1-1.2 1.2l-1.3.2v1l3.8-.1h6.3c1.5 0 4.9.1 4.9.1.1-1 .6-5.1.7-5.6h-.9l-1 2.3c-.7 1.7-1.8 1.8-3.1 1.8h-3.6c-1.2 0-1.8-.5-1.8-1.5V12c2.8 0 3.9 0 3.9 0 1 0 1.3.4 1.5 1.3l.3 1.3h1c0-1-.2-3.3-.2-3.3s.1-2.5.2-3.4h-1l-.3 1.4c-.2 1-.5 1.2-1.5 1.2 0 0-1.1 0-3.9 0V3.9z"/></svg>
+          Etsy
+        </a>
       </nav>
     </div>
   </div>
@@ -511,10 +665,63 @@
   </footer>
 
   <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
-    }, { passive: true });
+    (function () {
+      // Nav background on scroll
+      var nav = document.getElementById('nav');
+      window.addEventListener('scroll', function () {
+        nav.classList.toggle('scrolled', window.scrollY > 20);
+      }, { passive: true });
+
+      // Live product grid from data/products.json (written daily by the Etsy sync workflow)
+      var grid    = document.getElementById('products');
+      var loading = document.getElementById('products-loading');
+      var empty   = document.getElementById('products-empty');
+
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+      function formatPrice(amount, currency) {
+        try {
+          return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(amount);
+        } catch (e) {
+          return (currency || 'USD') + ' ' + Number(amount).toFixed(2);
+        }
+      }
+      function showEmpty() {
+        loading.hidden = true;
+        grid.hidden = true;
+        empty.hidden = false;
+      }
+      function render(products) {
+        if (!Array.isArray(products) || products.length === 0) { showEmpty(); return; }
+        grid.innerHTML = products.map(function (p) {
+          var url   = /^https:\/\/(www\.)?etsy\.com\//.test(p.url || '') ? p.url : 'https://www.etsy.com/shop/freshthreads';
+          var img   = /^https:\/\//.test(p.image || '') ? p.image : '';
+          var title = esc(p.title || 'Untitled design');
+          var alt   = esc(p.imageAlt || p.title || '');
+          return '<article class="product-card">' +
+            '<a class="product-image" href="' + esc(url) + '" target="_blank" rel="noopener" aria-label="' + title + ' on Etsy">' +
+              (img ? '<img src="' + esc(img) + '" alt="' + alt + '" loading="lazy" width="570" height="570">' : '') +
+            '</a>' +
+            '<div class="product-body">' +
+              '<h3 class="product-title">' + title + '</h3>' +
+              '<p class="product-price">' + esc(formatPrice(p.price, p.currency)) + '</p>' +
+              '<a class="product-buy" href="' + esc(url) + '" target="_blank" rel="noopener">Buy on Etsy</a>' +
+            '</div>' +
+          '</article>';
+        }).join('');
+        loading.hidden = true;
+        empty.hidden = true;
+        grid.hidden = false;
+      }
+
+      fetch('data/products.json', { cache: 'no-cache' })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(render)
+        .catch(showEmpty);
+    })();
   </script>
 
 </body>
